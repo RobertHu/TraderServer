@@ -1,0 +1,8 @@
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Debug\ResolveAssemblyReference.cache
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\TraderCommon.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\TraderCommon.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\CommonUtil.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\Serialization.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\Serialization.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Debug\TraderCommon.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Debug\TraderCommon.pdb

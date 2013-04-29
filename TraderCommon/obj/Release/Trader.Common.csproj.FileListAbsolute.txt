@@ -1,0 +1,9 @@
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\TraderCommon.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\TraderCommon.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\CommonUtil.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\Serialization.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\Serialization.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Release\ResolveAssemblyReference.cache
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Release\TraderCommon.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Release\TraderCommon.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\Ionic.Zip.dll
