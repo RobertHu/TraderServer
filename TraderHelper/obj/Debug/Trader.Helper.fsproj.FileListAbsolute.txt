@@ -1,0 +1,13 @@
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\TraderHelper.XML
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\Trader.Helper.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\Trader.Helper.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\log4net.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\Serialization.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\TraderCommon.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\Ionic.Zip.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\CommonUtil.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\Serialization.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\bin\Debug\TraderCommon.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\obj\Debug\ResolveAssemblyReference.cache
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\obj\Debug\Trader.Helper.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderHelper\obj\Debug\Trader.Helper.pdb
