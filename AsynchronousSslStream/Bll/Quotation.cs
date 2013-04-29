@@ -63,6 +63,7 @@ namespace AsyncSslServer.Bll
                 QuotationCommand command = (QuotationCommand)this._Command.Target;
                 var target = ConvertQuotation(command,state);
                 result = target.DataInBytes.Value;
+                CacheQuotationCommon(token.AppType, state.QuotationFilterSign, result);
             }
             return result;
         }

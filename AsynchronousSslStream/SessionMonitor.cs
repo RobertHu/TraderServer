@@ -124,6 +124,10 @@ namespace AsyncSslServer
                         RemoveHelper(item.Key);
                     }
                 }
+                catch (Exception ex)
+                {
+                    _Logger.Error(ex);
+                }
                 finally
                 {
                     this._ReadWriteLock.ExitWriteLock();
