@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Login>
+	<NewsLanguage>KOR</NewsLanguage>
+	<ActivateAccountTitle>Activate Account</ActivateAccountTitle>
+	<ActivateAccount>
+		<p>Dear Customer,
+					</p>
+		<p>This is your first attempt to use our system. For safety reason, the system 
+						requires you to activate the account by changing the password.</p>
+		<p></p>
+	</ActivateAccount>
+	<OldPasswordPrompt>Old password (8-16 characters):</OldPasswordPrompt>
+	<NewPasswordPrompt>New password (8-16 characters):</NewPasswordPrompt>
+	<ConfirmNewPasswordPrompt>Re-enter new password: </ConfirmNewPasswordPrompt>
+	<OKPrompt>OK</OKPrompt>
+	<ActivateAccountPassed>Your password has been successfuly changed!</ActivateAccountPassed>
+	<ActivateAccountFailed>Failed to change password!</ActivateAccountFailed>
+	<ActivateAccountReEnter>Please enter your new/comfirm password again!</ActivateAccountReEnter>
+	<ActivateAccountSubmissionFailed>Submission failed, please try again!</ActivateAccountSubmissionFailed>
+	<ApplicationUpdatedMessage>
+		<FONT size="2" color="red">
+			The online trading platform has been upgraded.<br>If you are using this for the first time, kindly download the required components</br>
+			from the link provided below and install it in order to let the system runs properly.
+		</FONT>
+	</ApplicationUpdatedMessage>
+	<lblSystemLogon>SYSTEM LOGON</lblSystemLogon>
+	<lblUserName>User Name</lblUserName>
+	<lblPasswords>Passwords</lblPasswords>
+	<lblCaseSensitive>
+		<FONT size="1">* passwords are case-sensitive</FONT>
+	</lblCaseSensitive>
+	<IsVisableOK>false</IsVisableOK>
+	<chkVisableOK>
+		<FONT size="1" face="Arial">
+I declare I have carefully read and examine the details 
+of the <A href="#">Agreement and the Risk Disclosure Statement</A> before
+using this Trading Platform.  By entering this site, 
+I agree to be bound by the terms and conditions in the said
+Agreement.</FONT>
+	</chkVisableOK>
+	<btnOk>Enter</btnOk>
+	<lblLoginPrompt1>Login name must not be empty!</lblLoginPrompt1>
+	<lblLoginPrompt2>Authenication failed, please try again!</lblLoginPrompt2>
+	<lblLoginPrompt22>The User ID is suspended for the time being, please contact our Customer Service!</lblLoginPrompt22>
+	<lblDescription>
+		<FONT face="Courier" size="1" >
+			<p>
+		<FONT face="System" size="3" color="red">		
+		주의 </FONT>- 
+		<FONT size="1">이 시스템은 Micosoft</FONT> 
+		<FONT size="1" color="blue">Internet 
+		Explorer </FONT>
+		<FONT size="1" color="red">6.0</FONT>
+		<FONT size="1"> 또는 더 높은 버전을 위해 디자인되었습니다. 만약 마이크로소프트 윈도우스98/Me/NT에</FONT> 
+		<FONT color="blue">Internet 
+		Explorer </FONT>
+		<FONT color="red">5.0</FONT> 을 사용하고 계신다면, 좀 더 나은 시스템 운영을 위해 <A href="http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;familyid=0A8A18F6-249C-4A72-BFCF-FC6AF26DC390">Windows 
+		Script 5.6</A> 을 설치하시고 사용하는것을 권해 드립니다.
+		</p>
+			<p>인터넷을 통한 전송이  방해 받을수도 있으며, 전송이 갑자기 정지 될 수 있습니다. 이러한 전송의 지연은 인터넷 접속 과부하 때문이거나 인터넷의 공유성에 의한 올바르지 못한 데이터 전송 때문 이니 주의하시기 바랍니다. 우리의 통제하에 있지않은 통신시설의 결함및 고장, 그에 따른 데이터의 내용, 전송 시간에 관한 메세지 오류에 대하여 책임을 질수 없습니다.</p>
+		</FONT>	
+	</lblDescription>
+</Login>

@@ -1,0 +1,9 @@
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Release\AsyncSslServer.exe
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Release\AsyncSslServer.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Release\AsyncSslCommon.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Release\AsyncSslCommon.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\AsyncSslServer.csprojResolveAssemblyReference.cache
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\AsyncSslServer.exe
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\AsyncSslServer.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Release\AsyncSslServer.exe.config
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Release\log4net.dll

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ColumnSettings>
+  <Instrument>
+    <High Show ="true"/>
+    <Low Show ="true"/>
+    <Open Show ="true"/>
+    <PrevClose Show ="true"/>
+    <Change Show ="true"/>
+    <InterestRateBuy Show ="true"/>
+    <InterestRateSell Show ="true"/>
+    <FilledVolume Show ="true"/>
+    <TotalFilledVolume Show ="true"/>
+  </Instrument>
+</ColumnSettings>

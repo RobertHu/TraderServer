@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="GetRequestPermissionSettingSchma">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRequestPermissionSettingSchmaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRequestPermissionSettingSchmaResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPermissionSettingByParticipant">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPermissionSettingByParticipantResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPermissionSettingByParticipantResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPermissionSettingByObjectID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="objectID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPermissionSettingByObjectIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPermissionSettingByObjectIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPermissionSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="objectID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPermissionSettingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPermissionSettingResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePermissionSettingByDataSet">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="permissionSettings">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePermissionSettingByDataSetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdatePermissionSettingByDataSetResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreatePermissionSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="objectID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="permissionID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="permissionName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="setting" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreatePermissionSettingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreatePermissionSettingResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePermissionSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="objectID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="permissionID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="permissionName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="setting" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePermissionSettingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdatePermissionSettingResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePermissionSetting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="objectID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="permissionID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="permissionName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePermissionSettingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeletePermissionSettingResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckPermission">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="objectID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="permissionID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="permissionName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckPermissionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckPermissionResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckPermissionByDataSet">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="permissionSettings">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckPermissionByDataSetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckPermissionByDataSetResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckPermissionByParticipant">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckPermissionByParticipantResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckPermissionByParticipantResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckPermissionByResourceTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckPermissionByResourceTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckPermissionByResourceTypesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetRequestPermissionSettingSchmaSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRequestPermissionSettingSchma" />
+  </wsdl:message>
+  <wsdl:message name="GetRequestPermissionSettingSchmaSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRequestPermissionSettingSchmaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPermissionSettingByParticipantSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPermissionSettingByParticipant" />
+  </wsdl:message>
+  <wsdl:message name="GetPermissionSettingByParticipantSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPermissionSettingByParticipantResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPermissionSettingByObjectIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPermissionSettingByObjectID" />
+  </wsdl:message>
+  <wsdl:message name="GetPermissionSettingByObjectIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPermissionSettingByObjectIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPermissionSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPermissionSetting" />
+  </wsdl:message>
+  <wsdl:message name="GetPermissionSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPermissionSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePermissionSettingByDataSetSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdatePermissionSettingByDataSet" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePermissionSettingByDataSetSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdatePermissionSettingByDataSetResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreatePermissionSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:CreatePermissionSetting" />
+  </wsdl:message>
+  <wsdl:message name="CreatePermissionSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:CreatePermissionSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePermissionSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdatePermissionSetting" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePermissionSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdatePermissionSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeletePermissionSettingSoapIn">
+    <wsdl:part name="parameters" element="tns:DeletePermissionSetting" />
+  </wsdl:message>
+  <wsdl:message name="DeletePermissionSettingSoapOut">
+    <wsdl:part name="parameters" element="tns:DeletePermissionSettingResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckPermissionSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckPermission" />
+  </wsdl:message>
+  <wsdl:message name="CheckPermissionSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckPermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckPermissionByDataSetSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckPermissionByDataSet" />
+  </wsdl:message>
+  <wsdl:message name="CheckPermissionByDataSetSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckPermissionByDataSetResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckPermissionByParticipantSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckPermissionByParticipant" />
+  </wsdl:message>
+  <wsdl:message name="CheckPermissionByParticipantSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckPermissionByParticipantResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckPermissionByResourceTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckPermissionByResourceTypes" />
+  </wsdl:message>
+  <wsdl:message name="CheckPermissionByResourceTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckPermissionByResourceTypesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SecurityServicesSoap">
+    <wsdl:operation name="GetRequestPermissionSettingSchma">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取一个空的请求权限设置的表架构，视图名称为：V_RequestCheckPermission，可以通过静态变量REQUEST_CHECK_PERMISSION_VIEW获得</wsdl:documentation>
+      <wsdl:input message="tns:GetRequestPermissionSettingSchmaSoapIn" />
+      <wsdl:output message="tns:GetRequestPermissionSettingSchmaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSetting">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过参与者编号来获取针对该参与者的所有权限设置</wsdl:documentation>
+      <wsdl:input name="GetPermissionSettingByParticipant" message="tns:GetPermissionSettingByParticipantSoapIn" />
+      <wsdl:output name="GetPermissionSettingByParticipant" message="tns:GetPermissionSettingByParticipantSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSettingByObjectID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过对象编号来获取针对该对象的所有权限设置</wsdl:documentation>
+      <wsdl:input message="tns:GetPermissionSettingByObjectIDSoapIn" />
+      <wsdl:output message="tns:GetPermissionSettingByObjectIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSetting">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过指定参与者编号、对象编号来获取对应的权限设置</wsdl:documentation>
+      <wsdl:input message="tns:GetPermissionSettingSoapIn" />
+      <wsdl:output message="tns:GetPermissionSettingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionSetting">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">批量更新权限设置，大量数据的更新推荐使用本方法</wsdl:documentation>
+      <wsdl:input name="UpdatePermissionSettingByDataSet" message="tns:UpdatePermissionSettingByDataSetSoapIn" />
+      <wsdl:output name="UpdatePermissionSettingByDataSet" message="tns:UpdatePermissionSettingByDataSetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreatePermissionSetting">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">创建权限设置，当少量数据需要更新时推荐使用本方法</wsdl:documentation>
+      <wsdl:input message="tns:CreatePermissionSettingSoapIn" />
+      <wsdl:output message="tns:CreatePermissionSettingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionSetting">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改权限设置，当少量数据需要更新时推荐使用本方法</wsdl:documentation>
+      <wsdl:input message="tns:UpdatePermissionSettingSoapIn" />
+      <wsdl:output message="tns:UpdatePermissionSettingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePermissionSetting">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除权限设置，当少量数据需要更新时推荐使用本方法</wsdl:documentation>
+      <wsdl:input message="tns:DeletePermissionSettingSoapIn" />
+      <wsdl:output message="tns:DeletePermissionSettingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">校验权限，对本方法的结果缓存60秒：意味着如果修改权限设置，那么它将在一分钟后才生效，true：允许；false拒绝</wsdl:documentation>
+      <wsdl:input message="tns:CheckPermissionSoapIn" />
+      <wsdl:output message="tns:CheckPermissionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">校验权限请求进行校验的数据集，结构必须与PermissionSettingData.REQUEST_CHECK_PERMISSION_VIEW定义的表兼容，并且请求校验的数据应该存放在PermissionSettingData.REQUEST_CHECK_PERMISSION_VIEW定义的表中，true：允许；false拒绝</wsdl:documentation>
+      <wsdl:input name="CheckPermissionByDataSet" message="tns:CheckPermissionByDataSetSoapIn" />
+      <wsdl:output name="CheckPermissionByDataSet" message="tns:CheckPermissionByDataSetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermissionByParticipant">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">检查该用户拥有的所有资源的权限，所有的权限校验动作都在服务器完成，节省不必要的网络往返，并且只返回有权限的记录。</wsdl:documentation>
+      <wsdl:input message="tns:CheckPermissionByParticipantSoapIn" />
+      <wsdl:output message="tns:CheckPermissionByParticipantSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">检查该用户具有的所有资源类型的权限</wsdl:documentation>
+      <wsdl:input name="CheckPermissionByResourceTypes" message="tns:CheckPermissionByResourceTypesSoapIn" />
+      <wsdl:output name="CheckPermissionByResourceTypes" message="tns:CheckPermissionByResourceTypesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SecurityServicesSoap" type="tns:SecurityServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetRequestPermissionSettingSchma">
+      <soap:operation soapAction="http://tempuri.org/GetRequestPermissionSettingSchma" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSetting">
+      <soap:operation soapAction="http://tempuri.org/GetPermissionSettingByParticipant" style="document" />
+      <wsdl:input name="GetPermissionSettingByParticipant">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetPermissionSettingByParticipant">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSettingByObjectID">
+      <soap:operation soapAction="http://tempuri.org/GetPermissionSettingByObjectID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSetting">
+      <soap:operation soapAction="http://tempuri.org/GetPermissionSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionSetting">
+      <soap:operation soapAction="http://tempuri.org/UpdatePermissionSettingByDataSet" style="document" />
+      <wsdl:input name="UpdatePermissionSettingByDataSet">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UpdatePermissionSettingByDataSet">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreatePermissionSetting">
+      <soap:operation soapAction="http://tempuri.org/CreatePermissionSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionSetting">
+      <soap:operation soapAction="http://tempuri.org/UpdatePermissionSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePermissionSetting">
+      <soap:operation soapAction="http://tempuri.org/DeletePermissionSetting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <soap:operation soapAction="http://tempuri.org/CheckPermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <soap:operation soapAction="http://tempuri.org/CheckPermissionByDataSet" style="document" />
+      <wsdl:input name="CheckPermissionByDataSet">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CheckPermissionByDataSet">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermissionByParticipant">
+      <soap:operation soapAction="http://tempuri.org/CheckPermissionByParticipant" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <soap:operation soapAction="http://tempuri.org/CheckPermissionByResourceTypes" style="document" />
+      <wsdl:input name="CheckPermissionByResourceTypes">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CheckPermissionByResourceTypes">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SecurityServicesSoap12" type="tns:SecurityServicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetRequestPermissionSettingSchma">
+      <soap12:operation soapAction="http://tempuri.org/GetRequestPermissionSettingSchma" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSetting">
+      <soap12:operation soapAction="http://tempuri.org/GetPermissionSettingByParticipant" style="document" />
+      <wsdl:input name="GetPermissionSettingByParticipant">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetPermissionSettingByParticipant">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSettingByObjectID">
+      <soap12:operation soapAction="http://tempuri.org/GetPermissionSettingByObjectID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionSetting">
+      <soap12:operation soapAction="http://tempuri.org/GetPermissionSetting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionSetting">
+      <soap12:operation soapAction="http://tempuri.org/UpdatePermissionSettingByDataSet" style="document" />
+      <wsdl:input name="UpdatePermissionSettingByDataSet">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UpdatePermissionSettingByDataSet">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreatePermissionSetting">
+      <soap12:operation soapAction="http://tempuri.org/CreatePermissionSetting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionSetting">
+      <soap12:operation soapAction="http://tempuri.org/UpdatePermissionSetting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePermissionSetting">
+      <soap12:operation soapAction="http://tempuri.org/DeletePermissionSetting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <soap12:operation soapAction="http://tempuri.org/CheckPermission" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <soap12:operation soapAction="http://tempuri.org/CheckPermissionByDataSet" style="document" />
+      <wsdl:input name="CheckPermissionByDataSet">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CheckPermissionByDataSet">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermissionByParticipant">
+      <soap12:operation soapAction="http://tempuri.org/CheckPermissionByParticipant" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckPermission">
+      <soap12:operation soapAction="http://tempuri.org/CheckPermissionByResourceTypes" style="document" />
+      <wsdl:input name="CheckPermissionByResourceTypes">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CheckPermissionByResourceTypes">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SecurityServices">
+    <wsdl:port name="SecurityServicesSoap" binding="tns:SecurityServicesSoap">
+      <soap:address location="http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Service/securityservices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SecurityServicesSoap12" binding="tns:SecurityServicesSoap12">
+      <soap12:address location="http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Service/securityservices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

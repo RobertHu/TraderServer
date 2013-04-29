@@ -1,0 +1,8 @@
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\AsyncSslServer.csprojResolveAssemblyReference.cache
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\AsyncSslServer.exe
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\AsyncSslServer.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\AsyncSslCommon.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\AsyncSslCommon.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\AsyncSslServer.exe
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\AsyncSslServer.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\AsyncSslServer.exe.config

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Commands>
+    <Command>
+      <Name>Login</Name>
+      <Parameter>
+        <Name>loginID</Name>
+        <Name>password</Name>
+        <Name>version</Name>
+      </Parameter>
+    </Command>
+</Commands>

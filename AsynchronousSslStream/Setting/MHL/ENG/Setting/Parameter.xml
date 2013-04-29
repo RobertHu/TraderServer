@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<Parameters>
+	<Parameter>
+		<RestrictFonts></RestrictFonts>
+		<SpecialFontSizeIncreaseForRestrict>6</SpecialFontSizeIncreaseForRestrict>		
+		<SpecialFontSizeIncrease>3</SpecialFontSizeIncrease>
+		<ColHiddenLiqLotForAutoClose>false</ColHiddenLiqLotForAutoClose>
+		<OperateOrderCount>3</OperateOrderCount>
+		<GetCommandsInterval>800</GetCommandsInterval>
+		<DQQuoteDefaultLot>1</DQQuoteDefaultLot>
+		<OrderBeginTimeDiff>1</OrderBeginTimeDiff>
+		<MooMocOrderValidDuration>30</MooMocOrderValidDuration>
+		<IsNewOrderAcceptedHedging>true</IsNewOrderAcceptedHedging>
+		<IsUseMargin>true</IsUseMargin>
+		<SupportMarginAction>Owner Registration,Agent Registration,Call Margin,Payment Instruction</SupportMarginAction>
+		<ReceiveAddress>try@try.com.hk</ReceiveAddress>
+		<IsUseDownload>true</IsUseDownload>		
+		<TimeZoneMinuteSpan>0</TimeZoneMinuteSpan>
+		<StatementReportType>0</StatementReportType>
+    <AccountSummaryRDLC>ENG/Report/RptAccountSummary.rdlc</AccountSummaryRDLC>
+		<StatementXML>ENG/Report/RptStatement.xml</StatementXML>
+		<Statement2XML>ENG/Report/RptStatement2.xml</Statement2XML>
+		<Statement3XML>ENG/Report/RptStatement03.xml</Statement3XML>
+		<Statement5XML>ENG/Report/RptStatement5.xml</Statement5XML>
+    <StatementMCXML>ENG/Report/RptStatement_Mc.xml</StatementMCXML>
+		<LedgerXML>ENG/Report/RptLedger.xml</LedgerXML>
+		<ExtendDay>3</ExtendDay>
+		<QuoteDelay>15</QuoteDelay>
+		<IsCheckAcceptDQVariation>true</IsCheckAcceptDQVariation>
+		<IsDisplayOperateOrderTimePrompt>true</IsDisplayOperateOrderTimePrompt>
+		<IsAllowMixAgent>true</IsAllowMixAgent>				
+		<IsHasChatRoom>true</IsHasChatRoom>
+		<IsHasDebug>true</IsHasDebug>		
+		<IsMultiShowAnalyticChart>true</IsMultiShowAnalyticChart>
+		<IsHasNews>true</IsHasNews>
+		<IsUseOuterNews>false</IsUseOuterNews>
+		<NewsUrl>http://rss.news.yahoo.com/rss/economy</NewsUrl>
+		<TradingFactUrl>http://www.21hor.com/music/eng.pdf</TradingFactUrl>
+		<IsCalcCommission>true</IsCalcCommission>
+		
+		<IsGoodTillMonth>true</IsGoodTillMonth>
+		<GoodTillMonthType>1</GoodTillMonthType>
+		<IsHasGoodTillMonthDayOrder>true</IsHasGoodTillMonthDayOrder>
+		<IsHasGoodTillMonthSession>true</IsHasGoodTillMonthSession>
+		<IsHasGoodTillMonthGTM>true</IsHasGoodTillMonthGTM>
+		<IsHasGoodTillMonthGTF>true</IsHasGoodTillMonthGTF>
+		
+		<SelectInstrumentsRange>30</SelectInstrumentsRange>
+		<IsMultiplyDenominatorForChange>true</IsMultiplyDenominatorForChange>
+		<NonQuoteVerificationUiDelay>0</NonQuoteVerificationUiDelay>
+    <IsAllowLimitInSpread>true</IsAllowLimitInSpread>
+	</Parameter>	
+</Parameters>
+	

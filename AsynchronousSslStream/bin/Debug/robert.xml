@@ -1,0 +1,124 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="RecoverPasswordQuestion">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="QuestionId" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" />
+                <xs:element name="CHS" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="RecoverPasswordAnswer">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Sequence" type="xs:int" minOccurs="0" />
+                <xs:element name="QuestionId" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" />
+                <xs:element name="Answer" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <RecoverPasswordQuestion>
+    <QuestionId>a7464312-1bf9-4dc8-b0b4-8c89dcea3e08</QuestionId>
+    <CHS>Äú¸¸Ç×½ÐÊ²Ã´Ãû×Ö?</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>4eb80ac3-a2fc-4553-bb61-e209a3b3f322</QuestionId>
+    <CHS>Äú×æÄ¸½ÐÊ²Ã´Ãû×Ö?</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>413f86f7-b077-4088-8fb0-106b0b747ae9</QuestionId>
+    <CHS>ÄúµÄ¼ÒÏçÔÚÄÄÀï?</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>2c2c5b41-78a9-46a9-b9ca-83d135444a89</QuestionId>
+    <CHS>ÄúµÄÊÖ»úºÅÂëÊÇÊ²Ã´?</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>b7e3d132-612a-4891-9787-1a6f8cf66072</QuestionId>
+    <CHS>Äú¶à´óËêÊý?</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>63bc059e-7020-4be6-bff0-cd098425ec4c</QuestionId>
+    <CHS>Äú½ÐÊ²Ã´Ãû×Ö?</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>0a9d9e06-4e38-464a-bcba-486a19af5e18</QuestionId>
+    <CHS>你小时居住的街道名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>839f1734-1ac6-441d-a8da-8a313f8fca7b</QuestionId>
+    <CHS>你最喜欢的卡通人物名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>4e0828e3-624b-4cb0-8983-c76e6cc7ee24</QuestionId>
+    <CHS>你最喜欢的城市名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>b9296ab6-19be-48b7-a06b-8033e2b8c6c7</QuestionId>
+    <CHS>你最喜欢的歌手名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>af9cc4cf-0a3e-4764-91f5-4fad3241780e</QuestionId>
+    <CHS>你最喜欢的电影名星名字</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>bdd86794-bcee-4268-9fe1-d4219dcf0ef5</QuestionId>
+    <CHS>你最喜欢的电视节目名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>7658fee8-8fc5-480b-96ff-c979110b8455</QuestionId>
+    <CHS>你最喜欢的花卉名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>06f5db90-6cf1-49aa-ab6c-bcd4ee6ffadd</QuestionId>
+    <CHS>你最喜欢的运动队伍名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>db608dbc-d8ae-43a5-9c95-765f7e9a19f9</QuestionId>
+    <CHS>你最喜欢的野生动物名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>de2ad823-8c47-40a7-ad34-6623690c5811</QuestionId>
+    <CHS>你最喜欢的食物名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>37f0609a-af4b-4760-a4ca-1a3dbd1671e5</QuestionId>
+    <CHS>你最喜欢的饮料名称</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>2e4715fe-7e98-48ae-a9fd-a29e92452c24</QuestionId>
+    <CHS>你母亲的生日日期</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>25898829-534c-4385-b2fd-2a9e0adfa6e6</QuestionId>
+    <CHS>你父亲的生日日期</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>bfd04b3d-f4c9-495b-9bbf-1f8c5d8965dc</QuestionId>
+    <CHS>你第一辆家车</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>3a95fa7e-7dbc-4ec7-bcb3-6c9157651f8f</QuestionId>
+    <CHS>在学校里，你最喜欢的科目是什么</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>d08224e2-0e93-4969-8847-99ada8ca3d96</QuestionId>
+    <CHS>在学校里，谁是你最好的朋友</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>ca513c28-257d-4f86-8b5d-bb7a00394df8</QuestionId>
+    <CHS>谁是你最钦佩的人</CHS>
+  </RecoverPasswordQuestion>
+  <RecoverPasswordQuestion>
+    <QuestionId>344b1461-5732-4341-950a-795079215b29</QuestionId>
+    <CHS>谁是你最难忘的老师</CHS>
+  </RecoverPasswordQuestion>
+</NewDataSet>

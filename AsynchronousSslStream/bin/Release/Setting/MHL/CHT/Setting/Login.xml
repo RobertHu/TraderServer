@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Login>
+	<NewsLanguage>CHT</NewsLanguage>
+	<ActivateAccountTitle>帳號激活</ActivateAccountTitle>
+	<ActivateAccount>
+		<p>親愛的客戶：</p>
+		<p>這是您首次使用我們的系統，為了安全起見，系統需要您通過更改密碼來激活帳號．</p>
+		<p></p>
+	</ActivateAccount>
+	<OldPasswordPrompt>舊密碼（8-16字元）：</OldPasswordPrompt>
+	<NewPasswordPrompt>新密碼（8-16字元）：</NewPasswordPrompt>
+	<ConfirmNewPasswordPrompt>確認密碼：</ConfirmNewPasswordPrompt>
+	<OKPrompt>確定</OKPrompt>
+	<ActivateAccountPassed>您的密碼已經成功更改！</ActivateAccountPassed>
+	<ActivateAccountFailed>您的密碼更改失敗！</ActivateAccountFailed>
+	<ActivateAccountReEnter>新密碼與確認密碼不一致，請重試！</ActivateAccountReEnter>
+	<ActivateAccountSubmissionFailed>提交失敗，請重試！</ActivateAccountSubmissionFailed>
+  <ApplicationUpdatedMessage>
+	  <FONT size="1" color="red">我們對网上交易系統已進行更新，假如閣下是第一次看見此信息<BR>  
+	  請利用此頁面底部所提供的下載連接下載並安裝所需部件以確保系統正常運行。
+	  </BR>
+	  </FONT>
+  </ApplicationUpdatedMessage>
+  <lblSystemLogon>系統登錄</lblSystemLogon>
+	<lblUserName>用戶名：</lblUserName>
+	<lblPasswords>密 碼：</lblPasswords>
+	<lblCaseSensitive>
+		<FONT size="1">* 密碼區分大小寫</FONT>
+	</lblCaseSensitive>
+	<IsVisableOK>false</IsVisableOK>
+	<chkVisableOK>
+		<FONT size="1">
+本人聲明在進入交易系統前本人已詳細閱讀及檢查 <A href="#">買賣合約 和 風險聲明</A> 。本人瞭解和完全同意合約內所有的內容後登錄進入此系統。</FONT>
+	</chkVisableOK>
+	<btnOk>進入</btnOk>
+	<lblLoginPrompt1>Login name must not be empty!</lblLoginPrompt1>
+	<lblLoginPrompt2>Authenication failed, please try again!</lblLoginPrompt2>
+	<lblLoginPrompt22>The User ID is suspended for the time being, please contact our Customer Service!</lblLoginPrompt22>
+	<lblDescription>
+		<FONT face="Courier" size="1" >
+			<p>
+	<FONT face="System" size="3" color="red">		
+		注意 </FONT>- 
+		<FONT size="1">本系統以 </FONT> 
+		<FONT size="1" color="blue">Microsoft Internet 
+		Explorer </FONT>
+		<FONT size="1" color="red">6.0</FONT>
+		<FONT size="1"> 版本設計。如果閣下是運行</FONT> 
+		<FONT color="blue">Internet 
+		Explorer </FONT>
+		<FONT color="red">5.0</FONT> 于 Microsoft Windows 98 操作系統上，在登錄系統前您可能需要安裝 <A href="http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;familyid=0A8A18F6-249C-4A72-BFCF-FC6AF26DC390">Windows 
+		Script 5.6</A> 以確保操作正常 。 
+		</p>
+			
+			<p>由於Internet本身所存在的缺陷，可能導致閣下的信息發生延誤或不正確；對於這一切非我們能力所能控制的通訊延誤或不正常，我們概不負任何責任。</p>
+		</FONT>
+	</lblDescription>
+</Login>

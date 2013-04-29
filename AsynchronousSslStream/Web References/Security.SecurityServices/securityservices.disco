@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://ws0303/iExchangeCollection/iExchange3 Team/iExchange3/Security/web/Service/securityservices.asmx?wsdl" docRef="http://ws0303/iExchangeCollection/iExchange3 Team/iExchange3/Security/web/Service/securityservices.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Service/securityservices.asmx" xmlns:q1="http://tempuri.org/" binding="q1:SecurityServicesSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Service/securityservices.asmx" xmlns:q2="http://tempuri.org/" binding="q2:SecurityServicesSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

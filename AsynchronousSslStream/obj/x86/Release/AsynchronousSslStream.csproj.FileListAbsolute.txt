@@ -1,0 +1,7 @@
+D:\c++Project\AsynchronousSslStream\AsynchronousSslStream\bin\Release\AsynchronousSslStream.exe
+D:\c++Project\AsynchronousSslStream\AsynchronousSslStream\bin\Release\AsynchronousSslStream.pdb
+D:\c++Project\AsynchronousSslStream\AsynchronousSslStream\bin\Release\SslCommon.dll
+D:\c++Project\AsynchronousSslStream\AsynchronousSslStream\bin\Release\SslCommon.pdb
+D:\c++Project\AsynchronousSslStream\AsynchronousSslStream\obj\x86\Release\AsynchronousSslStream.csprojResolveAssemblyReference.cache
+D:\c++Project\AsynchronousSslStream\AsynchronousSslStream\obj\x86\Release\AsynchronousSslStream.exe
+D:\c++Project\AsynchronousSslStream\AsynchronousSslStream\obj\x86\Release\AsynchronousSslStream.pdb

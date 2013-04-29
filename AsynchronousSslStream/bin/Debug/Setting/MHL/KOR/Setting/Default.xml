@@ -1,0 +1,676 @@
+<?xml version="1.0"   encoding="utf-8" ?> 
+<Languages>
+	<Language>
+    <LanguageVersion>KOR</LanguageVersion>
+		<ConfirmSendEmail>Are you sure to send email?</ConfirmSendEmail>
+		<OrderLMTlblSetPriceA2>Stop</OrderLMTlblSetPriceA2>
+		<OrderLMTlblSetPriceA3>Limit</OrderLMTlblSetPriceA3>
+		<RejectCancelLmtOrder>Request to cancel the Limit/Stop order was not accepted, please try again later.</RejectCancelLmtOrder>
+		<TradeConsoleCancelLMTOrderAlert1>The limit price is too close to the market price, cancellation is not accepted!</TradeConsoleCancelLMTOrderAlert1>
+		<LoginFailedPrompt>Another instance is running, initialization failed!</LoginFailedPrompt>
+		<CloseWindow>Close</CloseWindow>
+		<NoNews>No News</NoNews>
+		<AccountExpire>Account/s</AccountExpire>
+		<AccountWillExpire>will expire at ENDTIME.</AccountWillExpire>
+		<AccountExpired>expired, no trade will be allowed.</AccountExpired>
+		<btnDocument>about physical delivery</btnDocument>
+		
+		<AccountMarginNotify1>Margin position of:</AccountMarginNotify1>
+		<AccountMarginNotify2>need/s your attention!</AccountMarginNotify2>
+		<InstrumentSelectOverRange>Selected instrument/s can not more than</InstrumentSelectOverRange>
+		
+		<EntranceForInput>The Trading quantity placed for the accounts:</EntranceForInput>
+		<EntranceForInput2>have not met with the minimum requirement. Please try again!</EntranceForInput2>
+		
+		<MenuimgOption>Option</MenuimgOption>
+		<MenuimgNews>News</MenuimgNews>
+		<SetLMTStopCaption>Set Limit Stop/OCO</SetLMTStopCaption>
+		<GoodTillMonthDayOrder>Day Order</GoodTillMonthDayOrder>
+		<GoodTillMonthSession>Session</GoodTillMonthSession>
+		<GoodTillMonthGTM>GTM</GoodTillMonthGTM>
+		<GoodTillMonthGTF>GTF</GoodTillMonthGTF>
+		<GoodTillDate>Date</GoodTillDate>
+		<PLCaption>You may specify an amount (+/-) to limit the profit/loss arising from this open order </PLCaption>
+		<ExistsMessage>You have a unread message!</ExistsMessage>
+		
+		<btnGetValueFromGridCaption>Get width</btnGetValueFromGridCaption>
+		<lblFontGridCaption>Selection</lblFontGridCaption>
+		<lblFontNameCaption>Font</lblFontNameCaption>
+		<lblFontSizeCaption>Size</lblFontSizeCaption>
+		<lblFomtColKeyCaption>Column</lblFomtColKeyCaption>
+		<lblFontColWidthCaption>Col Width</lblFontColWidthCaption>
+		<lblFontColHiddenCaption>Hide</lblFontColHiddenCaption>
+		<lblIsCalculateFloatCaption>Real Time Floating</lblIsCalculateFloatCaption>
+		<lblLayoutCaption>Save Current Layout</lblLayoutCaption>
+		<lblRowHeightCaption>Height</lblRowHeightCaption>
+		
+		<SettingAccountGrid>계좌/거래 현황 </SettingAccountGrid>
+		<SettingInstrumentGrid>거래/결재 패널 </SettingInstrumentGrid>
+		<SettingOpenOrderGrid>개방/공개 주문 리스트는  </SettingOpenOrderGrid>
+		<SettingOrderGrid>실행 주문 리스트는  </SettingOrderGrid>
+		<btnOKCaption>OK</btnOKCaption>
+		<btnCancelCaption>Exit</btnCancelCaption>
+		
+		<DisallowTradePrompt>You are not granted with appropriate right to trade, please contact our customer service.</DisallowTradePrompt>
+		
+		<ChartMINUTE1>1 minute</ChartMINUTE1>
+		<ChartMINUTE5>5 minutes</ChartMINUTE5>
+		<ChartHOUR1>Hourly</ChartHOUR1>
+		<ChartDAY1>Daily</ChartDAY1>
+		<ChartWEEK1>Weekly</ChartWEEK1>
+		<ChartMONTH1>Monthly</ChartMONTH1>
+		
+		<ChartBlackBlue>BlackBlue</ChartBlackBlue>
+		<ChartGreenRed>GreenRed</ChartGreenRed>
+		<ChartBlackWhite>BlackWhite</ChartBlackWhite>
+		<ChartGreenWhite>GreenWhite</ChartGreenWhite>
+		<ChartCyanGreen>CyanGreen</ChartCyanGreen>
+		<ChartOceanBlue>OceanBlue</ChartOceanBlue>
+		<ChartRedBlack>RedBlack</ChartRedBlack>
+		<ChartRedWhite>RedWhite</ChartRedWhite>
+		<ChartWhite>White</ChartWhite>
+		
+		<ChartCandle>Candle</ChartCandle>
+		<ChartLine>Line</ChartLine>
+		<ChartCloseHiLo>Close HiLo</ChartCloseHiLo>
+		<ChartOpenCloseHiLo>Open Close HiLo</ChartOpenCloseHiLo>
+		
+		<ChartGetFormula>Main</ChartGetFormula>
+		<ChartOverlay>Overlay</ChartOverlay>
+		<ChartGo>Go</ChartGo>
+		
+		<ChartFormulaRemove>Remove</ChartFormulaRemove>
+		<ChartFormulaGo>OK</ChartFormulaGo>
+		<ChartFormulaRefresh>Refresh</ChartFormulaRefresh>
+		<ChartFormulaParameter>Parameter</ChartFormulaParameter>
+		<ChartFormulaParameterName>Name</ChartFormulaParameterName>
+		<ChartFormulaParameterValue>Value</ChartFormulaParameterValue>
+		
+		<OperateSingleDQOrderMethodTitle0>If you choose to</OperateSingleDQOrderMethodTitle0>
+		<OperateSingleDQOrderMethodTitle1>Order details as follows:</OperateSingleDQOrderMethodTitle1>
+		<OperateSingleDQOrderMethodTitle2>at</OperateSingleDQOrderMethodTitle2>
+		<OperateSingleDQOrderMethodTitle3>To close out</OperateSingleDQOrderMethodTitle3>		
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert4>The total quantity is more than the quantity of the DQ order </OrderOperateOrderOperateAccountGrid_ValidateEditAlert4>
+		<OrderMultiDQbtnDeal>Deal</OrderMultiDQbtnDeal>
+		<OperateOrderMethod1PageSubmitAlert0>Please input lot!</OperateOrderMethod1PageSubmitAlert0>
+		<OperateOrderMethod1PageSubmitAlert1>Please wait for price!</OperateOrderMethod1PageSubmitAlert1>
+		<OperateOrderMethod1PageSubmitAlert2>Please press deal!</OperateOrderMethod1PageSubmitAlert2>
+		<MenuimgChatRoom>Chat Room</MenuimgChatRoom>
+		
+		<ChangePasswordlblChangePasswordPromptTitle>잔액</ChangePasswordlblChangePasswordPromptTitle>
+		<ChangePasswordlblCurrentPassword>현재</ChangePasswordlblCurrentPassword>
+		<ChangePasswordlblNewPassword>새~</ChangePasswordlblNewPassword>
+		<ChangePasswordlblConfirmPassword>확정</ChangePasswordlblConfirmPassword>
+		<ChangePasswordlblPrompt>새 패스워드는 반드시 8~16 자리의 숫자 혹은 문자로 구성 되어야 합니다</ChangePasswordlblPrompt>
+		<ChatArrivePrompt>You have a message, please check!</ChatArrivePrompt>
+		<QuoteDelayTimeout>Quote time out!</QuoteDelayTimeout>
+		<AdditionalClientPrompt>Owner Registration</AdditionalClientPrompt>
+		<AgentPrompt>Agent Registration</AgentPrompt>
+		<CallMarginExtensionPrompt>Margin Call Extension</CallMarginExtensionPrompt>
+		<PaymentInstructionPrompt>Payment Instruction</PaymentInstructionPrompt>
+		<FundTransferPrompt>Fund Transfer</FundTransferPrompt>
+		<MarginPageOnloadDocument>Document</MarginPageOnloadDocument>
+		<MarginPageOnloadAccount>Account</MarginPageOnloadAccount>
+		<MarginPageOnloadNext>Next</MarginPageOnloadNext>
+		<MarginPageBtnNextPrompt>Please select a account!</MarginPageBtnNextPrompt>
+		
+		<WebServiceAdditionalClientMessage0>Sent failed, please try again.</WebServiceAdditionalClientMessage0>
+		<WebServiceAdditionalClientMessage1>Succed to submit your application.</WebServiceAdditionalClientMessage1>
+		<AdditionalClientPageSubmitAlert0>Sent failed, please try again.</AdditionalClientPageSubmitAlert0>
+		<WebServiceAgentMessage0>Sent failed, please try again.</WebServiceAgentMessage0>
+		<WebServiceAgentMessage1>Succed to submit your application.</WebServiceAgentMessage1>
+		<AgentPageSubmitAlert0>Sent failed, please try again.</AgentPageSubmitAlert0>
+		
+		<CallMarginExtensionPageSubmitAlert0>Sent failed, please try again.</CallMarginExtensionPageSubmitAlert0>
+		<WebServiceCallMarginExtensionMessage0>Failed to call margin extension.</WebServiceCallMarginExtensionMessage0>
+		<WebServiceCallMarginExtensionMessage1>Succed to call margin extension.</WebServiceCallMarginExtensionMessage1>
+		<WebServiceCallMarginExtensionAlert0>An error occurred when calling margin extension.</WebServiceCallMarginExtensionAlert0>
+		<FundTransferPageSubmitAlert0>Sent failed, please try again.</FundTransferPageSubmitAlert0>
+		<WebServiceFundTransferMessage0>Failed to Fund Transfer.</WebServiceFundTransferMessage0>
+		<WebServiceFundTransferMessage1>Succed to Fund Transfer.</WebServiceFundTransferMessage1>
+		<WebServiceFundTransferAlert0>An error occurred when Fund Transfer.</WebServiceFundTransferAlert0>
+		<PaymentInstructionPageSubmitAlert0>Sent failed, please try again.</PaymentInstructionPageSubmitAlert0>
+		<WebServicePaymentInstructionMessage0>Failed to Payment Instruction.</WebServicePaymentInstructionMessage0>
+		<WebServicePaymentInstructionMessage1>Succed to Payment Instruction.</WebServicePaymentInstructionMessage1>
+		<WebServicePaymentInstructionAlert0>An error occurred when Payment Instruction.</WebServicePaymentInstructionAlert0>
+		<MenupageMarginAlert0>로깅중 초기화에 실패 했읍니다. 다시 시도 하세요!</MenupageMarginAlert0>
+		<RealTimeAsk>문의</RealTimeAsk>
+		<RealTimeBid>-매입</RealTimeBid>
+		<AccountStatusPrompt>계좌 상태</AccountStatusPrompt>
+		<SingleDQBuyPrompt>매입</SingleDQBuyPrompt>
+		<SingleDQSellPrompt>매도</SingleDQSellPrompt>
+		<ReportTypeStatement>일람</ReportTypeStatement>
+		<ReportTypeLedger>장부</ReportTypeLedger>
+		<Reports>보고서</Reports>
+		<ReportType>보고서 형식</ReportType>
+		<ReportAccountCode>계좌</ReportAccountCode>
+		<ReportDate1InnerTextForLedger>~로 부터</ReportDate1InnerTextForLedger>
+		<ReportDate2InnerTextForLedger>~에게</ReportDate2InnerTextForLedger>
+		<ReportDate1InnerTextForStatement> 날짜</ReportDate1InnerTextForStatement>
+		<GettingQuotesPrompt>호가를 내십시요. 기다려 주세요</GettingQuotesPrompt>
+		<QuotePriceArrivedPrompt>지시에 따라 진행 하세요!</QuotePriceArrivedPrompt>
+		<Buy>매입</Buy>
+		<Sell>매도</Sell>
+		<LongBuy>매입</LongBuy>
+		<LongSell>매도</LongSell>
+		<Open>새~</Open>
+		<Close>C</Close>
+		<TimeRemainPrompt>남은시간 있읍</TimeRemainPrompt>
+		<DQQuoteLotPrompt>품목</DQQuoteLotPrompt>
+		<DQPrompt>DQ</DQPrompt>
+		<LMTPrompt>LMT</LMTPrompt>
+		<MKTPrompt>MKT</MKTPrompt>
+		<MOOPrompt>MOO</MOOPrompt>
+		<MOCPrompt>MOC</MOCPrompt>
+		<OCOPrompt>OCO</OCOPrompt>
+		<SYSPrompt>SYS</SYSPrompt>
+		<TradeOptionPromptStop>STOP</TradeOptionPromptStop>
+		<TradeOptionPromptBetter>BETTER</TradeOptionPromptBetter>
+		<PhasePlacedPlacingPrompt> 설정</PhasePlacedPlacingPrompt>
+		<PhasePlacedUnconfirmedPrompt>승인되지 않았읍니다</PhasePlacedUnconfirmedPrompt>
+		<PhaseCancelledPromptForRejectDQByDealer>Price change cx</PhaseCancelledPromptForRejectDQByDealer>
+		<PhaseCancelledPrompt>취소</PhaseCancelledPrompt>
+		<PhaseExecutedPrompt>승인</PhaseExecutedPrompt>
+		<PhaseCompletedPrompt>완료 되었읍니다</PhaseCompletedPrompt>
+		<PhaseDeletedPrompt>삭제</PhaseDeletedPrompt>
+		<InstructionPrompt>지시</InstructionPrompt>
+		<ExpireOrderPrompt>시간 종료</ExpireOrderPrompt>
+		<AccountNodeFontBold>true</AccountNodeFontBold>
+		<AccountNodeFontName>system</AccountNodeFontName>
+		<AccountNodeFontSize>10</AccountNodeFontSize>
+		<NewOrderAcceptedHedging>The new order is only accepted for hedging only.</NewOrderAcceptedHedging>
+		<NewOrderAcceptedHedging2>MOO/MOC order is only accepted for liquidation only.</NewOrderAcceptedHedging2>
+		<AlertLevelPrompt0></AlertLevelPrompt0>
+		<AlertLevelPrompt1>계좌 수익이 충분치 못 하였다면 계좌 가동을 위해 고객 서비스에 문의 하세요</AlertLevelPrompt1>
+		<AlertLevelPrompt2>계좌가 긴박한 상황에 있읍니다. 즉시 조치 바랍니다</AlertLevelPrompt2>
+		<AlertLevelPrompt3>추가적인 손실을 피하려는 적절한 액션이 취해 졌다면 메시지를 무시 하십시요</AlertLevelPrompt3>
+		<RiskMonitorDelete>시스템이 지시를 삭제 하였읍니다. 질문이 있으시면 고객 센터에 문의 하세요!</RiskMonitorDelete>
+		<AccountResetFailed>시스템이 거래일에 구좌를 준비하는데 실패 했읍니다. 시스템 관리자에게 문의 하세요</AccountResetFailed>
+		<DealerCanceled>거래소에 의하여 오더가 취소 되었읍니다!</DealerCanceled>
+		<RejectDQByDealer>Price time out, please try again!</RejectDQByDealer>
+		<NecessaryIsNotWithinThreshold>거래량이 계좌 한도를 초과 하였 읍니다. 오더가 거부 되었읍니다!</NecessaryIsNotWithinThreshold>
+		<MarginIsNotEnough>계좌 잔액이 충분하지 않읍니다, 오더가 승인되지 않았읍니다!</MarginIsNotEnough>
+		<AccountIsNotTrading>거래를 위해 승인된 계좌가 유효하지 않읍니다, 상세한 사항은 고객 센터에 문의 하세요!</AccountIsNotTrading>
+		<InstrumentIsNotAccepting>도구가 거래에 합당하지 않읍니다. 자세한 사항은 고객 서비스에 문의 하세요!</InstrumentIsNotAccepting>
+		<TimingIsNotAcceptable>오더가 거래 시간 유효시간을 초과 하였읍니다, 오더가 취소 되었읍니다1</TimingIsNotAcceptable>
+		<OrderTypeIsNotAcceptable>선택하신 오더 형태가 도구에 합당하지 않읍니다!</OrderTypeIsNotAcceptable>
+		<HasNoAccountsLocked>다른 계좌의 통제와 함께 이 대리 계좌가 승인되지 않았읍니다, 적절한 구좌를 선택하시고 후에 다시 시도 하세요.</HasNoAccountsLocked>
+		<IsLockedByAgent>대리인이 계좌를 차지 했읍니다!</IsLockedByAgent>
+		<IsNotLockedByAgent>이 거래 계좌는 대리권자가 사용 할수 없읍니다!</IsNotLockedByAgent>
+		<InvalidPrice>금액이 유효하지 않읍니다,나중에 다시 시도 하세요!</InvalidPrice>
+		<LossExecutedOrderInOco>다른 OCO의 종료를 찾지 못하였읍니다!</LossExecutedOrderInOco>		
+		<ExceedOpenLotBalance>개설된 수량을 초과하는 오더를 폐쇄 합니다</ExceedOpenLotBalance>
+		<OneCancelOtherPrompt>이는 취소 OCO 오더 입니다!</OneCancelOtherPrompt>
+		<HasUnassignedOvernightOrders>대리인 계좌에 오더가 있읍니다, 오더를 적절한 구좌에 할당 하세요</HasUnassignedOvernightOrders>
+		<DbOperationFailed>고좌 정보를 입력하는중에 예기치 않은 에러가 발생 하였읍니다</DbOperationFailed>
+		<TransactionAlreadyExists>오더를 진행중 예기치 않은 에러가 발생하였읍니다 </TransactionAlreadyExists>
+		<HasNoOrders>오더가 존재 하지 않읍니다</HasNoOrders>
+		<InvalidRelation>개설된 메시지를 입력하다가 예기치 않은 에러가 발생하였읍니다.</InvalidRelation>
+		<InvalidLotBalance>열린 거래 수량에 예기치 못한 에러가 발생 했읍니다.</InvalidLotBalance>
+		<ExceedAssigningLotBalance>지급요구가 할당량을 초과 하였읍니다</ExceedAssigningLotBalance>
+		<OrderLotExceedMaxLot>오더가 계좌의 승인된 거래량을 초과 하였읍니다</OrderLotExceedMaxLot>
+		<OpenOrderNotExists>부합하는 개방오더가 존재하지 않읍니다. 오더가 취소 되었읍니다</OpenOrderNotExists>
+		<AssigningOrderNotExists>할당된 오더가 더 이상 존재하지 않읍니다. 오더가 취소 되었읍니다</AssigningOrderNotExists>
+		<TransactionNotExists>이체 과정에 예기치 못한 에러가 발생 했읍니다</TransactionNotExists>
+		<TransactionCannotBeCanceled>오더가 취소 될수 없읍니다</TransactionCannotBeCanceled>
+		<TransactionCannotBeExecuted>예상치 못한 에러가 발생 했읍니다, 오더를 실행하는데 실패 했읍니다</TransactionCannotBeExecuted>
+		<OrderCannotBeDeleted>오더가 취소 될수 없읍니다</OrderCannotBeDeleted>
+		<IsNotAccountOwner>계좌를 거래하기위해 승인되지 않은 사용자 입니다 </IsNotAccountOwner>
+		<InvalidOrderRelation>분실된 개방 오더로 인하여 시스템이 오더를 실행하는데 실패 하였읍니다</InvalidOrderRelation>
+		<TradePolicyIsNotActive>계좌의 거래 방침이 활성화 되지 않았읍니다. 상세한 사항은 고객 서비스에 문의 하세요!</TradePolicyIsNotActive>
+		<SetPriceTooCloseToMarket>시장가에 너무 근접하여서 오더가 거절 되었읍니다</SetPriceTooCloseToMarket>
+		<HasNoQuotationExists>There is no price available for the execution, please try again</HasNoQuotationExists>
+		<AccountIsInAlerting>The Account is in margin call position, the order was rejected</AccountIsInAlerting>
+		<CustomerCanceled>오더가 고객에 의하여 취소 되었읍니다</CustomerCanceled>
+		<StopAddPositionNotAllowed>The stop order was rejected as it was not placed to minimize the position exposure.</StopAddPositionNotAllowed>
+		<LmtMooMocNewPositionNotAllowed>The instruction is allowed for liquiation only!</LmtMooMocNewPositionNotAllowed>
+		<TransactionCannotBeBooked>Transaction Can not Be Booked!</TransactionCannotBeBooked>
+		<OnlySptMktIsAllowedForPreCheck>Only Spt Mkt Is Allowed For PreCheck</OnlySptMktIsAllowedForPreCheck>
+		<InvalidTransactionPhase>Invalid Transaction Phase</InvalidTransactionPhase>
+		<ExecuteTimeMustBeInTradingTime>Order's executing time must be in the trading time.</ExecuteTimeMustBeInTradingTime>
+		<DatabaseDataIntegralityViolated>The data of the datebase is not integral.</DatabaseDataIntegralityViolated>
+		<TransactionExpired>Order has expired.</TransactionExpired>
+		<FillOnMarketCloseNotAllowed>The order didn't allowed to deal on market closed time.</FillOnMarketCloseNotAllowed>
+		<FailedToCancel>선택된 오더를 취소 하는데 실패 했읍니다, 다시 시도 하세요!</FailedToCancel>
+		<InstrumentSelectlblSelectInstrument>표시를 위한 항목을 선택 하십시요</InstrumentSelectlblSelectInstrument>
+		<InstrumentSelectbtnUp>위로</InstrumentSelectbtnUp>
+		<InstrumentSelectbtnDown> 아래로</InstrumentSelectbtnDown>
+		<InstrumentSelectbtnSynchronize>동시 호가</InstrumentSelectbtnSynchronize>
+		<InstrumentSelectbtnOk>O K</InstrumentSelectbtnOk>
+		<InstrumentSelectbtnExit>종료</InstrumentSelectbtnExit>
+		<LockAccountlblLockAccountPrompt>대리인 운용을 위하여 계좌를 선택 하세요</LockAccountlblLockAccountPrompt>
+		<LockAccountbtnSelectAll>전부 선택</LockAccountbtnSelectAll>
+		<LockAccountbtnClearAll>전부 지움</LockAccountbtnClearAll>
+		<LockAccountbtnSubmit>제출</LockAccountbtnSubmit>
+		<MenuimgInstrumentSelect> 거래도구의 선택</MenuimgInstrumentSelect>
+		<MenuimgOpenChangePassword> 사용자의 패스워드를 바꾸세요</MenuimgOpenChangePassword>
+		<MenuimgShowAnalyticChart>실시간/변경도</MenuimgShowAnalyticChart>
+		<MenuimgOpenChat>메시지</MenuimgOpenChat>
+		<MenuimgOpenReportSelect>보고서</MenuimgOpenReportSelect>
+		<MenuimgLockAccount>폐쇄 구좌</MenuimgLockAccount>
+		<MenuimgMargin>이윤</MenuimgMargin>
+		<MenuimgClearAll> 취소된 오더를 전부 지움</MenuimgClearAll>
+		<MenuimgDownload>Document to download</MenuimgDownload>
+		<MenuimgHelp>유선상 도움</MenuimgHelp>
+		<MenuimgReset>Refresh</MenuimgReset>
+		<MenuimgOpenLogOut>거래 시스템을 종료 합니다</MenuimgOpenLogOut>
+		<OpenContractlblQuantityA>단가</OpenContractlblQuantityA>
+		<OpenContractbtnLiquidation>청산</OpenContractbtnLiquidation>
+		<OpenContractlblExecutePriceA>금액</OpenContractlblExecutePriceA>
+		<OpenContractlblAccountCodeA>계좌 번호</OpenContractlblAccountCodeA>
+		<OpenContractlblContractSizeA>크기</OpenContractlblContractSizeA>
+		<OpenContractlblExecutedTimeA>실행 시간</OpenContractlblExecutedTimeA>
+		<OpenContractlblCurrencyA>금액</OpenContractlblCurrencyA>
+		<OpenContractlblReferencePriceA>참고 가격</OpenContractlblReferencePriceA>
+		<OpenContractlblTradePLFloatA>변동 자산</OpenContractlblTradePLFloatA>
+		<OpenContractlblInterestPLFloatA>변동 이자</OpenContractlblInterestPLFloatA>
+		<OpenContractlblStoragePLFloatA>Float Storage</OpenContractlblStoragePLFloatA>
+		<OpenContractbtnAssignOrder>할당</OpenContractbtnAssignOrder>
+		<OpenContractlblIsBuyA>매입/매도</OpenContractlblIsBuyA>
+		<OpenContractbtnExit>종료</OpenContractbtnExit>
+		<OpenContractlblOrderContract>계약 개설</OpenContractlblOrderContract>
+		<OrderAssignlblOrderCodeA>지시 코드</OrderAssignlblOrderCodeA>
+		<OrderAssignlblExecuteTimeA>실행 시간</OrderAssignlblExecuteTimeA>
+		<OrderAssignlblIsBuyA>매입/매도</OrderAssignlblIsBuyA>
+		<OrderAssignlblPriceA>금액</OrderAssignlblPriceA>
+		<OrderAssignlblLotBalanceA>랏 볼</OrderAssignlblLotBalanceA>
+		<OrderAssignlblBalanceA>차감 잔액</OrderAssignlblBalanceA>
+		<OrderAssignlblEquityA>동등</OrderAssignlblEquityA>
+		<OrderAssignlblACTotalLotsA>총 품목</OrderAssignlblACTotalLotsA>
+		<OrderAssignlblLiqLotsA>청산</OrderAssignlblLiqLotsA>
+		<OrderAssignbtnReset>재설치</OrderAssignbtnReset>
+		<OrderAssignbtnSubmit>제출(F8)</OrderAssignbtnSubmit>
+		<OrderAssignbtnExit>종료</OrderAssignbtnExit>
+		<OrderLiquidationlblPriceA>금액</OrderLiquidationlblPriceA>
+		<OrderLiquidationlblAccountCodeA>계좌 번호</OrderLiquidationlblAccountCodeA>
+		<OrderLiquidationlblBalanceA>차감 잔액</OrderLiquidationlblBalanceA>
+		<OrderLiquidationlblEquityA>동등</OrderLiquidationlblEquityA>
+		<OrderLiquidationlblACTotalLotsA>품목</OrderLiquidationlblACTotalLotsA>
+		<OrderLiquidationbtnSubmit>제출(F8)</OrderLiquidationbtnSubmit>
+		<OrderLiquidationbtnExit>종료</OrderLiquidationbtnExit>
+		<OrderLMTlblOrderTypeA>형태</OrderLMTlblOrderTypeA>
+		<OrderLMTlblAccountCodeA>계좌</OrderLMTlblAccountCodeA>
+		<OrderLMTlblIsBuyA>매입/매도</OrderLMTlblIsBuyA>
+		<OrderLMTlblSetPriceA>금액</OrderLMTlblSetPriceA>
+		<OrderLMTlblLot>품목</OrderLMTlblLot>
+		<OrderLMTlblBalanceA>차감 잔액</OrderLMTlblBalanceA>
+		<OrderLMTlblEquityA>동등</OrderLMTlblEquityA>
+		<OrderLMTbtnSetOCO>O C O</OrderLMTbtnSetOCO>
+		<OrderLMTbtnReset>재설치</OrderLMTbtnReset>
+		<OrderLMTbtnSubmit>제출(F8)</OrderLMTbtnSubmit>
+		<OrderLMTbtnExit>종료</OrderLMTbtnExit>
+		<OrderMultiDQlblPriceA>금액</OrderMultiDQlblPriceA>
+		<OrderMultiDQlblAccountCodeA>계좌 번호</OrderMultiDQlblAccountCodeA>
+		<OrderMultiDQlblBalanceA>차감 잔액</OrderMultiDQlblBalanceA>
+		<OrderMultiDQlblEquityA>동등</OrderMultiDQlblEquityA>
+		<OrderMultiDQlblACTotalLotsA>총 품목</OrderMultiDQlblACTotalLotsA>
+		<OrderMultiDQlblDQQuoteLotA> 호가 잔량</OrderMultiDQlblDQQuoteLotA>
+		<OrderMultiDQbtnReset>재설치</OrderMultiDQbtnReset>
+		<OrderMultiDQbtnSubmit>제출(F8)</OrderMultiDQbtnSubmit>
+		<OrderMultiDQbtnExit>종료</OrderMultiDQbtnExit>
+		<OrderPlacementbtnConfirm>확정(F8)</OrderPlacementbtnConfirm>
+		<OrderPlacementbtnCancel> 취소</OrderPlacementbtnCancel>
+		<OrderPlacementlblOpenOrderA>거래 개설</OrderPlacementlblOpenOrderA>
+		<OrderSingleDQlblAccountCodeA>계좌</OrderSingleDQlblAccountCodeA>
+		<OrderSingleDQlblLot>품목</OrderSingleDQlblLot>
+		<OrderSingleDQlblDQMaxMove>Slide Pips</OrderSingleDQlblDQMaxMove>
+		<OrderSingleDQbtnBuy>매입</OrderSingleDQbtnBuy>
+		<OrderSingleDQbtnSell>매도</OrderSingleDQbtnSell>
+		<OrderSingleDQbtnReset>재설치</OrderSingleDQbtnReset>
+		<OrderSingleDQbtnExit>종료</OrderSingleDQbtnExit>
+		<UnconfirmedInstructionlblUnconfirmedInstruction> 승인되지 않은 지시 입니다</UnconfirmedInstructionlblUnconfirmedInstruction>
+		<UnconfirmedInstructionlblExecutePriceA>금액</UnconfirmedInstructionlblExecutePriceA>
+		<UnconfirmedInstructionlblIsBuyA>매입/매도</UnconfirmedInstructionlblIsBuyA>
+		<UnconfirmedInstructionlblQuantityA>량</UnconfirmedInstructionlblQuantityA>
+		<UnconfirmedInstructionlblAccountCodeA>계좌 번호</UnconfirmedInstructionlblAccountCodeA>
+		<UnconfirmedInstructionlblOrderTypeA>형태</UnconfirmedInstructionlblOrderTypeA>
+		<UnconfirmedInstructionlblTradeOptionA>선택 매매권</UnconfirmedInstructionlblTradeOptionA>
+		<UnconfirmedInstructionlblSubmitTimeA>보낸 시간</UnconfirmedInstructionlblSubmitTimeA>
+		<UnconfirmedInstructionlblEndTimeA>시간 종료</UnconfirmedInstructionlblEndTimeA>
+		<UnconfirmedInstructionlblEndTimeA2>실행 시간</UnconfirmedInstructionlblEndTimeA2>
+		<UnconfirmedInstructionlblCommissionSumA>수수료</UnconfirmedInstructionlblCommissionSumA>
+		<UnconfirmedInstructionlblLevySumA>징수</UnconfirmedInstructionlblLevySumA>
+		<UnconfirmedInstructionlblTradePLA>자산</UnconfirmedInstructionlblTradePLA>
+		<UnconfirmedInstructionlblInterestPLA>이자</UnconfirmedInstructionlblInterestPLA>
+		<UnconfirmedInstructionlblStoragePLA>Storage</UnconfirmedInstructionlblStoragePLA>
+		<UnconfirmedInstructionlblPeerOrderCodesA>위치 공개</UnconfirmedInstructionlblPeerOrderCodesA>
+		<UnconfirmedInstructionlblMessageA>비고</UnconfirmedInstructionlblMessageA>
+		<UnconfirmedInstructionbtnCancellation> 취소</UnconfirmedInstructionbtnCancellation>
+		<UnconfirmedInstructionbtnClearFromList>지움</UnconfirmedInstructionbtnClearFromList>
+		<UnconfirmedInstructionbtnExit>종료</UnconfirmedInstructionbtnExit>
+		<MenuPageLockAccountAlert0> 대리권은 인정되지 않읍니다!</MenuPageLockAccountAlert0>
+		<MenuPageLockAccountAlert1>선택하신 계좌를 운용하는데 실패 했읍니다!</MenuPageLockAccountAlert1>
+		<MenupageOpenReportSelectAlert0>로깅중에 초기화 하는데 실패 하였읍니다, 다시 시도 하세요!</MenupageOpenReportSelectAlert0>
+		<MenupageInstrumentSelectAlert0>거래 도구의 선택을 구동 하는데 실패 했읍니다!</MenupageInstrumentSelectAlert0>
+		<OrderAssignPageFillAccount0>이 구좌는 현재 사용되지 않읍니다!</OrderAssignPageFillAccount0>
+		<OrderLiquidationPageFillAccountAlert0>이 구좌는 현재 사용되지 않읍니다!</OrderLiquidationPageFillAccountAlert0>
+		<OrderLMTPagetextLot_OnblurAlert0> 허용 거래량 초과</OrderLMTPagetextLot_OnblurAlert0>
+		<OrderLMTPagetextLot_OnblurAlert1>청산을 위해 기입하신 수량이 수정 됩니다!</OrderLMTPagetextLot_OnblurAlert1>
+		<OrderLMTPageorderValidAlert0>계좌 형태를 선택 하십시요!</OrderLMTPageorderValidAlert0>
+		<OrderLMTPageorderValidAlert1>금액란을 공란으로 두시면 안됩니다!</OrderLMTPageorderValidAlert1>
+		<OrderLMTPageorderValidAlert2>The set price is too close to the market, please make it</OrderLMTPageorderValidAlert2>		
+		<OrderLMTPageorderValidAlert22>points away from the market!</OrderLMTPageorderValidAlert22>
+		<OrderLMTPageorderValidAlert3>The set price is too far away from the market, please modify the set price and submit again</OrderLMTPageorderValidAlert3>
+		<OrderLMTPageorderValidAlert4>새 명령을 종료 하는것은 장애시에만 가능합니다. 품목 수량 또는 확정 금액을 확인하세요.</OrderLMTPageorderValidAlert4>
+		<OrderLMTPageorderValidAlert5>새 명령을 종료 하는것은 장애시에만 가능합니다. 품목 수량 또는 확정 금액을 확인하세요.</OrderLMTPageorderValidAlert5>
+		<OrderLMTPageorderValidAlert6>거래량은 반드시 '0 보다 커야 합니다</OrderLMTPageorderValidAlert6>
+		<OrderLMTPageorderValidAlert7>거래량과 청산량이 일치하지 않읍니다. 다시 입력해 주세요!</OrderLMTPageorderValidAlert7>
+		<OrderLMTPageorderValidAlert8>Set price is between the current market bid/ask prices, please modify the price!</OrderLMTPageorderValidAlert8>
+		<OrderLMTPageorderValidAlertBetter>Limit Order for new position is accepted for hedging only.</OrderLMTPageorderValidAlertBetter>
+		<OrderLMTPagebuttonSubmit_OnclickAlert0>이 구좌는 현재 사용되지 않읍니다!</OrderLMTPagebuttonSubmit_OnclickAlert0>
+		<OrderMultiDQPageFillAccountAlert0>이 구좌는 현재 사용되지 않읍니다!</OrderMultiDQPageFillAccountAlert0>
+		<OrderOCOPageorderValidAlert3>거래 옵션이 거부 되었읍니다!</OrderOCOPageorderValidAlert3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert0>거래량이 계좌한도를 초과 하였읍니다</OrderOperateOrderOperateAccountGrid_ValidateEditAlert0>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert2>총량이 대리인 신청한도를 초과 하였읍니다</OrderOperateOrderOperateAccountGrid_ValidateEditAlert2>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert3>청산을 위해 기입하신 수량이 수정 됩니다!</OrderOperateOrderOperateAccountGrid_ValidateEditAlert3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert5>The range should not greater than</OrderOperateOrderOperateAccountGrid_ValidateEditAlert5>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert6>pips</OrderOperateOrderOperateAccountGrid_ValidateEditAlert6>
+		<OrderOperateOrderValidAlert0>총량이 부를수 있는 량보다 큽니다</OrderOperateOrderValidAlert0>
+		<OrderOperateOrderValidAlert1>정보가 충분치 않읍니다. 점검 바랍니다 !</OrderOperateOrderValidAlert1>
+		<OrderOperateOutstandingOrderGridValidateEditPrompt0> 수용될수 없는 거래량 입니다</OrderOperateOutstandingOrderGridValidateEditPrompt0>
+		<OrderOperateOutstandingOrderGridValidateEditPrompt1>청산을 위한 전 수량이 유효수량을 초과 합니다!</OrderOperateOutstandingOrderGridValidateEditPrompt1>
+		<OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert0> 수용될수 없는 거래량 입니다</OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert0>
+		<OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert1>총량이 신청한도를 초과 하였읍니다</OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert1>
+		<TradeConsoleCancelLMTOrderAlert0>거래 시간이 유효하지 않읍니다!</TradeConsoleCancelLMTOrderAlert0>
+		<TradeConsoleInitializeGridAlert0>에러 : 칸 자산이 유효 합니다, 고객 서비스에 문의 하세요</TradeConsoleInitializeGridAlert0>
+		<TradeConsolePromptIsMustAssignOrderAlert0>오더 상에 있는 대리 구좌 승인이 필요 합니다!</TradeConsolePromptIsMustAssignOrderAlert0>
+		<TradeConsoleAnswerAlert0>호가 진행중 예기치 못한 에러가 발생하였읍니다. 이러한 문제가 반복되면 고객서비스에 문의 하세요</TradeConsoleAnswerAlert0>
+		<TradeConsoleGetUpdateAccountLockResultAlert0>대리권/주권이 업 데이트 되었읍니다</TradeConsoleGetUpdateAccountLockResultAlert0>
+		<TradeConsoleGetUpdateAccountLockResultAlert1>대리권/주권을 업 데이트 하는데 실패 했읍니다.</TradeConsoleGetUpdateAccountLockResultAlert1>
+		<TradeConsoleCancelAlert0>오더를 취소 하다가 오류가 발생 했읍니다. 계속 문제가 발생하면 고객센터로 도움을 요청 하십시요!</TradeConsoleCancelAlert0>
+		<TradeConsoleOrderLiquidationOperateAlert0>유효하지 않은 시간 구성 입니다. 다시 시도 하세요!</TradeConsoleOrderLiquidationOperateAlert0>
+		<TradeConsoleUpdateAlert0>예기치 못한 엎 데이트 에러가 발생 했읍니다, 다시 시도 하십시요!</TradeConsoleUpdateAlert0>
+		<TradeConsoleIsValidOperateOrderTimePrompt0>유효하지 않은 오더시간 설정 입니다, 구동이 실패 하였읍니다.</TradeConsoleIsValidOperateOrderTimePrompt0>
+		<TradeConsoleIsValidOperateOrderTimePrompt1>마지막 오더 수용시간 초과로 오더가 거부 되었읍니다.</TradeConsoleIsValidOperateOrderTimePrompt1>
+		<TradeConsoleIsValidOperateOrderTimePrompt2>명령 수용 시간으로 인해 명령이 거부 되었읍니다.</TradeConsoleIsValidOperateOrderTimePrompt2>
+		<TradeConsoleIsValidOperateOrderTimePrompt3>명령 수용 시간으로 인해 명령이 거부 되었읍니다.</TradeConsoleIsValidOperateOrderTimePrompt3>
+		<TradeConsoleIsValidOperateOrderTimePrompt4>거래시간초과로 인하여 오더가 거부 되었읍니다!</TradeConsoleIsValidOperateOrderTimePrompt4>
+		<TradeConsoleIsValidOperateOrderTimePrompt5>도구가 거래에 합당 하지 않거나 지금 거래되고 있지 않읍니다!</TradeConsoleIsValidOperateOrderTimePrompt5>
+		<TradeConsoleGetOperateHtmlPageAlert2>스팟 오더를 넣기위한 계좌가 유효 하지 않읍니다</TradeConsoleGetOperateHtmlPageAlert2>
+		<TradeConsoleGetOperateHtmlPageAlert3>선택하신 오더 형태가 도구에 합당하지 않읍니다!</TradeConsoleGetOperateHtmlPageAlert3>
+		<OperatingDQOrderPrompt>스팟을 위한 오더 가동을 시도 하고 계십니다!</OperatingDQOrderPrompt>
+		<OperateDQOrderPrompt>동시에 여러가지 오더를 문의 하실 수 없읍니다</OperateDQOrderPrompt>
+		<AccountLockButtonSubmit_OnclickAlert0>거래 계좌를 선택 하십시요!</AccountLockButtonSubmit_OnclickAlert0>
+		<OrderPlacementbuttonConfirm_OnclickAlert0>금액 책정시간이 지났읍니</OrderPlacementbuttonConfirm_OnclickAlert0>
+		<OrderPlacementbuttonConfirm_OnclickAlert2>도구가 거래에 합당 하지 않거나 지금 거래되고 있지 않읍니다!</OrderPlacementbuttonConfirm_OnclickAlert2>
+		<OrderSingleDQPageFillAccountAlert0>구좌가 존재하지 않읍니다</OrderSingleDQPageFillAccountAlert0>
+		<OrderSingleDQPageorderValidAlert0>금액란을 공란으로 두시면 안됩니다!</OrderSingleDQPageorderValidAlert0>
+		<OrderSingleDQPageorderValidAlert1>거래량은 반드시'0' 보다 커야 합니다, 다시 입력 해 주세요!</OrderSingleDQPageorderValidAlert1>
+		<OrderSingleDQPagetextLot_OnblurAlert0>거래량이 장부상의 제한을 넘었읍니다</OrderSingleDQPagetextLot_OnblurAlert0>
+		<OrderSingleDQPagetextLot_OnblurAlert2>총량이 호가 한계를 넘었읍니다 </OrderSingleDQPagetextLot_OnblurAlert2>
+		<OrderSingleDQPagetextLot_OnblurAlert3>청산을 위해 기입하신 수량이 수정 됩니다!</OrderSingleDQPagetextLot_OnblurAlert3>
+		<ReportContainerpageOnlloadAlert0>요구하신 지시를 로딩중 에러가 발생 했읍니다, 다시 시도 하세요!</ReportContainerpageOnlloadAlert0>
+		<ReportPagebtnPrint_OnclickAlert0>이 구좌는 현재 사용되지 않읍니다!</ReportPagebtnPrint_OnclickAlert0>
+		<ReportPagebtnPrint_OnclickAlert1>계좌나 날짜를 선택 하십시요!</ReportPagebtnPrint_OnclickAlert1>
+		<ReportPagebtnPrint_OnclickAlert3>이 구좌는 현재 사용되지 않읍니다!</ReportPagebtnPrint_OnclickAlert3>
+		<ReportPagebtnPrint_OnclickAlert4>계좌나 날짜를 선택 하십시요!</ReportPagebtnPrint_OnclickAlert4>
+		<UnconfirmedInstructionPageBtnCancellation_OnclickAlert0>선택하신 오더를 취소하기위한 지시가 접수 되었읩니다!</UnconfirmedInstructionPageBtnCancellation_OnclickAlert0>
+		<UnconfirmedInstructionPageBtnCancellation_OnclickAlert1>선택된 오더를 취소 하는데 실패 했읍니다, 다시 시도 하세요!</UnconfirmedInstructionPageBtnCancellation_OnclickAlert1>
+		<WebServiceGetInitDataAlert0>분리</WebServiceGetInitDataAlert0>
+		<WebServiceQuoteAlert0>금액을 넣을때 예기치 않은 에러가 있읍니다, 다시 시도 하세요!</WebServiceQuoteAlert0>
+		<WebServiceCancelLMTOrderAlert0>오더를 취소 하다가 오류가 발생 했읍니다. 계속 문제가 발생하면 고객센터로 도움을 요청 하십시요!</WebServiceCancelLMTOrderAlert0>
+		<WebServiceUpdateAccountLockAlert0>구좌를 업데이트 하다가 에러가 발생 했읍니다, 다시 시도 하세요!</WebServiceUpdateAccountLockAlert0>
+		<WebServiceGetInstrumentForSettingAlert0>거래 데이터를 로딩중 에러가 발생하였읍니다. 다시 시도 하세요</WebServiceGetInstrumentForSettingAlert0>
+		<WebServiceGetInstrumentForSettingAlert1>거래도구가 없읍니다, 고객 센터에 문의 하세요!</WebServiceGetInstrumentForSettingAlert1>
+		<WebServiceUpdateInstrumentSettingAlert0>선택하신 도구를 업 데이트 중 에러가 발생 했읍니다, 다시 시도 하세요!</WebServiceUpdateInstrumentSettingAlert0>
+		<WebServiceGetAccountsAlert0>구좌 정보를 로딩 하던중 에러가 발생 했읍니다, 다시 시도 하세요!</WebServiceGetAccountsAlert0>
+		<WebServiceGetInstrumentAlert0>도구를 위해 데이터를 로딩중에 에러가 발생하였읍니다 다시 시도 하세요!</WebServiceGetInstrumentAlert0>
+		<WebServiceDeleteMessageAlert0>선택된 메시지를 지우지 못했흡니다, 다시 시도 하세요!</WebServiceDeleteMessageAlert0>
+		<WebServiceGetCurrencyRateByAccountIDAlert0>환율 정보를 로딩 하다가 에러가 발생 하였읍니다. 다시 시도 하세요</WebServiceGetCurrencyRateByAccountIDAlert0>
+		<WebServicePlaceMessage0>서버에 거래 지시를 접수 하다가 에러가 발생 했읍니다, 다시 시도 하세요!</WebServicePlaceMessage0>
+		<WebServiceAssignMessage0> 해당 계좌에 오더를 할당시 에러가 발생 했읍니다, 다시 시도 하세요!</WebServiceAssignMessage0>
+		<WebServiceCancelLMTOrderMessage0>오더를 취소 하다가 오류가 발생 했읍니다. 계속 문제가 발생하면 고객센터로 도움을 요청 하십시요!</WebServiceCancelLMTOrderMessage0>
+		<WebServiceUpdateAccountLockMessage0>대리권/주권을 업 데이트 하는데 실패 했읍니다.</WebServiceUpdateAccountLockMessage0>
+		<WebServiceCancelLMTOrderMessage1>시스템으로 부터 응답을 기다리고 있읍니다</WebServiceCancelLMTOrderMessage1>
+		<WebServiceGetMessagesAlert0>시스템으로 부터 메시지를 통과 시키려는 중에 에러가 발생 하였읍니다, 나중에 다시 시도 하세요!</WebServiceGetMessagesAlert0>
+		<WebServiceGetCommandsAlert0>과 패스워드 변경으로 인해 시스템밖에서 사인 되었읍니다:</WebServiceGetCommandsAlert0>
+		<WebServiceGetCommandsAlert1>- 다른곳에서 사인 하실</WebServiceGetCommandsAlert1>
+		<WebServiceGetCommandsAlert2>- 서버가 연결을 리프레쉬 하고 있읍니다!</WebServiceGetCommandsAlert2>
+		<DefaultPagePrompt0>구성요소를 설치하고 있읍니다.</DefaultPagePrompt0>
+		<DefaultPagePrompt1>데이터를 로딩하고 있읍니다</DefaultPagePrompt1>
+		<DefaultPagePrompt2>환영 합니다!</DefaultPagePrompt2>
+		<DefaultPagePrompt3>시스템을 초기화 하고 있읍니다</DefaultPagePrompt3>
+	
+</Language>    
+	<AccountLockLanguage>
+		<ID></ID>
+		<Select>선택</Select>
+		<Code>코드</Code>
+		<AgentID></AgentID>
+		<PreviousLockedStatus></PreviousLockedStatus>
+	</AccountLockLanguage>
+	<AccountLanguage>
+		<ID></ID>
+		<Select>*</Select>
+		<AccountCurrencyID></AccountCurrencyID>
+		<CurrencyAccountID></CurrencyAccountID>
+		<Code>코드</Code>
+		<CurrencyCode></CurrencyCode>
+		<Balance></Balance>
+		<Necessary></Necessary>
+		<Equity></Equity>
+		<UnclearAmount></UnclearAmount>
+		<CreditAmount></CreditAmount>
+		<Ratio></Ratio>
+		<AlertLevel></AlertLevel>
+	</AccountLanguage>
+	<AccountSingleLanguage>
+		<ID></ID>
+		<Code>코드</Code>
+		<CurrencyCode>금액</CurrencyCode>
+		<Balance>차감 잔액</Balance>
+		<Necessary> 필요한</Necessary>
+		<TradePLFloat>변동</TradePLFloat>
+		<Equity>동등</Equity>
+		<UnclearAmount>Unclear Amount</UnclearAmount>
+		<CreditAmount>Credit Amount</CreditAmount>
+		<Ratio>Ratio</Ratio>
+		<AlertLevel> 메모</AlertLevel>
+	</AccountSingleLanguage>
+	<InstrumentLanguage>
+		<ID></ID>
+		<Select>*</Select>
+		<Sequence></Sequence>
+		<Description> 종목</Description>
+		<Bid>매입</Bid>
+		<Ask>문의</Ask>
+		<Timestamp>시간</Timestamp>
+		<Last>마지막</Last>
+		<High> 높은</High>
+		<Low> 낮음</Low>
+		<Open>공개</Open>
+		<PrevClose>종가</PrevClose>
+		<Change>잔액</Change>
+	</InstrumentLanguage>
+	<OrderLanguage>
+		<ID></ID>
+		<AccountID></AccountID>
+		<Phase> 상태</Phase>
+		<SubmitTime>시간</SubmitTime>
+		<AccountCode>계좌</AccountCode>
+		<InstrumentID></InstrumentID>
+		<InstrumentCode> 종목</InstrumentCode>
+		<Lot>품목</Lot>
+		<IsOpen>N/C</IsOpen>
+		<IsBuy>매입/매도</IsBuy>
+		<SetPrice>금액</SetPrice>
+		<OrderType>형태</OrderType>
+		<PeerOrderCodes></PeerOrderCodes>
+		<Message></Message>
+		<EndTime></EndTime>
+		<ContractSize></ContractSize>
+		<CommissionSum>수수료</CommissionSum>
+		<LevySum>징수</LevySum>
+	</OrderLanguage>
+	<OpenOrderLanguage>
+		<ID></ID>
+		<IsOpen>청산</IsOpen>
+		<AccountID></AccountID>
+		<AccountCode>계좌</AccountCode>
+		<InstrumentID></InstrumentID>
+		<InstrumentCode> 종목</InstrumentCode>
+		<ExecuteTime>시간</ExecuteTime>
+		<LotBalance>품목</LotBalance>
+		<IsBuy>매입/매도</IsBuy>
+		<ExecutePrice>금액</ExecutePrice>
+		<ContractSize></ContractSize>
+		<CurrencyCode></CurrencyCode>
+		<LivePrice>참고 가격</LivePrice>
+		<TradePLFloat>변동 자산</TradePLFloat>
+		<InterestPLFloat>이자</InterestPLFloat>
+		<StoragePLFloat>Storage</StoragePLFloat>
+		<Commission>Comm</Commission>
+	</OpenOrderLanguage>
+	<OutstandingOrderLanguage>
+		<ID></ID>
+		<Code></Code>
+		<OpenOrder>거래 개설</OpenOrder>
+		<IsBuy></IsBuy>
+		<TradeCode></TradeCode>
+		<ExecutePrice></ExecutePrice>
+		<LotBalance></LotBalance>
+		<LiqLot>청산</LiqLot>
+	</OutstandingOrderLanguage>
+	<OrderPlacementForSingleDQLanguage>
+		<AccountCode>계좌</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>품목</Lot>
+		<IsBuy>매입/매도</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>금액</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForSingleDQLanguage>
+	<OrderPlacementForMultiDQLanguage>
+		<AccountCode>계좌</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>품목</Lot>
+		<IsBuy>매입/매도</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>금액</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForMultiDQLanguage>
+	<OrderPlacementForLMTLanguage>
+		<AccountCode>계좌</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>품목</Lot>
+		<IsBuy>매입/매도</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>금액</SetPrice>
+		<TradeOption>선택 매매권</TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForLMTLanguage>
+	<OrderPlacementForDirectLiqLanguage>
+		<AccountCode>계좌</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>품목</Lot>
+		<IsBuy>매입/매도</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>금액</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForDirectLiqLanguage>
+	<OrderPlacementForAssignLanguage>
+		<AccountCode>계좌</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>품목</Lot>
+		<IsBuy>매입/매도</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>금액</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForAssignLanguage>
+	<OrderOperateAccountGridForMultiDQLanguage>
+		<ID></ID>
+		<Code>코드</Code>
+		<IsBuy>매입/매도</IsBuy>
+		<SetPrice>금액</SetPrice>
+		<Lot>품목</Lot>
+		<IsOpen></IsOpen>
+		<LiqLot></LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerOrderCodes></PeerOrderCodes>
+		<PeerCount></PeerCount>
+		<IsBuyPrevious></IsBuyPrevious>
+		<DQMaxMove>Slide Pips</DQMaxMove>
+	</OrderOperateAccountGridForMultiDQLanguage>
+	<OrderOperateLiquidationLanguage>
+		<ID></ID>
+		<Code>코드</Code>
+		<PeerOrderCodes> 오더를 개설 하세요</PeerOrderCodes>
+		<OrderID></OrderID>
+		<OrderCode></OrderCode>
+		<CurrencyCode></CurrencyCode>
+		<Balance></Balance>
+		<Equity></Equity>
+		<IsBuy>매입/매도</IsBuy>
+		<SetPrice>금액</SetPrice>
+		<ExecutePrice></ExecutePrice>
+		<LotBalance></LotBalance>
+		<LiqLot>품목</LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerCount></PeerCount>
+		<IsSplitLot></IsSplitLot>
+		<IsAutoClose></IsAutoClose>
+		<TransactionType></TransactionType>
+		<PairedOrderID></PairedOrderID>
+	</OrderOperateLiquidationLanguage>
+	<MessageLanguage>
+		<NoMessage>No Message</NoMessage>
+		<DelMesasge>Delete</DelMesasge>
+	</MessageLanguage>
+	<OrderOperateAccountGridForAssignLanguage>
+		<ID></ID>
+		<Code>코드</Code>
+		<IsBuy>매입/매도</IsBuy>
+		<SetPrice>금액</SetPrice>
+		<Lot>품목</Lot>
+		<IsOpen></IsOpen>
+		<LiqLot></LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerOrderCodes></PeerOrderCodes>
+		<PeerCount></PeerCount>
+		<IsBuyPrevious></IsBuyPrevious>
+		<DQMaxMove></DQMaxMove>
+	</OrderOperateAccountGridForAssignLanguage>
+	<InstrumentSelectLanguage>
+		<ID></ID>
+		<Select>선택</Select>
+		<Code></Code>
+		<Description>데스크</Description>
+		<Sequence></Sequence>
+	</InstrumentSelectLanguage>
+  <LogLanguage>
+    <Id></Id>
+    <Timestamp></Timestamp>
+    <LogCodeName>Log</LogCodeName>
+    <TimestampString>Time</TimestampString>
+    <Action>Action</Action>
+
+    <Placing>placing</Placing>
+    <Placed></Placed>
+    <Executed>was confirmed</Executed>
+    <Cancelled>status updated.</Cancelled>
+    <Deleted>was deleted,</Deleted>
+    <RemoveByRisk>was removed by the System</RemoveByRisk>
+    <RequestCancelLMTOrder>requests to cancel</RequestCancelLMTOrder>
+    <ExecutedAt></ExecutedAt>
+    <Set></Set>
+    <Message></Message>
+    <Message2></Message2>
+    <OrderTo>Acknowledge placement of</OrderTo>
+    <At>at</At>
+    <For>for</For>
+    <Lot></Lot>
+    <RefrenceCode>, ref code:</RefrenceCode>
+    <Send></Send>
+    <Risk>System confirmed</Risk>
+    <RefrenceCode2>, Order Code:</RefrenceCode2>
+  </LogLanguage>
+</Languages>	

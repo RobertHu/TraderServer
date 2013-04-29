@@ -1,0 +1,1366 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<Reports>
+<!--
+///////////////////////////////////////////////////////
+//
+// VSReport Report Definition File
+//
+// This file contains the following reports:
+//
+//   1) Statement2
+//
+///////////////////////////////////////////////////////
+-->
+
+  <!-- Report *** Statement2 *** -->
+  <Report>
+    <Name>Statement2</Name>
+    <DataSource>
+      <ConnectionString>Provider=SQLOLEDB.1;Persist Security Info=False;User ID=sa;Initial Catalog=iExchange_V3;Data Source=WEBSERVER</ConnectionString>
+      <RecordSource>exec dbo.P_RptStatement2 '{8a773bf2-3294-4589-82c4-6a44c9823798}','2003-11-8'</RecordSource>
+    </DataSource>
+    <Layout>
+      <Width>10845</Width>
+      <MarginLeft>800</MarginLeft>
+      <MarginTop>1000</MarginTop>
+      <MarginRight>800</MarginRight>
+      <MarginBottom>800</MarginBottom>
+      <Orientation>1</Orientation>
+      <PaperSize>41</PaperSize>
+    </Layout>
+    <Font>
+      <Name>Arial</Name>
+      <Size>12</Size>
+      <Bold>-1</Bold>
+    </Font>
+    <Groups>
+      <Group>
+        <Name>AccountCode</Name>
+        <GroupBy>AccountCode</GroupBy>
+        <Sort>1</Sort>
+      </Group>
+      <Group>
+        <Name>Type</Name>
+        <GroupBy>[Type]</GroupBy>
+        <Sort>1</Sort>
+      </Group>
+      <Group>
+        <Name>Currency</Name>
+        <GroupBy>[Currency]</GroupBy>
+        <Sort>1</Sort>
+      </Group>
+      <Group>
+        <Name>Group 4</Name>
+        <GroupBy>OrderCode</GroupBy>
+        <Sort>1</Sort>
+      </Group>
+      <Group>
+        <Name>Group 5</Name>
+        <GroupBy>OpenPrice</GroupBy>
+        <Sort>1</Sort>
+      </Group>
+    </Groups>
+    <Sections>
+      <Section>
+        <Name>Detail</Name>
+        <Height>290</Height>
+        <OnPrint>IF ([Type] = "O") THEN
+	InterestCtl.Visible = true
+	CommissionCtl.Visible = false
+	PLTradeCtl.Visible = true
+ELSEIF ([Type] = "D" )  THEN
+	InterestCtl.Visible = false
+	CommissionCtl.Visible = true
+	PLTradeCtl.Visible = false
+ELSE
+	InterestCtl.Visible = true
+	CommissionCtl.Visible = false
+	PLTradeCtl.Visible = true
+END IF 
+IF (InterestCtl.Value = 0) then
+  InterestCtl.Visible = false
+end if
+IF (CommissionCtl.Value = 0) then
+  CommissionCtl.Visible = false
+end if
+IF (PLTradeCtl.Value = 0) then
+  PLTradeCtl.Visible = false
+end if</OnPrint>
+      </Section>
+      <Section>
+        <Name>Header</Name>
+        <Type>1</Type>
+        <Visible>0</Visible>
+      </Section>
+      <Section>
+        <Name>Footer</Name>
+        <Type>2</Type>
+        <Height>570</Height>
+        <Visible>0</Visible>
+      </Section>
+      <Section>
+        <Name>Page Header</Name>
+        <Type>3</Type>
+        <Visible>0</Visible>
+      </Section>
+      <Section>
+        <Name>Page Footer</Name>
+        <Type>4</Type>
+        <Height>420</Height>
+        <Visible>0</Visible>
+      </Section>
+      <Section>
+        <Name>GroupAccount</Name>
+        <Type>5</Type>
+        <Height>2447</Height>
+        <Repeat>-1</Repeat>
+        <OnPrint>pFormat2 = "##,##0." &amp; string([AccountDecimals],"#")
+InterestCtl.Format = pFormat2
+PLTradeCtl.Format = pFormat2
+CommissionCtl.Format = pFormat2
+CommSumCtl.Format = pFormat2
+IntSumCtl.Format = pFormat2
+PLSumCtl.Format = pFormat2
+[Page] = 1</OnPrint>
+      </Section>
+      <Section>
+        <Name>GroupAccountFooter</Name>
+        <Type>6</Type>
+        <Height>4215</Height>
+        <ForcePageBreak>2</ForcePageBreak>
+        <OnFormat>pFormat2 = "##,##0." &amp; string([AccountDecimals],"#")
+DepositSum.Format = pFormat2
+PreBalanceSum.Format = pFormat2
+AdjustmentSum.Format = pFormat2
+CommissionCtrlSum.Format = pFormat2
+InterestCtrlSum.Format = pFormat2
+PLTradeCtrlSum.Format = pFormat2
+EndBalanceCtl.Format = pFormat2
+EquitySum.Format = pFormat2
+FInterestCtlSum.Format = pFormat2
+FPLTradeCtlSum.Format = pFormat2
+MarginCtl.Format = pFormat2
+MarginNCtl.Format = pFormat2
+MarginDCtl1.Format = pFormat2
+MarginDCtl.Format = pFormat2</OnFormat>
+        <OnPrint>PAGE = 1
+if (([EndBalance]+[FInterestSum] + [FPLTradeSum]) &lt; [MarginNight] * [AlertLevel1] and [MarginNight] &lt;&gt; 0) then
+   MarginDCtl.ForeColor=vbRed
+   MarginNLbl.Text="Additional Margin Required: "
+else
+   MarginDCtl.ForeColor=vbBlack
+   MarginNLbl.Text="Overnight Available Margin: "
+end if
+
+if (([EndBalance]+[FInterestSum] + [FPLTradeSum]) &lt; [Margin] * [AlertLevel1] and [Margin] &lt;&gt; 0) then
+   MarginNCtl.ForeColor=vbRed
+   MarginDLbl.Text="Day Margin in Short:"
+else
+   MarginNCtl.ForeColor=vbBlack
+   MarginDLbl.Text="Day Trade Available Margin:"
+end if</OnPrint>
+      </Section>
+      <Section>
+        <Name>GroupTypeHeader</Name>
+        <Type>7</Type>
+        <Height>1035</Height>
+        <OnPrint>TypeCtl.Visible = false
+TypeCtl1.Visible = false
+TypeCtl2.Visible = false
+IF ([Type]="O") THEN
+	TypeCtl2.Visible = true
+ELSE
+	IF ([Type]="D") THEN
+		TypeCtl.Visible = true
+	ELSE	
+		TypeCtl1.Visible = true
+	END IF	
+END IF
+
+
+InterestLbl.Visible = false
+PLTradeLbl.Visible = false
+PLTradeLbl1.Visible = false
+PLTradeLbl2.Visible = false
+IF ([Type] = "O") THEN
+	PLTradeLbl.Visible = false
+        PLTradeLbl1.Visible = false
+        PLTradeLbl2.Visible = true
+ELSEIF ([Type] = "D" )  THEN
+	PLTradeLbl.Visible = true
+        PLTradeLbl1.Visible = false
+        PLTradeLbl2.Visible = false
+ELSE
+	InterestLbl.Visible = true
+	PLTradeLbl.Visible = false
+        PLTradeLbl1.Visible = true
+        PLTradeLbl2.Visible = false
+END IF
+pFormat2 = "##,##0." &amp; string([AccountDecimals],"#")
+InterestCtl.Format = pFormat2
+PLTradeCtl.Format = pFormat2
+CommSumCtl.Format = pFormat2
+IntSumCtl.Format = pFormat2
+PLSumCtl.Format = pFormat2
+
+
+OpenDateLbl1.Visible = false
+OpenDateLbl2.Visible = false
+OpenDateLbl.Visible = false
+
+if [Type]="D" OR [Type]="I"  then
+  OpenDateLbl2.Visible = true
+ 
+else
+  OpenDateLbl1.Visible = true
+end if
+
+
+
+OpenDateLbl.Visible = false
+
+if [Type]="O" then
+ 
+else
+   OpenDateLbl.Visible  = true
+end if</OnPrint>
+      </Section>
+      <Section>
+        <Name>GroupTypeFooter</Name>
+        <Type>8</Type>
+      </Section>
+      <Section>
+        <Name>GroupCurrencyHeader</Name>
+        <Type>9</Type>
+        <Height>415</Height>
+        <CanShrink>-1</CanShrink>
+        <OnPrint>GroupCurrencyFooter.Visible = not isnull([Currency])
+Detail.Visible = not isnull([Currency])
+lblNoRecord.visible = isnull([Currency])
+CurrencyLbl.Visible = false
+if isnull([Currency])=true then
+  lblNoRecord.text=IIF([Type]="O","--  No    o p e n    p o s i t i o n  --", "--  N o    t r a n s a c t i o n  --")
+else
+  CurrencyLbl.Visible = true
+end if
+line13.Visible = Detail.Visible
+line14.Visible = Detail.Visible
+line15.Visible = Detail.Visible
+line16.Visible = Detail.Visible
+line17.Visible = Detail.Visible
+line18.Visible = Detail.Visible</OnPrint>
+      </Section>
+      <Section>
+        <Name>GroupCurrencyFooter</Name>
+        <Type>10</Type>
+        <Height>395</Height>
+        <OnPrint>IF ([Type] = "O") THEN
+	IntSumCtl.Visible = true
+	CommSumCtl.Visible = false
+	PLSumCtl.Visible = true
+ELSEIF ([Type] = "D" )  THEN
+	IntSumCtl.Visible = false
+	CommSumCtl.Visible = true
+	PLSumCtl.Visible = false
+ELSE
+	IntSumCtl.Visible = true
+	CommSumCtl.Visible = false
+	PLSumCtl.Visible = true
+END IF 
+IF (IntSumCtl.Value = 0) then
+  IntSumCtl.Visible = false
+end if
+IF (CommSumCtl.Value = 0) then
+  CommSumCtl.Visible = false
+end if
+IF (PLSumCtl.Value = 0) then
+  PLSumCtl.Visible = false
+end if</OnPrint>
+      </Section>
+      <Section>
+        <Name>Group 3 Header</Name>
+        <Type>11</Type>
+        <Visible>0</Visible>
+      </Section>
+      <Section>
+        <Name>Group 3 Footer</Name>
+        <Type>12</Type>
+        <Visible>0</Visible>
+      </Section>
+      <Section>
+        <Name>Group 4 Header</Name>
+        <Type>13</Type>
+        <Visible>0</Visible>
+      </Section>
+      <Section>
+        <Name>Group 4 Footer</Name>
+        <Type>14</Type>
+        <Visible>0</Visible>
+      </Section>
+    </Sections>
+    <Fields>
+      <Field>
+        <Name>PageDesc</Name>
+        <Section>5</Section>
+        <Text>[Page]</Text>
+        <Calculated>-1</Calculated>
+        <Left>9203</Left>
+        <Top>1685</Top>
+        <Width>1380</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+      </Field>
+      <Field>
+        <Name>AccountCodeCtl</Name>
+        <Section>5</Section>
+        <Text>AccountCode</Text>
+        <Calculated>-1</Calculated>
+        <Left>915</Left>
+        <Top>2015</Top>
+        <Width>2865</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>CurrencyLbl</Name>
+        <Section>9</Section>
+        <Text>IIF(isnull([Currency]) =true,"","Currency:")</Text>
+        <Calculated>-1</Calculated>
+        <Left>60</Left>
+        <Width>3000</Width>
+        <Height>350</Height>
+        <Align>3</Align>
+        <ForeColor>8388608</ForeColor>
+        <Picture>Statement2Pic1.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>EndBalanceLbl</Name>
+        <Section>6</Section>
+        <Left>60</Left>
+        <Top>2610</Top>
+        <Width>1725</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic2.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginDLbl</Name>
+        <Section>6</Section>
+        <Left>6330</Left>
+        <Top>2610</Top>
+        <Width>2700</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic3.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>SalesCodeLbl</Name>
+        <Section>5</Section>
+        <Left>8160</Left>
+        <Top>2015</Top>
+        <Width>1290</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic4.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>DivLine1</Name>
+        <Section>9</Section>
+        <Left>30</Left>
+        <Top>385</Top>
+        <Width>10650</Width>
+        <BackStyle>1</BackStyle>
+        <BackColor>12632256</BackColor>
+        <BorderStyle>1</BorderStyle>
+        <LineWidth>20</LineWidth>
+        <LineSlant>2</LineSlant>
+      </Field>
+      <Field>
+        <Name>AccountNameCtl</Name>
+        <Section>5</Section>
+        <Text>AccountName</Text>
+        <Calculated>-1</Calculated>
+        <Left>915</Left>
+        <Top>1685</Top>
+        <Width>2865</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <WordWrap>0</WordWrap>
+        <CanGrow>-1</CanGrow>
+      </Field>
+      <Field>
+        <Name>BSCtl</Name>
+        <Section>0</Section>
+        <Text>BS</Text>
+        <Calculated>-1</Calculated>
+        <Left>10687</Left>
+        <Width>1</Width>
+        <Height>260</Height>
+        <Align>3</Align>
+        <Visible>0</Visible>
+      </Field>
+      <Field>
+        <Name>CommissionCtl</Name>
+        <Section>0</Section>
+        <Text>Commission</Text>
+        <Calculated>-1</Calculated>
+        <Left>9083</Left>
+        <Width>1500</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>CompanyNameCtl</Name>
+        <Section>5</Section>
+        <Text>CompanyName</Text>
+        <Calculated>-1</Calculated>
+        <Left>2</Left>
+        <Width>10650</Width>
+        <Height>435</Height>
+        <Align>7</Align>
+        <CanGrow>-1</CanGrow>
+      </Field>
+      <Field>
+        <Name>DateOptionCtl</Name>
+        <Section>5</Section>
+        <Text>iif ([DateOption]=1 ,"MID-DAY STATEMENT","DAILY STATEMENT")</Text>
+        <Calculated>-1</Calculated>
+        <Top>1980</Top>
+        <Width>10695</Width>
+        <Height>300</Height>
+        <Align>4</Align>
+      </Field>
+      <Field>
+        <Name>DescriptionCtl</Name>
+        <Section>0</Section>
+        <Text>Description</Text>
+        <Calculated>-1</Calculated>
+        <Left>30</Left>
+        <Top>20</Top>
+        <Width>2790</Width>
+        <Height>255</Height>
+        <Align>3</Align>
+        <CanGrow>-1</CanGrow>
+      </Field>
+      <Field>
+        <Name>InterestCtl</Name>
+        <Section>0</Section>
+        <Text>=iif([Type]="O",[FInterest],[Interest])</Text>
+        <Calculated>-1</Calculated>
+        <Left>7441</Left>
+        <Top>15</Top>
+        <Width>1500</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>LotCtl</Name>
+        <Section>0</Section>
+        <Text>Lot</Text>
+        <Calculated>-1</Calculated>
+        <Left>1315</Left>
+        <Top>15</Top>
+        <Width>570</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+      </Field>
+      <Field>
+        <Name>MarginNCtl</Name>
+        <Section>6</Section>
+        <Text>=[EndBalance]+[FInterestSum] + [FPLTradeSum] - [MarginNight]</Text>
+        <Calculated>-1</Calculated>
+        <Left>8610</Left>
+        <Top>1925</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>OpenDateCtl</Name>
+        <Section>0</Section>
+        <Text>OpenDate</Text>
+        <Calculated>-1</Calculated>
+        <Format>Date</Format>
+        <Left>5935</Left>
+        <Top>15</Top>
+        <Width>1155</Width>
+        <Height>255</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+        <Font>
+          <Italic>-1</Italic>
+        </Font>
+      </Field>
+      <Field>
+        <Name>OpenPriceCtl</Name>
+        <Section>0</Section>
+        <Text>OpenPrice</Text>
+        <Calculated>-1</Calculated>
+        <Left>4890</Left>
+        <Width>975</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+        <CanGrow>-1</CanGrow>
+        <Font>
+          <Italic>-1</Italic>
+        </Font>
+      </Field>
+      <Field>
+        <Name>PLTradeCtl</Name>
+        <Section>0</Section>
+        <Text>=iif([Type]="O",[FPLTrade],[PLTrade])</Text>
+        <Calculated>-1</Calculated>
+        <Left>9083</Left>
+        <Top>15</Top>
+        <Width>1500</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>SPriceCtl</Name>
+        <Section>0</Section>
+        <Text>=iif([BS]="LS" or [BS]="NS" ,[Price]," ")</Text>
+        <Calculated>-1</Calculated>
+        <Left>3075</Left>
+        <Top>15</Top>
+        <Width>800</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>SalesCodeCtl</Name>
+        <Section>5</Section>
+        <Text>SalesCode</Text>
+        <Calculated>-1</Calculated>
+        <Left>9083</Left>
+        <Top>1985</Top>
+        <Width>1500</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <CanGrow>-1</CanGrow>
+      </Field>
+      <Field>
+        <Name>TradeDayCtl</Name>
+        <Section>0</Section>
+        <Text>TradeDay</Text>
+        <Calculated>-1</Calculated>
+        <Format>Date</Format>
+        <Left>2000</Left>
+        <Top>15</Top>
+        <Width>1005</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+      </Field>
+      <Field>
+        <Name>TypeCtl</Name>
+        <Section>7</Section>
+        <Calculated>-1</Calculated>
+        <Top>150</Top>
+        <Width>3000</Width>
+        <Height>345</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic5.gif</Picture>
+        <PictureAlign>3</PictureAlign>
+      </Field>
+      <Field>
+        <Name>DataField</Name>
+        <Section>9</Section>
+        <Text>IIF(isnull([Currency]) =true,"",[Currency])</Text>
+        <Calculated>-1</Calculated>
+        <Left>1425</Left>
+        <Width>4005</Width>
+        <Height>350</Height>
+        <Align>3</Align>
+      </Field>
+      <Field>
+        <Name>IntSumCtl</Name>
+        <Section>10</Section>
+        <Text>sum(InterestCtl)</Text>
+        <Calculated>-1</Calculated>
+        <Left>7441</Left>
+        <Width>1500</Width>
+        <Height>285</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>PLSumCtl</Name>
+        <Section>10</Section>
+        <Text>sum(PLTradeCtl)</Text>
+        <Calculated>-1</Calculated>
+        <Left>9083</Left>
+        <Width>1500</Width>
+        <Height>285</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>lblNoRecord</Name>
+        <Section>9</Section>
+        <Top>45</Top>
+        <Width>10695</Width>
+        <Height>300</Height>
+        <Align>4</Align>
+        <BackStyle>1</BackStyle>
+        <BorderStyle>1</BorderStyle>
+        <BorderColor>16777215</BorderColor>
+        <Picture>Statement2Pic6.gif</Picture>
+        <PictureAlign>7</PictureAlign>
+      </Field>
+      <Field>
+        <Name>CommSumCtl</Name>
+        <Section>10</Section>
+        <Text>sum([Commission])</Text>
+        <Calculated>-1</Calculated>
+        <Left>9083</Left>
+        <Width>1500</Width>
+        <Height>285</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>Label</Name>
+        <Section>10</Section>
+        <Text>Total</Text>
+        <Left>30</Left>
+        <Top>45</Top>
+        <Width>1860</Width>
+        <Height>285</Height>
+        <Picture>Statement2Pic7.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+      </Field>
+      <Field>
+        <Name>Line3</Name>
+        <Section>10</Section>
+        <Width>10650</Width>
+        <BorderStyle>1</BorderStyle>
+        <LineSlant>2</LineSlant>
+        <LineSpacing>6</LineSpacing>
+      </Field>
+      <Field>
+        <Name>BSLbl</Name>
+        <Section>7</Section>
+        <Left>3105</Left>
+        <Top>570</Top>
+        <Width>800</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic8.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>DescriptionLbl</Name>
+        <Section>7</Section>
+        <Left>30</Left>
+        <Top>570</Top>
+        <Width>1260</Width>
+        <Height>345</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic9.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>InterestLbl</Name>
+        <Section>7</Section>
+        <Text>Int/Storage</Text>
+        <Left>7441</Left>
+        <Top>570</Top>
+        <Width>1500</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic10.gif</Picture>
+        <PictureAlign>7</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>LotLbl</Name>
+        <Section>7</Section>
+        <Left>850</Left>
+        <Top>570</Top>
+        <Width>900</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic11.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>OpenDateLbl</Name>
+        <Section>7</Section>
+        <Text>=iif([Type]="O" ,"", "Open Date")</Text>
+        <Calculated>-1</Calculated>
+        <Left>5935</Left>
+        <Top>570</Top>
+        <Width>1155</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic12.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>PLTradeLbl</Name>
+        <Section>7</Section>
+        <Left>9113</Left>
+        <Top>540</Top>
+        <Width>1515</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic13.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>PriceLbl</Name>
+        <Section>7</Section>
+        <Left>3945</Left>
+        <Top>570</Top>
+        <Width>800</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic14.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>TradeDayLbl</Name>
+        <Section>7</Section>
+        <Left>1820</Left>
+        <Top>570</Top>
+        <Width>1290</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic15.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>Rectangle1</Name>
+        <Section>4</Section>
+        <Left>15</Left>
+        <Width>10650</Width>
+        <BorderStyle>1</BorderStyle>
+      </Field>
+      <Field>
+        <Name>DivLine</Name>
+        <Section>4</Section>
+        <Width>10650</Width>
+        <BackStyle>1</BackStyle>
+        <BackColor>12632256</BackColor>
+        <BorderStyle>1</BorderStyle>
+        <LineWidth>20</LineWidth>
+        <LineSlant>2</LineSlant>
+      </Field>
+      <Field>
+        <Name>Label1</Name>
+        <Section>6</Section>
+        <Top>3510</Top>
+        <Width>10650</Width>
+        <Height>285</Height>
+        <Align>4</Align>
+        <Picture>Statement2Pic16.gif</Picture>
+        <PictureAlign>4</PictureAlign>
+        <CanGrow>-1</CanGrow>
+        <CanShrink>-1</CanShrink>
+        <Font>
+          <Italic>-1</Italic>
+        </Font>
+      </Field>
+      <Field>
+        <Name>Label2</Name>
+        <Section>6</Section>
+        <Top>3825</Top>
+        <Width>10650</Width>
+        <Height>285</Height>
+        <Align>4</Align>
+        <Picture>Statement2Pic17.gif</Picture>
+        <PictureAlign>4</PictureAlign>
+        <CanGrow>-1</CanGrow>
+        <CanShrink>-1</CanShrink>
+        <Font>
+          <Italic>-1</Italic>
+        </Font>
+      </Field>
+      <Field>
+        <Name>EndBalanceCtl</Name>
+        <Section>6</Section>
+        <Text>EndBalance</Text>
+        <Calculated>-1</Calculated>
+        <Left>2501</Left>
+        <Top>2610</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>EndBalanceLbl1</Name>
+        <Section>6</Section>
+        <Left>60</Left>
+        <Top>897</Top>
+        <Width>1725</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic18.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginLbl1</Name>
+        <Section>6</Section>
+        <Text>Adjustment:</Text>
+        <Left>60</Left>
+        <Top>1240</Top>
+        <Width>1725</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic19.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>AdjustmentSum</Name>
+        <Section>6</Section>
+        <Text>Adjustment</Text>
+        <Calculated>-1</Calculated>
+        <Left>2501</Left>
+        <Top>1240</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>DepositSum</Name>
+        <Section>6</Section>
+        <Text>Deposit</Text>
+        <Calculated>-1</Calculated>
+        <Left>2501</Left>
+        <Top>897</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>Line4</Name>
+        <Section>6</Section>
+        <Top>405</Top>
+        <Width>10650</Width>
+        <BorderStyle>1</BorderStyle>
+        <LineWidth>25</LineWidth>
+        <LineSlant>2</LineSlant>
+      </Field>
+      <Field>
+        <Name>EndBalanceLbl2</Name>
+        <Section>6</Section>
+        <Text>Commission:</Text>
+        <Left>60</Left>
+        <Top>1582</Top>
+        <Width>1725</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic20.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginLbl2</Name>
+        <Section>6</Section>
+        <Left>6330</Left>
+        <Top>555</Top>
+        <Width>2700</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic21.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>EquitySum</Name>
+        <Section>6</Section>
+        <Text>=[EndBalance]+[FInterestSum] + [FPLTradeSum]</Text>
+        <Calculated>-1</Calculated>
+        <Left>8610</Left>
+        <Top>555</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>CommissionCtrlSum</Name>
+        <Section>6</Section>
+        <Text>CommissionSum</Text>
+        <Calculated>-1</Calculated>
+        <Left>2501</Left>
+        <Top>1582</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>EndBalanceLbl3</Name>
+        <Section>6</Section>
+        <Left>60</Left>
+        <Top>1925</Top>
+        <Width>1725</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic22.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginLbl3</Name>
+        <Section>6</Section>
+        <Left>6330</Left>
+        <Top>897</Top>
+        <Width>2700</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic23.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>FInterestCtlSum</Name>
+        <Section>6</Section>
+        <Text>FInterestSum</Text>
+        <Calculated>-1</Calculated>
+        <Left>8610</Left>
+        <Top>897</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>InterestCtrlSum</Name>
+        <Section>6</Section>
+        <Text>InterestSum</Text>
+        <Calculated>-1</Calculated>
+        <Left>2501</Left>
+        <Top>1925</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>EndBalanceLbl4</Name>
+        <Section>6</Section>
+        <Left>60</Left>
+        <Top>2267</Top>
+        <Width>1725</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic24.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>PLTradeCtrlSum</Name>
+        <Section>6</Section>
+        <Text>PLTradeSum</Text>
+        <Calculated>-1</Calculated>
+        <Left>2501</Left>
+        <Top>2267</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginLbl4</Name>
+        <Section>6</Section>
+        <Left>6330</Left>
+        <Top>1240</Top>
+        <Width>2700</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic25.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>FPLTradeCtlSum</Name>
+        <Section>6</Section>
+        <Text>FPLTradeSum</Text>
+        <Calculated>-1</Calculated>
+        <Left>8610</Left>
+        <Top>1240</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>PrintAt</Name>
+        <Section>4</Section>
+        <Text>"Printed on " &amp; format(Now(),"Short Date")</Text>
+        <Calculated>-1</Calculated>
+        <Left>45</Left>
+        <Width>3570</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Visible>0</Visible>
+      </Field>
+      <Field>
+        <Name>EndBalanceLbl5</Name>
+        <Section>6</Section>
+        <Left>60</Left>
+        <Top>555</Top>
+        <Width>1725</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic26.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>PreBalanceSum</Name>
+        <Section>6</Section>
+        <Text>[EndBalance] + [CommissionSum]- [PLTradeSum] - [InterestSum] - [Adjustment] -[Deposit]</Text>
+        <Calculated>-1</Calculated>
+        <Left>2501</Left>
+        <Top>555</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>DivLine2</Name>
+        <Section>10</Section>
+        <Top>330</Top>
+        <Width>10650</Width>
+        <BackStyle>1</BackStyle>
+        <BackColor>12632256</BackColor>
+        <BorderStyle>1</BorderStyle>
+        <LineWidth>20</LineWidth>
+        <LineSlant>2</LineSlant>
+      </Field>
+      <Field>
+        <Name>MarginNLbl</Name>
+        <Section>6</Section>
+        <Left>6330</Left>
+        <Top>1925</Top>
+        <Width>2700</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic27.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginCtl</Name>
+        <Section>6</Section>
+        <Text>MarginNight</Text>
+        <Calculated>-1</Calculated>
+        <Left>8610</Left>
+        <Top>1582</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginLbl6</Name>
+        <Section>6</Section>
+        <Left>6330</Left>
+        <Top>1582</Top>
+        <Width>2700</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic28.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginDCtl</Name>
+        <Section>6</Section>
+        <Text>=[EndBalance]+[FInterestSum] + [FPLTradeSum] - [Margin]</Text>
+        <Calculated>-1</Calculated>
+        <Left>8610</Left>
+        <Top>2610</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginDCtl1</Name>
+        <Section>6</Section>
+        <Text>[Margin]</Text>
+        <Calculated>-1</Calculated>
+        <Left>8610</Left>
+        <Top>2267</Top>
+        <Width>2010</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>MarginDLbl1</Name>
+        <Section>6</Section>
+        <Left>6330</Left>
+        <Top>2267</Top>
+        <Width>2700</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic29.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>BPriceCtl</Name>
+        <Section>0</Section>
+        <Text>=iif([BS]="LB" or [BS]="NB" ,[Price]," ")</Text>
+        <Calculated>-1</Calculated>
+        <Left>3945</Left>
+        <Top>15</Top>
+        <Width>800</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>InterestRateCtl</Name>
+        <Section>0</Section>
+        <Text>InterestRate</Text>
+        <Calculated>-1</Calculated>
+        <Format>#,##0.#0</Format>
+        <Left>4815</Left>
+        <Top>15</Top>
+        <Width>1050</Width>
+        <Height>260</Height>
+        <Align>5</Align>
+        <Visible>0</Visible>
+      </Field>
+      <Field>
+        <Name>OpenDateLbl1</Name>
+        <Section>7</Section>
+        <Calculated>-1</Calculated>
+        <Left>4755</Left>
+        <Top>570</Top>
+        <Width>1050</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic30.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>DataField3</Name>
+        <Section>5</Section>
+        <Text>Address</Text>
+        <Calculated>-1</Calculated>
+        <Left>3870</Left>
+        <Top>810</Top>
+        <Width>3435</Width>
+        <Height>300</Height>
+        <Align>0</Align>
+        <Visible>0</Visible>
+      </Field>
+      <Field>
+        <Name>DataField1</Name>
+        <Section>6</Section>
+        <Text>"(in "&amp;AccCurrencyCode&amp;")"</Text>
+        <Calculated>-1</Calculated>
+        <Left>1811</Left>
+        <Top>105</Top>
+        <Width>2700</Width>
+        <Height>300</Height>
+        <Align>5</Align>
+      </Field>
+      <Field>
+        <Name>Line1</Name>
+        <Section>7</Section>
+        <Top>525</Top>
+        <Width>10650</Width>
+        <BorderStyle>1</BorderStyle>
+        <LineWidth>30</LineWidth>
+        <LineSlant>2</LineSlant>
+      </Field>
+      <Field>
+        <Name>Line</Name>
+        <Section>5</Section>
+        <Top>2310</Top>
+        <Width>10650</Width>
+        <BorderStyle>1</BorderStyle>
+        <LineWidth>30</LineWidth>
+        <LineSlant>2</LineSlant>
+      </Field>
+      <Field>
+        <Name>Line5</Name>
+        <Section>7</Section>
+        <Top>900</Top>
+        <Width>10650</Width>
+        <BorderStyle>1</BorderStyle>
+        <LineWidth>30</LineWidth>
+        <LineSlant>2</LineSlant>
+      </Field>
+      <Field>
+        <Name>Label3</Name>
+        <Section>5</Section>
+        <Text>=format([LastReset],"Short Date")</Text>
+        <Calculated>-1</Calculated>
+        <Left>9083</Left>
+        <Top>1400</Top>
+        <Width>1500</Width>
+        <Height>285</Height>
+        <Align>5</Align>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>SalesCodeLbl1</Name>
+        <Section>5</Section>
+        <Left>8160</Left>
+        <Top>1340</Top>
+        <Width>810</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic31.gif</Picture>
+        <PictureAlign>3</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>SalesCodeLbl2</Name>
+        <Section>5</Section>
+        <Left>8175</Left>
+        <Top>1685</Top>
+        <Width>1290</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic32.gif</Picture>
+        <PictureAlign>3</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>SalesCodeLbl3</Name>
+        <Section>6</Section>
+        <Left>30</Left>
+        <Top>90</Top>
+        <Width>1290</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic33.gif</Picture>
+        <PictureAlign>3</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>Line2</Name>
+        <Section>6</Section>
+        <Top>2955</Top>
+        <Width>10650</Width>
+        <BorderStyle>1</BorderStyle>
+        <LineWidth>25</LineWidth>
+        <LineSlant>2</LineSlant>
+      </Field>
+      <Field>
+        <Name>SalesCodeLbl4</Name>
+        <Section>5</Section>
+        <Left>30</Left>
+        <Top>1700</Top>
+        <Width>1290</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic34.gif</Picture>
+        <PictureAlign>6</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>SalesCodeLbl5</Name>
+        <Section>5</Section>
+        <Left>30</Left>
+        <Top>1950</Top>
+        <Width>840</Width>
+        <Height>300</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic35.gif</Picture>
+        <PictureAlign>3</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>OpenDateLbl2</Name>
+        <Section>7</Section>
+        <Text>=iif(( [Type]="D" OR [Type]="I" ) ,"Open Price","Ref. Price")</Text>
+        <Calculated>-1</Calculated>
+        <Left>4755</Left>
+        <Top>570</Top>
+        <Width>1005</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic36.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>PLTradeLbl1</Name>
+        <Section>7</Section>
+        <Left>9135</Left>
+        <Top>540</Top>
+        <Width>1500</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic37.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>PLTradeLbl2</Name>
+        <Section>7</Section>
+        <Left>9135</Left>
+        <Top>555</Top>
+        <Width>1500</Width>
+        <Height>345</Height>
+        <Align>5</Align>
+        <Picture>Statement2Pic38.gif</Picture>
+        <PictureAlign>8</PictureAlign>
+        <WordWrap>0</WordWrap>
+      </Field>
+      <Field>
+        <Name>TypeCtl1</Name>
+        <Section>7</Section>
+        <Calculated>-1</Calculated>
+        <Top>150</Top>
+        <Width>3000</Width>
+        <Height>345</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic39.gif</Picture>
+        <PictureAlign>3</PictureAlign>
+      </Field>
+      <Field>
+        <Name>TypeCtl2</Name>
+        <Section>7</Section>
+        <Calculated>-1</Calculated>
+        <Left>15</Left>
+        <Top>150</Top>
+        <Width>3000</Width>
+        <Height>345</Height>
+        <Align>3</Align>
+        <Picture>Statement2Pic40.gif</Picture>
+        <PictureAlign>3</PictureAlign>
+      </Field>
+    </Fields>
+  </Report>
+</Reports>

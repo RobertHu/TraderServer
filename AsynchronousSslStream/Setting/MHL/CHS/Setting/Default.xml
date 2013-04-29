@@ -1,0 +1,677 @@
+<?xml version="1.0" ?> 
+<Languages>
+	<Language>
+    <LanguageVersion>CHS</LanguageVersion>
+		<ConfirmSendEmail>确定要发邮件吗？</ConfirmSendEmail>
+		<OrderLMTlblSetPriceA2>止损价</OrderLMTlblSetPriceA2>
+		<OrderLMTlblSetPriceA3>限  价</OrderLMTlblSetPriceA3>
+		<RejectCancelLmtOrder>不被接受取消指令, 请稍后再尝试！</RejectCancelLmtOrder>
+		<TradeConsoleCancelLMTOrderAlert1>限/止损价格和市埸现价太接近，未能取消指令，请稍后再尝试！</TradeConsoleCancelLMTOrderAlert1>
+		<LoginFailedPrompt>系统不容许多人同时使用，拒绝登录！</LoginFailedPrompt>
+		<CloseWindow>关闭</CloseWindow>
+		<NoNews>没有新闻可供阅读</NoNews>
+		<AccountExpire>帐户</AccountExpire>
+		<AccountWillExpire>有效期快将完结。</AccountWillExpire>
+		<AccountExpired>有效期已完结, 不允许做交易。</AccountExpired>
+		<btnDocument>关于实际交货</btnDocument>
+		
+		<AccountMarginNotify1>以下帐户的保证金出现不足情况:</AccountMarginNotify1>
+		<AccountMarginNotify2>需要阁下的处理。</AccountMarginNotify2>
+		<InstrumentSelectOverRange>所选择的项目不能多于 </InstrumentSelectOverRange>
+		
+		<EntranceForInput>帐户:</EntranceForInput>
+		<EntranceForInput2>所进行买卖数量不符合最低要求，请再尝试！</EntranceForInput2>
+		
+		<MenuimgOption>选项</MenuimgOption>
+		<MenuimgNews>新闻</MenuimgNews>
+		<SetLMTStopCaption>限价指令</SetLMTStopCaption>
+		<GoodTillMonthDayOrder>当天有效</GoodTillMonthDayOrder>
+		<GoodTillMonthSession>有效至本节完结</GoodTillMonthSession>
+		<GoodTillMonthGTM>一个月内有效</GoodTillMonthGTM>
+		<GoodTillMonthGTF>有效至本周</GoodTillMonthGTF>
+		<GoodTillDate>有效日期</GoodTillDate>
+		<PLCaption>阁下可以在右空格内输入预期的盈亏 (+/-) 数目来设置限价指令： </PLCaption>
+		<ExistsMessage>请注意，阁下有未阅读的信息。</ExistsMessage>
+		
+		<btnGetValueFromGridCaption>获取当前行宽</btnGetValueFromGridCaption>
+		<lblFontGridCaption>选项</lblFontGridCaption>
+		<lblFontNameCaption>字体</lblFontNameCaption>
+		<lblFontSizeCaption>大小</lblFontSizeCaption>
+		<lblFomtColKeyCaption>列</lblFomtColKeyCaption>
+		<lblFontColWidthCaption>列宽</lblFontColWidthCaption>
+		<lblFontColHiddenCaption>隐藏</lblFontColHiddenCaption>
+		<lblIsCalculateFloatCaption>显示实时浮动</lblIsCalculateFloatCaption>
+		<lblLayoutCaption>保存当前布局</lblLayoutCaption>
+		<lblRowHeightCaption>行高</lblRowHeightCaption>
+		
+		<SettingAccountGrid>帐户状态</SettingAccountGrid>
+		<SettingInstrumentGrid>交易面板</SettingInstrumentGrid>
+		<SettingOpenOrderGrid>开仓列表</SettingOpenOrderGrid>
+		<SettingOrderGrid>工作列表</SettingOrderGrid>
+		<btnOKCaption>应用</btnOKCaption>
+		<btnCancelCaption>退出</btnCancelCaption>
+		
+		<DisallowTradePrompt>你没有所需的交易权限，请联系我们的客户服务部</DisallowTradePrompt>
+		
+		<ChartMINUTE1>1分钟</ChartMINUTE1>
+		<ChartMINUTE5>5分钟</ChartMINUTE5>
+		<ChartHOUR1>1小时</ChartHOUR1>
+		<ChartDAY1>1日</ChartDAY1>
+		<ChartWEEK1>1星期</ChartWEEK1>
+		<ChartMONTH1>1个月</ChartMONTH1>
+		
+		<ChartBlackBlue>黑蓝</ChartBlackBlue>
+		<ChartGreenRed>红绿</ChartGreenRed>
+		<ChartBlackWhite>黑白</ChartBlackWhite>
+		<ChartGreenWhite>绿白</ChartGreenWhite>
+		<ChartCyanGreen>蓝绿</ChartCyanGreen>
+		<ChartOceanBlue>湖水蓝</ChartOceanBlue>
+		<ChartRedBlack>红黑</ChartRedBlack>
+		<ChartRedWhite>红白</ChartRedWhite>
+		<ChartWhite>白</ChartWhite>
+		
+		<ChartCandle>蜡烛</ChartCandle>
+		<ChartLine>线</ChartLine>
+		<ChartCloseHiLo>收市高低</ChartCloseHiLo>
+		<ChartOpenCloseHiLo>开市高低</ChartOpenCloseHiLo>
+		
+		<ChartGetFormula>主图</ChartGetFormula>
+		<ChartOverlay>副图</ChartOverlay>
+		<ChartGo>更新</ChartGo>
+		
+		<ChartFormulaRemove>删除</ChartFormulaRemove>
+		<ChartFormulaGo>确定</ChartFormulaGo>
+		<ChartFormulaRefresh>刷新</ChartFormulaRefresh>
+		<ChartFormulaParameter>参数</ChartFormulaParameter>
+		<ChartFormulaParameterName>名称</ChartFormulaParameterName>
+		<ChartFormulaParameterValue>数值</ChartFormulaParameterValue>
+		
+		<OperateSingleDQOrderMethodTitle0>如阁下选择</OperateSingleDQOrderMethodTitle0>
+		<OperateSingleDQOrderMethodTitle1>指令详细数据如下： </OperateSingleDQOrderMethodTitle1>
+		<OperateSingleDQOrderMethodTitle2>价格：</OperateSingleDQOrderMethodTitle2>
+		<OperateSingleDQOrderMethodTitle3>平仓结算 ：</OperateSingleDQOrderMethodTitle3>		
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert4>所输入的数量比报价数量多，请再输入交易数量!</OrderOperateOrderOperateAccountGrid_ValidateEditAlert4>
+		<OrderMultiDQbtnDeal>交易</OrderMultiDQbtnDeal>
+		<OperateOrderMethod1PageSubmitAlert0>请输入交易数量!</OperateOrderMethod1PageSubmitAlert0>
+		<OperateOrderMethod1PageSubmitAlert1>请等候最新报价!</OperateOrderMethod1PageSubmitAlert1>
+		<OperateOrderMethod1PageSubmitAlert2>请单击交易按钮!</OperateOrderMethod1PageSubmitAlert2>
+		<MenuimgChatRoom>留言</MenuimgChatRoom>
+		
+		<ChangePasswordlblChangePasswordPromptTitle>更改用户密码</ChangePasswordlblChangePasswordPromptTitle>
+		<ChangePasswordlblCurrentPassword>当前密码</ChangePasswordlblCurrentPassword>
+		<ChangePasswordlblNewPassword>新密码</ChangePasswordlblNewPassword>
+		<ChangePasswordlblConfirmPassword>确认密码</ChangePasswordlblConfirmPassword>
+		<ChangePasswordlblPrompt>新密码由字母或者数字所组合而成，其长度在8到16个范围内</ChangePasswordlblPrompt>
+		<ChatArrivePrompt>有信息到，请检查！</ChatArrivePrompt>
+		<QuoteDelayTimeout>价格查询已超出时限，请重试一次！</QuoteDelayTimeout>
+		<AdditionalClientPrompt>客戶资料</AdditionalClientPrompt>
+		<AgentPrompt>代理资料</AgentPrompt>
+		<CallMarginExtensionPrompt>保证金追加延期申请</CallMarginExtensionPrompt>
+		<PaymentInstructionPrompt>提款通知书</PaymentInstructionPrompt>
+		<FundTransferPrompt>保证金转帐通知书</FundTransferPrompt>
+		<MarginPageOnloadDocument>文件</MarginPageOnloadDocument>
+		<MarginPageOnloadAccount>帐户</MarginPageOnloadAccount>
+		<MarginPageOnloadNext>下一步</MarginPageOnloadNext>
+		<MarginPageBtnNextPrompt>请选择帐户!</MarginPageBtnNextPrompt>
+		
+		<WebServiceAdditionalClientMessage0>提交失败，请重试！</WebServiceAdditionalClientMessage0>
+		<WebServiceAdditionalClientMessage1>申请书己成功提交！</WebServiceAdditionalClientMessage1>
+		<AdditionalClientPageSubmitAlert0>提交失败，请重试！</AdditionalClientPageSubmitAlert0>
+		<WebServiceAgentMessage0>提交失败，请重试！</WebServiceAgentMessage0>
+		<WebServiceAgentMessage1>申请书己成功提交！</WebServiceAgentMessage1>
+		<AgentPageSubmitAlert0>提交失败，请重试！</AgentPageSubmitAlert0>
+		
+		<CallMarginExtensionPageSubmitAlert0>提交失败，请重试！</CallMarginExtensionPageSubmitAlert0>
+		<WebServiceCallMarginExtensionMessage0>提交失败，请稍后再尝试。</WebServiceCallMarginExtensionMessage0>
+		<WebServiceCallMarginExtensionMessage1>申请书己成功提交！ </WebServiceCallMarginExtensionMessage1>
+		<WebServiceCallMarginExtensionAlert0>传递发生错误，请稍后再尝试。</WebServiceCallMarginExtensionAlert0>
+		<FundTransferPageSubmitAlert0>提交失败，请重试！</FundTransferPageSubmitAlert0>
+		<WebServiceFundTransferMessage0>传递发生错误，请稍后再尝试。</WebServiceFundTransferMessage0>
+		<WebServiceFundTransferMessage1>申请书己成功提交！</WebServiceFundTransferMessage1>
+		<WebServiceFundTransferAlert0>传递发生错误，请稍后再尝试。</WebServiceFundTransferAlert0>
+		<PaymentInstructionPageSubmitAlert0>提交失败，请重试！</PaymentInstructionPageSubmitAlert0>
+		<WebServicePaymentInstructionMessage0>传递发生错误，请稍后再尝试。</WebServicePaymentInstructionMessage0>
+		<WebServicePaymentInstructionMessage1>申请书己成功提交！</WebServicePaymentInstructionMessage1>
+		<WebServicePaymentInstructionAlert0>传递发生错误，请稍后再尝试。</WebServicePaymentInstructionAlert0>
+		<MenupageMarginAlert0>初始化发生错误,请再尝试!</MenupageMarginAlert0>
+		<RealTimeAsk>-买入</RealTimeAsk>
+		<RealTimeBid>-卖出</RealTimeBid>
+		<AccountStatusPrompt>帐号状态</AccountStatusPrompt>
+		<SingleDQBuyPrompt>买</SingleDQBuyPrompt>
+		<SingleDQSellPrompt>卖</SingleDQSellPrompt>
+		<ReportTypeStatement>结算帐</ReportTypeStatement>
+		<ReportTypeLedger>明细帐</ReportTypeLedger>
+		<Reports>报表</Reports>
+		<ReportType>报表类型</ReportType>
+		<ReportAccountCode>帐户</ReportAccountCode>
+		<ReportDate1InnerTextForLedger>从</ReportDate1InnerTextForLedger>
+		<ReportDate2InnerTextForLedger>到</ReportDate2InnerTextForLedger>
+		<ReportDate1InnerTextForStatement>日期</ReportDate1InnerTextForStatement>
+		<GettingQuotesPrompt>正进行价格查询，请稍候…</GettingQuotesPrompt>
+		<QuotePriceArrivedPrompt>报价已更新,请继续！</QuotePriceArrivedPrompt>
+		<Buy>买</Buy>
+		<Sell>卖</Sell>
+		<LongBuy>买</LongBuy>
+		<LongSell>卖</LongSell>
+		<Open>新单</Open>
+		<Close>平仓单</Close>
+		<TimeRemainPrompt>剩余时间： </TimeRemainPrompt>
+		<DQQuoteLotPrompt>手数：</DQQuoteLotPrompt>
+		<DQPrompt>SPT</DQPrompt>
+		<LMTPrompt>LMT</LMTPrompt>
+		<MKTPrompt>MKT</MKTPrompt>
+		<MOOPrompt>MOO</MOOPrompt>
+		<MOCPrompt>MOC</MOCPrompt>
+		<OCOPrompt>OCO</OCOPrompt>
+		<SYSPrompt>SYS</SYSPrompt>
+		<TradeOptionPromptStop>止损</TradeOptionPromptStop>
+		<TradeOptionPromptBetter>限价</TradeOptionPromptBetter>
+		<PhasePlacedPlacingPrompt>处理中</PhasePlacedPlacingPrompt>
+		<PhasePlacedUnconfirmedPrompt>未确认</PhasePlacedUnconfirmedPrompt>
+		<PhaseCancelledPromptForRejectDQByDealer>已取消</PhaseCancelledPromptForRejectDQByDealer>
+		<PhaseCancelledPrompt>已取消</PhaseCancelledPrompt>
+		<PhaseExecutedPrompt>已确认</PhaseExecutedPrompt>
+		<PhaseCompletedPrompt>已完成</PhaseCompletedPrompt>
+		<PhaseDeletedPrompt>已删除</PhaseDeletedPrompt>
+		<InstructionPrompt>指令</InstructionPrompt>
+		<ExpireOrderPrompt>有效时间</ExpireOrderPrompt>
+		<AccountNodeFontBold>true</AccountNodeFontBold>
+		<AccountNodeFontName>System</AccountNodeFontName>
+		<AccountNodeFontSize>10</AccountNodeFontSize>
+		<NewOrderAcceptedHedging>新单只容许作平仓或锁仓交易。</NewOrderAcceptedHedging>
+		<NewOrderAcceptedHedging2>MOO/MOC单只容许作平仓交易。</NewOrderAcceptedHedging2>
+		<AlertLevelPrompt0></AlertLevelPrompt0>
+		<AlertLevelPrompt1>帐号结余曾出现不足状况，请用户注意。</AlertLevelPrompt1>
+		<AlertLevelPrompt2>帐号结余现正低于必需水平，请采取适当行动以确保帐号能正常运作。</AlertLevelPrompt2>
+		<AlertLevelPrompt3>帐号的保证金已出现严重不足。如已作处理，请忽略此提示。</AlertLevelPrompt3>
+		<RiskMonitorDelete>合约已被系统删除。如有任何疑问,请与本公司的客户部门联系!</RiskMonitorDelete>
+		<AccountResetFailed>在为帐户重新设定新交易日时发生异常情况,请与本公司客户服务联系!</AccountResetFailed>
+		<DealerCanceled>指令被交易室所取消!</DealerCanceled>
+		<RejectDQByDealer>项目市价已发生变化，交易已被取消！</RejectDQByDealer>
+		<NecessaryIsNotWithinThreshold>交易数量超出该帐号所容许的总数量，交易被取消！</NecessaryIsNotWithinThreshold>
+		<MarginIsNotEnough>帐户内的可用保证金不足，交易被取消！</MarginIsNotEnough>
+		<AccountIsNotTrading>没有可供交易的帐户,详情请与本公司的客户部门联系！</AccountIsNotTrading>
+		<InstrumentIsNotAccepting>相关项目为非交易项目, 详情请与本公司的客户部门联系！</InstrumentIsNotAccepting>
+		<TimingIsNotAcceptable>交易超出正常的时间范围, 交易被取消！</TimingIsNotAcceptable>
+		<OrderTypeIsNotAcceptable>相关的交易项目不能接收这些交易类型, 交易无效！</OrderTypeIsNotAcceptable>
+		<HasNoAccountsLocked>代理帐号并未取得任何帐户的操作权力, 请设置后再尝试！</HasNoAccountsLocked>
+		<IsLockedByAgent>相关的帐户已被代理所占用, 请稍后再尝试！</IsLockedByAgent>
+		<IsNotLockedByAgent>该帐户并未处于被代理状态！</IsNotLockedByAgent>
+		<InvalidPrice>价格的格式不为系统所接受, 请再尝试！</InvalidPrice>
+		<LossExecutedOrderInOco>OCO指令的另一端不存在！</LossExecutedOrderInOco>
+		<ExceedOpenLotBalance>平仓手数大于开仓单的手数, 操作失效!</ExceedOpenLotBalance>
+		<OneCancelOtherPrompt>这是一张被取消的OCO单。 </OneCancelOtherPrompt>
+		<HasUnassignedOvernightOrders>有过夜的代理合约未被分配</HasUnassignedOvernightOrders>
+		<DbOperationFailed>在寻找帐户信息时发生异常错误</DbOperationFailed>
+		<TransactionAlreadyExists>在寻找买卖指令时发生异常错误</TransactionAlreadyExists>
+		<HasNoOrders>交易指令并不存在</HasNoOrders>
+		<InvalidRelation>搜索开仓合约时发生异常错误</InvalidRelation>
+		<InvalidLotBalance>合约剩余手数发生错误</InvalidLotBalance>
+		<ExceedAssigningLotBalance>合约的手数大于分配合约的手数。</ExceedAssigningLotBalance>
+		<OrderLotExceedMaxLot>指令的手数大于帐户的交易数量限制。</OrderLotExceedMaxLot>
+		<OpenOrderNotExists>指令的开仓合约不存在，指令取消。</OpenOrderNotExists>
+		<AssigningOrderNotExists>所指的代理合约不存在，指令取消。</AssigningOrderNotExists>
+		<TransactionNotExists>交易发生异常错误。</TransactionNotExists>
+		<TransactionCannotBeCanceled>交易不能被取消。</TransactionCannotBeCanceled>
+		<TransactionCannotBeExecuted>交易发生异常错误，指令取消。</TransactionCannotBeExecuted>
+		<OrderCannotBeDeleted>交易不能被取消。</OrderCannotBeDeleted>
+		<IsNotAccountOwner>用户并没有取得帐户的交易权。</IsNotAccountOwner>
+		<InvalidOrderRelation>系统不能接受此交易指令，由于所指的开仓合约存在问题。</InvalidOrderRelation>
+		<TradePolicyIsNotActive>帐户的交易已被禁止,请与本公司的客户部门联系!</TradePolicyIsNotActive>
+		<SetPriceTooCloseToMarket>因限价太接近市场，指令已被拒绝！</SetPriceTooCloseToMarket>
+		<HasNoQuotationExists>没有合适的成交价格，请重试一次！</HasNoQuotationExists>
+		<AccountIsInAlerting>帐户正处于保证金严重不足状态，交易被取消。</AccountIsInAlerting>
+		<CustomerCanceled>交易指令已被客户所取消</CustomerCanceled>
+		<StopAddPositionNotAllowed>止损指令不能用于增加帐户上的头寸，指令被取消。</StopAddPositionNotAllowed>
+		<LmtMooMocNewPositionNotAllowed>交易指令只能作为平仓用途！</LmtMooMocNewPositionNotAllowed>
+		<TransactionCannotBeBooked>事务发生错误，您的交易指令可能不被记录在帐，请检查！</TransactionCannotBeBooked>
+		<OnlySptMktIsAllowedForPreCheck>交易指令预检只对DQ和MKT单有效！</OnlySptMktIsAllowedForPreCheck>
+		<InvalidTransactionPhase>非法事务状态</InvalidTransactionPhase>
+		<ExecuteTimeMustBeInTradingTime>单据的成交时间必须在交易时间内。</ExecuteTimeMustBeInTradingTime>
+		<DatabaseDataIntegralityViolated>数据库中的数据不完整。</DatabaseDataIntegralityViolated>
+		<TransactionExpired>单据过期。</TransactionExpired>
+		<FillOnMarketCloseNotAllowed>收市之后不允许下单。</FillOnMarketCloseNotAllowed>
+		<FailedToCancel>取消所选择的交易指令不成功！</FailedToCancel>
+		<InstrumentSelectlblSelectInstrument>请选择所需要的交易项目：</InstrumentSelectlblSelectInstrument>
+		<InstrumentSelectbtnUp>向上</InstrumentSelectbtnUp>
+		<InstrumentSelectbtnDown>向下</InstrumentSelectbtnDown>
+		<InstrumentSelectbtnSynchronize>同步</InstrumentSelectbtnSynchronize>
+		<InstrumentSelectbtnOk>确认</InstrumentSelectbtnOk>
+		<InstrumentSelectbtnExit>退出</InstrumentSelectbtnExit>
+		<LockAccountlblLockAccountPrompt>选择代理所需的帐户:</LockAccountlblLockAccountPrompt>
+		<LockAccountbtnSelectAll>选择所有</LockAccountbtnSelectAll>
+		<LockAccountbtnClearAll>清除所有</LockAccountbtnClearAll>
+		<LockAccountbtnSubmit>提交</LockAccountbtnSubmit>
+		<MenuimgInstrumentSelect>选择交易项目</MenuimgInstrumentSelect>
+		<MenuimgOpenChangePassword>修改用户密码</MenuimgOpenChangePassword>
+		<MenuimgShowAnalyticChart>即市/历史走势图</MenuimgShowAnalyticChart>
+		<MenuimgOpenChat>信息</MenuimgOpenChat>
+		<MenuimgOpenReportSelect>报表</MenuimgOpenReportSelect>
+		<MenuimgLockAccount>锁定帐户</MenuimgLockAccount>
+		<MenuimgMargin>保证金</MenuimgMargin>
+		<MenuimgClearAll>清除所有已被取消的单据</MenuimgClearAll>
+		<MenuimgDownload>文档下载</MenuimgDownload>
+		<MenuimgHelp>在线帮助</MenuimgHelp>
+		<MenuimgReset>刷新</MenuimgReset>
+		<MenuimgOpenLogOut>退出交易系统</MenuimgOpenLogOut>
+		<OpenContractlblQuantityA>数量</OpenContractlblQuantityA>
+		<OpenContractbtnLiquidation>平仓</OpenContractbtnLiquidation>
+		<OpenContractlblExecutePriceA>价格</OpenContractlblExecutePriceA>
+		<OpenContractlblAccountCodeA>帐户编号</OpenContractlblAccountCodeA>
+		<OpenContractlblContractSizeA>合约大小</OpenContractlblContractSizeA>
+		<OpenContractlblExecutedTimeA>成交时间</OpenContractlblExecutedTimeA>
+		<OpenContractlblCurrencyA>货币</OpenContractlblCurrencyA>
+		<OpenContractlblReferencePriceA>参考价</OpenContractlblReferencePriceA>
+		<OpenContractlblTradePLFloatA>浮动盈亏</OpenContractlblTradePLFloatA>
+		<OpenContractlblInterestPLFloatA>浮动利息</OpenContractlblInterestPLFloatA>
+		<OpenContractlblStoragePLFloatA>浮动仓租</OpenContractlblStoragePLFloatA>
+		<OpenContractbtnAssignOrder>分配</OpenContractbtnAssignOrder>
+		<OpenContractlblIsBuyA>买卖</OpenContractlblIsBuyA>
+		<OpenContractbtnExit>退出</OpenContractbtnExit>
+		<OpenContractlblOrderContract>开仓合约</OpenContractlblOrderContract>
+		<OrderAssignlblOrderCodeA>合约编号</OrderAssignlblOrderCodeA>
+		<OrderAssignlblExecuteTimeA>成交时间</OrderAssignlblExecuteTimeA>
+		<OrderAssignlblIsBuyA>买卖</OrderAssignlblIsBuyA>
+		<OrderAssignlblPriceA>价格</OrderAssignlblPriceA>
+		<OrderAssignlblLotBalanceA>结余手数</OrderAssignlblLotBalanceA>
+		<OrderAssignlblBalanceA>帐号结余</OrderAssignlblBalanceA>
+		<OrderAssignlblEquityA>有效保证金</OrderAssignlblEquityA>
+		<OrderAssignlblACTotalLotsA>总手数</OrderAssignlblACTotalLotsA>
+		<OrderAssignlblLiqLotsA>平仓手数</OrderAssignlblLiqLotsA>
+		<OrderAssignbtnReset>重置</OrderAssignbtnReset>
+		<OrderAssignbtnSubmit>提交 (F8)</OrderAssignbtnSubmit>
+		<OrderAssignbtnExit>退出</OrderAssignbtnExit>
+		<OrderLiquidationlblPriceA>价格</OrderLiquidationlblPriceA>
+		<OrderLiquidationlblAccountCodeA>帐户编号</OrderLiquidationlblAccountCodeA>
+		<OrderLiquidationlblBalanceA>帐号结余</OrderLiquidationlblBalanceA>
+		<OrderLiquidationlblEquityA>有效保证金</OrderLiquidationlblEquityA>
+		<OrderLiquidationlblACTotalLotsA>报价手数</OrderLiquidationlblACTotalLotsA>
+		<OrderLiquidationbtnSubmit>提交 (F8)</OrderLiquidationbtnSubmit>
+		<OrderLiquidationbtnExit>退出</OrderLiquidationbtnExit>
+		<OrderLMTlblOrderTypeA>类型</OrderLMTlblOrderTypeA>
+		<OrderLMTlblAccountCodeA>帐户</OrderLMTlblAccountCodeA>
+		<OrderLMTlblIsBuyA>买卖</OrderLMTlblIsBuyA>
+		<OrderLMTlblSetPriceA>价格</OrderLMTlblSetPriceA>
+		<OrderLMTlblLot>手数</OrderLMTlblLot>
+		<OrderLMTlblBalanceA>结余</OrderLMTlblBalanceA>
+		<OrderLMTlblEquityA>保证金</OrderLMTlblEquityA>
+		<OrderLMTbtnSetOCO>O C O</OrderLMTbtnSetOCO>
+		<OrderLMTbtnReset> 重置 </OrderLMTbtnReset>
+		<OrderLMTbtnSubmit>提交 (F8)</OrderLMTbtnSubmit>
+		<OrderLMTbtnExit>退出</OrderLMTbtnExit>
+		<OrderMultiDQlblPriceA>价格</OrderMultiDQlblPriceA>
+		<OrderMultiDQlblAccountCodeA>帐户编号</OrderMultiDQlblAccountCodeA>
+		<OrderMultiDQlblBalanceA>帐户结余</OrderMultiDQlblBalanceA>
+		<OrderMultiDQlblEquityA>有效保证金</OrderMultiDQlblEquityA>
+		<OrderMultiDQlblACTotalLotsA>总手数</OrderMultiDQlblACTotalLotsA>
+		<OrderMultiDQlblDQQuoteLotA>询价手数</OrderMultiDQlblDQQuoteLotA>
+		<OrderMultiDQbtnReset> 重置 </OrderMultiDQbtnReset>
+		<OrderMultiDQbtnSubmit>提交 (F8)</OrderMultiDQbtnSubmit>
+		<OrderMultiDQbtnExit>退出</OrderMultiDQbtnExit>
+		<OrderPlacementbtnConfirm>确认 (F8)</OrderPlacementbtnConfirm>
+		<OrderPlacementbtnCancel>取消</OrderPlacementbtnCancel>
+		<OrderPlacementlblOpenOrderA>开仓单</OrderPlacementlblOpenOrderA>
+		<OrderSingleDQlblAccountCodeA>帐户</OrderSingleDQlblAccountCodeA>
+		<OrderSingleDQlblLot>手数</OrderSingleDQlblLot>
+		<OrderSingleDQlblDQMaxMove>滑价点子</OrderSingleDQlblDQMaxMove>
+		<OrderSingleDQbtnBuy>买</OrderSingleDQbtnBuy>
+		<OrderSingleDQbtnSell>卖</OrderSingleDQbtnSell>
+		<OrderSingleDQbtnReset> 重置 </OrderSingleDQbtnReset>
+		<OrderSingleDQbtnExit>退出</OrderSingleDQbtnExit>
+		<UnconfirmedInstructionlblUnconfirmedInstruction>未经确认的指令</UnconfirmedInstructionlblUnconfirmedInstruction>
+		<UnconfirmedInstructionlblExecutePriceA>价格</UnconfirmedInstructionlblExecutePriceA>
+		<UnconfirmedInstructionlblIsBuyA>买卖</UnconfirmedInstructionlblIsBuyA>
+		<UnconfirmedInstructionlblQuantityA>数量</UnconfirmedInstructionlblQuantityA>
+		<UnconfirmedInstructionlblAccountCodeA>帐户</UnconfirmedInstructionlblAccountCodeA>
+		<UnconfirmedInstructionlblOrderTypeA>类型</UnconfirmedInstructionlblOrderTypeA>
+		<UnconfirmedInstructionlblTradeOptionA>选项</UnconfirmedInstructionlblTradeOptionA>
+		<UnconfirmedInstructionlblSubmitTimeA>提交时间</UnconfirmedInstructionlblSubmitTimeA>
+		<UnconfirmedInstructionlblEndTimeA>失效时间</UnconfirmedInstructionlblEndTimeA>
+		<UnconfirmedInstructionlblEndTimeA2>成交时间</UnconfirmedInstructionlblEndTimeA2>
+		<UnconfirmedInstructionlblCommissionSumA>手续费</UnconfirmedInstructionlblCommissionSumA>
+		<UnconfirmedInstructionlblLevySumA>杂项收费</UnconfirmedInstructionlblLevySumA>
+		<UnconfirmedInstructionlblTradePLA>赢亏</UnconfirmedInstructionlblTradePLA>
+		<UnconfirmedInstructionlblInterestPLA>利息</UnconfirmedInstructionlblInterestPLA>
+		<UnconfirmedInstructionlblStoragePLA>仓租</UnconfirmedInstructionlblStoragePLA>
+		<UnconfirmedInstructionlblPeerOrderCodesA>开仓合约</UnconfirmedInstructionlblPeerOrderCodesA>
+		<UnconfirmedInstructionlblMessageA>备注</UnconfirmedInstructionlblMessageA>
+		<UnconfirmedInstructionbtnCancellation>取消</UnconfirmedInstructionbtnCancellation>
+		<UnconfirmedInstructionbtnClearFromList>清除列表</UnconfirmedInstructionbtnClearFromList>
+		<UnconfirmedInstructionbtnExit>退出</UnconfirmedInstructionbtnExit>
+		<MenuPageLockAccountAlert0>并未取得代理权限！</MenuPageLockAccountAlert0>
+		<MenuPageLockAccountAlert1>操作所选择的帐号失败！</MenuPageLockAccountAlert1>
+		<MenupageOpenReportSelectAlert0>帐号登录初始化失败，请重试一次！</MenupageOpenReportSelectAlert0>
+		<MenupageInstrumentSelectAlert0>启用所选择的交易项目时失败！</MenupageInstrumentSelectAlert0>
+		<OrderAssignPageFillAccount0>该帐户不存在！</OrderAssignPageFillAccount0>
+		<OrderLiquidationPageFillAccountAlert0>该帐户不存在！</OrderLiquidationPageFillAccountAlert0>
+		<OrderLMTPagetextLot_OnblurAlert0>已超出最大的交易范围(</OrderLMTPagetextLot_OnblurAlert0>
+		<OrderLMTPagetextLot_OnblurAlert1>已填写的平仓手数将被清空！</OrderLMTPagetextLot_OnblurAlert1>
+		<OrderLMTPageorderValidAlert0>请选择一个类型或帐号！</OrderLMTPageorderValidAlert0>
+		<OrderLMTPageorderValidAlert1>买卖价必须填写！</OrderLMTPageorderValidAlert1>
+		<OrderLMTPageorderValidAlert2>设置的价格与市场价格差距需要大于</OrderLMTPageorderValidAlert2>
+		<OrderLMTPageorderValidAlert22>点子，请重新设置价格再提交！</OrderLMTPageorderValidAlert22>
+		<OrderLMTPageorderValidAlert3>设置的价格与市场价格差距小于容许范围，请重新设置价格再提交！</OrderLMTPageorderValidAlert3>
+		<OrderLMTPageorderValidAlert4>Stop指令不允许为新单用途，只容许作平仓或锁仓交易。请检查输入手数或所设置的限价。</OrderLMTPageorderValidAlert4>
+		<OrderLMTPageorderValidAlert5>Stop指令不允许为新单用途，只容许作平仓或锁仓交易。请检查输入手数或所设置的限价。</OrderLMTPageorderValidAlert5>
+		<OrderLMTPageorderValidAlert6>交易数量必须大于 零 ！</OrderLMTPageorderValidAlert6>
+		<OrderLMTPageorderValidAlert7>手数必须等于平仓手数！</OrderLMTPageorderValidAlert7>
+		<OrderLMTPageorderValidAlert8>设置价格不容许在买卖价之间，请重新设置价格再提交！</OrderLMTPageorderValidAlert8>
+		<OrderLMTPageorderValidAlertBetter>非平仓限价指令只能用于锁仓用途, 指令被拒绝</OrderLMTPageorderValidAlertBetter>
+		<OrderLMTPagebuttonSubmit_OnclickAlert0>该帐户不存在！</OrderLMTPagebuttonSubmit_OnclickAlert0>
+		<OrderMultiDQPageFillAccountAlert0>该帐号不存在！</OrderMultiDQPageFillAccountAlert0>
+		<OrderOCOPageorderValidAlert3>交易的选项设置不能为系统所接受！</OrderOCOPageorderValidAlert3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert0>输入数字不能大于帐户设的限制(</OrderOperateOrderOperateAccountGrid_ValidateEditAlert0>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert2>数量不能大于代理合约的剩余手数(</OrderOperateOrderOperateAccountGrid_ValidateEditAlert2>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert3>已填写的平仓手数将被清空！</OrderOperateOrderOperateAccountGrid_ValidateEditAlert3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert5>滑价不能大于</OrderOperateOrderOperateAccountGrid_ValidateEditAlert5>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert6>点</OrderOperateOrderOperateAccountGrid_ValidateEditAlert6>
+		<OrderOperateOrderValidAlert0>数量不能大于报价所容许的手数量</OrderOperateOrderValidAlert0>
+		<OrderOperateOrderValidAlert1>这里没有任何买卖合约。</OrderOperateOrderValidAlert1>
+		<OrderOperateOutstandingOrderGridValidateEditPrompt0>填入数量不当(</OrderOperateOutstandingOrderGridValidateEditPrompt0>
+		<OrderOperateOutstandingOrderGridValidateEditPrompt1>平仓单总数不能大于指令的交易数量！</OrderOperateOutstandingOrderGridValidateEditPrompt1>
+		<OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert0>填入数量不当(</OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert0>
+		<OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert1>数量不能大于所容许的交易范围(</OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert1>
+		<TradeConsoleCancelLMTOrderAlert0>请检查交易项目的买卖时间，交易不为接受！</TradeConsoleCancelLMTOrderAlert0>
+		<TradeConsoleInitializeGridAlert0>系统出现网格设置错误，请与系统管理员联络！</TradeConsoleInitializeGridAlert0>
+		<TradeConsolePromptIsMustAssignOrderAlert0>你必须分配代理帐户里的成交合约！</TradeConsolePromptIsMustAssignOrderAlert0>
+		<TradeConsoleAnswerAlert0>系统出现网络设置错误，请与系统管理员联络！</TradeConsoleAnswerAlert0>
+		<TradeConsoleGetUpdateAccountLockResultAlert0>成功更新锁定帐号</TradeConsoleGetUpdateAccountLockResultAlert0>
+		<TradeConsoleGetUpdateAccountLockResultAlert1>更新锁定帐号时发生错误。 请稍后再次尝试！</TradeConsoleGetUpdateAccountLockResultAlert1>
+		<TradeConsoleCancelAlert0>取消交易指令时发生错误。重试后如有问题, 请与本公司客户服务部联系</TradeConsoleCancelAlert0>
+		<TradeConsoleOrderLiquidationOperateAlert0>时间格式不正确！</TradeConsoleOrderLiquidationOperateAlert0>
+		<TradeConsoleUpdateAlert0>资料更新出现错误，请再尝试！</TradeConsoleUpdateAlert0>
+		<TradeConsoleIsValidOperateOrderTimePrompt0>买卖项目已经超出交易时间，交易不为接受。</TradeConsoleIsValidOperateOrderTimePrompt0>
+		<TradeConsoleIsValidOperateOrderTimePrompt1>买卖指令超出最后的交易时间，交易不为接受。</TradeConsoleIsValidOperateOrderTimePrompt1>
+		<TradeConsoleIsValidOperateOrderTimePrompt2>Moo/Moc已超出最后的接收时间，交易不为接受。</TradeConsoleIsValidOperateOrderTimePrompt2>
+		<TradeConsoleIsValidOperateOrderTimePrompt3>Moo/Moc已超出最后的接收时间，交易不为接受。</TradeConsoleIsValidOperateOrderTimePrompt3>
+		<TradeConsoleIsValidOperateOrderTimePrompt4>交易项目已经超出买卖时间，交易不为接受！</TradeConsoleIsValidOperateOrderTimePrompt4>
+		<TradeConsoleIsValidOperateOrderTimePrompt5>交易项目已经超出买卖时间，交易不为接受！</TradeConsoleIsValidOperateOrderTimePrompt5>
+		<TradeConsoleGetOperateHtmlPageAlert2>没有可进行的交易帐号！</TradeConsoleGetOperateHtmlPageAlert2>
+		<TradeConsoleGetOperateHtmlPageAlert3>单据类型或超出买卖项目交易时间！</TradeConsoleGetOperateHtmlPageAlert3>
+		<OperatingDQOrderPrompt>您正在进行DQ单的操作!</OperatingDQOrderPrompt>
+		<OperateDQOrderPrompt>不能同时进行多个买卖设置！</OperateDQOrderPrompt>
+		<AccountLockButtonSubmit_OnclickAlert0>请选择至少2个可交易帐号才可继续！</AccountLockButtonSubmit_OnclickAlert0>
+		<OrderPlacementbuttonConfirm_OnclickAlert0>操作时间超出价格有效时间</OrderPlacementbuttonConfirm_OnclickAlert0>
+		<OrderPlacementbuttonConfirm_OnclickAlert2>交易项目已设置成为非交易或已超出交易时间！</OrderPlacementbuttonConfirm_OnclickAlert2>
+		<OrderSingleDQPageFillAccountAlert0>所选取的交易帐号为不合法，请重新选取！</OrderSingleDQPageFillAccountAlert0>
+		<OrderSingleDQPageorderValidAlert0>买卖价必须填写！</OrderSingleDQPageorderValidAlert0>
+		<OrderSingleDQPageorderValidAlert1>交易手数不能为 零 ！</OrderSingleDQPageorderValidAlert1>
+		<OrderSingleDQPagetextLot_OnblurAlert0>输入数量超出接受范围，请重新输入(</OrderSingleDQPagetextLot_OnblurAlert0>
+		<OrderSingleDQPagetextLot_OnblurAlert2>所输入手数的总数量超出报价所接受的范围，请重新输入(</OrderSingleDQPagetextLot_OnblurAlert2>
+		<OrderSingleDQPagetextLot_OnblurAlert3>已填写的平仓手数将被重设</OrderSingleDQPagetextLot_OnblurAlert3>
+		<ReportContainerpageOnlloadAlert0>报表错误！</ReportContainerpageOnlloadAlert0>
+		<ReportPagebtnPrint_OnclickAlert0>该帐号不存在！</ReportPagebtnPrint_OnclickAlert0>
+		<ReportPagebtnPrint_OnclickAlert1>请选择一个帐号或日期范围！</ReportPagebtnPrint_OnclickAlert1>
+		<ReportPagebtnPrint_OnclickAlert3>该帐号不存在！</ReportPagebtnPrint_OnclickAlert3>
+		<ReportPagebtnPrint_OnclickAlert4>请选择一个帐号或日期！</ReportPagebtnPrint_OnclickAlert4>
+		<UnconfirmedInstructionPageBtnCancellation_OnclickAlert0>取消选择单的指令已成功提交！</UnconfirmedInstructionPageBtnCancellation_OnclickAlert0>
+		<UnconfirmedInstructionPageBtnCancellation_OnclickAlert1>取消所选择的交易指令不成功！</UnconfirmedInstructionPageBtnCancellation_OnclickAlert1>
+		<WebServiceGetInitDataAlert0>与服务器连接已中断</WebServiceGetInitDataAlert0>
+		<WebServiceQuoteAlert0>查询报价时发生错误。 请稍后再次尝试！</WebServiceQuoteAlert0>
+		<WebServiceCancelLMTOrderAlert0>取消交易指令时发生错误。重试后如有问题, 请与本公司客户服务部联系</WebServiceCancelLMTOrderAlert0>
+		<WebServiceUpdateAccountLockAlert0>更新锁定帐号时发生错误。 请稍后再次尝试！</WebServiceUpdateAccountLockAlert0>
+		<WebServiceGetInstrumentForSettingAlert0>同步交易项目时发生错误。 请稍后再次尝试！</WebServiceGetInstrumentForSettingAlert0>
+		<WebServiceGetInstrumentForSettingAlert1>没有可选的交易项目, 请与公司的客户服务部联系！</WebServiceGetInstrumentForSettingAlert1>
+		<WebServiceUpdateInstrumentSettingAlert0>更新交易项目时发生错误。 请稍后再次尝试！</WebServiceUpdateInstrumentSettingAlert0>
+		<WebServiceGetAccountsAlert0>获取帐户信息时发生错误。重试后如有问题, 请与本公司客户服务部联系</WebServiceGetAccountsAlert0>
+		<WebServiceGetInstrumentAlert0>下载交易项目资料时发生错误, 重试后如有问题, 请与本公司客户服务部联系</WebServiceGetInstrumentAlert0>
+		<WebServiceDeleteMessageAlert0>删除所选信息的发生错误。 请稍后再次尝试！</WebServiceDeleteMessageAlert0>
+		<WebServiceGetCurrencyRateByAccountIDAlert0>通过帐号ＩＤ获取货币兑率时失败！</WebServiceGetCurrencyRateByAccountIDAlert0>
+		<WebServicePlaceMessage0>上传用户交易指令发生错误。 重试后如有问题, 请与本公司客户服务部联系！</WebServicePlaceMessage0>
+		<WebServiceAssignMessage0>代理合约分配时发生错误。 请稍后再次尝试！</WebServiceAssignMessage0>
+		<WebServiceCancelLMTOrderMessage0>取消交易指令时发生错误。重试后如有问题, 请与本公司客户服务部联系</WebServiceCancelLMTOrderMessage0>
+		<WebServiceUpdateAccountLockMessage0>更新锁定帐号时发生错误。 请稍后再次尝试！</WebServiceUpdateAccountLockMessage0>
+		<WebServiceCancelLMTOrderMessage1>等待系统对请求作出响应。</WebServiceCancelLMTOrderMessage1>
+		<WebServiceGetMessagesAlert0>系统在下载个人通信时发生错误。请稍后再次尝试！</WebServiceGetMessagesAlert0>
+		<WebServiceGetCommandsAlert0>阁下与服务器的连接已经中断, 可能由于:</WebServiceGetCommandsAlert0>
+		<WebServiceGetCommandsAlert1>- 阁下已从别的地方上以同一用户登录, 或</WebServiceGetCommandsAlert1>
+		<WebServiceGetCommandsAlert2>- 服务器在刷新与阁下的连接时出现错误, 请重新登录!</WebServiceGetCommandsAlert2>
+		<DefaultPagePrompt0>正在安装组件...</DefaultPagePrompt0>
+		<DefaultPagePrompt1>正在下载资料...</DefaultPagePrompt1>
+		<DefaultPagePrompt2>欢迎！</DefaultPagePrompt2>
+		<DefaultPagePrompt3>正在初始化系统...</DefaultPagePrompt3>
+	
+
+</Language>    
+	<AccountLockLanguage>
+		<ID></ID>
+		<Select>选择</Select>
+		<Code>帐户</Code>
+		<AgentID></AgentID>
+		<PreviousLockedStatus></PreviousLockedStatus>
+	</AccountLockLanguage>
+	<AccountLanguage>
+		<ID></ID>
+		<Select>*</Select>
+		<AccountCurrencyID></AccountCurrencyID>
+		<CurrencyAccountID></CurrencyAccountID>
+		<Code>帐户编号</Code>
+		<CurrencyCode></CurrencyCode>
+		<Balance></Balance>
+		<Necessary></Necessary>
+		<Equity></Equity>
+		<UnclearAmount></UnclearAmount>
+		<CreditAmount></CreditAmount>
+		<Ratio></Ratio>
+		<AlertLevel></AlertLevel>
+	</AccountLanguage>
+	<AccountSingleLanguage>
+		<ID></ID>
+		<Code>帐户</Code>
+		<CurrencyCode>货币</CurrencyCode>
+		<Balance>结余</Balance>
+		<Necessary>所需保证金</Necessary>
+		<TradePLFloat>浮动盈亏</TradePLFloat>
+		<Equity>有效保证金</Equity>
+		<UnclearAmount>未过帐存款</UnclearAmount>
+		<CreditAmount>信贷金额</CreditAmount>
+		<Ratio>有效比率</Ratio>
+		<AlertLevel>备注</AlertLevel>
+	</AccountSingleLanguage>
+	<InstrumentLanguage>
+		<ID></ID>
+		<Select>*</Select>
+		<Sequence></Sequence>
+		<Description>项目</Description>
+		<Bid>买入</Bid>
+		<Ask>卖出</Ask>
+		<Timestamp>时间</Timestamp>
+		<Last>最后</Last>
+		<High>最高</High>
+		<Low>最低</Low>
+		<Open>开市</Open>
+		<PrevClose>上日收市</PrevClose>
+		<Change>价格波动</Change>
+	</InstrumentLanguage>
+	<OrderLanguage>
+		<ID></ID>
+		<AccountID></AccountID>
+		<Phase>状态</Phase>
+		<SubmitTime>提交时间</SubmitTime>
+		<AccountCode>帐户</AccountCode>
+		<InstrumentID></InstrumentID>
+		<InstrumentCode>项目</InstrumentCode>
+		<Lot>手数</Lot>
+		<IsOpen>开/平</IsOpen>
+		<IsBuy>买卖</IsBuy>
+		<SetPrice>价格</SetPrice>
+		<OrderType>类型</OrderType>
+		<PeerOrderCodes></PeerOrderCodes>
+		<Message></Message>
+		<EndTime></EndTime>
+		<ContractSize></ContractSize>
+		<CommissionSum>手续费</CommissionSum>
+		<LevySum>杂费</LevySum>
+	</OrderLanguage>
+	<OpenOrderLanguage>
+		<ID></ID>
+		<IsOpen>新单平仓</IsOpen>
+		<AccountID></AccountID>
+		<AccountCode>帐户</AccountCode>
+		<InstrumentID></InstrumentID>
+		<InstrumentCode>项目</InstrumentCode>
+		<ExecuteTime>时间</ExecuteTime>
+		<LotBalance>手数</LotBalance>
+		<IsBuy>买卖</IsBuy>
+		<ExecutePrice>价格</ExecutePrice>
+		<ContractSize></ContractSize>
+		<CurrencyCode></CurrencyCode>
+		<LivePrice>参考价</LivePrice>
+		<TradePLFloat>浮动盈亏</TradePLFloat>
+		<InterestPLFloat>利息</InterestPLFloat>
+		<StoragePLFloat>仓租</StoragePLFloat>
+		<Commission>手续费</Commission>
+	</OpenOrderLanguage>
+	<OutstandingOrderLanguage>
+		<ID></ID>
+		<Code></Code>
+		<OpenOrder>开仓单</OpenOrder>
+		<IsBuy></IsBuy>
+		<TradeCode></TradeCode>
+		<ExecutePrice></ExecutePrice>
+		<LotBalance></LotBalance>
+		<LiqLot>手数</LiqLot>
+	</OutstandingOrderLanguage>
+	<OrderPlacementForSingleDQLanguage>
+		<AccountCode>帐户</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>手数</Lot>
+		<IsBuy>买卖</IsBuy>
+		<IsOpen>开/平</IsOpen>
+		<SetPrice>价格</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForSingleDQLanguage>
+	<OrderPlacementForMultiDQLanguage>
+		<AccountCode>帐户</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>手数</Lot>
+		<IsBuy>买卖</IsBuy>
+		<IsOpen>开/平</IsOpen>
+		<SetPrice>价格</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForMultiDQLanguage>
+	<OrderPlacementForLMTLanguage>
+		<AccountCode>帐户</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>手数</Lot>
+		<IsBuy>买卖</IsBuy>
+		<IsOpen>开/平</IsOpen>
+		<SetPrice>价格</SetPrice>
+		<TradeOption>选项</TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForLMTLanguage>
+	<OrderPlacementForDirectLiqLanguage>
+		<AccountCode>帐户</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>手数</Lot>
+		<IsBuy>买卖</IsBuy>
+		<IsOpen>开/平</IsOpen>
+		<SetPrice>价格</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForDirectLiqLanguage>
+	<OrderPlacementForAssignLanguage>
+		<AccountCode>帐户</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>手数</Lot>
+		<IsBuy>买卖</IsBuy>
+		<IsOpen>开/平</IsOpen>
+		<SetPrice>价格</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForAssignLanguage>
+	<OrderOperateAccountGridForMultiDQLanguage>
+		<ID></ID>
+		<Code>帐户</Code>
+		<IsBuy>买卖</IsBuy>
+		<SetPrice>价格</SetPrice>
+		<Lot>手数</Lot>
+		<IsOpen></IsOpen>
+		<LiqLot></LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerOrderCodes></PeerOrderCodes>
+		<PeerCount></PeerCount>
+		<IsBuyPrevious></IsBuyPrevious>
+		<DQMaxMove>滑价点子</DQMaxMove>
+	</OrderOperateAccountGridForMultiDQLanguage>
+	<OrderOperateLiquidationLanguage>
+		<ID></ID>
+		<Code>帐户</Code>
+		<PeerOrderCodes>未平仓合约</PeerOrderCodes>
+		<OrderID></OrderID>
+		<OrderCode></OrderCode>
+		<CurrencyCode></CurrencyCode>
+		<Balance></Balance>
+		<Equity></Equity>
+		<IsBuy>买卖</IsBuy>
+		<SetPrice>价格</SetPrice>
+		<ExecutePrice></ExecutePrice>
+		<LotBalance></LotBalance>
+		<LiqLot>手数</LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerCount></PeerCount>
+		<IsSplitLot></IsSplitLot>
+		<IsAutoClose></IsAutoClose>
+		<TransactionType></TransactionType>
+		<PairedOrderID></PairedOrderID>
+	</OrderOperateLiquidationLanguage>
+	<MessageLanguage>
+		<NoMessage>没有可读信息</NoMessage>
+		<DelMesasge>删除</DelMesasge>		
+	</MessageLanguage>
+	<OrderOperateAccountGridForAssignLanguage>
+		<ID></ID>
+		<Code>帐户</Code>
+		<IsBuy>买卖</IsBuy>
+		<SetPrice>价格</SetPrice>
+		<Lot>手数</Lot>
+		<IsOpen></IsOpen>
+		<LiqLot></LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerOrderCodes></PeerOrderCodes>
+		<PeerCount></PeerCount>
+		<IsBuyPrevious></IsBuyPrevious>
+		<DQMaxMove></DQMaxMove>
+	</OrderOperateAccountGridForAssignLanguage>
+	<InstrumentSelectLanguage>
+		<ID></ID>
+		<Select>选择</Select>
+		<Code></Code>
+		<Description>内容</Description>
+		<Sequence></Sequence>
+	</InstrumentSelectLanguage>
+  <LogLanguage>
+    <Id></Id>
+    <Timestamp></Timestamp>
+    <LogCodeName>日志</LogCodeName>
+    <TimestampString>时间</TimestampString>
+    <Action>事件</Action>
+
+    <Placing>设置</Placing>
+    <Placed>设置</Placed>
+    <Executed>已被确认</Executed>
+    <Cancelled></Cancelled>
+    <Deleted>的合约已被系统删除,</Deleted>
+    <RemoveByRisk>的合约已被系统删除</RemoveByRisk>
+    <RequestCancelLMTOrder>请求取消</RequestCancelLMTOrder>
+    <ExecutedAt>成交</ExecutedAt>
+    <Set>设置</Set>
+    <Message>，等待答复</Message>
+    <Message2>的指令</Message2>
+    <OrderTo>Order to</OrderTo>
+    <At>在</At>
+    <For>为</For>
+    <Lot>手</Lot>
+    <RefrenceCode>，参考号为</RefrenceCode>
+    <Send>，已发送</Send>
+    <Risk>系统为</Risk>
+    <RefrenceCode2>，成交编号为</RefrenceCode2>
+  </LogLanguage>
+</Languages>	

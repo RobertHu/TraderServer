@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Extend>
+	<SmtpMail1CharSet>utf@Empty8</SmtpMail1CharSet>
+	<SmtpAccount>test@sample</SmtpAccount>
+	<SmtpPassword>12345678</SmtpPassword>
+	<SmtpServer>mail.sample.com.hk</SmtpServer>
+	<subject1>Trade confirmation of</subject1>
+	<subject2>for account</subject2>
+	<body>
+		<P align="center"><FONT size="4"><STRONG>売買報告書<BR></BR>
+				</STRONG></FONT><FONT size="2">Trading Report<BR></BR>
+		
+		</FONT></P><FONT size="2">
+			<TABLE id="Table1" height="272" cellSpacing="1" cellPadding="1" width="808" border="0">
+				<TR>
+					<TD><FONT size="2">お客様番号<BR></BR>
+							A/C Code</FONT></TD>
+					<TD><FONT size="2">@AccountCode</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2"></FONT><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">日付<BR></BR>
+							date</FONT></TD>
+					<TD><FONT size="2">@TradeDay</FONT></TD>
+				</TR>
+				<TR>
+					<TD><FONT size="2">お名前</FONT></TD>
+					<TD><FONT size="2">@AccountAlias</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+				</TR>
+				<TR>
+					<TD><FONT size="2">A/C Name</FONT></TD>
+					<TD><FONT size="2">@AccountName</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+				</TR>
+				<TR>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2"></FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD colSpan="2"><FONT size="2">常盤Investments株式会社</FONT></TD>
+				</TR>
+				<TR>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD colSpan="2" align="right"><FONT size="2">TOKIWA Investments, INC</FONT>
+					</TD>
+				</TR>
+				<TR>
+					<TD colSpan="3"><FONT size="2">下記の通り取引が成立いたしましたので、ご報告申し上げます。</FONT></TD>
+					<TD><FONT size="2"></FONT></TD>
+					<TD colSpan="2"><FONT size="2">関東財務局長（金先）第156号</FONT></TD>
+				</TR>
+				<TR>
+					<TD colSpan="3"><FONT size="2">We report that trade was concluded as below.</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD align="right" colSpan="2"><FONT size="2">Kanto Local Finance Bureau（FF）NO.156</FONT>
+					</TD>
+				</TR>
+				<TR>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+				</TR>
+				<TR>
+					<TD colSpan="3"><FONT size="2">この報告書に誤りがある場合には、本書到着後2日以内に申し出てください。</FONT></TD>
+					<TD><FONT size="2">連絡先</FONT></TD>
+					<TD align="center" colSpan="2"><FONT size="2">本社 カスタマーサポートデスク</FONT>
+					</TD>
+				</TR>
+				<TR>
+					<TD colSpan="3"><FONT size="2">This report is taken to be correct if no errors are 
+							reported within TWO(2) days.</FONT></TD>
+					<TD><FONT size="2">Contact</FONT>
+					</TD>
+					<TD colSpan="2">
+						<P align="right"><FONT size="2">Customer Support Desk</FONT>
+						</P>
+					</TD>
+				</TR>
+				<TR>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD align="right"><FONT size="2">0120@Empty963@Empty073 / 81@Empty3@Empty3551@Empty4648</FONT>
+					</TD>
+				</TR>
+				<TR>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD><FONT size="2">@Empty</FONT></TD>
+					<TD colSpan="2">
+						<P align="right"><FONT size="2">E@Emptymail:helpdesk@tokiwainvest.com</FONT></P>
+					</TD>
+				</TR>
+			</TABLE>
+		</FONT><FONT face="system">
+			<BR></BR>
+			<P align="center">取引内容<BR></BR>
+				<FONT size="2">Transaction<BR></BR>
+				</FONT>
+				<TABLE id="Table2" height="204" cellSpacing="0" cellPadding="0" width="480" border="1">
+					<TR>
+						<TD><FONT face="system"><FONT size="2">市場名<BR></BR>
+									<FONT face="system">Market Name</FONT></FONT></FONT></TD>
+						<TD><FONT face="system"><FONT size="2">店頭<BR></BR>
+									<FONT face="system">Over@Emptythe@Emptycounter</FONT></FONT></FONT></TD>
+					</TR>
+					<TR>
+						<TD><FONT size="2">種類<BR></BR>
+								Type</FONT></TD>
+						<TD><FONT face="system"><FONT size="2">外国為替証拠金取引<BR></BR>
+									<FONT face="system">Foreign Exchange Margin Trading</FONT></FONT></FONT></TD>
+					</TR>
+					<TR>
+						<TD><FONT size="2">取引番号<BR></BR>
+								Reference Number</FONT></TD>
+						<TD><FONT size="2">@OrderCode</FONT></TD>
+					</TR>
+					<TR>
+						<TD><FONT size="2">取引成立日時<BR></BR>
+								Transaction Date</FONT></TD>
+						<TD><FONT size="2">@ExecuteTime</FONT></TD>
+					</TR>
+					<TR>
+						<TD><FONT size="2">受渡日<BR></BR>
+								Delivery Day</FONT></TD>
+						<TD><FONT size="2">(@DeliveryDay)@Emptydays from the date above</FONT></TD>
+					</TR>
+					<TR>
+						<TD><FONT size="2">取引対象通貨<BR></BR>
+								Currency</FONT></TD>
+						<TD><FONT size="2">@InstrumentCode</FONT></TD>
+					</TR>
+				</TABLE>
+			</P>
+		</FONT>
+		<BR></BR>
+		<TABLE id="Table3" height="254" cellSpacing="0" cellPadding="0" width="816" border="1">
+			<TBODY>
+				<TR>
+					<TD width="116">
+						<P align="center"><FONT face="system" size="2">新規・決済<BR></BR>
+								Open/Close</FONT></P>
+					</TD>
+					<TD align="center" colSpan="2" width="243">
+						<P align="center"><FONT size="2">
+						<FONT face="system">@NewClose
+							<BR></BR>
+							@NewClose2 </FONT></FONT></P></TD>
+					<TD width="134">
+						<P align="center"><FONT face="system" size="2">原取引</FONT></P>
+					</TD>
+					<TD width="112">
+						<P align="center"><FONT face="system" size="2">約定価格<BR></BR>
+								Price</FONT></P>
+					</TD>
+					<TD>
+						<P align="center"><FONT face="system" size="2">@OrderRelationOpenOrderExecutePrice</FONT></P>
+					</TD>
+				</TR>
+				<TR>
+					<TD width="116">
+						<P align="center"><FONT face="system" size="2">売・買<BR></BR>
+								Buy/Sell</FONT></P>
+					</TD>
+					<TD align="center" colSpan="2" width="243">
+						<P align="center"><FONT size="2">
+						<FONT face="system">@BuySell
+							<BR></BR>
+							@BuySell2</FONT></FONT></P>
+					</TD>
+					<TD width="134">
+						<P align="center"><FONT face="system" size="2">Open Transaction</FONT></P>
+					</TD>
+					<TD width="112">
+						<P align="center"><FONT face="system" size="2">約定日<BR></BR>
+								date</FONT></P>
+					</TD>
+					<TD>
+						<P align="center"><FONT face="system" size="2">@OrderRelationOpenOrderExecuteTime</FONT></P>
+					</TD>
+				</TR>
+				<TR>
+					<TD width="116">
+						<P align="center"><FONT face="system" size="2">取引数</FONT></P>
+					</TD>
+					<TD width="138">
+						<P align="center"><FONT face="system" size="2">枚数<BR></BR>
+								Lot/s</FONT></P>
+					</TD>
+					<TD width="103">
+						<P align="center"><FONT face="system" size="2">@Lot</FONT></P>
+					</TD>
+					<TD width="134">
+						<P align="center"><FONT face="system" size="2">売買手数料<BR></BR>
+								Fee</FONT></P>
+					</TD>
+					<TD colSpan="2" rowSpan="1">
+						<P align="right"><FONT face="system" size="2">@Commission</FONT>
+						</P>
+					</TD>
+				</TR>
+				<TR>
+					<TD width="116">
+						<P align="center"><FONT face="system" size="2">Amount of trading</FONT></P>
+					</TD>
+					<TD width="138">
+						<P align="center"><FONT face="system" size="2">金額<BR></BR>
+								Sum</FONT></P>
+					</TD>
+					<TD width="103">
+						<P align="center"><FONT face="system" size="2">@ContractAmount</FONT></P>
+					</TD>
+					<TD width="134">
+						<P align="center"><FONT face="system" size="2">ドル/円 換算レート<BR></BR>
+								@InstrumentCode Convert Rate</FONT></P>
+					</TD>
+					<TD colSpan="2">
+						<P align="right"><FONT face="system" size="2">@OrderRelationRateInOut</FONT>
+						</P>
+					</TD>
+				</TR>
+				<TR>
+					<TD width="116">
+						<P align="center"><FONT face="system" size="2">約定価格<BR></BR>
+								Price</FONT></P>
+					</TD>
+					<TD colSpan="2" width="243">
+						<P align="center"><FONT face="system" size="2">@ExecutePrice</FONT></P>
+					</TD>
+					<TD width="134">
+						<P align="center"><FONT face="system" size="2">売買損益<BR></BR>
+								Trade P/L</FONT></P>
+					</TD>
+					<TD colSpan="2">
+						<P align="right"><FONT face="system" size="2">@TradePL</FONT>
+						</P>
+					</TD>
+				</TR>
+				<TR>
+					<TD width="116">
+						<P align="center"><FONT face="system" size="2">証拠金</FONT></P>
+					</TD>
+					<TD width="138">
+						<P align="center"><FONT face="system" size="2">種類<BR></BR>
+								Type</FONT></P>
+					</TD>
+					<TD width="103">
+						<P align="center"><FONT face="system" size="2">@AccountCurrencyAlias<BR></BR>
+								@AccountCurrencyName</FONT></P>
+					</TD>
+					<TD width="134">
+						<P align="center"><FONT face="system" size="2"></FONT>@Empty</P>
+					</TD>
+					<TD width="112">
+						<P align="center"><FONT face="system" size="2"></FONT>@Empty</P>
+					</TD>
+					<TD>
+						<P align="center"><FONT face="system" size="2"></FONT>@Empty</P>
+					</TD>
+				</TR>
+				<TR>
+					<TD width="116">
+						<P align="center"><FONT face="system" size="2">Margin</FONT></P>
+					</TD>
+					<TD width="138">
+						<P align="center"><FONT face="system" size="2">価額<BR></BR>
+								Amount</FONT></P>
+					</TD>
+					<TD width="103">
+						<P align="center"><FONT face="system" size="2">@ContractMarginO</FONT></P>
+					</TD>
+					<TD width="134"><FONT face="system" size="2">@Empty</FONT></TD>
+					<TD width="112"><FONT face="system" size="2">@Empty</FONT></TD>
+					<TD><FONT face="system" size="2">@Empty</FONT></TD>
+				</TR>
+			</TBODY></TABLE>
+		<TABLE id="Table4" height="72" cellSpacing="1" cellPadding="1" width="368" border="0">
+			<TR>
+				<TD><FONT size="2">※</FONT></TD>
+				<TD><FONT size="2">お客様の証拠金は,当社名義の銀行口座にて法第29条の6に従って区分管理しております。</FONT></TD>
+			</TR>
+			<TR>
+				<TD><FONT size="2"></FONT></TD>
+				<TD><FONT face="system"><FONT size="2">Clients are supposed to deposit the money to our bank 
+							account.@EmptyWe manage it in our clients' bank account separateli according 
+							to@Emptythe low article29@Empty6.</FONT> </FONT>
+				</TD>
+			</TR>
+		</TABLE>
+	</body>
+	<RelationLot>Lot</RelationLot>
+	<BuyPrompt>買</BuyPrompt>
+	<BuyPrompt2>Buy</BuyPrompt2>
+	<SellPrompt>売</SellPrompt>
+	<SellPrompt2>Sell</SellPrompt2>
+	<ClosePrompt>決済</ClosePrompt>
+	<ClosePrompt2>Close</ClosePrompt2>
+	<NewPrompt>新規</NewPrompt>
+	<NewPrompt2>Open</NewPrompt2>
+</Extend>

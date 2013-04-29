@@ -1,0 +1,665 @@
+<?xml version="1.0"  ?>
+<Languages>
+	<Language>
+    <LanguageVersion>ENG</LanguageVersion>
+		<ConfirmSendEmail>Are you sure to send email?</ConfirmSendEmail>
+		<OrderLMTlblSetPriceA2>Stop</OrderLMTlblSetPriceA2>
+		<OrderLMTlblSetPriceA3>Limit</OrderLMTlblSetPriceA3>
+		<RejectCancelLmtOrder>Request to cancel the Limit/Stop order was not accepted, please try again later.</RejectCancelLmtOrder>
+		<TradeConsoleCancelLMTOrderAlert1>The limit price is too close to the market price, cancellation is not accepted!</TradeConsoleCancelLMTOrderAlert1>
+		<LoginFailedPrompt>Another instance is running, initialization failed!</LoginFailedPrompt>
+		<CloseWindow>Close</CloseWindow>
+		<NoNews>No News available</NoNews>
+		<AccountExpire>Account/s</AccountExpire>
+		<AccountWillExpire>will expire the next trade day.</AccountWillExpire>
+		<AccountExpired>expired, no trade will be allowed.</AccountExpired>
+		<btnDocument>about physical delivery</btnDocument>
+
+		<AccountMarginNotify1>Margin position of:</AccountMarginNotify1>
+		<AccountMarginNotify2>need/s your attention!</AccountMarginNotify2>
+		<InstrumentSelectOverRange>Selected instrument/s can not more than</InstrumentSelectOverRange>
+
+		<EntranceForInput>The Trading quantity placed for the accounts:</EntranceForInput>
+		<EntranceForInput2>have not met with the minimum requirement. Please try again!</EntranceForInput2>
+
+		<MenuimgOption>Option</MenuimgOption>
+		<MenuimgNews>News</MenuimgNews>
+		<SetLMTStopCaption>Lmt/Stop</SetLMTStopCaption>
+		<GoodTillMonthDayOrder>Day Order</GoodTillMonthDayOrder>
+		<GoodTillMonthSession>Session</GoodTillMonthSession>
+		<GoodTillMonthGTM>GTM</GoodTillMonthGTM>
+		<GoodTillMonthGTF>GTF</GoodTillMonthGTF>
+		<GoodTillDate>Date</GoodTillDate>
+		<PLCaption>You may specify an amount (+/-) to limit the profit/loss arising from this open order </PLCaption>
+		<ExistsMessage>You have a unread message!</ExistsMessage>
+		<btnGetValueFromGridCaption>Get width</btnGetValueFromGridCaption>
+		<lblFontGridCaption>Selection</lblFontGridCaption>
+		<lblFontNameCaption>Font</lblFontNameCaption>
+		<lblFontSizeCaption>Size</lblFontSizeCaption>
+		<lblFomtColKeyCaption>Column</lblFomtColKeyCaption>
+		<lblFontColWidthCaption>Col Width</lblFontColWidthCaption>
+		<lblFontColHiddenCaption>Hide</lblFontColHiddenCaption>
+		<lblIsCalculateFloatCaption>Real Time Floating</lblIsCalculateFloatCaption>
+		<lblLayoutCaption>Save Current Layout</lblLayoutCaption>
+		<lblRowHeightCaption>Height</lblRowHeightCaption>
+
+		<SettingAccountGrid>Account Status</SettingAccountGrid>
+		<SettingInstrumentGrid>Trading Panel</SettingInstrumentGrid>
+		<SettingOpenOrderGrid>Open Order List</SettingOpenOrderGrid>
+		<SettingOrderGrid>Working Order List</SettingOrderGrid>
+		<btnOKCaption>OK</btnOKCaption>
+		<btnCancelCaption>Exit</btnCancelCaption>
+		<DisallowTradePrompt>You are not granted with appropriate right to trade, please contact our customer service.</DisallowTradePrompt>
+		<ChartMINUTE1>1 minute</ChartMINUTE1>
+		<ChartMINUTE5>5 minutes</ChartMINUTE5>
+		<ChartHOUR1>Hourly</ChartHOUR1>
+		<ChartDAY1>Daily</ChartDAY1>
+		<ChartWEEK1>Weekly</ChartWEEK1>
+		<ChartMONTH1>Monthly</ChartMONTH1>
+		<ChartBlackBlue>BlackBlue</ChartBlackBlue>
+		<ChartGreenRed>GreenRed</ChartGreenRed>
+		<ChartBlackWhite>BlackWhite</ChartBlackWhite>
+		<ChartGreenWhite>GreenWhite</ChartGreenWhite>
+		<ChartCyanGreen>CyanGreen</ChartCyanGreen>
+		<ChartOceanBlue>OceanBlue</ChartOceanBlue>
+		<ChartRedBlack>RedBlack</ChartRedBlack>
+		<ChartRedWhite>RedWhite</ChartRedWhite>
+		<ChartWhite>White</ChartWhite>
+		<ChartCandle>Candle</ChartCandle>
+		<ChartLine>Line</ChartLine>
+		<ChartCloseHiLo>Close HiLo</ChartCloseHiLo>
+		<ChartOpenCloseHiLo>Open Close HiLo</ChartOpenCloseHiLo>
+		<ChartGetFormula>Main</ChartGetFormula>
+		<ChartOverlay>Overlay</ChartOverlay>
+		<ChartGo>Go</ChartGo>
+		<ChartFormulaRemove>Remove</ChartFormulaRemove>
+		<ChartFormulaGo>OK</ChartFormulaGo>
+		<ChartFormulaRefresh>Refresh</ChartFormulaRefresh>
+		<ChartFormulaParameter>Parameter</ChartFormulaParameter>
+		<ChartFormulaParameterName>Name</ChartFormulaParameterName>
+		<ChartFormulaParameterValue>Value</ChartFormulaParameterValue>
+		<OperateSingleDQOrderMethodTitle0>If you choose to</OperateSingleDQOrderMethodTitle0>
+		<OperateSingleDQOrderMethodTitle1>Order details as follows:</OperateSingleDQOrderMethodTitle1>
+		<OperateSingleDQOrderMethodTitle2>at</OperateSingleDQOrderMethodTitle2>
+		<OperateSingleDQOrderMethodTitle3>To close out</OperateSingleDQOrderMethodTitle3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert4>The total quantity is more than the quantity of the DQ order </OrderOperateOrderOperateAccountGrid_ValidateEditAlert4>
+		<OrderMultiDQbtnDeal>Deal</OrderMultiDQbtnDeal>
+		<OperateOrderMethod1PageSubmitAlert0>Please input trading quantity!</OperateOrderMethod1PageSubmitAlert0>
+		<OperateOrderMethod1PageSubmitAlert1>Please wait for price!</OperateOrderMethod1PageSubmitAlert1>
+		<OperateOrderMethod1PageSubmitAlert2>Please press deal!</OperateOrderMethod1PageSubmitAlert2>
+		<MenuimgChatRoom>Chat Room</MenuimgChatRoom>
+		<ChangePasswordlblChangePasswordPromptTitle>PASSWORDS CHANGE</ChangePasswordlblChangePasswordPromptTitle>
+		<ChangePasswordlblCurrentPassword>Current</ChangePasswordlblCurrentPassword>
+		<ChangePasswordlblNewPassword>New</ChangePasswordlblNewPassword>
+		<ChangePasswordlblConfirmPassword>Confirm</ChangePasswordlblConfirmPassword>
+		<ChangePasswordlblPrompt>The new passwords should contain combination of 8 - 16 digits and/or letters.</ChangePasswordlblPrompt>
+		<ChatArrivePrompt>You have a message, please check!</ChatArrivePrompt>
+		<QuoteDelayTimeout>Quote time out!</QuoteDelayTimeout>
+		<AdditionalClientPrompt>Owner Registration</AdditionalClientPrompt>
+		<AgentPrompt>Agent Registration</AgentPrompt>
+		<CallMarginExtensionPrompt>Margin Call Extension</CallMarginExtensionPrompt>
+		<PaymentInstructionPrompt>Payment Instruction</PaymentInstructionPrompt>
+		<FundTransferPrompt>Fund Transfer</FundTransferPrompt>
+		<MarginPageOnloadDocument>Document</MarginPageOnloadDocument>
+		<MarginPageOnloadAccount>Account</MarginPageOnloadAccount>
+		<MarginPageOnloadNext>Next</MarginPageOnloadNext>
+		<MarginPageBtnNextPrompt>Please select a account!</MarginPageBtnNextPrompt>
+		<WebServiceAdditionalClientMessage0>Failed to send, please try again.</WebServiceAdditionalClientMessage0>
+		<WebServiceAdditionalClientMessage1>Application has been submitted successfully.</WebServiceAdditionalClientMessage1>
+		<AdditionalClientPageSubmitAlert0>Failed to send, please try again.</AdditionalClientPageSubmitAlert0>
+		<WebServiceAgentMessage0>Failed to send, please try again.</WebServiceAgentMessage0>
+		<WebServiceAgentMessage1>Application has been submitted successfully.</WebServiceAgentMessage1>
+		<AgentPageSubmitAlert0>Failed to send, please try again.</AgentPageSubmitAlert0>
+		<CallMarginExtensionPageSubmitAlert0>Failed to send, please try again.</CallMarginExtensionPageSubmitAlert0>
+		<WebServiceCallMarginExtensionMessage0>Failed to call margin extension.</WebServiceCallMarginExtensionMessage0>
+		<WebServiceCallMarginExtensionMessage1>Application has been submitted successfully.</WebServiceCallMarginExtensionMessage1>
+		<WebServiceCallMarginExtensionAlert0>An error occurred when calling margin extension.</WebServiceCallMarginExtensionAlert0>
+		<FundTransferPageSubmitAlert0>Failed to send, please try again.</FundTransferPageSubmitAlert0>
+		<WebServiceFundTransferMessage0>Failed to Fund Transfer.</WebServiceFundTransferMessage0>
+		<WebServiceFundTransferMessage1>Application has been submitted successfully.</WebServiceFundTransferMessage1>
+		<WebServiceFundTransferAlert0>An error occurred when Fund Transfer.</WebServiceFundTransferAlert0>
+		<PaymentInstructionPageSubmitAlert0>Failed to send, please try again.</PaymentInstructionPageSubmitAlert0>
+		<WebServicePaymentInstructionMessage0>Failed to Payment Instruction.</WebServicePaymentInstructionMessage0>
+		<WebServicePaymentInstructionMessage1>Application has been submitted successfully.</WebServicePaymentInstructionMessage1>
+		<WebServicePaymentInstructionAlert0>An error occurred when Payment Instruction.</WebServicePaymentInstructionAlert0>
+		<MenupageMarginAlert0>Failed to initialize during logging, please try again!</MenupageMarginAlert0>
+		<RealTimeAsk>-Ask</RealTimeAsk>
+		<RealTimeBid>-Bid</RealTimeBid>
+		<AccountStatusPrompt>Account status</AccountStatusPrompt>
+		<SingleDQBuyPrompt>BUYING</SingleDQBuyPrompt>
+		<SingleDQSellPrompt>SELLING</SingleDQSellPrompt>
+		<ReportTypeStatement>Statement</ReportTypeStatement>
+		<ReportTypeLedger>Ledger</ReportTypeLedger>
+		<Reports>Reports</Reports>
+		<ReportType>Report Type</ReportType>
+		<ReportAccountCode>Account</ReportAccountCode>
+		<ReportDate1InnerTextForLedger>From</ReportDate1InnerTextForLedger>
+		<ReportDate2InnerTextForLedger>To</ReportDate2InnerTextForLedger>
+		<ReportDate1InnerTextForStatement>Date</ReportDate1InnerTextForStatement>
+		<GettingQuotesPrompt> Getting quote, please wait...</GettingQuotesPrompt>
+		<QuotePriceArrivedPrompt>Please proceed with your instruction!</QuotePriceArrivedPrompt>
+		<Buy>B</Buy>
+		<Sell>S</Sell>
+		<LongBuy>Buy</LongBuy>
+		<LongSell>Sell</LongSell>
+		<Open>N</Open>
+		<Close>C</Close>
+		<TimeRemainPrompt>Time Remain: </TimeRemainPrompt>
+		<DQQuoteLotPrompt>Lots:</DQQuoteLotPrompt>
+		<DQPrompt>DQ</DQPrompt>
+		<LMTPrompt>LMT</LMTPrompt>
+		<MKTPrompt>MKT</MKTPrompt>
+		<MOOPrompt>MOO</MOOPrompt>
+		<MOCPrompt>MOC</MOCPrompt>
+		<OCOPrompt>OCO</OCOPrompt>
+		<SYSPrompt>SYS</SYSPrompt>
+		<TradeOptionPromptStop>STOP</TradeOptionPromptStop>
+		<TradeOptionPromptBetter>BETTER</TradeOptionPromptBetter>
+		<PhasePlacedPlacingPrompt>Placing</PhasePlacedPlacingPrompt>
+		<PhasePlacedUnconfirmedPrompt>Unconfirmed</PhasePlacedUnconfirmedPrompt>
+		<PhaseCancelledPromptForRejectDQByDealer>Price change cx</PhaseCancelledPromptForRejectDQByDealer>
+		<PhaseCancelledPrompt>Cancelled</PhaseCancelledPrompt>
+		<PhaseExecutedPrompt>Confirmed</PhaseExecutedPrompt>
+		<PhaseCompletedPrompt>Completed</PhaseCompletedPrompt>
+		<PhaseDeletedPrompt>Deleted</PhaseDeletedPrompt>
+		<InstructionPrompt>Instruction</InstructionPrompt>
+		<ExpireOrderPrompt>Order time expired</ExpireOrderPrompt>
+		<AccountNodeFontBold>true</AccountNodeFontBold>
+		<AccountNodeFontName>System</AccountNodeFontName>
+		<AccountNodeFontSize>10</AccountNodeFontSize>
+		<NewOrderAcceptedHedging>The new order is only accepted for hedging only.</NewOrderAcceptedHedging>
+		<NewOrderAcceptedHedging2>MOO/MOC order is only accepted for liquidation only.</NewOrderAcceptedHedging2>
+		<AlertLevelPrompt0></AlertLevelPrompt0>
+		<AlertLevelPrompt1>Account margin has not been sufficient, you may need to contact our Customer Service for account operation!</AlertLevelPrompt1>
+		<AlertLevelPrompt2>Account is in critical situation, your immediate attention is much needed.</AlertLevelPrompt2>
+		<AlertLevelPrompt3>Please ignore this message if appropriate action has been taken to avoid further loses.</AlertLevelPrompt3>
+		<RiskMonitorDelete>The system has deleted the order. If you find query, please contact our Customer Service!</RiskMonitorDelete>
+		<AccountResetFailed>The system has failed to prepare the account for coming trade day. Please contact the system administrator</AccountResetFailed>
+		<DealerCanceled>The order has been cancelled by the Trading Desk!</DealerCanceled>
+		<RejectDQByDealer>Price time out, please try again!</RejectDQByDealer>
+		<NecessaryIsNotWithinThreshold>The trading quantity exceeds the limit allowed for the account, order was not accepted!</NecessaryIsNotWithinThreshold>
+		<MarginIsNotEnough>Account's usable margin is not sufficient, order was not accepted!</MarginIsNotEnough>
+		<AccountIsNotTrading>Account allowed for trading is not available, please contact our Customer Service for details!</AccountIsNotTrading>
+		<InstrumentIsNotAccepting>The instrument is not available for trading, please contact our Customer Service for details!</InstrumentIsNotAccepting>
+		<TimingIsNotAcceptable>The order is out of the trading time accepted, order was cancelled!</TimingIsNotAcceptable>
+		<OrderTypeIsNotAcceptable>The select order type is not available for the instrument!</OrderTypeIsNotAcceptable>
+		<HasNoAccountsLocked>The agent account has not been granted with control over the other accounts, please select appropriate accounts and try later!</HasNoAccountsLocked>
+		<IsLockedByAgent>The account has been occupied by its Agent!</IsLockedByAgent>
+		<IsNotLockedByAgent>The trading account has not been controlled by Agent!</IsNotLockedByAgent>
+		<InvalidPrice>Price is not in a valid format, please try later!</InvalidPrice>
+		<LossExecutedOrderInOco>The other end of the OCO has not been found!</LossExecutedOrderInOco>
+		<ExceedOpenLotBalance>Close order quantity exceeds the quantity of the open order</ExceedOpenLotBalance>
+		<OneCancelOtherPrompt>Order cancelled as part of the OCO order is confirmed.</OneCancelOtherPrompt>
+		<HasUnassignedOvernightOrders>There are orders in the agent account, please assign the order to appropriate accounts!</HasUnassignedOvernightOrders>
+		<DbOperationFailed>Unexpected error has occured when locating the account's information</DbOperationFailed>
+		<TransactionAlreadyExists>Unexpected error has occured when locating the order</TransactionAlreadyExists>
+		<HasNoOrders>The order does not exist</HasNoOrders>
+		<InvalidRelation>Unexpected error has occured when locating the corresponding open order</InvalidRelation>
+		<InvalidLotBalance>Unexpected error has occured with the open trading quantity</InvalidLotBalance>
+		<ExceedAssigningLotBalance>The order has exceeded the quantity of the assigning order</ExceedAssigningLotBalance>
+		<OrderLotExceedMaxLot>The order has exceeded the permitted trading quantity of the account</OrderLotExceedMaxLot>
+		<OpenOrderNotExists>The corresponding open order does not exist, order cancelled.</OpenOrderNotExists>
+		<AssigningOrderNotExists>The assigning order does not exist any more, order cancelled</AssigningOrderNotExists>
+		<TransactionNotExists>Unexpected error for the transaction has occured</TransactionNotExists>
+		<TransactionCannotBeCanceled>The order cannot be cancelled</TransactionCannotBeCanceled>
+		<TransactionCannotBeExecuted>Unexpected error occurred, failed to executed the order</TransactionCannotBeExecuted>
+		<OrderCannotBeDeleted>The order cannot be cancelled</OrderCannotBeDeleted>
+		<IsNotAccountOwner>User is not authorized to trade for the account,</IsNotAccountOwner>
+		<InvalidOrderRelation>The system fails to execute the order due to the missing of open order</InvalidOrderRelation>
+		<TradePolicyIsNotActive>The trading policy for the account has been inactivated, please contact our Customer Service for details!</TradePolicyIsNotActive>
+		<SetPriceTooCloseToMarket>The order was rejected because being too close to the market!</SetPriceTooCloseToMarket>
+		<HasNoQuotationExists>There is no price available for the execution, please try again</HasNoQuotationExists>
+		<AccountIsInAlerting>The Account is in margin call position, the order was rejected</AccountIsInAlerting>
+		<CustomerCanceled>The order has been cancelled by the Customer</CustomerCanceled>
+		<StopAddPositionNotAllowed>The stop order was rejected as it was not placed to minimize the position exposure.</StopAddPositionNotAllowed>
+		<LmtMooMocNewPositionNotAllowed>The instruction is allowed for liquiation only!</LmtMooMocNewPositionNotAllowed>
+		<TransactionCannotBeBooked>Transaction can not be booked!</TransactionCannotBeBooked>
+		<OnlySptMktIsAllowedForPreCheck>Margin pre-checking is available for Spot trade or market order!</OnlySptMktIsAllowedForPreCheck>
+		<InvalidTransactionPhase>Invalid Transaction Phase</InvalidTransactionPhase>
+		<ExecuteTimeMustBeInTradingTime>Order's executing time must be in the trading time.</ExecuteTimeMustBeInTradingTime>
+		<DatabaseDataIntegralityViolated>There is a violation of data integrity, operation cancelled!</DatabaseDataIntegralityViolated>
+		<TransactionExpired>Order has expired.</TransactionExpired>
+		<FillOnMarketCloseNotAllowed>The order didn't allowed to deal on market closed time.</FillOnMarketCloseNotAllowed>
+		<FailedToCancel>Fail to cancel the selected order, please try again!</FailedToCancel>
+		<InstrumentSelectlblSelectInstrument>Please select items to display:</InstrumentSelectlblSelectInstrument>
+		<InstrumentSelectbtnUp>Move Up</InstrumentSelectbtnUp>
+		<InstrumentSelectbtnDown>Move Down</InstrumentSelectbtnDown>
+		<InstrumentSelectbtnSynchronize>Synchronize</InstrumentSelectbtnSynchronize>
+		<InstrumentSelectbtnOk>O K </InstrumentSelectbtnOk>
+		<InstrumentSelectbtnExit>Exit</InstrumentSelectbtnExit>
+		<LockAccountlblLockAccountPrompt>select the account for agent operation:</LockAccountlblLockAccountPrompt>
+		<LockAccountbtnSelectAll>Select All</LockAccountbtnSelectAll>
+		<LockAccountbtnClearAll>Clear All</LockAccountbtnClearAll>
+		<LockAccountbtnSubmit>Submit</LockAccountbtnSubmit>
+		<MenuimgInstrumentSelect>Selection of trading instrument</MenuimgInstrumentSelect>
+		<MenuimgOpenChangePassword>Change user passwords</MenuimgOpenChangePassword>
+		<MenuimgShowAnalyticChart>Real time/historical chart</MenuimgShowAnalyticChart>
+		<MenuimgOpenChat>Message</MenuimgOpenChat>
+		<MenuimgOpenReportSelect>Report</MenuimgOpenReportSelect>
+		<MenuimgLockAccount>Lock account</MenuimgLockAccount>
+		<MenuimgMargin>Margin</MenuimgMargin>
+		<MenuimgClearAll>Clear all of cancelled order</MenuimgClearAll>
+		<MenuimgDownload>Document to download</MenuimgDownload>
+		<MenuimgHelp>online help</MenuimgHelp>
+		<MenuimgReset>Refresh</MenuimgReset>
+		<MenuimgOpenLogOut>Exit the trading system</MenuimgOpenLogOut>
+		<OpenContractlblQuantityA>Unit</OpenContractlblQuantityA>
+		<OpenContractbtnLiquidation>Liquidation</OpenContractbtnLiquidation>
+		<OpenContractlblExecutePriceA>Price</OpenContractlblExecutePriceA>
+		<OpenContractlblAccountCodeA>Account No.</OpenContractlblAccountCodeA>
+		<OpenContractlblContractSizeA>Size</OpenContractlblContractSizeA>
+		<OpenContractlblExecutedTimeA>Executed Time</OpenContractlblExecutedTimeA>
+		<OpenContractlblCurrencyA>Currency</OpenContractlblCurrencyA>
+		<OpenContractlblReferencePriceA>Ref Price</OpenContractlblReferencePriceA>
+		<OpenContractlblTradePLFloatA>Floating P/L</OpenContractlblTradePLFloatA>
+		<OpenContractlblInterestPLFloatA>Float Interest</OpenContractlblInterestPLFloatA>
+		<OpenContractlblStoragePLFloatA>Float Storage</OpenContractlblStoragePLFloatA>
+		<OpenContractbtnAssignOrder>Assign</OpenContractbtnAssignOrder>
+		<OpenContractlblIsBuyA>Buy/Sell</OpenContractlblIsBuyA>
+		<OpenContractbtnExit>eXit</OpenContractbtnExit>
+		<OpenContractlblOrderContract>OPEN CONTRACT</OpenContractlblOrderContract>
+		<OrderAssignlblOrderCodeA>Order Code</OrderAssignlblOrderCodeA>
+		<OrderAssignlblExecuteTimeA>Execute Time</OrderAssignlblExecuteTimeA>
+		<OrderAssignlblIsBuyA>B/S</OrderAssignlblIsBuyA>
+		<OrderAssignlblPriceA>Price</OrderAssignlblPriceA>
+		<OrderAssignlblLotBalanceA>Lot Bal.</OrderAssignlblLotBalanceA>
+		<OrderAssignlblBalanceA>Balance</OrderAssignlblBalanceA>
+		<OrderAssignlblEquityA>Equity</OrderAssignlblEquityA>
+		<OrderAssignlblACTotalLotsA>Total Lot</OrderAssignlblACTotalLotsA>
+		<OrderAssignlblLiqLotsA>Close</OrderAssignlblLiqLotsA>
+		<OrderAssignbtnReset>Reset</OrderAssignbtnReset>
+		<OrderAssignbtnSubmit>Submit (F8)</OrderAssignbtnSubmit>
+		<OrderAssignbtnExit>eXit</OrderAssignbtnExit>
+		<OrderLiquidationlblPriceA>Price</OrderLiquidationlblPriceA>
+		<OrderLiquidationlblAccountCodeA>Account No.</OrderLiquidationlblAccountCodeA>
+		<OrderLiquidationlblBalanceA>Balance</OrderLiquidationlblBalanceA>
+		<OrderLiquidationlblEquityA>Equity</OrderLiquidationlblEquityA>
+		<OrderLiquidationlblACTotalLotsA>Quoted Lot</OrderLiquidationlblACTotalLotsA>
+		<OrderLiquidationbtnSubmit>Submit (F8)</OrderLiquidationbtnSubmit>
+		<OrderLiquidationbtnExit>eXit</OrderLiquidationbtnExit>
+		<OrderLMTlblOrderTypeA>Type</OrderLMTlblOrderTypeA>
+		<OrderLMTlblAccountCodeA>Account</OrderLMTlblAccountCodeA>
+		<OrderLMTlblIsBuyA>B/S</OrderLMTlblIsBuyA>
+		<OrderLMTlblSetPriceA>Price</OrderLMTlblSetPriceA>
+		<OrderLMTlblLot>Lot</OrderLMTlblLot>
+		<OrderLMTlblBalanceA>Balance</OrderLMTlblBalanceA>
+		<OrderLMTlblEquityA>Equity</OrderLMTlblEquityA>
+		<OrderLMTbtnSetOCO>O C O</OrderLMTbtnSetOCO>
+		<OrderLMTbtnReset> Reset </OrderLMTbtnReset>
+		<OrderLMTbtnSubmit>Submit (F8)</OrderLMTbtnSubmit>
+		<OrderLMTbtnExit>eXit</OrderLMTbtnExit>
+		<OrderMultiDQlblPriceA>Price</OrderMultiDQlblPriceA>
+		<OrderMultiDQlblAccountCodeA>Account No.</OrderMultiDQlblAccountCodeA>
+		<OrderMultiDQlblBalanceA>Balance</OrderMultiDQlblBalanceA>
+		<OrderMultiDQlblEquityA>Equity</OrderMultiDQlblEquityA>
+		<OrderMultiDQlblACTotalLotsA>Total Lot</OrderMultiDQlblACTotalLotsA>
+		<OrderMultiDQlblDQQuoteLotA>Quoted Lot</OrderMultiDQlblDQQuoteLotA>
+		<OrderMultiDQbtnReset> Reset </OrderMultiDQbtnReset>
+		<OrderMultiDQbtnSubmit>Submit (F8)</OrderMultiDQbtnSubmit>
+		<OrderMultiDQbtnExit>eXit</OrderMultiDQbtnExit>
+		<OrderPlacementbtnConfirm>Confirm (F8)</OrderPlacementbtnConfirm>
+		<OrderPlacementbtnCancel>Cancel</OrderPlacementbtnCancel>
+		<OrderPlacementlblOpenOrderA>Open Order</OrderPlacementlblOpenOrderA>
+		<OrderSingleDQlblAccountCodeA>Account</OrderSingleDQlblAccountCodeA>
+		<OrderSingleDQlblLot>Lot</OrderSingleDQlblLot>
+		<OrderSingleDQlblDQMaxMove>Slide Pips</OrderSingleDQlblDQMaxMove>
+		<OrderSingleDQbtnBuy>BUY</OrderSingleDQbtnBuy>
+		<OrderSingleDQbtnSell>SELL</OrderSingleDQbtnSell>
+		<OrderSingleDQbtnReset> Reset </OrderSingleDQbtnReset>
+		<OrderSingleDQbtnExit>eXit</OrderSingleDQbtnExit>
+		<UnconfirmedInstructionlblUnconfirmedInstruction>UNCONFIRMED INSTRUCTION</UnconfirmedInstructionlblUnconfirmedInstruction>
+		<UnconfirmedInstructionlblExecutePriceA>Price</UnconfirmedInstructionlblExecutePriceA>
+		<UnconfirmedInstructionlblIsBuyA>Buy/Sell</UnconfirmedInstructionlblIsBuyA>
+		<UnconfirmedInstructionlblQuantityA>Quantity</UnconfirmedInstructionlblQuantityA>
+		<UnconfirmedInstructionlblAccountCodeA>Account No.</UnconfirmedInstructionlblAccountCodeA>
+		<UnconfirmedInstructionlblOrderTypeA>Type</UnconfirmedInstructionlblOrderTypeA>
+		<UnconfirmedInstructionlblTradeOptionA>Option</UnconfirmedInstructionlblTradeOptionA>
+		<UnconfirmedInstructionlblSubmitTimeA>Sent Time</UnconfirmedInstructionlblSubmitTimeA>
+		<UnconfirmedInstructionlblEndTimeA>Expire Time</UnconfirmedInstructionlblEndTimeA>
+		<UnconfirmedInstructionlblEndTimeA2>Execute Time</UnconfirmedInstructionlblEndTimeA2>
+		<UnconfirmedInstructionlblCommissionSumA>Fee</UnconfirmedInstructionlblCommissionSumA>
+		<UnconfirmedInstructionlblLevySumA>Levy</UnconfirmedInstructionlblLevySumA>
+		<UnconfirmedInstructionlblTradePLA>P/L</UnconfirmedInstructionlblTradePLA>
+		<UnconfirmedInstructionlblInterestPLA>Interest</UnconfirmedInstructionlblInterestPLA>
+		<UnconfirmedInstructionlblStoragePLA>Storage</UnconfirmedInstructionlblStoragePLA>
+		<UnconfirmedInstructionlblPeerOrderCodesA>Open Positions</UnconfirmedInstructionlblPeerOrderCodesA>
+		<UnconfirmedInstructionlblMessageA>Remarks</UnconfirmedInstructionlblMessageA>
+		<UnconfirmedInstructionbtnCancellation>Cancel</UnconfirmedInstructionbtnCancellation>
+		<UnconfirmedInstructionbtnClearFromList>Clear</UnconfirmedInstructionbtnClearFromList>
+		<UnconfirmedInstructionbtnExit>Exit</UnconfirmedInstructionbtnExit>
+		<MenuPageLockAccountAlert0>Agent authority is not granted!</MenuPageLockAccountAlert0>
+		<MenuPageLockAccountAlert1>Failed to operate the selected account!</MenuPageLockAccountAlert1>
+		<MenupageOpenReportSelectAlert0>Failed to initialize during logging, please try again!</MenupageOpenReportSelectAlert0>
+		<MenupageInstrumentSelectAlert0>Failed to operate selection of trading instruments!</MenupageInstrumentSelectAlert0>
+		<OrderAssignPageFillAccount0>The account is not available at this moment!</OrderAssignPageFillAccount0>
+		<OrderLiquidationPageFillAccountAlert0>The account is not available at this moment!</OrderLiquidationPageFillAccountAlert0>
+		<OrderLMTPagetextLot_OnblurAlert0>Exceed permitted trading quantity( </OrderLMTPagetextLot_OnblurAlert0>
+		<OrderLMTPagetextLot_OnblurAlert1>The filled quantity for liquidation will be reseted!</OrderLMTPagetextLot_OnblurAlert1>
+		<OrderLMTPageorderValidAlert0>Please select a type or account!</OrderLMTPageorderValidAlert0>
+		<OrderLMTPageorderValidAlert1>The price is not allowed to be blank!</OrderLMTPageorderValidAlert1>
+		<OrderLMTPageorderValidAlert2>The set price is too close to the market, please make it</OrderLMTPageorderValidAlert2>
+		<OrderLMTPageorderValidAlert22>points away from the market!</OrderLMTPageorderValidAlert22>
+		<OrderLMTPageorderValidAlert3>The set price is too far away from the market, please modify the set price and submit again</OrderLMTPageorderValidAlert3>
+		<OrderLMTPageorderValidAlert4>Stop order is accepted only for the purpose of reducing trading exposure.</OrderLMTPageorderValidAlert4>
+		<OrderLMTPageorderValidAlert5>Stop order is accepted only for the purpose of reducing trading exposure.</OrderLMTPageorderValidAlert5>
+		<OrderLMTPageorderValidAlert6>Trading quantity should be greater than 0!</OrderLMTPageorderValidAlert6>
+		<OrderLMTPageorderValidAlert7>Trading quantity and liquidation quantity are not the same, please re-enter!</OrderLMTPageorderValidAlert7>
+		<OrderLMTPageorderValidAlert8>Set price is between the current market bid/ask prices, please modify the price!</OrderLMTPageorderValidAlert8>
+		<OrderLMTPageorderValidAlertBetter>Limit Order for new position is accepted for hedging only.</OrderLMTPageorderValidAlertBetter>
+		<OrderLMTPagebuttonSubmit_OnclickAlert0>The account is not available at this moment!</OrderLMTPagebuttonSubmit_OnclickAlert0>
+		<OrderMultiDQPageFillAccountAlert0>The account is not available at the moment!</OrderMultiDQPageFillAccountAlert0>
+		<OrderOCOPageorderValidAlert3>Trading option is not accepted!</OrderOCOPageorderValidAlert3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert0>The trading quantity exceeds the limit that is permitted by the account (</OrderOperateOrderOperateAccountGrid_ValidateEditAlert0>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert2>The total quantity is more than the quantity of the agent order (</OrderOperateOrderOperateAccountGrid_ValidateEditAlert2>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert3>The filled quantity for liquidation will be reseted!</OrderOperateOrderOperateAccountGrid_ValidateEditAlert3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert5>The range should not greater than</OrderOperateOrderOperateAccountGrid_ValidateEditAlert5>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert6>pips</OrderOperateOrderOperateAccountGrid_ValidateEditAlert6>
+		<OrderOperateOrderValidAlert0>The total quantity is more than the quantity permitted for the quote (</OrderOperateOrderValidAlert0>
+		<OrderOperateOrderValidAlert1>The information is incomplete, please check!.</OrderOperateOrderValidAlert1>
+		<OrderOperateOutstandingOrderGridValidateEditPrompt0>The trade quantity is not acceptable (</OrderOperateOutstandingOrderGridValidateEditPrompt0>
+		<OrderOperateOutstandingOrderGridValidateEditPrompt1>Total quantity for liquidation is more that than the available quantity!</OrderOperateOutstandingOrderGridValidateEditPrompt1>
+		<OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert0>The trade quantity is not acceptable (</OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert0>
+		<OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert1>The total quantity is more than the quantity permitted for trading</OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert1>
+		<TradeConsoleCancelLMTOrderAlert0>The trading hours are not valid!</TradeConsoleCancelLMTOrderAlert0>
+		<TradeConsoleInitializeGridAlert0>Error: Column property is not valid, please contact the Customer Service!</TradeConsoleInitializeGridAlert0>
+		<TradeConsolePromptIsMustAssignOrderAlert0>Orders in the agent account needed to be assigned!</TradeConsolePromptIsMustAssignOrderAlert0>
+		<TradeConsoleAnswerAlert0>Unexpected error occurred during quotation process. If you repeatedly experience the problem, please contact our Customer Service!</TradeConsoleAnswerAlert0>
+		<TradeConsoleGetUpdateAccountLockResultAlert0>Agent/Clients status have been updated</TradeConsoleGetUpdateAccountLockResultAlert0>
+		<TradeConsoleGetUpdateAccountLockResultAlert1>Failed to update Agent/Clients status!</TradeConsoleGetUpdateAccountLockResultAlert1>
+		<TradeConsoleCancelAlert0>An error occurred in cancelling the order. If the problem persists, please contact our Customer Service for assistance!</TradeConsoleCancelAlert0>
+		<TradeConsoleOrderLiquidationOperateAlert0>Invalid time format, please try again!</TradeConsoleOrderLiquidationOperateAlert0>
+		<TradeConsoleUpdateAlert0>Unexpected update error occurred, please try again!</TradeConsoleUpdateAlert0>
+		<TradeConsoleIsValidOperateOrderTimePrompt0>Invalid time setting for the order, operation failed.</TradeConsoleIsValidOperateOrderTimePrompt0>
+		<TradeConsoleIsValidOperateOrderTimePrompt1>The order was not accepted because it is out of the last order acceptance time.</TradeConsoleIsValidOperateOrderTimePrompt1>
+		<TradeConsoleIsValidOperateOrderTimePrompt2>The order was not accepted because it is out of the order acceptance time.</TradeConsoleIsValidOperateOrderTimePrompt2>
+		<TradeConsoleIsValidOperateOrderTimePrompt3>The order was not accepted because it is out of the order acceptance time.</TradeConsoleIsValidOperateOrderTimePrompt3>
+		<TradeConsoleIsValidOperateOrderTimePrompt4>The order was not accepted because it is out of the trading hours!</TradeConsoleIsValidOperateOrderTimePrompt4>
+		<TradeConsoleIsValidOperateOrderTimePrompt5>The instrument is not available for trading!</TradeConsoleIsValidOperateOrderTimePrompt5>
+		<TradeConsoleGetOperateHtmlPageAlert2>Accounts to place spot order is not available!</TradeConsoleGetOperateHtmlPageAlert2>
+		<TradeConsoleGetOperateHtmlPageAlert3>Order Type or Open / Close time is not accepted.</TradeConsoleGetOperateHtmlPageAlert3>
+		<OperatingDQOrderPrompt>You are attempting to operate an order for spot!</OperatingDQOrderPrompt>
+		<OperateDQOrderPrompt>You may not operate multiple order dialogs at the same time </OperateDQOrderPrompt>
+		<AccountLockButtonSubmit_OnclickAlert0>Please select a trading account!</AccountLockButtonSubmit_OnclickAlert0>
+		<OrderPlacementbuttonConfirm_OnclickAlert0>Price time out.</OrderPlacementbuttonConfirm_OnclickAlert0>
+		<OrderPlacementbuttonConfirm_OnclickAlert2>The instrument is not available for trading or it is not trading at this time!</OrderPlacementbuttonConfirm_OnclickAlert2>
+		<OrderSingleDQPageFillAccountAlert0>The account does not exist!</OrderSingleDQPageFillAccountAlert0>
+		<OrderSingleDQPageorderValidAlert0>The price is not allowed to be blank!</OrderSingleDQPageorderValidAlert0>
+		<OrderSingleDQPageorderValidAlert1>Trading quantity should be greater than 0, please re-enter!</OrderSingleDQPageorderValidAlert1>
+		<OrderSingleDQPagetextLot_OnblurAlert0>The trading quantity exceeds the limit for the instrument (</OrderSingleDQPagetextLot_OnblurAlert0>
+		<OrderSingleDQPagetextLot_OnblurAlert2>The total quantity is more than the limit permitted for the quote (</OrderSingleDQPagetextLot_OnblurAlert2>
+		<OrderSingleDQPagetextLot_OnblurAlert3>The filled quantity for liquidation will be reseted!</OrderSingleDQPagetextLot_OnblurAlert3>
+		<ReportContainerpageOnlloadAlert0>An error occurred when loading the requested report, please try again!</ReportContainerpageOnlloadAlert0>
+		<ReportPagebtnPrint_OnclickAlert0>The account is not available at the moment!</ReportPagebtnPrint_OnclickAlert0>
+		<ReportPagebtnPrint_OnclickAlert1>Please select an account or a date!</ReportPagebtnPrint_OnclickAlert1>
+		<ReportPagebtnPrint_OnclickAlert3>The account is not available at this moment!</ReportPagebtnPrint_OnclickAlert3>
+		<ReportPagebtnPrint_OnclickAlert4>Please select an account or a date!</ReportPagebtnPrint_OnclickAlert4>
+		<UnconfirmedInstructionPageBtnCancellation_OnclickAlert0>Instruction to cancel the selected order has been submitted!</UnconfirmedInstructionPageBtnCancellation_OnclickAlert0>
+		<UnconfirmedInstructionPageBtnCancellation_OnclickAlert1>Fail to cancel the selected order, please try again!</UnconfirmedInstructionPageBtnCancellation_OnclickAlert1>
+		<WebServiceGetInitDataAlert0>Disconnection</WebServiceGetInitDataAlert0>
+		<WebServiceQuoteAlert0>There is unexpected error in getting quotation, please try again!</WebServiceQuoteAlert0>
+		<WebServiceCancelLMTOrderAlert0>An error occurred in cancelling the order. If the problem persists, please contact our Customer Service for assistance!</WebServiceCancelLMTOrderAlert0>
+		<WebServiceUpdateAccountLockAlert0>An error occurred on attempt to update account status, please try again!</WebServiceUpdateAccountLockAlert0>
+		<WebServiceGetInstrumentForSettingAlert0>An error occurred on loading trading data, please try again!</WebServiceGetInstrumentForSettingAlert0>
+		<WebServiceGetInstrumentForSettingAlert1>No trading instrument is available,please contact our Customer Service!</WebServiceGetInstrumentForSettingAlert1>
+		<WebServiceUpdateInstrumentSettingAlert0>An error occurred on updating the selected instruments, please try again!</WebServiceUpdateInstrumentSettingAlert0>
+		<WebServiceGetAccountsAlert0>An error occurred when loading account information, please try again!</WebServiceGetAccountsAlert0>
+		<WebServiceGetInstrumentAlert0>An error occurred when loading data for instrument, please try again!</WebServiceGetInstrumentAlert0>
+		<WebServiceDeleteMessageAlert0>Failed to delete the selected message, please try again!</WebServiceDeleteMessageAlert0>
+		<WebServiceGetCurrencyRateByAccountIDAlert0>An error occurred when loading exchange rate information, please try again!</WebServiceGetCurrencyRateByAccountIDAlert0>
+		<WebServicePlaceMessage0>An error occurred when submitting trading instruction to the servers, please try again!</WebServicePlaceMessage0>
+		<WebServiceAssignMessage0>An error occured when assigning order to appropriate account, please try again!</WebServiceAssignMessage0>
+		<WebServiceCancelLMTOrderMessage0>An error occurred in cancelling the order. If the problem persists, please contact our Customer Service for assistance!</WebServiceCancelLMTOrderMessage0>
+		<WebServiceUpdateAccountLockMessage0>Failed to update Agent/Clients status!</WebServiceUpdateAccountLockMessage0>
+		<WebServiceCancelLMTOrderMessage1>Awaiting response from the system.</WebServiceCancelLMTOrderMessage1>
+		<WebServiceGetMessagesAlert0>An error occurred on attempt to access messages from the system, please try later!</WebServiceGetMessagesAlert0>
+		<WebServiceGetCommandsAlert0>You have been signed out of the system, because:</WebServiceGetCommandsAlert0>
+		<WebServiceGetCommandsAlert1>- you may sign in at other location; or</WebServiceGetCommandsAlert1>
+		<WebServiceGetCommandsAlert2>- the server is refreshing its connection with you!</WebServiceGetCommandsAlert2>
+		<DefaultPagePrompt0>Initializing system...</DefaultPagePrompt0>
+		<DefaultPagePrompt1>Loading data...</DefaultPagePrompt1>
+		<DefaultPagePrompt2>WELCOME!</DefaultPagePrompt2>
+		<DefaultPagePrompt3>System Initialization...</DefaultPagePrompt3>
+
+	</Language>
+	<AccountLockLanguage>
+		<ID></ID>
+		<Select>Select</Select>
+		<Code>Code</Code>
+		<AgentID></AgentID>
+		<PreviousLockedStatus></PreviousLockedStatus>
+	</AccountLockLanguage>
+	<AccountLanguage>
+		<ID></ID>
+		<Select>*</Select>
+		<AccountCurrencyID></AccountCurrencyID>
+		<CurrencyAccountID></CurrencyAccountID>
+		<Code>Code</Code>
+		<CurrencyCode></CurrencyCode>
+		<Balance></Balance>
+		<Necessary></Necessary>
+		<Equity></Equity>
+		<UnclearAmount></UnclearAmount>
+		<CreditAmount></CreditAmount>
+		<Ratio></Ratio>
+		<AlertLevel></AlertLevel>
+	</AccountLanguage>
+	<AccountSingleLanguage>
+		<ID></ID>
+		<Code>Code</Code>
+		<CurrencyCode>Curr.</CurrencyCode>
+		<Balance>Balance</Balance>
+		<Necessary>Necessary</Necessary>
+		<TradePLFloat>Float</TradePLFloat>
+		<Equity>Equity</Equity>
+		<UnclearAmount>Unclear Amount</UnclearAmount>
+		<CreditAmount>Credit Amount</CreditAmount>
+		<Ratio>Ratio</Ratio>
+		<AlertLevel>Memo</AlertLevel>
+	</AccountSingleLanguage>
+	<InstrumentLanguage>
+		<ID></ID>
+		<Select>*</Select>
+		<Sequence></Sequence>
+		<Description>Item</Description>
+		<Bid>Bid</Bid>
+		<Ask>Ask</Ask>
+		<Timestamp>Time</Timestamp>
+		<Last>Last</Last>
+		<High>High</High>
+		<Low>Low</Low>
+		<Open>Open</Open>
+		<PrevClose>P Close</PrevClose>
+		<Change>Change</Change>
+	</InstrumentLanguage>
+	<OrderLanguage>
+		<ID></ID>
+		<AccountID></AccountID>
+		<Phase>Status</Phase>
+		<SubmitTime>Time</SubmitTime>
+		<AccountCode>Account</AccountCode>
+		<InstrumentID></InstrumentID>
+		<InstrumentCode>Item</InstrumentCode>
+		<Lot>Lot</Lot>
+		<IsOpen>N/C</IsOpen>
+		<IsBuy>B/S</IsBuy>
+		<SetPrice>Price</SetPrice>
+		<OrderType>Type</OrderType>
+		<PeerOrderCodes></PeerOrderCodes>
+		<Message></Message>
+		<EndTime></EndTime>
+		<ContractSize></ContractSize>
+		<CommissionSum>Fee</CommissionSum>
+		<LevySum>Levy</LevySum>
+	</OrderLanguage>
+	<OpenOrderLanguage>
+		<ID></ID>
+		<IsOpen>Close</IsOpen>
+		<AccountID></AccountID>
+		<AccountCode>Account</AccountCode>
+		<InstrumentID></InstrumentID>
+		<InstrumentCode>Item</InstrumentCode>
+		<ExecuteTime>Time</ExecuteTime>
+		<LotBalance>Lot</LotBalance>
+		<IsBuy>B/S</IsBuy>
+		<ExecutePrice>Price</ExecutePrice>
+		<ContractSize></ContractSize>
+		<CurrencyCode></CurrencyCode>
+		<LivePrice>Ref Price</LivePrice>
+		<TradePLFloat>Floating P/L</TradePLFloat>
+		<InterestPLFloat>Interest</InterestPLFloat>
+		<StoragePLFloat>Storage</StoragePLFloat>
+		<Commission>Comm</Commission>
+	</OpenOrderLanguage>
+	<OutstandingOrderLanguage>
+		<ID></ID>
+		<Code></Code>
+		<OpenOrder>Open Order</OpenOrder>
+		<IsBuy></IsBuy>
+		<TradeCode></TradeCode>
+		<ExecutePrice></ExecutePrice>
+		<LotBalance></LotBalance>
+		<LiqLot>Close</LiqLot>
+	</OutstandingOrderLanguage>
+	<OrderPlacementForSingleDQLanguage>
+		<AccountCode>Account</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>Lot</Lot>
+		<IsBuy>B/S</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>Price</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForSingleDQLanguage>
+	<OrderPlacementForMultiDQLanguage>
+		<AccountCode>Account</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>Lot</Lot>
+		<IsBuy>B/S</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>Price</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForMultiDQLanguage>
+	<OrderPlacementForLMTLanguage>
+		<AccountCode>Account</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>Lot</Lot>
+		<IsBuy>B/S</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>Price</SetPrice>
+		<TradeOption>Option</TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForLMTLanguage>
+	<OrderPlacementForDirectLiqLanguage>
+		<AccountCode>Account</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>Lot</Lot>
+		<IsBuy>B/S</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>Price</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForDirectLiqLanguage>
+	<OrderPlacementForAssignLanguage>
+		<AccountCode>Account</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>Lot</Lot>
+		<IsBuy>B/S</IsBuy>
+		<IsOpen>N/C</IsOpen>
+		<SetPrice>Price</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForAssignLanguage>
+	<OrderOperateAccountGridForMultiDQLanguage>
+		<ID></ID>
+		<Code>Code</Code>
+		<IsBuy>B/S</IsBuy>
+		<SetPrice>Price</SetPrice>
+		<Lot>Lot</Lot>
+		<IsOpen></IsOpen>
+		<LiqLot></LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerOrderCodes></PeerOrderCodes>
+		<PeerCount></PeerCount>
+		<IsBuyPrevious></IsBuyPrevious>
+		<DQMaxMove>Slide Pips</DQMaxMove>
+	</OrderOperateAccountGridForMultiDQLanguage>
+	<OrderOperateLiquidationLanguage>
+		<ID></ID>
+		<Code>Code</Code>
+		<PeerOrderCodes>Open Order</PeerOrderCodes>
+		<OrderID></OrderID>
+		<OrderCode></OrderCode>
+		<CurrencyCode></CurrencyCode>
+		<Balance></Balance>
+		<Equity></Equity>
+		<IsBuy>B/S</IsBuy>
+		<SetPrice>Price</SetPrice>
+		<ExecutePrice></ExecutePrice>
+		<LotBalance></LotBalance>
+		<LiqLot>Lot</LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerCount></PeerCount>
+		<IsSplitLot></IsSplitLot>
+		<IsAutoClose></IsAutoClose>
+		<TransactionType></TransactionType>
+		<PairedOrderID></PairedOrderID>
+	</OrderOperateLiquidationLanguage>
+	<MessageLanguage>
+		<NoMessage>No Message is available</NoMessage>
+		<DelMesasge>Delete</DelMesasge>
+	</MessageLanguage>
+	<OrderOperateAccountGridForAssignLanguage>
+		<ID></ID>
+		<Code>Code</Code>
+		<IsBuy>B/S</IsBuy>
+		<SetPrice>Price</SetPrice>
+		<Lot>Lot</Lot>
+		<IsOpen></IsOpen>
+		<LiqLot></LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerOrderCodes></PeerOrderCodes>
+		<PeerCount></PeerCount>
+		<IsBuyPrevious></IsBuyPrevious>
+		<DQMaxMove></DQMaxMove>
+	</OrderOperateAccountGridForAssignLanguage>
+	<InstrumentSelectLanguage>
+		<ID></ID>
+		<Select>Select</Select>
+		<Code></Code>
+		<Description>Desc</Description>
+		<Sequence></Sequence>
+	</InstrumentSelectLanguage>
+  <LogLanguage>
+    <Id></Id>
+    <Timestamp></Timestamp>
+    <LogCodeName>Log</LogCodeName>
+    <TimestampString>Time</TimestampString>
+    <Action>Action</Action>
+
+    <Placing>placing</Placing>
+    <Placed></Placed>
+    <Executed>was confirmed</Executed>
+    <Cancelled>status updated.</Cancelled>
+    <Deleted>was deleted,</Deleted>
+    <RemoveByRisk>was removed by the System</RemoveByRisk>
+    <RequestCancelLMTOrder>requests to cancel</RequestCancelLMTOrder>
+    <ExecutedAt></ExecutedAt>
+    <Set></Set>
+    <Message></Message>
+    <Message2></Message2>
+    <OrderTo>Acknowledge placement of</OrderTo>
+    <At>at</At>
+    <For>for</For>
+    <Lot></Lot>
+    <RefrenceCode>, ref code:</RefrenceCode>
+    <Send></Send>
+    <Risk>System confirmed</Risk>
+    <RefrenceCode2>, Order Code:</RefrenceCode2>
+  </LogLanguage>  
+</Languages>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extend>
+	<SmtpMail1CharSet>utf-8</SmtpMail1CharSet>
+	<SmtpAccount>test@sample</SmtpAccount>
+	<SmtpPassword>12345678</SmtpPassword>
+	<SmtpServer>mail.sample.com.hk</SmtpServer>
+	<subject1>Trade confirmation of</subject1>
+	<subject2>for account</subject2>
+	<body>
+		<p>Dear Sirs/Madam,</p>
+		<p>In accordance with your instruction, a trade with below illustrated details was executed for the Account No. AccountCode:</p>
+		<p>- Order no. : <strong>OrderCode</strong><BR></BR>
+- Item : <strong>InstrumentCode</strong><BR></BR>
+- Quantity : <strong>LotBalance</strong><BR></BR>
+- Buy/sell : <strong>BuySell</strong><BR></BR>
+- Price : <strong>ExecutePrice</strong><BR></BR>
+- Time : <strong>ExecuteTime</strong><BR></BR>
+- New/close : <strong>NewClose</strong><BR></BR>
+- Open position : <strong>OpenPrice</strong></p>
+		<p>Please let us know if you find any queries pertaining to the confirmation above.</p>
+		<p>Regards</p>
+		<p>From<BR></BR>The Trading Desk.<BR></BR> OrganizationName</p>
+	</body>
+	<RelationLot>Lot</RelationLot>
+	<BuyPrompt>Buy</BuyPrompt>
+	<SellPrompt>Sell</SellPrompt>
+	<ClosePrompt>Close</ClosePrompt>
+	<NewPrompt>New</NewPrompt>
+</Extend>

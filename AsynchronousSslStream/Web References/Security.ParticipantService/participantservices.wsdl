@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="UpdateParticipantByDataSet">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="participants">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateParticipantByDataSetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateParticipantByDataSetResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdatePasswordResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateParticipant">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantLoginName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateParticipantResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateParticipantResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateParticipant">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantLoginName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantPassword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="participantTypeID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="parentParticipantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateParticipantResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateParticipantResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteParticipant">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteParticipantResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteParticipantResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateParticipantRelation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="parentID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateParticipantRelationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateParticipantRelationResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteParticipantRelation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="parentID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteParticipantRelationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteParticipantRelationResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckParticipantRelation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="participantID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="parentID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckParticipantRelationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckParticipantRelationResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetParticipants">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetParticipantsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetParticipantsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetParticipantTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loginUserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetParticipantTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetParticipantTypesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginByAdministrator">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="participantLoginName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginByAdministratorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoginByAdministratorResult" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Login">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="participantLoginName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="participantPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoginResult" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="UpdateParticipantByDataSetSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateParticipantByDataSet" />
+  </wsdl:message>
+  <wsdl:message name="UpdateParticipantByDataSetSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateParticipantByDataSetResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdatePassword" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdatePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateParticipantSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateParticipant" />
+  </wsdl:message>
+  <wsdl:message name="UpdateParticipantSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateParticipantResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateParticipantSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateParticipant" />
+  </wsdl:message>
+  <wsdl:message name="CreateParticipantSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateParticipantResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteParticipantSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteParticipant" />
+  </wsdl:message>
+  <wsdl:message name="DeleteParticipantSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteParticipantResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateParticipantRelationSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateParticipantRelation" />
+  </wsdl:message>
+  <wsdl:message name="CreateParticipantRelationSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateParticipantRelationResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteParticipantRelationSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteParticipantRelation" />
+  </wsdl:message>
+  <wsdl:message name="DeleteParticipantRelationSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteParticipantRelationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckParticipantRelationSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckParticipantRelation" />
+  </wsdl:message>
+  <wsdl:message name="CheckParticipantRelationSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckParticipantRelationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetParticipantsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetParticipants" />
+  </wsdl:message>
+  <wsdl:message name="GetParticipantsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetParticipantsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetParticipantTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetParticipantTypes" />
+  </wsdl:message>
+  <wsdl:message name="GetParticipantTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetParticipantTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginByAdministratorSoapIn">
+    <wsdl:part name="parameters" element="tns:LoginByAdministrator" />
+  </wsdl:message>
+  <wsdl:message name="LoginByAdministratorSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginByAdministratorResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapIn">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ParticipantServicesSoap">
+    <wsdl:operation name="UpdateParticipant">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">大量数据的更新推荐使用本方法</wsdl:documentation>
+      <wsdl:input name="UpdateParticipantByDataSet" message="tns:UpdateParticipantByDataSetSoapIn" />
+      <wsdl:output name="UpdateParticipantByDataSet" message="tns:UpdateParticipantByDataSetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePassword">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新参与者密码</wsdl:documentation>
+      <wsdl:input message="tns:UpdatePasswordSoapIn" />
+      <wsdl:output message="tns:UpdatePasswordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateParticipant">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新参与者接口</wsdl:documentation>
+      <wsdl:input message="tns:UpdateParticipantSoapIn" />
+      <wsdl:output message="tns:UpdateParticipantSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateParticipant">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">创建参与者接口，当少量数据需要更新时推荐使用本方法</wsdl:documentation>
+      <wsdl:input message="tns:CreateParticipantSoapIn" />
+      <wsdl:output message="tns:CreateParticipantSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteParticipant">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除参与者接口，当少量数据需要更新时推荐使用本方法</wsdl:documentation>
+      <wsdl:input message="tns:DeleteParticipantSoapIn" />
+      <wsdl:output message="tns:DeleteParticipantSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateParticipantRelation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除参与者接口，当少量数据需要更新时推荐使用本方法</wsdl:documentation>
+      <wsdl:input message="tns:CreateParticipantRelationSoapIn" />
+      <wsdl:output message="tns:CreateParticipantRelationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteParticipantRelation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除参与者接口，当少量数据需要更新时推荐使用本方法</wsdl:documentation>
+      <wsdl:input message="tns:DeleteParticipantRelationSoapIn" />
+      <wsdl:output message="tns:DeleteParticipantRelationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckParticipantRelation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除参与者接口，当少量数据需要更新时推荐使用本方法</wsdl:documentation>
+      <wsdl:input message="tns:CheckParticipantRelationSoapIn" />
+      <wsdl:output message="tns:CheckParticipantRelationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetParticipants">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取参与者接口</wsdl:documentation>
+      <wsdl:input message="tns:GetParticipantsSoapIn" />
+      <wsdl:output message="tns:GetParticipantsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetParticipantTypes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取参与者类型接口</wsdl:documentation>
+      <wsdl:input message="tns:GetParticipantTypesSoapIn" />
+      <wsdl:output message="tns:GetParticipantTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoginByAdministrator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">超级用户登录使用的登录方法</wsdl:documentation>
+      <wsdl:input message="tns:LoginByAdministratorSoapIn" />
+      <wsdl:output message="tns:LoginByAdministratorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">登录方法</wsdl:documentation>
+      <wsdl:input message="tns:LoginSoapIn" />
+      <wsdl:output message="tns:LoginSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ParticipantServicesSoap" type="tns:ParticipantServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UpdateParticipant">
+      <soap:operation soapAction="http://tempuri.org/UpdateParticipantByDataSet" style="document" />
+      <wsdl:input name="UpdateParticipantByDataSet">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UpdateParticipantByDataSet">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePassword">
+      <soap:operation soapAction="http://tempuri.org/UpdatePassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateParticipant">
+      <soap:operation soapAction="http://tempuri.org/UpdateParticipant" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateParticipant">
+      <soap:operation soapAction="http://tempuri.org/CreateParticipant" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteParticipant">
+      <soap:operation soapAction="http://tempuri.org/DeleteParticipant" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateParticipantRelation">
+      <soap:operation soapAction="http://tempuri.org/CreateParticipantRelation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteParticipantRelation">
+      <soap:operation soapAction="http://tempuri.org/DeleteParticipantRelation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckParticipantRelation">
+      <soap:operation soapAction="http://tempuri.org/CheckParticipantRelation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetParticipants">
+      <soap:operation soapAction="http://tempuri.org/GetParticipants" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetParticipantTypes">
+      <soap:operation soapAction="http://tempuri.org/GetParticipantTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginByAdministrator">
+      <soap:operation soapAction="http://tempuri.org/LoginByAdministrator" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ParticipantServicesSoap12" type="tns:ParticipantServicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UpdateParticipant">
+      <soap12:operation soapAction="http://tempuri.org/UpdateParticipantByDataSet" style="document" />
+      <wsdl:input name="UpdateParticipantByDataSet">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UpdateParticipantByDataSet">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePassword">
+      <soap12:operation soapAction="http://tempuri.org/UpdatePassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateParticipant">
+      <soap12:operation soapAction="http://tempuri.org/UpdateParticipant" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateParticipant">
+      <soap12:operation soapAction="http://tempuri.org/CreateParticipant" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteParticipant">
+      <soap12:operation soapAction="http://tempuri.org/DeleteParticipant" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateParticipantRelation">
+      <soap12:operation soapAction="http://tempuri.org/CreateParticipantRelation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteParticipantRelation">
+      <soap12:operation soapAction="http://tempuri.org/DeleteParticipantRelation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckParticipantRelation">
+      <soap12:operation soapAction="http://tempuri.org/CheckParticipantRelation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetParticipants">
+      <soap12:operation soapAction="http://tempuri.org/GetParticipants" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetParticipantTypes">
+      <soap12:operation soapAction="http://tempuri.org/GetParticipantTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginByAdministrator">
+      <soap12:operation soapAction="http://tempuri.org/LoginByAdministrator" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://tempuri.org/Login" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ParticipantServices">
+    <wsdl:port name="ParticipantServicesSoap" binding="tns:ParticipantServicesSoap">
+      <soap:address location="http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Service/participantservices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ParticipantServicesSoap12" binding="tns:ParticipantServicesSoap12">
+      <soap12:address location="http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Service/participantservices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
