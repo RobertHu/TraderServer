@@ -120,6 +120,7 @@ namespace AsyncSslServer
                     var target = this.dict.Where(p => DateTime.Now - p.Value > this._ExpiredTimeout).ToArray();
                     foreach (var item in target)
                     {
+                        this._Logger.InfoFormat("remove session:{0}", item.Key);
                         RemoveHelper(item.Key);
                     }
                 }
