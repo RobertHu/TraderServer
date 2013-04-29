@@ -1,0 +1,10 @@
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\bin\Release\AsyncSslServer.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\bin\Release\AsyncSslServer.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\bin\Release\CommonUtil.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\bin\Release\log4net.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\bin\Release\Serialization.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\bin\Release\Serialization.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\obj\Release\ResolveAssemblyReference.cache
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\obj\Release\AsyncSslServer.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\obj\Release\AsyncSslServer.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\bin\Release\Ionic.Zip.dll
