@@ -11,20 +11,14 @@ namespace AsyncSslServer.Setting
     public class SettingManager
     {
         private ILog _Logger = LogManager.GetLogger(typeof(SettingManager));
-        private Lua _LuaVM = new Lua();
-        private Dictionary<string,string> _LoginSettings;
         private SettingManager()
         {
             try
             {
-                var fun = _LuaVM.LoadFile(@"Setting/Script/setting.lua");
-                fun.Call();
                 this.PhysicPath = GetSettingFromAppSettingConfig("physicPath");
                 this.ConnectionString = GetSettingFromAppSettingConfig("connectionString");
                 this.ConnectionStringForReport = GetSettingFromAppSettingConfig("connectionStringForReport");
-                this._LoginSettings = _LuaVM.GetTable("settings").ToDict();
                 this.BackofficeServiceUrl = GetSettingFromAppSettingConfig("backofficeServiceUrl");
-                this.IsDebugGetCommands = Boolean.Parse(_LuaVM.GetString("isDebugGetCommands"));
                 this.ServerPort = int.Parse(GetSettingFromAppSettingConfig("serverPort"));
                 this.SessionExpiredTimeSpan = new TimeSpan(0, int.Parse(GetSettingFromAppSettingConfig("SessionExpiredTimeSpan")), 0);
                 this.CommandUrl = GetSettingFromAppSettingConfig("commandUrl");
@@ -48,18 +42,22 @@ namespace AsyncSslServer.Setting
 
         public string ConnectionStringForReport { get; private set; }
 
-        public bool IsDebugGetCommands { get; private set; }
         public TimeSpan SessionExpiredTimeSpan { get; set; }
         public string CommandUrl { get; private set; }
         public string CertificatePath { get; private set; }
 
         public string GetLoginSetting(string key)
         {
-            if (this._LoginSettings.ContainsKey(key))
+            try
             {
-                return this._LoginSettings[key];
+                return GetSettingFromAppSettingConfig(key);
             }
-            return string.Empty;
+            catch (Exception ex)
+            {
+                this._Logger.Error(ex);
+                return string.Empty;
+            }
+            
         }
 
         private string GetSettingFromAppSettingConfig(string key)

@@ -22007,3 +22007,45 @@ Object name: 'SslStream'.
    at System.Net.Security.SslStream.EndWrite(IAsyncResult asyncResult)
    at Microsoft.FSharp.Control.CommonExtensions.AsyncWrite@1747-1.Invoke(IAsyncResult arg00)
    at <StartupCode$FSharp-Core>.$Control.callback@1476.Invoke(IAsyncResult ar)
+2013-04-30 08:40:38,019 [8] ERROR iExchange3Promotion.Net.AsyncSslServer.ServerProgram - System.TypeInitializationException: The type initializer for 'AsyncSslServer.Setting.SettingManager' threw an exception. ---> System.BadImageFormatException: Could not load file or assembly 'LuaInterface, Version=2.0.0.16708, Culture=neutral, PublicKeyToken=null' or one of its dependencies. An attempt was made to load a program with an incorrect format.
+   at AsyncSslServer.Setting.SettingManager..ctor()
+   at AsyncSslServer.Setting.SettingManager..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Setting\SettingManager.cs:line 40
+   --- End of inner exception stack trace ---
+   at iExchange3Promotion.Net.AsyncSslServer.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 34
+2013-04-30 08:40:38,445 [8] ERROR AsyncSslServer.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at AsyncSslServer.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-04-30 08:43:16,929 [8] ERROR iExchange3Promotion.Net.AsyncSslServer.ServerProgram - System.TypeInitializationException: The type initializer for 'AsyncSslServer.Setting.SettingManager' threw an exception. ---> System.BadImageFormatException: Could not load file or assembly 'LuaInterface, Version=2.0.0.16708, Culture=neutral, PublicKeyToken=null' or one of its dependencies. An attempt was made to load a program with an incorrect format.
+   at AsyncSslServer.Setting.SettingManager..ctor()
+   at AsyncSslServer.Setting.SettingManager..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Setting\SettingManager.cs:line 40
+   --- End of inner exception stack trace ---
+   at iExchange3Promotion.Net.AsyncSslServer.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 34
+2013-04-30 08:43:17,061 [8] ERROR AsyncSslServer.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at AsyncSslServer.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-04-30 08:44:24,819 [8] ERROR iExchange3Promotion.Net.AsyncSslServer.ServerProgram - System.TypeInitializationException: The type initializer for 'AsyncSslServer.Setting.SettingManager' threw an exception. ---> System.BadImageFormatException: Could not load file or assembly 'LuaInterface, Version=2.0.0.16708, Culture=neutral, PublicKeyToken=null' or one of its dependencies. An attempt was made to load a program with an incorrect format.
+   at AsyncSslServer.Setting.SettingManager..ctor()
+   at AsyncSslServer.Setting.SettingManager..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Setting\SettingManager.cs:line 40
+   --- End of inner exception stack trace ---
+   at iExchange3Promotion.Net.AsyncSslServer.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 34
+2013-04-30 08:44:24,915 [8] ERROR AsyncSslServer.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at AsyncSslServer.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-04-30 08:44:55,315 [8] ERROR iExchange3Promotion.Net.AsyncSslServer.ServerProgram - System.TypeInitializationException: The type initializer for 'AsyncSslServer.Setting.SettingManager' threw an exception. ---> System.BadImageFormatException: Could not load file or assembly 'LuaInterface, Version=2.0.0.16708, Culture=neutral, PublicKeyToken=null' or one of its dependencies. An attempt was made to load a program with an incorrect format.
+   at AsyncSslServer.Setting.SettingManager..ctor()
+   at AsyncSslServer.Setting.SettingManager..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Setting\SettingManager.cs:line 40
+   --- End of inner exception stack trace ---
+   at iExchange3Promotion.Net.AsyncSslServer.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 34
+2013-04-30 08:44:55,446 [8] ERROR AsyncSslServer.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at AsyncSslServer.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-04-30 08:47:00,285 [10] ERROR iExchange3Promotion.Net.AsyncSslServer.ServerProgram - System.TypeInitializationException: The type initializer for 'AsyncSslServer.Setting.SettingManager' threw an exception. ---> System.BadImageFormatException: Could not load file or assembly 'LuaInterface, Version=2.0.0.16708, Culture=neutral, PublicKeyToken=null' or one of its dependencies. An attempt was made to load a program with an incorrect format.
+   at AsyncSslServer.Setting.SettingManager..ctor()
+   at AsyncSslServer.Setting.SettingManager..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Setting\SettingManager.cs:line 40
+   --- End of inner exception stack trace ---
+   at iExchange3Promotion.Net.AsyncSslServer.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 34
+2013-04-30 08:47:00,415 [10] ERROR AsyncSslServer.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at AsyncSslServer.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-04-30 08:47:46,636 [10] ERROR iExchange3Promotion.Net.AsyncSslServer.ServerProgram - System.TypeInitializationException: The type initializer for 'AsyncSslServer.Setting.SettingManager' threw an exception. ---> System.BadImageFormatException: Could not load file or assembly 'LuaInterface, Version=2.0.0.16708, Culture=neutral, PublicKeyToken=null' or one of its dependencies. An attempt was made to load a program with an incorrect format.
+   at AsyncSslServer.Setting.SettingManager..ctor()
+   at AsyncSslServer.Setting.SettingManager..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Setting\SettingManager.cs:line 40
+   --- End of inner exception stack trace ---
+   at iExchange3Promotion.Net.AsyncSslServer.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 34
+2013-04-30 08:47:46,781 [10] ERROR AsyncSslServer.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at AsyncSslServer.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
