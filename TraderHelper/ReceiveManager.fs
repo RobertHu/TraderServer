@@ -25,21 +25,18 @@ type ReceiveAgent(f: processRequestDelegate) =
     let processor = f
     let event = new Event<SendResponseDelegate, ResponseEventArgs>()
     let agent = new Agent<Guid * byte[]>(fun inbox ->
-        let rec loop() = async{
-            let! session,data = inbox.Receive()
-            match parseData (session.ToString()) data with
-            |None -> ()
-            |Some request ->
-                try
-                    let result = f.Invoke(request)
-                    event.Trigger(new obj(),  new ResponseEventArgs(result))
-                with
-                | x ->
-                    ()
-               
-            return! loop()
+        async{
+            while true do
+                let! session,data = inbox.Receive()
+                match parseData (session.ToString()) data with
+                |None -> ()
+                |Some request ->
+                    try
+                        let result = f.Invoke(request)
+                        event.Trigger(new obj(),  new ResponseEventArgs(result))
+                    with
+                    | x -> ()
             }
-        loop()
         )
 
     do

@@ -25,61 +25,46 @@ type Client(stream: SslStream,session: Guid) as this =
             |x -> logger.Error(x)
 
     let agent = new Agent<byte[]>(fun inbox -> 
-            let rec loop() = async{
+            async{
+                while true do
                     try
                         let! msg= inbox.Receive() 
                         do! stream.AsyncWrite(msg)
-                        return! loop()
                     with
                     |x ->
                         logger.Error(x)
                         this.Close()
                 }
-            loop()
 
         )
 
     let rec read() = async{
             try
                 let! count = stream.AsyncRead(headerBuff)
-
-                let rec readHead readCount =  
-                    async{
-                        match readCount = Constants.HeadCount with
-                        | false ->
-                            let! c = stream.AsyncRead(headerBuff,readCount,(Constants.HeadCount - readCount))
-                            return! readHead (c + readCount)
-                        | true -> ()
-                            
-                    }
-
+                let readedHeadCount = ref count
                 match count = Constants.HeadCount with
-                |false -> do! readHead count
+                |false -> 
+                    while !readedHeadCount <> Constants.HeadCount do
+                        let! c = stream.AsyncRead(headerBuff,!readedHeadCount,(Constants.HeadCount - !readedHeadCount))
+                        readedHeadCount := !readedHeadCount + c
                 | _  -> ()
-
                 let packetLength = Constants.GetPacketLength(headerBuff,0)
                 let contentLength = packetLength - Constants.HeadCount
-                let rec readFull (myBuf: byte[]) (readCount: int) =
-                   async{
-                        match readCount = contentLength with
-                        |false ->
-                            let! c = stream.AsyncRead(myBuf,readCount,(contentLength - readCount))
-                            return! readFull myBuf (readCount + c)
-                        |true ->
-                            let packet = Array.zeroCreate packetLength
-                            System.Array.Copy(headerBuff,packet,Constants.HeadCount)
-                            System.Array.Copy(myBuf,0,packet,Constants.HeadCount,contentLength)
-                            packetArrivedHandler(packet)
-                   }
-
+                let tempBuf= ref null
                 match contentLength <= buff.Length with
                 | false -> 
-                    let tempBuf = Array.zeroCreate contentLength
-                    do! readFull tempBuf 0
-                | true -> 
-                    do! readFull buff 0
-
-                return! read()
+                    tempBuf := Array.zeroCreate contentLength
+                    
+                | true -> tempBuf := buff
+                let readContentCount = ref 0    
+                while !readContentCount <> contentLength do
+                    let! c = stream.AsyncRead(!tempBuf,!readContentCount,(contentLength - !readContentCount))
+                    readContentCount := !readContentCount + c
+                let packet = Array.zeroCreate packetLength
+                System.Array.Copy(headerBuff,packet,Constants.HeadCount)
+                System.Array.Copy(!tempBuf,0,packet,Constants.HeadCount,contentLength)
+                packetArrivedHandler(packet)
+                do! read()
             with
             |x -> 
                 this.Close()
