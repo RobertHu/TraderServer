@@ -38,7 +38,8 @@ type Client(stream: SslStream,session: Guid) as this =
 
         )
 
-    let rec read() = async{
+    let read() = async{
+        while not isClosed do
             try
                 let! count = stream.AsyncRead(headerBuff)
                 let readedHeadCount = ref count
@@ -64,7 +65,6 @@ type Client(stream: SslStream,session: Guid) as this =
                 System.Array.Copy(headerBuff,packet,Constants.HeadCount)
                 System.Array.Copy(!tempBuf,0,packet,Constants.HeadCount,contentLength)
                 packetArrivedHandler(packet)
-                do! read()
             with
             |x -> 
                 this.Close()

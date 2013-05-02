@@ -22,12 +22,15 @@ type Quotation private() =
                     match msg with
                     |Add(session, client) ->
                         match dict.TryGetValue(session) with
-                        |(true, _ ) -> dict.[session] <- client
+                        |(true, _ ) -> ()
                         | _ -> dict.Add(session,client)
 
                     |Remove(session) ->
-                        dict.Remove(session) |> ignore
-                        logger.Info("remove session")
+                        match dict.ContainsKey(session) with
+                        |true ->
+                            dict.Remove(session) |> ignore
+                            logger.Info("remove session")
+                        |_ -> ()
                     |Send(command,f) ->
                         try
                             match dict.Count with
