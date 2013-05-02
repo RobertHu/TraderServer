@@ -52,6 +52,7 @@ namespace AsyncSslServer
                 if (!this.dict.ContainsKey(session))
                 {
                     this.dict.Add(session, DateTime.Now);
+                    AgentController.Default.AddForLogined(Guid.Parse(session));
                 }
             }
             finally

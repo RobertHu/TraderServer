@@ -29,10 +29,26 @@ namespace AsyncSslServer
                 if (!this._Container.ContainsKey(session))
                 {
                     this._Container.Add(session, new ClientRelation(sender, receiver));
-                    QuotationAgent.Quotation.Default.Add(session, sender);
-                    Console.WriteLine("clientCount={0}", ++this._ClientCount);
                 }
-                
+            }
+            finally
+            {
+                this._ReadWriteLock.ExitWriteLock();
+            }
+        }
+
+        public void AddForLogined(Guid session)
+        {
+            try
+            {
+                this._ReadWriteLock.EnterWriteLock();
+                if (!this._Container.ContainsKey(session))
+                {
+                    return;
+                }
+                var relation = this._Container[session];
+                QuotationAgent.Quotation.Default.Add(session, relation.Sender);
+                Console.WriteLine("clientCount={0}", ++this._ClientCount);
             }
             finally
             {
@@ -65,7 +81,8 @@ namespace AsyncSslServer
             relation.Receiver.ResponseSent -= SendCenter.Default.ResponseSentHandle;
             this._Container.Remove(session);
             QuotationAgent.Quotation.Default.Remove(session);
-            Console.WriteLine("clientCount={0}", --this._ClientCount);
+            this._ClientCount--;
+            Console.WriteLine("clientCount={0}", this._ClientCount < 0 ? 0 : this._ClientCount);
         }
 
         public bool RecoverConnection(Guid originSession, Guid currentSession)

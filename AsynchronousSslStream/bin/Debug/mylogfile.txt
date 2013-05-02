@@ -22049,3 +22049,9 @@ Object name: 'SslStream'.
    at iExchange3Promotion.Net.AsyncSslServer.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 34
 2013-04-30 08:47:46,781 [10] ERROR AsyncSslServer.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
    at AsyncSslServer.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-04-30 15:20:57,711 [21] ERROR Trader.Helper.Communication+Client - System.IO.IOException: Unable to write data to the transport connection: An established connection was aborted by the software in your host machine. ---> System.Net.Sockets.SocketException: An established connection was aborted by the software in your host machine
+   at System.Net.Sockets.NetworkStream.BeginWrite(Byte[] buffer, Int32 offset, Int32 size, AsyncCallback callback, Object state)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndWrite(IAsyncResult asyncResult)
+   at Microsoft.FSharp.Control.CommonExtensions.AsyncWrite@1747-1.Invoke(IAsyncResult arg00)
+   at <StartupCode$FSharp-Core>.$Control.callback@1476.Invoke(IAsyncResult ar)
