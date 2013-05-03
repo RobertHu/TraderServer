@@ -1,0 +1,7 @@
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Release\Serialization.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Release\Serialization.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Release\CommonUtil.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\obj\Release\ResolveAssemblyReference.cache
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\obj\Release\Serialization.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\obj\Release\Serialization.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Release\Ionic.Zip.dll
