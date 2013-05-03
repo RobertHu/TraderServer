@@ -8,6 +8,7 @@ namespace Trader.Common
     public class StringConstants
     {
         public const char ArrayItemSeparator=',';
+        public const char Array2DItemSeparator= ';';
         public const string OK_RESULT = "1";
     }
 }
