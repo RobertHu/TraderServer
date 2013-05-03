@@ -5,14 +5,14 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using iExchange.Common;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using System.Data;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 using System.Net;
 using System.Diagnostics;
-using AsyncSslServer.Service;
-namespace AsyncSslServer.Bll
+using Trader.Server.Service;
+namespace Trader.Server.Bll
 {
     public static class TickService
     {

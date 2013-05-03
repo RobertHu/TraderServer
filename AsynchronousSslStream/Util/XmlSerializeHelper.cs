@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
-namespace AsyncSslServer.Util
+namespace Trader.Server.Util
 {
     public static class XmlSerializeHelper
     {

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using iExchange.Common;
 using System.Xml;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
-namespace AsyncSslServer.Bll
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
+
+namespace Trader.Server.Bll
 {
     public class PaymentService
     {

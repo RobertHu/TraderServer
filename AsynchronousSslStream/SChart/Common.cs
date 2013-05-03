@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 
-namespace iExchange.TradingConsole.SChart
+namespace Trader.Server.SChart
 {
 	/// <summary>
 	/// Summary description for Common.

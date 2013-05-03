@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace AsyncSslServer._4BitCompress
+namespace Trader.Server._4BitCompress
 {
     public static class Quotation4BitEncoder
     {

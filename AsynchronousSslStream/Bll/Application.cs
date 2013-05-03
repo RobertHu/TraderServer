@@ -7,9 +7,9 @@ using System.Net;
 using iExchange.Common;
 using System.Threading;
 using System.Configuration;
-using AsyncSslServer.Setting;
+using Trader.Server.Setting;
 using Trader.Helper;
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public class Application
     {
@@ -17,8 +17,8 @@ namespace AsyncSslServer.Bll
 
         private Application()
         {
-            this.ParticipantService = new Security.ParticipantService.ParticipantServices();
-            this.SecurityService = new Security.SecurityServices.SecurityServices();
+            this.ParticipantService = new Trader.Server.Security.ParticipantService.ParticipantServices();
+            this.SecurityService = new Trader.Server.Security.SecurityServices.SecurityServices();
             this.StateServer = new StateServerService();
             this.StateServerReadyCheck(this.StateServer);
             this.MarketDepthManager = new MarketDepthManager();
@@ -62,8 +62,8 @@ namespace AsyncSslServer.Bll
         }
         
 
-        public Security.ParticipantService.ParticipantServices ParticipantService { get; private set; }
-        public Security.SecurityServices.SecurityServices SecurityService { get; private set; }
+        public Trader.Server.Security.ParticipantService.ParticipantServices ParticipantService { get; private set; }
+        public Trader.Server.Security.SecurityServices.SecurityServices SecurityService { get; private set; }
         public StateServerService StateServer { get; private set; }
         public TradingConsoleServer TradingConsoleServer { get; private set; }
         public MarketDepthManager MarketDepthManager { get; set; }

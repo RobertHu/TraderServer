@@ -1,0 +1,1253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D6521992-980F-402D-A483-336B76C35C2E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Trader.Server</RootNamespace>
+    <AssemblyName>TraderServer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;TEST</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ADODB, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>Lib\ADODB.dll</HintPath>
+    </Reference>
+    <Reference Include="Chart.Common">
+      <HintPath>..\..\..\..\References\DotNet\Debug\Chart\Chart.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonUtil">
+      <HintPath>..\Serialization\Lib\CommonUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="Easychart.Finance">
+      <HintPath>..\..\..\..\References\DotNet\Debug\Chart\Easychart.Finance.dll</HintPath>
+    </Reference>
+    <Reference Include="EasyTools, Version=1.0.1935.20175, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\EasyTools.dll</HintPath>
+    </Reference>
+    <Reference Include="Framework">
+      <HintPath>..\..\..\..\References\DotNet\Debug\Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="iExchange.Common, Version=1.0.4757.16813, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\iExchange.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageQuantization, Version=1.0.1769.16366, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\ImageQuantization.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.VSREPORTLib, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>Lib\Interop.VSREPORTLib.DLL</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="LuaInterface, Version=2.0.0.16708, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\LuaInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="4BitCompress\GuidMapping.cs" />
+    <Compile Include="4BitCompress\OriginQuotation.cs" />
+    <Compile Include="4BitCompress\OverridedQuotation.cs" />
+    <Compile Include="4BitCompress\Quotation4Bit.cs" />
+    <Compile Include="4BitCompress\QuotationBase.cs" />
+    <Compile Include="4BitCompress\Quotation4BitEncoder.cs" />
+    <Compile Include="AgentController.cs" />
+    <Compile Include="Bll\AccountManager.cs" />
+    <Compile Include="Bll\AsyncResultManager.cs" />
+    <Compile Include="Bll\ClientService.cs" />
+    <Compile Include="Bll\InstrumentManager.cs" />
+    <Compile Include="Bll\InterestRateService.cs" />
+    <Compile Include="Bll\LoginManager.cs" />
+    <Compile Include="Bll\LogService.cs" />
+    <Compile Include="Bll\MarketDepthManager.cs" />
+    <Compile Include="Bll\MessageService.cs" />
+    <Compile Include="Bll\RequestTable.cs" />
+    <Compile Include="Bll\NewsService.cs" />
+    <Compile Include="Bll\PasswordService.cs" />
+    <Compile Include="Bll\PaymentService.cs" />
+    <Compile Include="Bll\Quotation.cs" />
+    <Compile Include="Bll\RecoverService.cs" />
+    <Compile Include="Bll\Service.cs" />
+    <Compile Include="Bll\TickService.cs" />
+    <Compile Include="Bll\TimeService.cs" />
+    <Compile Include="Bll\TradingConsoleServer.cs" />
+    <Compile Include="Bll\Application.cs" />
+    <Compile Include="Bll\TransactionService.cs" />
+    <Compile Include="Bll\PDFHelper.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReceiveCenter.cs" />
+    <Compile Include="Report\AccountSummaryArgument.cs" />
+    <Compile Include="Report\LedgerArgument.cs" />
+    <Compile Include="Report\StatementArg.cs" />
+    <Compile Include="ResouceManager.cs" />
+    <Compile Include="SChart\ChartDataArgument.cs" />
+    <Compile Include="SChart\ChartDataArgument2.cs" />
+    <Compile Include="SChart\Common.cs" />
+    <Compile Include="SChart\Config.cs" />
+    <Compile Include="SChart\DataManager.cs" />
+    <Compile Include="SChart\FormulaParameter.cs" />
+    <Compile Include="SChart\Impersonate.cs" />
+    <Compile Include="SChart\TickByTickHistoryDataArgument.cs" />
+    <Compile Include="SChart\TickByTickHistoryDataArgument2.cs" />
+    <Compile Include="SendCenter.cs" />
+    <Compile Include="ServerProgram.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CommandCollectorHost.cs" />
+    <Compile Include="Service\CommandCollectService.cs" />
+    <Compile Include="Service\CommandList.cs" />
+    <Compile Include="Service\CommandQueue.cs" />
+    <Compile Include="Service\QuotationDispatcher.cs" />
+    <Compile Include="Service\CommandManager.cs" />
+    <Compile Include="Service\CommandSender.cs" />
+    <Compile Include="Bll\InitDataService.cs" />
+    <Compile Include="Service\ICommandCollectService.cs" />
+    <Compile Include="SessionMonitor.cs" />
+    <Compile Include="Session\SessionManager.cs" />
+    <Compile Include="Session\TraderState.cs" />
+    <Compile Include="Setting\SettingManager.cs" />
+    <Compile Include="Bll\StatementService.cs" />
+    <Compile Include="TypeExtension\BoolExtension.cs" />
+    <Compile Include="TypeExtension\DataSetExtension.cs" />
+    <Compile Include="TypeExtension\GuidExtension.cs" />
+    <Compile Include="TypeExtension\LuaTableExtension.cs" />
+    <Compile Include="TypeExtension\StringExtension.cs" />
+    <Compile Include="TypeExtension\XElementExtension.cs" />
+    <Compile Include="Util\ClientRequestHelper.cs" />
+    <Compile Include="Util\XmlRequestCommandHelper.cs" />
+    <Compile Include="Util\XmlResultHelper.cs" />
+    <Compile Include="Util\XmlSerializeHelper.cs" />
+    <Compile Include="Web References\Security.ParticipantService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\Security.SecurityServices\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AsyncSslServer\AsyncSslServer.csproj">
+      <Project>{C14F737B-6FF6-4860-B6D9-266A73BD9F3D}</Project>
+      <Name>AsyncSslServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mobile\Mobile.csproj">
+      <Project>{9C271502-FB2A-406D-AC52-43273D53A2CB}</Project>
+      <Name>Mobile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Serialization\Serialization.csproj">
+      <Project>{04D34874-848C-4D8D-B7D9-F0DC3A9355C3}</Project>
+      <Name>Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TraderCommon\Trader.Common.csproj">
+      <Project>{6D04B66A-FA81-46BE-8779-C8C5CB92BAF4}</Project>
+      <Name>Trader.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TraderHelper\Trader.Helper.fsproj">
+      <Project>{62A4C027-31B8-4FFB-98BD-23A7741895DA}</Project>
+      <Name>Trader.Helper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SChart\Plugins\Basic.fml" />
+    <None Include="SChart\Plugins\Scan.fml" />
+    <None Include="SChart\Plugins\Test.fml" />
+    <None Include="SChart\Plugins\Trading.fml" />
+    <None Include="Setting\Script\setting.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Web References\Security.ParticipantService\participantservices.wsdl" />
+    <None Include="Web References\Security.ParticipantService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Security.SecurityServices\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Security.SecurityServices\securityservices.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\ADODB.dll" />
+    <Content Include="Lib\EasyTools.dll" />
+    <Content Include="Lib\iExchange.Common.dll" />
+    <Content Include="Lib\ImageQuantization.dll" />
+    <Content Include="Lib\Interop.VSREPORTLib.DLL" />
+    <Content Include="Lib\log4net.dll" />
+    <Content Include="Lib\lua51.dll" />
+    <Content Include="Lib\LuaInterface.dll" />
+    <Content Include="SChart\images\Compiler-Namespace.gif" />
+    <Content Include="SChart\images\Compiler-Parameter.gif" />
+    <Content Include="SChart\images\Compiler-Program.gif" />
+    <Content Include="SChart\images\dn.gif" />
+    <Content Include="SChart\images\go.gif" />
+    <Content Include="SChart\images\MainButton.gif" />
+    <Content Include="SChart\images\Namespace.bmp" />
+    <Content Include="SChart\images\nc.gif" />
+    <Content Include="SChart\images\OverlayButton.gif" />
+    <Content Include="SChart\images\Parameter.bmp" />
+    <Content Include="SChart\images\Program.bmp" />
+    <Content Include="SChart\images\up.gif" />
+    <Content Include="SChart\Plugins\Basic_fml.dll" />
+    <Content Include="SChart\Plugins\Scan_fml.dll" />
+    <Content Include="SChart\Plugins\Test_fml.dll" />
+    <Content Include="SChart\Plugins\Trading_fml.dll" />
+    <Content Include="Setting\MHL\CHS\Document\Document.htm" />
+    <Content Include="Setting\MHL\CHS\Help\account.html" />
+    <Content Include="Setting\MHL\CHS\Help\dqorder.html" />
+    <Content Include="Setting\MHL\CHS\Help\Help.html" />
+    <Content Include="Setting\MHL\CHS\Help\Image\acstatus.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\acstatus1.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\Analysis.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\B_logo.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\CharButton.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\CharButton.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\chart.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\chart1.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\chart2.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\chart3.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\chart4.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\DOT.GIF" />
+    <Content Include="Setting\MHL\CHS\Help\Image\dqorder.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\Indication.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\instlmt.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\instmkt.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\instmoc.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\instoco.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\instrument.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\instver.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\ledger.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\liquidate.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\Login.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\Main1.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\message.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\MKT.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\mktorder.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\MOC.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\oco.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\odadetail.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\openlist.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\openorder.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\OpenOrder.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\openorder1.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\ordercx2.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\orderlist2.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\OrderProcess.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\password.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\placelmt.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\PricePanel.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\spotorder.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\spotorder1.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\statement.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\statement.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\StatusBar.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\title_logo.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\Toolbar1.jpg" />
+    <Content Include="Setting\MHL\CHS\Help\Image\tradeinstruct.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\tradeinstruct1.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\tradepanel.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\unconfirm.gif" />
+    <Content Include="Setting\MHL\CHS\Help\Image\verification.gif" />
+    <Content Include="Setting\MHL\CHS\Help\instrument.html" />
+    <Content Include="Setting\MHL\CHS\Help\Left_Menu.html" />
+    <Content Include="Setting\MHL\CHS\Help\main.html" />
+    <Content Include="Setting\MHL\CHS\Help\Menu.html" />
+    <Content Include="Setting\MHL\CHS\Help\message.html" />
+    <Content Include="Setting\MHL\CHS\Help\odacancel.html" />
+    <Content Include="Setting\MHL\CHS\Help\odalmtstp.html" />
+    <Content Include="Setting\MHL\CHS\Help\odamkt.html" />
+    <Content Include="Setting\MHL\CHS\Help\odamoc.html" />
+    <Content Include="Setting\MHL\CHS\Help\odaoco.html" />
+    <Content Include="Setting\MHL\CHS\Help\odaverify.html" />
+    <Content Include="Setting\MHL\CHS\Help\openorder.html" />
+    <Content Include="Setting\MHL\CHS\Help\orderlist.html" />
+    <Content Include="Setting\MHL\CHS\Help\osrequire.html" />
+    <Content Include="Setting\MHL\CHS\Help\otheroda.html" />
+    <Content Include="Setting\MHL\CHS\Help\overview.html" />
+    <Content Include="Setting\MHL\CHS\Help\password.html" />
+    <Content Include="Setting\MHL\CHS\Help\quote.html" />
+    <Content Include="Setting\MHL\CHS\Help\report.html" />
+    <Content Include="Setting\MHL\CHS\Help\requirement.html" />
+    <Content Include="Setting\MHL\CHS\Help\Signingin.html" />
+    <Content Include="Setting\MHL\CHS\Help\status.html" />
+    <Content Include="Setting\MHL\CHS\Help\Title_ground.html" />
+    <Content Include="Setting\MHL\CHS\Help\vchart.html" />
+    <Content Include="Setting\MHL\CHS\Image\bg01.gif" />
+    <Content Include="Setting\MHL\CHS\Image\bg02.gif" />
+    <Content Include="Setting\MHL\CHS\Image\iExchange.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_01.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_02.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_03.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_04.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_05.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_06.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_07.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_08.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_09.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_10.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_12.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_ChatRoom.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_News.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_Option.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar2_Reset.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_01.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_02.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_03.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_04.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_05.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_06.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_07.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_08.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_09.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_10.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_12.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_ChatRoom.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_News.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_Option.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar3_Reset.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_01.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_02.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_03.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_04.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_05.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_06.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_07.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_08.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_09.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_10.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_12.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_ChatRoom.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_News.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_Option.gif" />
+    <Content Include="Setting\MHL\CHS\Image\MenuBar_Reset.gif" />
+    <Content Include="Setting\MHL\CHS\Image\picdown.gif" />
+    <Content Include="Setting\MHL\CHS\Image\picup.gif" />
+    <Content Include="Setting\MHL\CHS\Report\RptLedger.xml" />
+    <Content Include="Setting\MHL\CHS\Report\RptStatement.xml" />
+    <Content Include="Setting\MHL\CHS\Report\RptStatement03.xml" />
+    <Content Include="Setting\MHL\CHS\Report\RptStatement2.xml" />
+    <Content Include="Setting\MHL\CHS\Report\RptStatement5.xml" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic1.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic10.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic11.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic12.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic13.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic14.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic15.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic16.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic17.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic18.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic19.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic2.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic20.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic21.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic22.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic23.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic24.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic25.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic26.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic27.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic28.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic29.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic3.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic30.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic31.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic32.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic33.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic34.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic35.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic36.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic4.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic5.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic6.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic7.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic8.gif" />
+    <Content Include="Setting\MHL\CHS\Report\Statement03Pic9.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic1.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic10.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic11.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic12.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic13.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic14.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic15.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic16.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic17.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic18.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic19.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic2.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic20.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic21.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic22.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic23.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic24.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic25.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic26.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic27.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic28.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic29.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic3.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic30.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic31.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic32.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic33.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic34.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic35.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic36.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic37.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic38.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic4.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic5.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic6.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic7.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic8.gif" />
+    <Content Include="Setting\MHL\CHS\Report\StatementPic9.gif" />
+    <Content Include="Setting\MHL\CHS\Setting\ColorSet.js" />
+    <Content Include="Setting\MHL\CHS\Setting\Default.xml" />
+    <Content Include="Setting\MHL\CHS\Setting\Extend.xml" />
+    <Content Include="Setting\MHL\CHS\Setting\Extend0.xml" />
+    <Content Include="Setting\MHL\CHS\Setting\Extend1.xml" />
+    <Content Include="Setting\MHL\CHS\Setting\Extend2.xml" />
+    <Content Include="Setting\MHL\CHS\Setting\GridSet.js" />
+    <Content Include="Setting\MHL\CHS\Setting\Login.xml" />
+    <Content Include="Setting\MHL\CHS\Setting\MainStyle.js" />
+    <Content Include="Setting\MHL\CHS\Setting\Parameter.xml" />
+    <Content Include="Setting\MHL\CHS\Sound\Sound0.wav" />
+    <Content Include="Setting\MHL\CHS\Sound\Sound1.wav" />
+    <Content Include="Setting\MHL\CHT\Document\Document.htm" />
+    <Content Include="Setting\MHL\CHT\Help\account.html" />
+    <Content Include="Setting\MHL\CHT\Help\dqorder.html" />
+    <Content Include="Setting\MHL\CHT\Help\Help.html" />
+    <Content Include="Setting\MHL\CHT\Help\Image\acstatus.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\acstatus1.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\Analysis.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\B_logo.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\CharButton.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\CharButton.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\chart.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\chart1.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\chart2.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\chart3.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\chart4.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\DOT.GIF" />
+    <Content Include="Setting\MHL\CHT\Help\Image\dqorder.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\Indication.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\instlmt.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\instmkt.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\instmoc.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\instoco.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\instrument.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\instver.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\ledger.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\liquidate.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\Login.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\Main1.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\message.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\MKT.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\mktorder.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\MOC.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\oco.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\odadetail.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\openlist.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\openorder.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\OpenOrder.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\openorder1.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\ordercx2.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\orderlist2.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\OrderProcess.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\password.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\placelmt.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\PricePanel.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\spotorder.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\spotorder1.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\statement.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\statement.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\StatusBar.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\title_logo.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\Toolbar1.jpg" />
+    <Content Include="Setting\MHL\CHT\Help\Image\tradeinstruct.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\tradeinstruct1.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\tradepanel.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\unconfirm.gif" />
+    <Content Include="Setting\MHL\CHT\Help\Image\verification.gif" />
+    <Content Include="Setting\MHL\CHT\Help\instrument.html" />
+    <Content Include="Setting\MHL\CHT\Help\Left_Menu.html" />
+    <Content Include="Setting\MHL\CHT\Help\main.html" />
+    <Content Include="Setting\MHL\CHT\Help\Menu.html" />
+    <Content Include="Setting\MHL\CHT\Help\message.html" />
+    <Content Include="Setting\MHL\CHT\Help\odacancel.html" />
+    <Content Include="Setting\MHL\CHT\Help\odalmtstp.html" />
+    <Content Include="Setting\MHL\CHT\Help\odamkt.html" />
+    <Content Include="Setting\MHL\CHT\Help\odamoc.html" />
+    <Content Include="Setting\MHL\CHT\Help\odaoco.html" />
+    <Content Include="Setting\MHL\CHT\Help\odaverify.html" />
+    <Content Include="Setting\MHL\CHT\Help\openorder.html" />
+    <Content Include="Setting\MHL\CHT\Help\orderlist.html" />
+    <Content Include="Setting\MHL\CHT\Help\osrequire.html" />
+    <Content Include="Setting\MHL\CHT\Help\otheroda.html" />
+    <Content Include="Setting\MHL\CHT\Help\overview.html" />
+    <Content Include="Setting\MHL\CHT\Help\password.html" />
+    <Content Include="Setting\MHL\CHT\Help\quote.html" />
+    <Content Include="Setting\MHL\CHT\Help\report.html" />
+    <Content Include="Setting\MHL\CHT\Help\requirement.html" />
+    <Content Include="Setting\MHL\CHT\Help\Signingin.html" />
+    <Content Include="Setting\MHL\CHT\Help\status.html" />
+    <Content Include="Setting\MHL\CHT\Help\Title_ground.html" />
+    <Content Include="Setting\MHL\CHT\Help\vchart.html" />
+    <Content Include="Setting\MHL\CHT\Image\bg01.gif" />
+    <Content Include="Setting\MHL\CHT\Image\bg02.gif" />
+    <Content Include="Setting\MHL\CHT\Image\iExchange.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_01.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_02.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_03.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_04.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_05.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_06.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_07.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_08.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_09.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_10.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_12.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_ChatRoom.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_News.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_Option.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar2_Reset.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_01.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_02.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_03.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_04.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_05.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_06.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_07.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_08.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_09.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_10.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_12.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_ChatRoom.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_News.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_Option.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar3_Reset.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_01.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_02.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_03.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_04.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_05.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_06.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_07.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_08.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_09.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_10.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_12.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_ChatRoom.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_News.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_Option.gif" />
+    <Content Include="Setting\MHL\CHT\Image\MenuBar_Reset.gif" />
+    <Content Include="Setting\MHL\CHT\Image\picdown.gif" />
+    <Content Include="Setting\MHL\CHT\Image\picup.gif" />
+    <Content Include="Setting\MHL\CHT\Report\RptLedger.xml" />
+    <Content Include="Setting\MHL\CHT\Report\RptStatement.xml" />
+    <Content Include="Setting\MHL\CHT\Report\RptStatement03.xml" />
+    <Content Include="Setting\MHL\CHT\Report\RptStatement2.xml" />
+    <Content Include="Setting\MHL\CHT\Report\RptStatement5.xml" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic1.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic10.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic11.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic12.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic13.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic14.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic15.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic16.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic17.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic18.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic19.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic2.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic20.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic21.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic22.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic23.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic24.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic25.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic26.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic27.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic28.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic29.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic3.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic30.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic31.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic32.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic33.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic34.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic35.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic36.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic4.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic5.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic6.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic7.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic8.gif" />
+    <Content Include="Setting\MHL\CHT\Report\Statement03Pic9.gif" />
+    <Content Include="Setting\MHL\CHT\Setting\ColorSet.js" />
+    <Content Include="Setting\MHL\CHT\Setting\Default.xml" />
+    <Content Include="Setting\MHL\CHT\Setting\Extend.xml" />
+    <Content Include="Setting\MHL\CHT\Setting\Extend0.xml" />
+    <Content Include="Setting\MHL\CHT\Setting\Extend1.xml" />
+    <Content Include="Setting\MHL\CHT\Setting\Extend2.xml" />
+    <Content Include="Setting\MHL\CHT\Setting\GridSet.js" />
+    <Content Include="Setting\MHL\CHT\Setting\Login.xml" />
+    <Content Include="Setting\MHL\CHT\Setting\MainStyle.js" />
+    <Content Include="Setting\MHL\CHT\Setting\Parameter.xml" />
+    <Content Include="Setting\MHL\CHT\Sound\Sound0.wav" />
+    <Content Include="Setting\MHL\CHT\Sound\Sound1.wav" />
+    <Content Include="Setting\MHL\ColorSettingsForJava.xml" />
+    <Content Include="Setting\MHL\ColumnSettings.xml" />
+    <Content Include="Setting\MHL\ENG\Document\Document.htm" />
+    <Content Include="Setting\MHL\ENG\Help\account.html" />
+    <Content Include="Setting\MHL\ENG\Help\dqorder.html" />
+    <Content Include="Setting\MHL\ENG\Help\HardwareRequirement.html" />
+    <Content Include="Setting\MHL\ENG\Help\Help.html" />
+    <Content Include="Setting\MHL\ENG\Help\Image\acstatus.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\acstatus1.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\Analysis.jpg" />
+    <Content Include="Setting\MHL\ENG\Help\Image\B_logo.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\CharButton.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\chart.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\chart1.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\chart2.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\chart3.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\chart4.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\DOT.GIF" />
+    <Content Include="Setting\MHL\ENG\Help\Image\Indication.jpg" />
+    <Content Include="Setting\MHL\ENG\Help\Image\instlmt.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\instmkt.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\instmoc.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\instoco.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\instrument.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\instver.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\ledger.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\liquidate.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\Login.jpg" />
+    <Content Include="Setting\MHL\ENG\Help\Image\Main1.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\message.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\odadetail.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\openlist.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\openorder.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\openorder1.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\ordercx2.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\orderlist2.jpg" />
+    <Content Include="Setting\MHL\ENG\Help\Image\password.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\placelmt.jpg" />
+    <Content Include="Setting\MHL\ENG\Help\Image\PricePanel.jpg" />
+    <Content Include="Setting\MHL\ENG\Help\Image\spotorder.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\spotorder1.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\statement.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\StatusBar.jpg" />
+    <Content Include="Setting\MHL\ENG\Help\Image\title_logo.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\Toolbar1.jpg" />
+    <Content Include="Setting\MHL\ENG\Help\Image\tradeinstruct.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\tradeinstruct1.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\tradepanel.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\unconfirm.gif" />
+    <Content Include="Setting\MHL\ENG\Help\Image\verification.gif" />
+    <Content Include="Setting\MHL\ENG\Help\instrument.html" />
+    <Content Include="Setting\MHL\ENG\Help\Left_Menu.html" />
+    <Content Include="Setting\MHL\ENG\Help\main.html" />
+    <Content Include="Setting\MHL\ENG\Help\Menu.html" />
+    <Content Include="Setting\MHL\ENG\Help\message.html" />
+    <Content Include="Setting\MHL\ENG\Help\odacancel.html" />
+    <Content Include="Setting\MHL\ENG\Help\odalmtstp.html" />
+    <Content Include="Setting\MHL\ENG\Help\odamkt.html" />
+    <Content Include="Setting\MHL\ENG\Help\odamoc.html" />
+    <Content Include="Setting\MHL\ENG\Help\odaoco.html" />
+    <Content Include="Setting\MHL\ENG\Help\odaverify.html" />
+    <Content Include="Setting\MHL\ENG\Help\openorder.html" />
+    <Content Include="Setting\MHL\ENG\Help\orderlist.html" />
+    <Content Include="Setting\MHL\ENG\Help\osrequire.html" />
+    <Content Include="Setting\MHL\ENG\Help\otheroda.html" />
+    <Content Include="Setting\MHL\ENG\Help\overview.html" />
+    <Content Include="Setting\MHL\ENG\Help\password.html" />
+    <Content Include="Setting\MHL\ENG\Help\quote.html" />
+    <Content Include="Setting\MHL\ENG\Help\report.html" />
+    <Content Include="Setting\MHL\ENG\Help\requirement.html" />
+    <Content Include="Setting\MHL\ENG\Help\Signingin.html" />
+    <Content Include="Setting\MHL\ENG\Help\status.html" />
+    <Content Include="Setting\MHL\ENG\Help\Title_ground.html" />
+    <Content Include="Setting\MHL\ENG\Help\vchart.html" />
+    <Content Include="Setting\MHL\ENG\Image\bg01.gif" />
+    <Content Include="Setting\MHL\ENG\Image\bg02.gif" />
+    <Content Include="Setting\MHL\ENG\Image\bg1.jpg" />
+    <Content Include="Setting\MHL\ENG\Image\iExchange.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_01.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_02.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_03.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_04.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_05.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_06.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_07.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_08.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_09.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_10.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_12.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_ChatRoom.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_News.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_Option.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar2_Reset.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_01.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_02.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_03.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_04.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_05.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_06.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_07.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_08.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_09.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_10.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_12.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_ChatRoom.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_News.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_Option.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar3_Reset.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_01.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_02.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_03.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_04.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_05.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_06.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_07.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_08.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_09.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_10.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_12.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_ChatRoom.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_News.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_Option.gif" />
+    <Content Include="Setting\MHL\ENG\Image\MenuBar_Reset.gif" />
+    <Content Include="Setting\MHL\ENG\Image\picdown.gif" />
+    <Content Include="Setting\MHL\ENG\Image\picup.gif" />
+    <Content Include="Setting\MHL\ENG\Report\RptLedger.xml" />
+    <Content Include="Setting\MHL\ENG\Report\RptStatement.xml" />
+    <Content Include="Setting\MHL\ENG\Report\RptStatement03.xml" />
+    <Content Include="Setting\MHL\ENG\Report\RptStatement2.xml" />
+    <Content Include="Setting\MHL\ENG\Report\RptStatement5.xml" />
+    <Content Include="Setting\MHL\ENG\Setting\ColorSet.js" />
+    <Content Include="Setting\MHL\ENG\Setting\Default.xml" />
+    <Content Include="Setting\MHL\ENG\Setting\Extend.xml" />
+    <Content Include="Setting\MHL\ENG\Setting\Extend0.xml" />
+    <Content Include="Setting\MHL\ENG\Setting\Extend1.xml" />
+    <Content Include="Setting\MHL\ENG\Setting\Extend2.xml" />
+    <Content Include="Setting\MHL\ENG\Setting\GridSet.js" />
+    <Content Include="Setting\MHL\ENG\Setting\Login.xml" />
+    <Content Include="Setting\MHL\ENG\Setting\MainStyle.js" />
+    <Content Include="Setting\MHL\ENG\Setting\Parameter.xml" />
+    <Content Include="Setting\MHL\ENG\Sound\Sound0.wav" />
+    <Content Include="Setting\MHL\ENG\Sound\Sound1.wav" />
+    <Content Include="Setting\MHL\iExchange.gif" />
+    <Content Include="Setting\MHL\IntegralitySettings.xml" />
+    <Content Include="Setting\MHL\JPN\Agreement.xml" />
+    <Content Include="Setting\MHL\JPN\Document\Document.htm" />
+    <Content Include="Setting\MHL\JPN\Help\account.html" />
+    <Content Include="Setting\MHL\JPN\Help\dqorder.html" />
+    <Content Include="Setting\MHL\JPN\Help\HardwareRequirement.html" />
+    <Content Include="Setting\MHL\JPN\Help\Help.html" />
+    <Content Include="Setting\MHL\JPN\Help\Image\acstatus.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\acstatus1.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\Analysis.jpg" />
+    <Content Include="Setting\MHL\JPN\Help\Image\B_logo.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\CharButton.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\chart.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\chart1.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\chart2.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\chart3.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\chart4.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\DOT.GIF" />
+    <Content Include="Setting\MHL\JPN\Help\Image\Indication.jpg" />
+    <Content Include="Setting\MHL\JPN\Help\Image\instlmt.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\instmkt.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\instmoc.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\instoco.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\instrument.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\instver.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\ledger.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\liquidate.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\Login.jpg" />
+    <Content Include="Setting\MHL\JPN\Help\Image\Main1.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\message.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\odadetail.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\openlist.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\openorder.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\openorder1.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\ordercx2.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\orderlist2.jpg" />
+    <Content Include="Setting\MHL\JPN\Help\Image\password.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\placelmt.jpg" />
+    <Content Include="Setting\MHL\JPN\Help\Image\PricePanel.jpg" />
+    <Content Include="Setting\MHL\JPN\Help\Image\spotorder.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\spotorder1.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\statement.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\StatusBar.jpg" />
+    <Content Include="Setting\MHL\JPN\Help\Image\title_logo.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\Toolbar1.jpg" />
+    <Content Include="Setting\MHL\JPN\Help\Image\tradeinstruct.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\tradeinstruct1.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\tradepanel.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\unconfirm.gif" />
+    <Content Include="Setting\MHL\JPN\Help\Image\verification.gif" />
+    <Content Include="Setting\MHL\JPN\Help\instrument.html" />
+    <Content Include="Setting\MHL\JPN\Help\Left_Menu.html" />
+    <Content Include="Setting\MHL\JPN\Help\main.html" />
+    <Content Include="Setting\MHL\JPN\Help\Menu.html" />
+    <Content Include="Setting\MHL\JPN\Help\message.html" />
+    <Content Include="Setting\MHL\JPN\Help\odacancel.html" />
+    <Content Include="Setting\MHL\JPN\Help\odalmtstp.html" />
+    <Content Include="Setting\MHL\JPN\Help\odamkt.html" />
+    <Content Include="Setting\MHL\JPN\Help\odamoc.html" />
+    <Content Include="Setting\MHL\JPN\Help\odaoco.html" />
+    <Content Include="Setting\MHL\JPN\Help\odaverify.html" />
+    <Content Include="Setting\MHL\JPN\Help\openorder.html" />
+    <Content Include="Setting\MHL\JPN\Help\orderlist.html" />
+    <Content Include="Setting\MHL\JPN\Help\osrequire.html" />
+    <Content Include="Setting\MHL\JPN\Help\otheroda.html" />
+    <Content Include="Setting\MHL\JPN\Help\overview.html" />
+    <Content Include="Setting\MHL\JPN\Help\password.html" />
+    <Content Include="Setting\MHL\JPN\Help\quote.html" />
+    <Content Include="Setting\MHL\JPN\Help\report.html" />
+    <Content Include="Setting\MHL\JPN\Help\requirement.html" />
+    <Content Include="Setting\MHL\JPN\Help\Signingin.html" />
+    <Content Include="Setting\MHL\JPN\Help\status.html" />
+    <Content Include="Setting\MHL\JPN\Help\Title_ground.html" />
+    <Content Include="Setting\MHL\JPN\Help\vchart.html" />
+    <Content Include="Setting\MHL\JPN\Image\bg01.gif" />
+    <Content Include="Setting\MHL\JPN\Image\bg02.gif" />
+    <Content Include="Setting\MHL\JPN\Image\iExchange.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_01.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_02.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_03.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_04.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_05.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_06.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_07.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_08.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_09.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_10.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_12.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_ChatRoom.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_News.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_Option.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar2_Reset.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_01.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_02.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_03.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_04.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_05.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_06.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_07.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_08.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_09.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_10.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_12.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_ChatRoom.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_News.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_Option.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar3_Reset.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_01.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_02.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_03.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_04.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_05.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_06.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_07.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_08.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_09.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_10.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_12.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_ChatRoom.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_News.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_Option.gif" />
+    <Content Include="Setting\MHL\JPN\Image\MenuBar_Reset.gif" />
+    <Content Include="Setting\MHL\JPN\Image\picdown.gif" />
+    <Content Include="Setting\MHL\JPN\Image\picup.gif" />
+    <Content Include="Setting\MHL\JPN\Report\RptLedger.xml" />
+    <Content Include="Setting\MHL\JPN\Report\RptStatement.xml" />
+    <Content Include="Setting\MHL\JPN\Report\RptStatement03.xml" />
+    <Content Include="Setting\MHL\JPN\Report\RptStatement2.xml" />
+    <Content Include="Setting\MHL\JPN\Report\RptStatement5.xml" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic1.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic10.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic11.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic12.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic13.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic14.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic15.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic16.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic17.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic18.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic19.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic2.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic20.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic21.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic22.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic23.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic24.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic25.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic26.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic27.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic28.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic29.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic3.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic30.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic31.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic32.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic33.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic34.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic35.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic36.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic37.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic38.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic39.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic4.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic40.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic5.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic6.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic7.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic8.gif" />
+    <Content Include="Setting\MHL\JPN\Report\Statement2Pic9.gif" />
+    <Content Include="Setting\MHL\JPN\Setting\ColorSet.js" />
+    <Content Include="Setting\MHL\JPN\Setting\Default.xml" />
+    <Content Include="Setting\MHL\JPN\Setting\Extend.xml" />
+    <Content Include="Setting\MHL\JPN\Setting\Extend0.xml" />
+    <Content Include="Setting\MHL\JPN\Setting\Extend1.xml" />
+    <Content Include="Setting\MHL\JPN\Setting\Extend2.xml" />
+    <Content Include="Setting\MHL\JPN\Setting\GridSet.js" />
+    <Content Include="Setting\MHL\JPN\Setting\Login.xml" />
+    <Content Include="Setting\MHL\JPN\Setting\MainStyle.js" />
+    <Content Include="Setting\MHL\JPN\Setting\Parameter.xml" />
+    <Content Include="Setting\MHL\JPN\Sound\Sound0.wav" />
+    <Content Include="Setting\MHL\JPN\Sound\Sound1.wav" />
+    <Content Include="Setting\MHL\KOR\Document\Document.htm" />
+    <Content Include="Setting\MHL\KOR\Help\account.html" />
+    <Content Include="Setting\MHL\KOR\Help\Document\Document.htm" />
+    <Content Include="Setting\MHL\KOR\Help\dqorder.html" />
+    <Content Include="Setting\MHL\KOR\Help\Help.html" />
+    <Content Include="Setting\MHL\KOR\Help\Image\acstatus.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\acstatus1.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\Analysis.jpg" />
+    <Content Include="Setting\MHL\KOR\Help\Image\B_logo.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\CharButton.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\chart.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\chart1.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\chart2.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\chart3.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\chart4.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\DOT.GIF" />
+    <Content Include="Setting\MHL\KOR\Help\Image\Indication.jpg" />
+    <Content Include="Setting\MHL\KOR\Help\Image\instlmt.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\instmkt.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\instmoc.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\instoco.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\instrument.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\instver.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\ledger.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\liquidate.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\Login.jpg" />
+    <Content Include="Setting\MHL\KOR\Help\Image\Main1.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\message.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\odadetail.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\openlist.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\openorder.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\openorder1.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\ordercx2.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\orderlist2.jpg" />
+    <Content Include="Setting\MHL\KOR\Help\Image\password.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\placelmt.jpg" />
+    <Content Include="Setting\MHL\KOR\Help\Image\PricePanel.jpg" />
+    <Content Include="Setting\MHL\KOR\Help\Image\spotorder.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\spotorder1.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\statement.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\StatusBar.jpg" />
+    <Content Include="Setting\MHL\KOR\Help\Image\title_logo.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\Toolbar1.jpg" />
+    <Content Include="Setting\MHL\KOR\Help\Image\tradeinstruct.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\tradeinstruct1.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\tradepanel.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\unconfirm.gif" />
+    <Content Include="Setting\MHL\KOR\Help\Image\verification.gif" />
+    <Content Include="Setting\MHL\KOR\Help\instrument.html" />
+    <Content Include="Setting\MHL\KOR\Help\Left_Menu.html" />
+    <Content Include="Setting\MHL\KOR\Help\main.html" />
+    <Content Include="Setting\MHL\KOR\Help\Menu.html" />
+    <Content Include="Setting\MHL\KOR\Help\message.html" />
+    <Content Include="Setting\MHL\KOR\Help\odacancel.html" />
+    <Content Include="Setting\MHL\KOR\Help\odalmtstp.html" />
+    <Content Include="Setting\MHL\KOR\Help\odamkt.html" />
+    <Content Include="Setting\MHL\KOR\Help\odamoc.html" />
+    <Content Include="Setting\MHL\KOR\Help\odaoco.html" />
+    <Content Include="Setting\MHL\KOR\Help\odaverify.html" />
+    <Content Include="Setting\MHL\KOR\Help\openorder.html" />
+    <Content Include="Setting\MHL\KOR\Help\orderlist.html" />
+    <Content Include="Setting\MHL\KOR\Help\osrequire.html" />
+    <Content Include="Setting\MHL\KOR\Help\otheroda.html" />
+    <Content Include="Setting\MHL\KOR\Help\overview.html" />
+    <Content Include="Setting\MHL\KOR\Help\password.html" />
+    <Content Include="Setting\MHL\KOR\Help\quote.html" />
+    <Content Include="Setting\MHL\KOR\Help\report.html" />
+    <Content Include="Setting\MHL\KOR\Help\requirement.html" />
+    <Content Include="Setting\MHL\KOR\Help\Signingin.html" />
+    <Content Include="Setting\MHL\KOR\Help\status.html" />
+    <Content Include="Setting\MHL\KOR\Help\Title_ground.html" />
+    <Content Include="Setting\MHL\KOR\Help\vchart.html" />
+    <Content Include="Setting\MHL\KOR\Image\bg01.gif" />
+    <Content Include="Setting\MHL\KOR\Image\bg02.gif" />
+    <Content Include="Setting\MHL\KOR\Image\iExchange.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_01.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_02.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_03.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_04.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_05.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_06.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_07.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_08.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_09.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_10.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_12.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_ChatRoom.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_News.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_Option.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar2_Reset.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_01.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_02.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_03.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_04.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_05.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_06.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_07.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_08.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_09.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_10.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_12.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_ChatRoom.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_News.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_Option.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar3_Reset.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_01.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_02.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_03.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_04.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_05.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_06.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_07.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_08.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_09.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_10.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_12.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_ChatRoom.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_News.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_Option.gif" />
+    <Content Include="Setting\MHL\KOR\Image\MenuBar_Reset.gif" />
+    <Content Include="Setting\MHL\KOR\Image\picdown.gif" />
+    <Content Include="Setting\MHL\KOR\Image\picup.gif" />
+    <Content Include="Setting\MHL\KOR\Report\RptLedger.xml" />
+    <Content Include="Setting\MHL\KOR\Report\RptStatement.xml" />
+    <Content Include="Setting\MHL\KOR\Report\RptStatement03.xml" />
+    <Content Include="Setting\MHL\KOR\Report\RptStatement2.xml" />
+    <Content Include="Setting\MHL\KOR\Report\RptStatement5.xml" />
+    <Content Include="Setting\MHL\KOR\Setting\ColorSet.js" />
+    <Content Include="Setting\MHL\KOR\Setting\Default.xml" />
+    <Content Include="Setting\MHL\KOR\Setting\Extend.xml" />
+    <Content Include="Setting\MHL\KOR\Setting\Extend0.xml" />
+    <Content Include="Setting\MHL\KOR\Setting\Extend1.xml" />
+    <Content Include="Setting\MHL\KOR\Setting\Extend2.xml" />
+    <Content Include="Setting\MHL\KOR\Setting\GridSet.js" />
+    <Content Include="Setting\MHL\KOR\Setting\Login.xml" />
+    <Content Include="Setting\MHL\KOR\Setting\MainStyle.js" />
+    <Content Include="Setting\MHL\KOR\Setting\Parameter.xml" />
+    <Content Include="Setting\MHL\KOR\Sound\Sound0.wav" />
+    <Content Include="Setting\MHL\KOR\Sound\Sound1.wav" />
+    <Content Include="Setting\MHL\Settings.xml" />
+    <None Include="Web References\Security.SecurityServices\securityservices.disco" />
+    <None Include="Web References\Security.ParticipantService\participantservices.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Setting\MHL\CHS\Report\RptAccountSummary.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHS\Report\RptLedger.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHS\Report\RptStatement.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHS\Report\RptStatement03.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHS\Report\RptStatement2.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHS\Report\RptStatement5.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHS\Report\RptStatement_Mc.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHT\Report\RptAccountSummary.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHT\Report\RptLedger.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHT\Report\RptStatement.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHT\Report\RptStatement03.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHT\Report\RptStatement2.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHT\Report\RptStatement5.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\CHT\Report\RptStatement_Mc.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\ENG\Report\RptAccountSummary.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\ENG\Report\RptLedger.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\ENG\Report\RptStatement.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\ENG\Report\RptStatement03.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\ENG\Report\RptStatement2.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\ENG\Report\RptStatement5.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\ENG\Report\RptStatement_Mc.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\JPN\Report\RptLedger.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\JPN\Report\RptStatement.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\JPN\Report\RptStatement03.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\JPN\Report\RptStatement2.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\JPN\Report\RptStatement5.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\JPN\Report\RptStatement_Mc.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\KOR\Report\RptLedger.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\KOR\Report\RptStatement.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\KOR\Report\RptStatement03.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\KOR\Report\RptStatement2.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\KOR\Report\RptStatement5.rdlc" />
+    <EmbeddedResource Include="Setting\MHL\KOR\Report\RptStatement_Mc.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Setting\MHL\CHS\CallMargin\" />
+    <Folder Include="Setting\MHL\CHT\CallMargin\" />
+    <Folder Include="Setting\MHL\ENG\CallMargin\" />
+    <Folder Include="Setting\MHL\JPN\CallMargin\" />
+    <Folder Include="Setting\MHL\KOR\CallMargin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://ws0303/iExchangeCollection/iExchange3%2520Team/iExchange3/Security/web//Service/securityservices.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Security.SecurityServices\</RelPath>
+      <UpdateFromURL>http://ws0303/iExchangeCollection/iExchange3%2520Team/iExchange3/Security/web//Service/securityservices.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>AsyncSslServerTest_Security_SecurityServices_SecurityServices</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://ws0303/iExchangeCollection/iExchange3%2520Team/iExchange3/Security/web/Service/participantservices.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Security.ParticipantService\</RelPath>
+      <UpdateFromURL>http://ws0303/iExchangeCollection/iExchange3%2520Team/iExchange3/Security/web/Service/participantservices.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>AsyncSslServerTest_Security_ParticipantService_ParticipantServices</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

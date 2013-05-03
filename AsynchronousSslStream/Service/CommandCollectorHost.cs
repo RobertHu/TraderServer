@@ -5,7 +5,7 @@ using System.Text;
 using System.ServiceModel;
 using log4net;
 
-namespace AsyncSslServer.Service
+namespace Trader.Server.Service
 {
     public class CommandCollectorHost
     {

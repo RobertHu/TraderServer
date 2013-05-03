@@ -7,10 +7,10 @@ using iExchange.Common;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public static class TimeService
     {

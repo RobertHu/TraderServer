@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using System.ComponentModel;
 
-namespace iExchange.TradingConsole.SChart
+namespace Trader.Server.SChart
 {
 	//	[Serializable]
 	public class FormulaParameter

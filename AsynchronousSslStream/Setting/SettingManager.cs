@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using LuaInterface;
 using log4net;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.TypeExtension;
 using System.Configuration;
-namespace AsyncSslServer.Setting
+namespace Trader.Server.Setting
 {
     public class SettingManager
     {

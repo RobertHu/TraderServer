@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace AsyncSslServer._4BitCompress
+namespace Trader.Server._4BitCompress
 {
     public delegate int InstrumentIdToSequence(Guid id);
     public delegate Guid SequenceToInstrumentId(int sequence);

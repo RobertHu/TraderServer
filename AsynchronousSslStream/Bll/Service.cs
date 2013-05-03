@@ -11,18 +11,18 @@ using System.Threading;
 using System.Collections;
 using System.Net;
 using System.Xml;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using Framework.Time;
 using System.Configuration;
-using AsyncSslServer.Setting;
+using Trader.Server.Setting;
 using System.Data.SqlClient;
-using AsyncSslServer.Report;
+using Trader.Server.Report;
 using System.IO;
-using AsyncSslServer.Service;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Service;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 using Trader.Common;
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public class Service 
     {
@@ -249,17 +249,18 @@ namespace AsyncSslServer.Bll
             }
         }
 
-        public DataSet OrderQuery(string session,Guid customerId, string accountId, string instrumentId, int lastDays)
+        public XmlNode OrderQuery(string session,Guid customerId, string accountId, string instrumentId, int lastDays)
         {
             try
             {
-                string language = SessionManager.Default.GetTradingConsoleState(session).Language;
-                return Application.Default.TradingConsoleServer.OrderQuery(language, customerId, accountId, instrumentId, lastDays);
+                string language = SessionManager.Default.GetToken(session).Language;
+                var ds=Application.Default.TradingConsoleServer.OrderQuery(language, customerId, accountId, instrumentId, lastDays);
+                return XmlResultHelper.NewResult(ds.ToXml());
             }
             catch (Exception exception)
             {
                 AppDebug.LogEvent("TradingConsole.OrderQuery:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                return null;
+                return XmlResultHelper.ErrorResult;
             }
         }
 
@@ -455,25 +456,6 @@ namespace AsyncSslServer.Bll
             }
         }
 
-
-       
-
-        public TransactionError MultipleClose(string session,Guid[] orderIds, out XmlNode xmlTran, out XmlNode xmlAccount)
-        {
-            try
-            {
-                Token token = SessionManager.Default.GetToken(session);
-                return Application.Default.TradingConsoleServer.MultipleClose(token, Application.Default.StateServer, orderIds, out xmlTran, out xmlAccount);
-            }
-            catch (System.Exception exception)
-            {
-                AppDebug.LogEvent("TradingConsole.MultipleClose:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                throw exception;
-            }
-        }
-
-
-
         
 
         public DataSet GetCurrencyRateByAccountID(string accountID)
@@ -509,18 +491,19 @@ namespace AsyncSslServer.Bll
 
        
 
-        public bool DeleteMessage(string session,Guid id)
+        public XmlNode DeleteMessage(string session,Guid id)
         {
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-                return Application.Default.TradingConsoleServer.DeleteMessage(token, id);
+                bool result= Application.Default.TradingConsoleServer.DeleteMessage(token, id);
+                return XmlResultHelper.NewResult(result.ToXmlResult());
             }
             catch (System.Exception exception)
             {
                 AppDebug.LogEvent("TradingConsole.DeleteMessage:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                return XmlResultHelper.ErrorResult;
             }
-            return false;
         }
 
         public void GetCustomerInfo(out string customerCode, out string customerName)
@@ -889,55 +872,15 @@ namespace AsyncSslServer.Bll
        
 
 
-        public bool ModifyTelephoneIdentificationCode(string session,Guid accountId, string oldCode, string newCode)
-        {
-            try
-            {
-                Token token = SessionManager.Default.GetToken(session);
-                string connectionString = SettingManager.Default.ConnectionString;
-                using (SqlConnection sqlconnection = new SqlConnection(connectionString))
-                {
-                    SqlCommand sqlCommand = sqlconnection.CreateCommand();
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "Account_UpdateDescription";
-                    sqlconnection.Open();
-                    SqlCommandBuilder.DeriveParameters(sqlCommand);
-                    sqlCommand.Parameters["@id"].Value = accountId;
-                    sqlCommand.Parameters["@oldDescription"].Value = oldCode;
-                    sqlCommand.Parameters["@newDescription"].Value = newCode;
-
-                    sqlCommand.ExecuteNonQuery();
-                    int result = (int)sqlCommand.Parameters["@RETURN_VALUE"].Value;
-                    if (result == 0)
-                    {
-                        sqlCommand = sqlconnection.CreateCommand();
-                        sqlCommand.CommandType = CommandType.Text;
-                        sqlCommand.CommandText = string.Format("UPDATE AccountHistory SET UpdatePersonID = '{0}' WHERE ID = '{1}' AND [Description] = '{2}' AND UpdateTime = (SELECT MAX(UpdateTime) FROM AccountHistory WHERE ID='{1}' AND [Description] = '{2}')", token.UserID, accountId, newCode);
-                        sqlCommand.ExecuteNonQuery();
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                AppDebug.LogEvent("TradingConsole.ModifyTelephoneIdentificationCode", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                return false;
-            }
-        }
+     
 
 
-        public bool Apply(string session,Guid id, string accountBankApprovedId, string accountId, string countryId, string bankId, string bankName,
+        public XmlNode Apply(string session,Guid id, string accountBankApprovedId, string accountId, string countryId, string bankId, string bankName,
             string accountBankNo, string accountBankType,//#00;银行卡|#01;存折
             string accountOpener, string accountBankProp, Guid accountBankBCId, string accountBankBCName,
             string idType,//#0;身份证|#1;户口簿|#2;护照|#3;军官证|#4;士兵证|#5;港澳居民来往内地通行证|#6;台湾同胞来往内地通行证|#7;临时身份证|#8;外国人居留证|#9;警官证|#x;其他证件
-            string idNo, string bankProvinceId, string bankCityId, string bankAddress, string swiftCode, int applicationType, out bool approved)
+            string idNo, string bankProvinceId, string bankCityId, string bankAddress, string swiftCode, int applicationType)
         {
-            approved = false;
             try
             {
                 string connectionString = SettingManager.Default.ConnectionString;
@@ -951,15 +894,15 @@ namespace AsyncSslServer.Bll
                         SqlCommandBuilder.DeriveParameters(sqlCommand);
                         sqlCommand.Parameters["@id"].Value = id;
                         if (accountId != null) sqlCommand.Parameters["@accountId"].Value = new Guid(accountId);
-                        if (accountBankApprovedId != null)
+                        if (!string.IsNullOrEmpty(accountBankApprovedId))
                         {
                             sqlCommand.Parameters["@accountBankApprovedId"].Value = new Guid(accountBankApprovedId);
                         }
-                        if (bankId != null)
+                        if (!string.IsNullOrEmpty(bankId))
                         {
                             sqlCommand.Parameters["@bankId"].Value = new Guid(bankId);
                         }
-                        if (countryId != null)
+                        if (!string.IsNullOrEmpty(countryId))
                         {
                             sqlCommand.Parameters["@countryId"].Value = long.Parse(countryId);
                         }
@@ -971,9 +914,9 @@ namespace AsyncSslServer.Bll
                         sqlCommand.Parameters["@accountBankBCId"].Value = accountBankBCId;
                         sqlCommand.Parameters["@accountBankBCName"].Value = accountBankBCName;
                         sqlCommand.Parameters["@idType"].Value = idType;
-                        if (bankProvinceId != null) sqlCommand.Parameters["@bankProvinceId"].Value = long.Parse(bankProvinceId);
+                        if (!string.IsNullOrEmpty(bankProvinceId)) sqlCommand.Parameters["@bankProvinceId"].Value = long.Parse(bankProvinceId);
                         sqlCommand.Parameters["@idNo"].Value = idNo;
-                        if (bankCityId != null) sqlCommand.Parameters["@bankCityId"].Value = long.Parse(bankCityId);
+                        if (!string.IsNullOrEmpty(bankCityId)) sqlCommand.Parameters["@bankCityId"].Value = long.Parse(bankCityId);
                         sqlCommand.Parameters["@bankAddress"].Value = bankAddress;
                         sqlCommand.Parameters["@swiftCode"].Value = swiftCode;
                         sqlCommand.Parameters["@applicationType"].Value = applicationType;
@@ -982,47 +925,26 @@ namespace AsyncSslServer.Bll
                         sqlCommand.ExecuteNonQuery();
 
                         int result = (int)sqlCommand.Parameters["@RETURN_VALUE"].Value;
-                        if (result != 0) return false;
+                        if (result != 0)
+                        {
+                            return XmlResultHelper.ErrorResult;
+                        }
 
-                        approved = (bool)sqlCommand.Parameters["@approved"].Value;
-                        return true;
+                        bool approved = (bool)sqlCommand.Parameters["@approved"].Value;
+                        return XmlResultHelper.NewResult(approved.ToXmlResult());
                     }
                 }
             }
             catch (Exception exception)
             {
                 AppDebug.LogEvent("TradingConsole.Apply:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                return false;
+                return XmlResultHelper.ErrorResult;
             }
         }
 
        
 
-        public bool ChangeMarginPin(Guid accountId, string oldPassword, string newPassword)
-        {
-            try
-            {
-                return Application.Default.TradingConsoleServer.ChangeMarginPin(accountId, oldPassword, newPassword);
-            }
-            catch (Exception exception)
-            {
-                AppDebug.LogEvent("TradingConsole.ChangeMarginPin", exception.ToString(), EventLogEntryType.Error);
-                return false;
-            }
-        }
-
-        public bool VerifyMarginPin(Guid accountId, string password)
-        {
-            try
-            {
-                return Application.Default.TradingConsoleServer.VerifyMarginPin(accountId, password);
-            }
-            catch (Exception exception)
-            {
-                AppDebug.LogEvent("TradingConsole.VerifyMarginPin", exception.ToString(), EventLogEntryType.Error);
-                return false;
-            }
-        }
+       
 
       
 

@@ -6,9 +6,9 @@ using iExchange.Common;
 using System.Xml;
 using System.Xml.Linq;
 using System.Data;
-using AsyncSslServer.TypeExtension;
-using AsyncSslServer.Util;
-namespace AsyncSslServer.Bll
+using Trader.Server.TypeExtension;
+using Trader.Server.Util;
+namespace Trader.Server.Bll
 {
     public static class NewsService
     {

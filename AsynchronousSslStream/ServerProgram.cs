@@ -7,15 +7,14 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using log4net;
 using System.Configuration;
-using AsyncSslServer.TypeExtension;
-using AsyncSslServer.Service;
-using AsyncSslServer.Bll;
-using AsyncSslServer.Setting;
 using Trader.Helper;
-using AsyncSslServer.Util;
 using AsyncSslServer;
+using Trader.Server.Service;
+using Trader.Server.Setting;
+using Trader.Server.Bll;
+using Trader.Server.Util;
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
-namespace iExchange3Promotion.Net.AsyncSslServer
+namespace Trader.Server 
 {
     class ServerProgram
     {

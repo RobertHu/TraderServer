@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using System.Xml;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
-namespace AsyncSslServer.Bll
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
+namespace Trader.Server.Bll
 {
     public class LogService
     {

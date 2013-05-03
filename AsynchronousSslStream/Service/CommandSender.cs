@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AsyncSslServer.Bll;
-using AsyncSslServer.Session;
-using iExchange3Promotion.Net.AsyncSslServer;
+using Trader.Server.Bll;
+using Trader.Server.Session;
+using AsyncSslServer;
 using log4net;
 using System.Threading;
 using Trader.Common;
@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 using iExchange.Common;
 using System.Xml;
 using System.Xml.Linq;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.TypeExtension;
 using System.Collections;
 
-namespace AsyncSslServer.Service
+namespace Trader.Server.Service
 {
     public sealed class CommandSender
     {
@@ -36,7 +36,7 @@ namespace AsyncSslServer.Service
             }
         }
 
-        public void SendCommand(object commandObj,Guid session, Common.ICommunicationAgent sendAgent)
+        public void SendCommand(object commandObj,Guid session, Trader.Helper.Common.ICommunicationAgent sendAgent)
         {
             Quotation command = commandObj as Quotation;
             if (command == null) return;

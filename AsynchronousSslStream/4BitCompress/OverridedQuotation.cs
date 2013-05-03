@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AsyncSslServer._4BitCompress
+namespace Trader.Server._4BitCompress
 {
     public class OverridedQuotation : QuotationBase
     {

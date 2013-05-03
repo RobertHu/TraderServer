@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using iExchange.Common;
 using System.Xml;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public class TransactionService
     {
@@ -68,6 +68,30 @@ namespace AsyncSslServer.Bll
             catch (System.Exception exception)
             {
                 AppDebug.LogEvent("TradingConsole.VerifyTransaction:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                return XmlResultHelper.ErrorResult;
+            }
+        }
+
+
+        public static XmlNode MultipleClose(string session, Guid[] orderIds)
+        {
+            XmlNode xmlTran;
+            XmlNode xmlAccount;
+            try
+            {
+                Token token = SessionManager.Default.GetToken(session);
+                TransactionError error =Application.Default.TradingConsoleServer.MultipleClose(token, Application.Default.StateServer, orderIds, out xmlTran, out xmlAccount);
+                var dict = new Dictionary<string, string>()
+                {
+                    {"transactionError",error.ToString()},
+                    {"xmlTran",xmlTran==null?string.Empty:xmlTran.OuterXml},
+                    {"xmlAccount",xmlAccount==null?string.Empty:xmlAccount.OuterXml}
+                };
+                return XmlResultHelper.NewResult(dict);
+            }
+            catch (System.Exception exception)
+            {
+                AppDebug.LogEvent("TradingConsole.MultipleClose:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
                 return XmlResultHelper.ErrorResult;
             }
         }

@@ -5,13 +5,14 @@ using System.Text;
 using System.Xml;
 using Serialization;
 using iExchange.Common;
-using AsyncSslServer.Util;
-using AsyncSslServer.Service;
+using Trader.Server.Util;
+using Trader.Server.Service;
 using Mobile = iExchange3Promotion.Mobile;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.TypeExtension;
 using log4net;
 using System.Xml.Linq;
-namespace AsyncSslServer.Bll
+using Trader.Common;
+namespace Trader.Server.Bll
 {
     public class RequestTable
     {
@@ -57,8 +58,17 @@ namespace AsyncSslServer.Bll
             table.Add("LedgerForJava2", LedgerForJava2Action);
             table.Add("Quote", QuoteAction);
             table.Add("Quote2", Quote2Action);
-
+            table.Add("RecoverPasswordDatas", RecoverPasswordDatasAction);
+            table.Add("ChangeMarginPin", ChangeMarginPinAction);
+            table.Add("ModifyTelephoneIdentificationCode", ModifyTelephoneIdentificationCodeAction);
+            table.Add("GetAccountBanksApproved", GetAccountBanksApprovedAction);
+            table.Add("Apply", ApplyAction);
+            table.Add("QueryOrder", QueryOrderAction);
+            table.Add("DeleteMessage", DeleteMessageAction);
+            table.Add("MultipleClose", MultipleCloseAction);
+            table.Add("VerifyMarginPin", VerifyMarginPinAction);
         }
+
 
         public XmlNode Execute(string methodName,SerializedObject request,Token token)
         {
@@ -71,6 +81,64 @@ namespace AsyncSslServer.Bll
                 this._Logger.InfoFormat("the request methed {0} not exist", methodName);
                 return XmlResultHelper.ErrorResult;
             }
+        }
+
+        private XmlNode VerifyMarginPinAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return PasswordService.VerifyMarginPin(args[0].ToGuid(), args[1]);
+        }
+
+        private XmlNode MultipleCloseAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return TransactionService.MultipleClose(request.Session, args[0].ToGuidArray());
+
+        }
+        private XmlNode DeleteMessageAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return this._Service.DeleteMessage(request.Session, args[0].ToGuid());
+        }
+        private XmlNode QueryOrderAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return this._Service.OrderQuery(request.Session, args[0].ToGuid(), args[1], args[2], args[3].ToInt());
+
+        }
+        private XmlNode ApplyAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return this._Service.Apply(request.Session, args[0].ToGuid(), args[1], args[2],
+                args[3], args[4], args[5], args[6],
+                args[7], args[8], args[9], args[10].ToGuid(),
+                args[11], args[12], args[13], args[14], args[15], args[16], args[17]
+                , args[18].ToInt());
+
+        }
+        private XmlNode GetAccountBanksApprovedAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return AccountManager.GetAccountBanksApproved(Guid.Parse(args[0]),args[1]);
+        }
+
+        private XmlNode ModifyTelephoneIdentificationCodeAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return PasswordService.ModifyTelephoneIdentificationCode(request.Session, Guid.Parse(args[0]), args[1], args[2]);
+        }
+
+        private XmlNode ChangeMarginPinAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return PasswordService.ChangeMarginPin(Guid.Parse(args[0]), args[1], args[2]);
+        }
+
+        private XmlNode RecoverPasswordDatasAction(SerializedObject request, Token token)
+        {
+            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args = argList[0].To2DArray();
+            return PasswordService.RecoverPasswordDatas(request.Session, args);
         }
 
         private XmlNode QuoteAction(SerializedObject request, Token token)
@@ -95,7 +163,7 @@ namespace AsyncSslServer.Bll
         {
             List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
             var result = LoginManager.Default.Login(request.Session, argList[0], argList[1], argList[2], int.Parse(argList[3]));
-            token = AsyncSslServer.Session.SessionManager.Default.GetToken(request.Session);
+            token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session);
             if (token != null && token.AppType == iExchange.Common.AppType.Mobile)
             {
                 result=iExchange3Promotion.Mobile.Manager.Login(token).ToXmlNode();
@@ -115,20 +183,25 @@ namespace AsyncSslServer.Bll
                 result = Mobile.Manager.Initialize(token, initData, selectedAccountId);
 
                 //test:
-                //string s = "<PlacingInstruction AccountId=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentId=\"282fa038-1330-43a6-aa87-9d7d01c1a594\" PlacingType=\"SpotTrade\" EndTime=\"2013-04-12 08:33:54.0000054\" ExpireType=\"GoodTillSession\" ExpireDate=\"2013-04-12 08:33:54.0000054\" PriceIsQuote=\"false\" PriceTimestamp=\"2013-04-12 08:33:54.0000054\"><PlacingOrders><PlacingOrder Id=\"41e5c5a9-e2c8-4bc8-919d-97844c9cf550\" Lot=\"1\" IsOpen=\"true\" IsBuy=\"true\" SetPrice=\"1.9840\" DQMaxMove=\"0\" TradeOption=\"Invalid\" /></PlacingOrders></PlacingInstruction>";
-                ////s = System.Web.HttpUtility.HtmlDecode(s);
-                ////s = System.Web.HttpUtility.HtmlDecode(s);
-                //XmlDocument doc = new XmlDocument();
-                //doc.LoadXml(s);
-                //ICollection<Mobile.Server.Transaction> transactionsTest = Mobile.Manager.ConvertPlacingRequest(token, doc.FirstChild);
-                
-                //foreach (Mobile.Server.Transaction transaction in transactionsTest)
-                //{
-                //    //XmlNode TransactionService.Place(request.Session, args[0].ToXmlNode());
-                //    string tranCode;
-                //    TransactionError error = Application.Default.TradingConsoleServer.Place(token, Application.Default.StateServer, transaction.ToXmlNode(), out tranCode);
+                if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"]=="true")
+                {
+                    string s = "<PlacingInstruction AccountId=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentId=\"864ac5d7-b872-45a6-887e-7189463beb12\" PlacingType=\"LimitStop\" EndTime=\"2013-05-02 12:19:07.007\" ExpireType=\"GoodTillSession\" ExpireDate=\"2013-05-02 12:19:07.007\" PriceIsQuote=\"false\" PriceTimestamp=\"2013-05-02 12:19:07.007\"><PlacingOrders><PlacingOrder Id=\"e2a72e0d-ddf6-4d83-8a04-9883a0eee84e\" Lot=\"1\" IsOpen=\"true\" IsBuy=\"false\" SetPrice=\"2.0988\" TradeOption=\"Better\" /></PlacingOrders></PlacingInstruction>";
+                    //s = System.Web.HttpUtility.HtmlDecode(s);
+                    //s = System.Web.HttpUtility.HtmlDecode(s);
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml(s);
+                    ICollection<Mobile.Server.Transaction> transactionsTest = Mobile.Manager.ConvertPlacingRequest(token, doc.FirstChild);
 
-                //}
+                    foreach (Mobile.Server.Transaction transaction in transactionsTest)
+                    {
+                        //XmlNode TransactionService.Place(request.Session, args[0].ToXmlNode());
+                        string tranCode;
+                        TransactionError error = Application.Default.TradingConsoleServer.Place(token, Application.Default.StateServer, transaction.ToXmlNode(), out tranCode);
+
+                    }
+                    
+                    this._Service.Quote(request.Session, "282fa038-1330-43a6-aa87-9d7d01c1a594", 30, 2);
+                }
             }
             else
             {
@@ -180,7 +253,7 @@ namespace AsyncSslServer.Bll
         private XmlNode UpdateInstrumentSettingAction(SerializedObject request, Token token)
         {
             List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
-            string[] instrumentIds = argList[0].Split(',');
+            string[] instrumentIds = argList[0].Split(StringConstants.ArrayItemSeparator);
             return InstrumentManager.Default.UpdateInstrumentSetting(request.Session, instrumentIds);
 
         }
@@ -328,6 +401,11 @@ namespace AsyncSslServer.Bll
                     //XmlNode TransactionService.Place(request.Session, args[0].ToXmlNode());
                     string tranCode;
                     TransactionError error=Application.Default.TradingConsoleServer.Place(token, Application.Default.StateServer, transaction.ToXmlNode(), out tranCode);
+                    if (error == TransactionError.Action_ShouldAutoFill)
+                    {
+                        error = TransactionError.OK;
+                    }
+
                     XElement errorElement = new XElement("ErrorCode");
                     errorElement.Value=error.ToString();
                     element.Add(errorElement);

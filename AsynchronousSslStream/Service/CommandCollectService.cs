@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using log4net;
-using AsyncSslServer.Bll;
+using Trader.Server.Bll;
 using iExchange.Common;
-using AsyncSslServer.Session;
-using iExchange3Promotion.Net.AsyncSslServer;
+using Trader.Server.Session;
+using AsyncSslServer;
 
-namespace AsyncSslServer.Service
+namespace Trader.Server.Service
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     public class CommandCollectService:ICommandCollectService

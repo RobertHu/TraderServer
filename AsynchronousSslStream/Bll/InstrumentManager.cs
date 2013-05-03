@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using iExchange.Common;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using System.Xml;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public class InstrumentManager
     {

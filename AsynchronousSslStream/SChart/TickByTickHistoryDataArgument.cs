@@ -4,10 +4,9 @@ using System.Configuration;
 using System.Web;
 using iExchange.Common;
 using System.Net;
-using iExchange.TradingConsole;
-using AsyncSslServer.Bll;
-using AsyncSslServer.Session;
-using AsyncSslServer.Service;
+using Trader.Server.Bll;
+using Trader.Server.Session;
+using Trader.Server.Service;
 
 public class TickByTickHistoryDataArgument : HttpContextHolder
 {

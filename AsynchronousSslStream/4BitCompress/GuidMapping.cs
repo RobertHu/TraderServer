@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AsyncSslServer._4BitCompress
+namespace Trader.Server._4BitCompress
 {
     internal class GuidMapping
     {

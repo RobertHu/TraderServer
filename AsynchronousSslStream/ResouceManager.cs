@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 
-namespace AsyncSslServer
+namespace Trader.Server
 {
     public class ResouceManager
     {

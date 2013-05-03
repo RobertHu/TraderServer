@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using Serialization;
 
-namespace AsyncSslServer.Util
+namespace Trader.Server.Util
 {
     public static class XmlRequestCommandHelper
     {

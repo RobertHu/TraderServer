@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace AsyncSslServer.Security.ParticipantService {
+namespace Trader.Server.Security.ParticipantService {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -58,7 +58,7 @@ namespace AsyncSslServer.Security.ParticipantService {
         
         /// <remarks/>
         public ParticipantServices() {
-            this.Url = global::AsyncSslServer.Properties.Settings.Default.AsyncSslServerTest_Security_ParticipantService_ParticipantServices;
+            this.Url = global::Trader.Server.Properties.Settings.Default.AsyncSslServerTest_Security_ParticipantService_ParticipantServices;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;

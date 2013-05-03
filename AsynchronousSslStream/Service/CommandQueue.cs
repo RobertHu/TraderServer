@@ -6,7 +6,7 @@ using System.Threading;
 using iExchange.Common;
 using System.Xml;
 using System.Collections;
-namespace AsyncSslServer.Service
+namespace Trader.Server.Service
 {
     public class CommandQueue
     {
@@ -71,6 +71,10 @@ namespace AsyncSslServer.Service
                 XmlElement commands = xmlDoc.CreateElement("Commands");
                 xmlDoc.AppendChild(commands);
                 List<Command> commandList = this.InnerGet(firstSequence, lastSequence);
+                if (commandList == null)
+                {
+                    return null;
+                }
                 TradingConsoleState tradingConsoleState = state as TradingConsoleState;
                 ArrayList quotationCommands = new ArrayList();
                 foreach (var command in commandList)

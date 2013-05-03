@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 using System.Xml;
 using Trader.Helper;
 using log4net;
 using Trader.Common;
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public static class RecoverService
     {

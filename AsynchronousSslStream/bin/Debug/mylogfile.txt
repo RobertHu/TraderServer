@@ -22055,3 +22055,48 @@ Object name: 'SslStream'.
    at System.Net.Security._SslStream.EndWrite(IAsyncResult asyncResult)
    at Microsoft.FSharp.Control.CommonExtensions.AsyncWrite@1747-1.Invoke(IAsyncResult arg00)
    at <StartupCode$FSharp-Core>.$Control.callback@1476.Invoke(IAsyncResult ar)
+2013-05-02 17:29:02,772 [50] ERROR Trader.Server.Bll.LoginManager - System.Net.WebException: The operation has timed out
+   at System.Web.Services.Protocols.WebClientProtocol.GetWebResponse(WebRequest request)
+   at System.Web.Services.Protocols.HttpWebClientProtocol.GetWebResponse(WebRequest request)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at Trader.Server.Security.ParticipantService.ParticipantServices.Login(String participantLoginName, String participantPassword) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Web References\Security.ParticipantService\Reference.cs:line 506
+   at Trader.Server.Bll.LoginManager.Login2(String session, String loginID, String password, String& companyName, Boolean& disallowLogin, Boolean& isActivateAccount, Boolean& isDisableJava30, Boolean isForJava, String environmentInfo, Int32 appType) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\LoginManager.cs:line 124
+2013-05-03 15:03:08,059 [32] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 15:03:14,880 [28] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 15:03:41,334 [25] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 15:06:47,329 [24] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 15:13:12,050 [32] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 15:17:48,188 [5] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 15:18:45,546 [5] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 15:20:49,422 [5] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 15:23:29,100 [14] ERROR Trader.Server.Bll.LoginManager - tt01 is not a valid user
+2013-05-03 17:20:18,642 [21] ERROR Trader.Server.Bll.LoginManager - System.Net.WebException: The request failed with HTTP status 404: Not Found.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at Trader.Server.Security.ParticipantService.ParticipantServices.Login(String participantLoginName, String participantPassword) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Web References\Security.ParticipantService\Reference.cs:line 506
+   at Trader.Server.Bll.LoginManager.Login2(String session, String loginID, String password, String& companyName, Boolean& disallowLogin, Boolean& isActivateAccount, Boolean& isDisableJava30, Boolean isForJava, String environmentInfo, Int32 appType) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\LoginManager.cs:line 124
+2013-05-03 17:20:18,935 [20] ERROR Trader.Server.Bll.LoginManager - System.Net.WebException: The request failed with HTTP status 404: Not Found.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at Trader.Server.Security.ParticipantService.ParticipantServices.Login(String participantLoginName, String participantPassword) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Web References\Security.ParticipantService\Reference.cs:line 506
+   at Trader.Server.Bll.LoginManager.Login2(String session, String loginID, String password, String& companyName, Boolean& disallowLogin, Boolean& isActivateAccount, Boolean& isDisableJava30, Boolean isForJava, String environmentInfo, Int32 appType) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\LoginManager.cs:line 124
+2013-05-03 17:20:48,962 [22] ERROR Trader.Server.Bll.LoginManager - System.Net.WebException: The request failed with HTTP status 404: Not Found.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at Trader.Server.Security.ParticipantService.ParticipantServices.Login(String participantLoginName, String participantPassword) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Web References\Security.ParticipantService\Reference.cs:line 506
+   at Trader.Server.Bll.LoginManager.Login2(String session, String loginID, String password, String& companyName, Boolean& disallowLogin, Boolean& isActivateAccount, Boolean& isDisableJava30, Boolean isForJava, String environmentInfo, Int32 appType) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\LoginManager.cs:line 124
+2013-05-03 17:21:05,155 [22] ERROR Trader.Server.Bll.LoginManager - System.Net.WebException: The request failed with HTTP status 404: Not Found.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at Trader.Server.Security.ParticipantService.ParticipantServices.Login(String participantLoginName, String participantPassword) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Web References\Security.ParticipantService\Reference.cs:line 506
+   at Trader.Server.Bll.LoginManager.Login2(String session, String loginID, String password, String& companyName, Boolean& disallowLogin, Boolean& isActivateAccount, Boolean& isDisableJava30, Boolean isForJava, String environmentInfo, Int32 appType) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\LoginManager.cs:line 124
+2013-05-03 17:21:50,167 [24] ERROR Trader.Server.Bll.LoginManager - System.Net.WebException: The request failed with HTTP status 404: Not Found.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at Trader.Server.Security.ParticipantService.ParticipantServices.Login(String participantLoginName, String participantPassword) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Web References\Security.ParticipantService\Reference.cs:line 506
+   at Trader.Server.Bll.LoginManager.Login2(String session, String loginID, String password, String& companyName, Boolean& disallowLogin, Boolean& isActivateAccount, Boolean& isDisableJava30, Boolean isForJava, String environmentInfo, Int32 appType) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\LoginManager.cs:line 124
+2013-05-03 17:22:48,805 [24] ERROR Trader.Server.Bll.LoginManager - System.Net.WebException: The request failed with HTTP status 404: Not Found.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at Trader.Server.Security.ParticipantService.ParticipantServices.Login(String participantLoginName, String participantPassword) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Web References\Security.ParticipantService\Reference.cs:line 506
+   at Trader.Server.Bll.LoginManager.Login2(String session, String loginID, String password, String& companyName, Boolean& disallowLogin, Boolean& isActivateAccount, Boolean& isDisableJava30, Boolean isForJava, String environmentInfo, Int32 appType) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\LoginManager.cs:line 124

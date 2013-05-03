@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using System.Diagnostics;
 using System.Xml;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
-namespace AsyncSslServer.Bll
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
+using Trader.Common;
+using Trader.Server.Setting;
+using System.Data.SqlClient;
+using System.Data;
+namespace Trader.Server.Bll
 {
     public class PasswordService
     {
-        public bool RecoverPasswordDatas(string session, string[][] recoverPasswordDatas)
+        public static XmlNode RecoverPasswordDatas(string session, string[][] recoverPasswordDatas)
         {
             try
             {
@@ -20,15 +24,85 @@ namespace AsyncSslServer.Bll
                 {
                     Token token = SessionManager.Default.GetToken(session);
                     Application.Default.TradingConsoleServer.UpdateRecoverPasswordData(token.UserID, recoverPasswordDatas);
-                    return true;
+                    return XmlResultHelper.NewResult(StringConstants.OK_RESULT);
                 }
             }
             catch (Exception exception)
             {
                 AppDebug.LogEvent("TradingConsole.RecoverPasswordDatas", exception.ToString(), EventLogEntryType.Error);
             }
-            return false;
+            return XmlResultHelper.ErrorResult;
         }
+
+
+        public static XmlNode ChangeMarginPin(Guid accountId, string oldPassword, string newPassword)
+        {
+            try
+            {
+                var result= Application.Default.TradingConsoleServer.ChangeMarginPin(accountId, oldPassword, newPassword);
+                return XmlResultHelper.NewResult(result.ToXmlResult());
+            }
+            catch (Exception exception)
+            {
+                AppDebug.LogEvent("TradingConsole.ChangeMarginPin", exception.ToString(), EventLogEntryType.Error);
+                return XmlResultHelper.ErrorResult;
+            }
+        }
+
+        public static XmlNode VerifyMarginPin(Guid accountId, string password)
+        {
+            try
+            {
+                bool result=Application.Default.TradingConsoleServer.VerifyMarginPin(accountId, password);
+                return XmlResultHelper.NewResult(result.ToXmlResult());
+            }
+            catch (Exception exception)
+            {
+                AppDebug.LogEvent("TradingConsole.VerifyMarginPin", exception.ToString(), EventLogEntryType.Error);
+                return XmlResultHelper.ErrorResult;
+            }
+        }
+
+
+
+        public static XmlNode ModifyTelephoneIdentificationCode(string session, Guid accountId, string oldCode, string newCode)
+        {
+            bool lastResult = false;
+            try
+            {
+                Token token = SessionManager.Default.GetToken(session);
+                string connectionString = SettingManager.Default.ConnectionString;
+                using (SqlConnection sqlconnection = new SqlConnection(connectionString))
+                {
+                    SqlCommand sqlCommand = sqlconnection.CreateCommand();
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "Account_UpdateDescription";
+                    sqlconnection.Open();
+                    SqlCommandBuilder.DeriveParameters(sqlCommand);
+                    sqlCommand.Parameters["@id"].Value = accountId;
+                    sqlCommand.Parameters["@oldDescription"].Value = oldCode;
+                    sqlCommand.Parameters["@newDescription"].Value = newCode;
+
+                    sqlCommand.ExecuteNonQuery();
+                    int result = (int)sqlCommand.Parameters["@RETURN_VALUE"].Value;
+                    if (result == 0)
+                    {
+                        sqlCommand = sqlconnection.CreateCommand();
+                        sqlCommand.CommandType = CommandType.Text;
+                        sqlCommand.CommandText = string.Format("UPDATE AccountHistory SET UpdatePersonID = '{0}' WHERE ID = '{1}' AND [Description] = '{2}' AND UpdateTime = (SELECT MAX(UpdateTime) FROM AccountHistory WHERE ID='{1}' AND [Description] = '{2}')", token.UserID, accountId, newCode);
+                        sqlCommand.ExecuteNonQuery();
+                        lastResult = true;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                AppDebug.LogEvent("TradingConsole.ModifyTelephoneIdentificationCode", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+            }
+            return XmlResultHelper.NewResult(lastResult.ToXmlResult());
+        }
+
+
 
         private static bool UpdatePassword3(string session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
         {

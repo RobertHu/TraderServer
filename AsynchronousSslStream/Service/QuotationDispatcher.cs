@@ -6,7 +6,7 @@ using iExchange.Common;
 using System.Threading;
 using System.Collections.Concurrent;
 using log4net;
-namespace AsyncSslServer.Service
+namespace Trader.Server.Service
 {
     public class QuotationDispatcher
     {

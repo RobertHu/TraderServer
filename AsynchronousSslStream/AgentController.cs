@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using log4net;
 using Trader.Helper;
-namespace AsyncSslServer
+namespace Trader.Server
 {
     public class AgentController
     {
@@ -21,7 +21,7 @@ namespace AsyncSslServer
         private volatile bool _IsDisconnectHandlerStopped = false;
         private AgentController() { }
 
-        public void Add(Guid session, Common.IReceiveAgent receiver, Common.ICommunicationAgent sender)
+        public void Add(Guid session, Trader.Helper.Common.IReceiveAgent receiver, Trader.Helper.Common.ICommunicationAgent sender)
         {
             try
             {
@@ -81,8 +81,11 @@ namespace AsyncSslServer
             relation.Receiver.ResponseSent -= SendCenter.Default.ResponseSentHandle;
             this._Container.Remove(session);
             QuotationAgent.Quotation.Default.Remove(session);
-            this._ClientCount--;
-            Console.WriteLine("clientCount={0}", this._ClientCount < 0 ? 0 : this._ClientCount);
+            if (this._ClientCount > 0)
+            {
+                this._ClientCount--;
+            }
+            Console.WriteLine("clientCount={0}", this._ClientCount);
         }
 
         public bool RecoverConnection(Guid originSession, Guid currentSession)
@@ -115,7 +118,7 @@ namespace AsyncSslServer
             }
         }
 
-        public Common.ICommunicationAgent GetSender(Guid session)
+        public Trader.Helper.Common.ICommunicationAgent GetSender(Guid session)
         {
             try
             {
@@ -135,7 +138,7 @@ namespace AsyncSslServer
             }
         }
 
-        public Common.IReceiveAgent GetReceiver(Guid session)
+        public Trader.Helper.Common.IReceiveAgent GetReceiver(Guid session)
         {
             try
             {
@@ -222,7 +225,7 @@ namespace AsyncSslServer
         }
 
 
-        public void SenderClosedEventHandle(object sender,Common.SenderClosedEventArgs e)
+        public void SenderClosedEventHandle(object sender,Trader.Helper.Common.SenderClosedEventArgs e)
         {
             this.EnqueueDisconnectSession(e.Session);
         }
@@ -232,12 +235,12 @@ namespace AsyncSslServer
 
     public class ClientRelation
     {
-        public ClientRelation(Common.ICommunicationAgent sender, Common.IReceiveAgent receiver)
+        public ClientRelation(Trader.Helper.Common.ICommunicationAgent sender, Trader.Helper.Common.IReceiveAgent receiver)
         {
             this.Receiver=receiver;
             this.Sender=sender;
         }
-        public Common.IReceiveAgent Receiver { get; private set; }
-        public Common.ICommunicationAgent Sender { get; private set; }
+        public Trader.Helper.Common.IReceiveAgent Receiver { get; private set; }
+        public Trader.Helper.Common.ICommunicationAgent Sender { get; private set; }
     }
 }

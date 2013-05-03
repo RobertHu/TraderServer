@@ -2,7 +2,7 @@ using System;
 using System.Security.Principal;
 using System.Runtime.InteropServices;
 
-namespace iExchange.TradingConsole.SChart
+namespace Trader.Server.SChart
 {
 	/// <summary>
 	/// Summary description for Impersonate.

@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using iExchange3Promotion.Net.AsyncSslServer;
+using AsyncSslServer;
 using Trader.Common;
 using Serialization;
 using System.Xml;
-using AsyncSslServer.Bll;
-using AsyncSslServer.Service;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Bll;
+using Trader.Server.Service;
+using Trader.Server.TypeExtension;
 
 using Trader.Helper;
 using Mobile = iExchange3Promotion.Mobile;
+using System.Xml.Linq;
 
-namespace AsyncSslServer.Util
+namespace Trader.Server.Util
 {
     public static class ClientRequestHelper
     {
@@ -27,8 +28,8 @@ namespace AsyncSslServer.Util
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                request.Content = XmlResultHelper.ErrorResult;
+                Console.WriteLine(ex);                
+                request.Content = XmlResultHelper.NewErrorResult(ex.ToString());
             }
             finally
             {
@@ -64,7 +65,7 @@ namespace AsyncSslServer.Util
 
         private static XmlNode ProcessMethodReqeust(SerializedObject request,string methodName)
         {
-            iExchange.Common.Token token = AsyncSslServer.Session.SessionManager.Default.GetToken(request.Session);
+            iExchange.Common.Token token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session);
             XmlNode result = XmlResultHelper.ErrorResult;
             XmlNode content = request.Content;
             if (!Application.Default.SessionMonitor.Exist(request.Session))

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AsyncSslServer.TypeExtension
+namespace Trader.Server.TypeExtension
 {
    public static class GuidExtension
     {

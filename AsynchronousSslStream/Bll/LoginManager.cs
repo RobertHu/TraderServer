@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using iExchange.Common;
 using System.Xml;
-using AsyncSslServer.Setting;
+using Trader.Server.Setting;
 using log4net;
 using System.Data;
 using System.IO;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using System.Collections;
 using System.Diagnostics;
 using System.Xml.Linq;
-using AsyncSslServer.TypeExtension;
-using AsyncSslServer.Util;
+using Trader.Server.TypeExtension;
+using Trader.Server.Util;
 using Trader.Helper;
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public class LoginManager
     {

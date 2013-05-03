@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using iExchange.Common;
 
-namespace AsyncSslServer.Service
+namespace Trader.Server.Service
 {
     public class CommandList : List<Command>
     {

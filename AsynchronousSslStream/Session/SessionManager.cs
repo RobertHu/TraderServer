@@ -5,11 +5,11 @@ using System.Text;
 using iExchange.Common;
 using System.Xml;
 using log4net;
-using AsyncSslServer.Bll;
-using AsyncSslServer.Service;
+using Trader.Server.Bll;
+using Trader.Server.Service;
 using System.Threading;
 
-namespace AsyncSslServer.Session
+namespace Trader.Server.Session
 {
     public class SessionManager
     {

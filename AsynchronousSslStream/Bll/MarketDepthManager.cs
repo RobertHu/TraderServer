@@ -5,7 +5,7 @@ using System.Web;
 using System.Collections;
 using iExchange.Common;
 
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public class MarketDepthManager
     {

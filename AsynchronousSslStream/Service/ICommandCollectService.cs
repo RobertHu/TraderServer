@@ -5,7 +5,7 @@ using System.Text;
 using System.ServiceModel;
 using iExchange.Common;
 
-namespace AsyncSslServer.Service
+namespace Trader.Server.Service
 {
     [ServiceContract(SessionMode = SessionMode.Allowed)]
     public interface ICommandCollectService

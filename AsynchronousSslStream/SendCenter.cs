@@ -6,7 +6,7 @@ using log4net;
 using Trader.Common;
 using System.Threading;
 using Trader.Helper;
-namespace AsyncSslServer
+namespace Trader.Server
 {
     public class SendCenter
     {

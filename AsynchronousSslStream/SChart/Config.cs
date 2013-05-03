@@ -7,9 +7,9 @@ using System.Web;
 
 using EasyTools;
 using Easychart.Finance;
-using AsyncSslServer.Setting;
+using Trader.Server.Setting;
 
-namespace iExchange.TradingConsole.SChart
+namespace Trader.Server.SChart
 {
 	public delegate bool UpdateService (DateTime d,string Exchange);
 	/// <summary>

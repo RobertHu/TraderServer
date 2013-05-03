@@ -5,7 +5,7 @@ using System.Text;
 using Trader.Common;
 using System.Xml;
 
-namespace AsyncSslServer.TypeExtension
+namespace Trader.Server.TypeExtension
 {
     public static class StringExtension
     {
@@ -16,8 +16,34 @@ namespace AsyncSslServer.TypeExtension
 
         public static Guid[] ToGuidArray(this string source)
         {
+            if (string.IsNullOrEmpty(source))
+            {
+                return new Guid[]{};
+            }
            return source.Split(StringConstants.ArrayItemSeparator).Select(s => Guid.Parse(s)).ToArray();
         }
+
+        public static Guid ToGuid(this string source)
+        {
+            Guid result;
+            Guid.TryParse(source,out result);
+            return result;
+        }
+
+        public static int ToInt(this string source)
+        {
+            return int.Parse(source);
+        }
+  
+    
+
+        public static string[][] To2DArray(this string souce)
+        {
+            return souce.Split(StringConstants.Array2DItemSeparator)
+                        .Select(m => m.Split(StringConstants.ArrayItemSeparator))
+                        .ToArray();
+        }
+
         public static XmlNode ToXmlNode(this string xml)
         {
             XmlDocument doc = new XmlDocument();

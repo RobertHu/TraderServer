@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.TypeExtension;
 using Serialization;
-namespace AsyncSslServer.Util
+namespace Trader.Server.Util
 {
     public static class XmlResultHelper
     {

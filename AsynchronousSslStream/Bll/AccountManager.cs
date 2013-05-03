@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using iExchange.Common;
-using AsyncSslServer.Session;
-using AsyncSslServer.Setting;
+using Trader.Server.Session;
+using Trader.Server.Setting;
 using System.Xml;
 using System.Diagnostics;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public class AccountManager
     {
@@ -37,17 +37,18 @@ namespace AsyncSslServer.Bll
             throw new NotImplementedException("Reserved");
         }
 
-        public DataSet GetAccountBanksApproved(Guid accountId, string language)
+        public static XmlNode GetAccountBanksApproved(Guid accountId,string language)
         {
             try
             {
                 string sql = string.Format("dbo.P_GetAccountBanksApproved @accountId='{0}', @language='{1}'", accountId, language);
-                return DataAccess.GetData(sql, SettingManager.Default.ConnectionString);
+                var ds = DataAccess.GetData(sql, SettingManager.Default.ConnectionString);
+                return XmlResultHelper.NewResult(ds.ToXml());
             }
             catch (System.Exception ex)
             {
                 AppDebug.LogEvent("TradingConsole.GetAccountBanksApproved", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                return null;
+                return XmlResultHelper.ErrorResult;
             }
         }
 

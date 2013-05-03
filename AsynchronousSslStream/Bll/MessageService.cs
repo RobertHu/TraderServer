@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using iExchange.Common;
-using AsyncSslServer.Util;
+using Trader.Server.Util;
 using System.Xml.Linq;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.TypeExtension;
 using System.Xml;
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public static class MessageService
     {

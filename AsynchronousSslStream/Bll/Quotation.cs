@@ -5,11 +5,13 @@ using System.Text;
 using iExchange.Common;
 using System.Xml;
 using System.Collections.Concurrent;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using Serialization;
 using log4net;
-using AsyncSslServer._4BitCompress;
-namespace AsyncSslServer.Bll
+using Trader.Server._4BitCompress;
+using Mobile = iExchange3Promotion.Mobile;
+
+namespace Trader.Server.Bll
 {
     public class Quotation
     {
@@ -82,7 +84,7 @@ namespace AsyncSslServer.Bll
                 {
                     continue;
                 }
-                AsyncSslServer._4BitCompress.OverridedQuotation overridedQuotation = new AsyncSslServer._4BitCompress.OverridedQuotation();
+                Trader.Server._4BitCompress.OverridedQuotation overridedQuotation = new Trader.Server._4BitCompress.OverridedQuotation();
                 overridedQuotationList.Add(overridedQuotation);
                 iExchange.Common.OverridedQuotation overridedQ = quotationCommand.OverridedQs[index];
                 overridedQuotation.InstrumentId = overridedQ.InstrumentID;
@@ -120,29 +122,31 @@ namespace AsyncSslServer.Bll
 
         private void CacheQuotationCommon(AppType appType, string filterSign, byte[] quotation)
         {
-            this._QuotationFilterByAppTypeDict[appType][filterSign] = quotation;
+            ConcurrentDictionary<string, byte[]> dict;
+            if (this._QuotationFilterByAppTypeDict.TryGetValue(appType,out dict))
+            {
+                dict.TryAdd(filterSign, quotation);
+            }
         }
 
 
         private byte[] GetQuotationCommon(Token token, TraderState state)
         {
             byte[] result = null;
-            if (!this._QuotationFilterByAppTypeDict.ContainsKey(token.AppType))
+            ConcurrentDictionary<string, byte[]> dict = null;
+            if (!this._QuotationFilterByAppTypeDict.TryGetValue(token.AppType, out dict))
             {
-                this._QuotationFilterByAppTypeDict[token.AppType] = new ConcurrentDictionary<string, byte[]>();
+                dict = new ConcurrentDictionary<string, byte[]>();
+                this._QuotationFilterByAppTypeDict.TryAdd(token.AppType,dict);
             }
-
-            if (this._QuotationFilterByAppTypeDict[token.AppType].ContainsKey(state.QuotationFilterSign))
-            {
-                result = this._QuotationFilterByAppTypeDict[token.AppType][state.QuotationFilterSign];
-            }
+            dict.TryGetValue(state.QuotationFilterSign, out result);
             return result;
         }
 
         private byte[] GetDataBytesInUtf8Format(Token token, TraderState state)
         {
             var node = GetXmlNodeHelper(token, state);
-            return Constants.ContentEncoding.GetBytes(node.OuterXml);
+            return node == null ? null : Constants.ContentEncoding.GetBytes(node.OuterXml);
         }
 
 
@@ -169,13 +173,20 @@ namespace AsyncSslServer.Bll
 
         private XmlNode ConvertCommand(Command command, Token token, State state)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement commands = xmlDoc.CreateElement("Commands");
-            xmlDoc.AppendChild(commands);
-            this.AppendChild(commands, command, token, state);
-            commands.SetAttribute("FirstSequence", command.Sequence.ToString());
-            commands.SetAttribute("LastSequence", command.Sequence.ToString());
-            return commands;
+            if (!(command is QuotationCommand) && token.AppType == AppType.Mobile)
+            {
+                return Mobile.Manager.ConvertCommand(token, command);
+            }
+            else
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                XmlElement commands = xmlDoc.CreateElement("Commands");
+                xmlDoc.AppendChild(commands);
+                this.AppendChild(commands, command, token, state);
+                commands.SetAttribute("FirstSequence", command.Sequence.ToString());
+                commands.SetAttribute("LastSequence", command.Sequence.ToString());
+                return commands;
+            }
         }
 
 

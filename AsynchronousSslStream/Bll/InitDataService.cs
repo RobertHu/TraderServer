@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using iExchange.Common;
-using AsyncSslServer.Session;
-using AsyncSslServer.Bll;
+using Trader.Server.Session;
+using Trader.Server.Bll;
 using System.Diagnostics;
 using System.Xml;
 using System.Configuration;
 using System.Xml.Linq;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
-using AsyncSslServer._4BitCompress;
-namespace AsyncSslServer.Service
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
+using Trader.Server._4BitCompress;
+using Trader.Server.Service;
+namespace Trader.Server.Bll
 {
     public class InitDataService
     {

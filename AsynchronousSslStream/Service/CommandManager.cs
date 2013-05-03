@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using iExchange.Common;
 using System.Xml;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using System.Diagnostics;
 using System.Threading;
-using AsyncSslServer.Setting;
+using Trader.Server.Setting;
 using System.Collections;
 using System.Data;
-using AsyncSslServer.Bll;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Bll;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 using Trader.Helper;
 using Trader.Common;
 using log4net;
-namespace AsyncSslServer.Service
+namespace Trader.Server.Service
 {
     public class CommandManager
     {

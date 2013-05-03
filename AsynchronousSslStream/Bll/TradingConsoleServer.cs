@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using iExchange.Common;
 using System.Data.SqlClient;
-using AsyncSslServer.Setting;
+using Trader.Server.Setting;
 using System.Collections;
 using System.Xml;
 using System.Xml.Linq;
@@ -15,7 +15,7 @@ using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Configuration;
 
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     public class TradingConsoleServer
     {

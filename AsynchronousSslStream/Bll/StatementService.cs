@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
-using AsyncSslServer.Session;
+using Trader.Server.Session;
 using System.Threading;
 using System.Data;
-using AsyncSslServer.Setting;
-using AsyncSslServer.Bll;
+using Trader.Server.Setting;
+using Trader.Server.Bll;
 using System.Xml;
-using AsyncSslServer.Util;
-using AsyncSslServer.TypeExtension;
+using Trader.Server.Util;
+using Trader.Server.TypeExtension;
 using System.Configuration;
 using System.IO;
-using AsyncSslServer.Service;
-namespace AsyncSslServer.Bll
+using Trader.Server.Service;
+namespace Trader.Server.Bll
 {
     public class StatementService
     {

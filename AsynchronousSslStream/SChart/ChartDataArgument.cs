@@ -3,6 +3,7 @@ using System.Data;
 using System.Configuration;
 using System.Web;
 using iExchange.Common;
+using Trader.Server.SChart;
 
 public class ChartDataArgument : HttpContextHolder
 {
@@ -10,11 +11,11 @@ public class ChartDataArgument : HttpContextHolder
     private DateTime _lastDate;
     private int _count;
     private string _dataCycle;
-    private iExchange.TradingConsole.SChart.DataManager _dataManager;
+    private DataManager _dataManager;
 
     private AsyncResult _asyncResult;
 
-    public ChartDataArgument(Guid instrumentId, DateTime lastDate, int count, string dataCycle, iExchange.TradingConsole.SChart.DataManager dataManager, AsyncResult asyncResult, string session)
+    public ChartDataArgument(Guid instrumentId, DateTime lastDate, int count, string dataCycle, DataManager dataManager, AsyncResult asyncResult, string session)
         : base(session)
     {
         this._instrumentId = instrumentId;
@@ -46,7 +47,7 @@ public class ChartDataArgument : HttpContextHolder
         get { return this._dataCycle; }
     }
 
-    public iExchange.TradingConsole.SChart.DataManager DataManager
+    public DataManager DataManager
     {
         get { return this._dataManager; }
     }

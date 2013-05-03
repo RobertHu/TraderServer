@@ -5,7 +5,7 @@ using System.Web;
 using System.IO;
 using Microsoft.Reporting.WebForms;
 
-namespace AsyncSslServer.Bll
+namespace Trader.Server.Bll
 {
     /// <summary>
     /// Summary description for PDFHelper

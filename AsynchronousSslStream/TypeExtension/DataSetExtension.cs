@@ -6,9 +6,9 @@ using System.Data;
 using System.Xml;
 using System.IO;
 using System.Xml.Serialization;
-using AsyncSslServer._4BitCompress;
+using Trader.Server._4BitCompress;
 using log4net;
-namespace AsyncSslServer.TypeExtension
+namespace Trader.Server.TypeExtension
 {
     public static class DataSetExtension
     {

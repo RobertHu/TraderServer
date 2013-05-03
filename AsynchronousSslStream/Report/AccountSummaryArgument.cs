@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using iExchange.Common;
 
-namespace AsyncSslServer.Report
+namespace Trader.Server.Report
 {
     public class AccountSummaryArgument : HttpContextHolder
     {

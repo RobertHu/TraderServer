@@ -10,7 +10,7 @@ using StockChart.Common;
 using iExchange.Common;
 using System.Diagnostics;
 
-namespace iExchange.TradingConsole.SChart
+namespace Trader.Server.SChart
 {
 	public class DataManager:DataManagerBase
 	{

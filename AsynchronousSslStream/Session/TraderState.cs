@@ -5,7 +5,7 @@ using System.Text;
 using iExchange.Common;
 using System.Security.Cryptography;
 using System.Collections;
-namespace AsyncSslServer.Session
+namespace Trader.Server.Session
 {
     public class TraderState:TradingConsoleState
     {
