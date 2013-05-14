@@ -32,7 +32,7 @@ type Client(stream: SslStream,session: Guid) as this =
                         do! stream.AsyncWrite(msg)
                     with
                     |x ->
-                        logger.Error(x)
+                        //logger.Error(x)
                         this.Close()
                 }
 

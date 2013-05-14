@@ -4,17 +4,17 @@ open System
 open System.Collections.Generic
 open System.Threading.Tasks
 open log4net
-type SendCommandDelegate = delegate of obj * Guid * ICommunicationAgent  -> unit
+type SendCommandDelegate = delegate of obj * string * ICommunicationAgent  -> unit
 
 type QuotationMsg =
-    |Add of Guid * ICommunicationAgent
-    |Remove of Guid
+    |Add of string * ICommunicationAgent
+    |Remove of string
     |Send  of obj * SendCommandDelegate
 
 type Quotation private() =
     let logger = LogManager.GetLogger(typeof<Quotation>)
     static let instance = new Quotation()
-    let dict = new Dictionary<Guid,ICommunicationAgent>()
+    let dict = new Dictionary<string,ICommunicationAgent>()
     let agent = new Agent<QuotationMsg>(fun inbox ->
             async{
                 while true do
@@ -29,15 +29,13 @@ type Quotation private() =
                         match dict.ContainsKey(session) with
                         |true ->
                             dict.Remove(session) |> ignore
-                            logger.Info("remove session")
                         |_ -> ()
                     |Send(command,f) ->
                         try
                             match dict.Count with
-                            |0 ->
-                                logger.Info("no client")
+                            |0 -> ()
                             |_ -> 
-                                 Parallel.ForEach(dict,fun (p: KeyValuePair<Guid,ICommunicationAgent>) -> 
+                                 Parallel.ForEach(dict,fun (p: KeyValuePair<string,ICommunicationAgent>) -> 
                                     try
                                         f.Invoke(command,p.Key, p.Value)
                                     with

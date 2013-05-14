@@ -6,34 +6,32 @@ open SendManager
 open Trader.Common
 open log4net
 
-let parseData session data =
+let parseData (session: System.Nullable<Guid>) data =
     let result = PacketParser.Parse(data)
     match result with
     |null -> None
     |_ -> 
-        match String.IsNullOrEmpty(result.Session) with
+        match session.HasValue with
         |true ->
             result.Session <- session
-        | false -> 
+        |false -> 
             result.CurrentSession <- session
         Some(result) 
 
-type processRequestDelegate = delegate of SerializedObject -> JobItem
+type processRequestDelegate = delegate of SerializedObject -> unit
 
 type ReceiveAgent(f: processRequestDelegate) =
     let logger = LogManager.GetLogger(typeof<ReceiveAgent>)
     let processor = f
-    let event = new Event<SendResponseDelegate, ResponseEventArgs>()
-    let agent = new Agent<Guid * byte[]>(fun inbox ->
+    let agent = new Agent<System.Nullable<Guid> * byte[]>(fun inbox ->
         async{
             while true do
                 let! session,data = inbox.Receive()
-                match parseData (session.ToString()) data with
+                match parseData session data with
                 |None -> ()
                 |Some request ->
                     try
-                        let result = f.Invoke(request)
-                        event.Trigger(new obj(),  new ResponseEventArgs(result))
+                        f.Invoke(request)
                     with
                     | x -> ()
             }
@@ -44,8 +42,6 @@ type ReceiveAgent(f: processRequestDelegate) =
 
     interface IReceiveAgent with
         member this.Send(session,data) = agent.Post(session,data)
-        [<CLIEventAttribute>]
-        member this.ResponseSent = event.Publish
 
 
 

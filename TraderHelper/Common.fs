@@ -14,11 +14,6 @@ type DataArrivedEventArgs(data: byte[], session: Guid) =
     
 type DataArrivedDelegate =  delegate of obj * DataArrivedEventArgs -> unit
 
-type ResponseEventArgs(job: JobItem) =
-    inherit EventArgs()
-    member this.Job = job
-type SendResponseDelegate = delegate of obj * ResponseEventArgs -> unit
-
 type SessionTimeoutEventArgs(session: string) =
     inherit EventArgs()
     member this.Session = session
@@ -34,9 +29,7 @@ type SenderClosedDelegate = delegate of obj * SenderClosedEventArgs -> unit
 
 [<AllowNullLiteralAttribute>]
 type IReceiveAgent =
-    abstract Send : Guid * byte[] -> unit
-    [<CLIEvent>]
-    abstract ResponseSent : IEvent<SendResponseDelegate, ResponseEventArgs>
+    abstract Send : System.Nullable<Guid> * byte[] -> unit
 
 [<AllowNullLiteralAttribute>]
 type ICommunicationAgent =
@@ -47,7 +40,7 @@ type ICommunicationAgent =
     [<CLIEvent>]
     abstract Closed: IEvent<SenderClosedDelegate, SenderClosedEventArgs>
     
-type ClientDisconnectedEventArgs(session: Guid, client: ICommunicationAgent, receiveClient: IReceiveAgent) =
+type ClientDisconnectedEventArgs(session: string, client: ICommunicationAgent, receiveClient: IReceiveAgent) =
     inherit EventArgs()
     member this.Session = session
     member this.Client = client
