@@ -14,7 +14,7 @@ namespace Trader.Server.Bll
 {
     public static class TimeService
     {
-        public static XmlNode GetTimeInfo()
+        public static XElement GetTimeInfo()
         {
             try
             {

@@ -12,11 +12,12 @@ using Trader.Common;
 using Trader.Server.Setting;
 using System.Data.SqlClient;
 using System.Data;
+using System.Xml.Linq;
 namespace Trader.Server.Bll
 {
     public class PasswordService
     {
-        public static XmlNode RecoverPasswordDatas(string session, string[][] recoverPasswordDatas)
+        public static XElement  RecoverPasswordDatas(Guid session, string[][] recoverPasswordDatas)
         {
             try
             {
@@ -35,7 +36,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XmlNode ChangeMarginPin(Guid accountId, string oldPassword, string newPassword)
+        public static XElement  ChangeMarginPin(Guid accountId, string oldPassword, string newPassword)
         {
             try
             {
@@ -49,7 +50,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public static XmlNode VerifyMarginPin(Guid accountId, string password)
+        public static XElement  VerifyMarginPin(Guid accountId, string password)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace Trader.Server.Bll
 
 
 
-        public static XmlNode ModifyTelephoneIdentificationCode(string session, Guid accountId, string oldCode, string newCode)
+        public static XElement  ModifyTelephoneIdentificationCode(Guid session, Guid accountId, string oldCode, string newCode)
         {
             bool lastResult = false;
             try
@@ -104,7 +105,7 @@ namespace Trader.Server.Bll
 
 
 
-        private static bool UpdatePassword3(string session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
+        private static bool UpdatePassword3(Guid session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
         {
             message = "";
             try
@@ -143,7 +144,7 @@ namespace Trader.Server.Bll
         }
 
         //Activate
-        public static bool UpdatePassword2(string session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
+        public static bool UpdatePassword2(Guid session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
         {
             message = "";
             try
@@ -167,7 +168,7 @@ namespace Trader.Server.Bll
         }
 
         //Change Password
-        public static XmlNode UpdatePassword(string session, string loginID, string oldPassword, string newPassword)
+        public static XElement  UpdatePassword(Guid session, string loginID, string oldPassword, string newPassword)
         {
             string message = "";
             bool isSucceed = false;

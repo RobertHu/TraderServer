@@ -14,7 +14,7 @@ public class ChartDataArgument2 : HttpContextHolder
     private AsyncResult _asyncResult;
 
     public ChartDataArgument2(Guid instrumentId, String dataCycle, DateTime from, DateTime to,
-            AsyncResult asyncResult, string session)
+            AsyncResult asyncResult, Guid session)
         : base(session)
     {
         this._instrumentId = instrumentId;

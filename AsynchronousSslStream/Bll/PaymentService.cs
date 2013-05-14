@@ -6,12 +6,13 @@ using iExchange.Common;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
+using System.Xml.Linq;
 
 namespace Trader.Server.Bll
 {
     public class PaymentService
     {
-        public static XmlNode GetMerchantInfoFor99Bill(Guid[] organizationIds)
+        public static XElement GetMerchantInfoFor99Bill(Guid[] organizationIds)
         {
             try
             {

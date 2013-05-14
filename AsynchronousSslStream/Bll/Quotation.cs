@@ -17,7 +17,7 @@ namespace Trader.Server.Bll
     {
         private WeakReference _Command;
         private ILog _Logger = LogManager.GetLogger(typeof(Quotation));
-        private ConcurrentDictionary<AppType, ConcurrentDictionary<string, byte[]>> _QuotationFilterByAppTypeDict = new ConcurrentDictionary<AppType, ConcurrentDictionary<string, byte[]>>();
+        private ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>> _QuotationFilterByAppTypeDict = new ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>>();
         public Quotation(Command command)
         {
             this._Command = new WeakReference(command);
@@ -65,7 +65,7 @@ namespace Trader.Server.Bll
                 QuotationCommand command = (QuotationCommand)this._Command.Target;
                 var target = ConvertQuotation(command,state);
                 result = target.DataInBytes.Value;
-                CacheQuotationCommon(token.AppType, state.QuotationFilterSign, result);
+                CacheQuotationCommon(token.AppType, state.SignMapping, result);
             }
             return result;
         }
@@ -114,15 +114,15 @@ namespace Trader.Server.Bll
             if (result == null)
             {
                 result = GetDataBytesInUtf8Format(token, state);
-                CacheQuotationCommon(token.AppType, state.QuotationFilterSign, result);
+                CacheQuotationCommon(token.AppType, state.SignMapping, result);
             }
 
             return result;
         }
 
-        private void CacheQuotationCommon(AppType appType, string filterSign, byte[] quotation)
+        private void CacheQuotationCommon(AppType appType, long filterSign, byte[] quotation)
         {
-            ConcurrentDictionary<string, byte[]> dict;
+            ConcurrentDictionary<long, byte[]> dict;
             if (this._QuotationFilterByAppTypeDict.TryGetValue(appType,out dict))
             {
                 dict.TryAdd(filterSign, quotation);
@@ -133,13 +133,17 @@ namespace Trader.Server.Bll
         private byte[] GetQuotationCommon(Token token, TraderState state)
         {
             byte[] result = null;
-            ConcurrentDictionary<string, byte[]> dict = null;
+            ConcurrentDictionary<long, byte[]> dict = null;
             if (!this._QuotationFilterByAppTypeDict.TryGetValue(token.AppType, out dict))
             {
-                dict = new ConcurrentDictionary<string, byte[]>();
+                dict = new ConcurrentDictionary<long, byte[]>();
                 this._QuotationFilterByAppTypeDict.TryAdd(token.AppType,dict);
             }
-            dict.TryGetValue(state.QuotationFilterSign, out result);
+            try
+            {
+                result = dict[state.SignMapping];
+            }
+            catch { }
             return result;
         }
 

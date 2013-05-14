@@ -6,10 +6,10 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D6521992-980F-402D-A483-336B76C35C2E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Trader.Server</RootNamespace>
-    <AssemblyName>TraderServer</AssemblyName>
+    <AssemblyName>Trader.Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -35,7 +35,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -53,6 +53,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ADODB, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -93,19 +104,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="LuaInterface, Version=2.0.0.16708, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\LuaInterface.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services" />
@@ -115,6 +125,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Wintellect.Threading, Version=5.0.4881.20295, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Wintellect.Threading.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="4BitCompress\GuidMapping.cs" />
@@ -123,6 +137,7 @@
     <Compile Include="4BitCompress\Quotation4Bit.cs" />
     <Compile Include="4BitCompress\QuotationBase.cs" />
     <Compile Include="4BitCompress\Quotation4BitEncoder.cs" />
+    <Compile Include="4BitCompress\QuotationFilterSignMapping.cs" />
     <Compile Include="AgentController.cs" />
     <Compile Include="Bll\AccountManager.cs" />
     <Compile Include="Bll\AsyncResultManager.cs" />
@@ -166,7 +181,8 @@
     <Compile Include="SChart\TickByTickHistoryDataArgument.cs" />
     <Compile Include="SChart\TickByTickHistoryDataArgument2.cs" />
     <Compile Include="SendCenter.cs" />
-    <Compile Include="ServerProgram.cs" />
+    <Compile Include="Service\QuotationSender.cs" />
+    <Compile Include="TraderServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CommandCollectorHost.cs" />
     <Compile Include="Service\CommandCollectService.cs" />
@@ -180,7 +196,7 @@
     <Compile Include="SessionMonitor.cs" />
     <Compile Include="Session\SessionManager.cs" />
     <Compile Include="Session\TraderState.cs" />
-    <Compile Include="Setting\SettingManager.cs" />
+    <Compile Include="SettingManager.cs" />
     <Compile Include="Bll\StatementService.cs" />
     <Compile Include="TypeExtension\BoolExtension.cs" />
     <Compile Include="TypeExtension\DataSetExtension.cs" />
@@ -192,16 +208,8 @@
     <Compile Include="Util\XmlRequestCommandHelper.cs" />
     <Compile Include="Util\XmlResultHelper.cs" />
     <Compile Include="Util\XmlSerializeHelper.cs" />
-    <Compile Include="Web References\Security.ParticipantService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
-    <Compile Include="Web References\Security.SecurityServices\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
+    <Compile Include="WebService\ParticipantService.cs" />
+    <Compile Include="WebService\SecurityServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AsyncSslServer\AsyncSslServer.csproj">
@@ -226,10 +234,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="app.config" />
+    <None Include="install\install.bat" />
+    <None Include="install\uninstall.bat" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -241,16 +248,6 @@
     <None Include="Setting\Script\setting.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Web References\Security.ParticipantService\participantservices.wsdl" />
-    <None Include="Web References\Security.ParticipantService\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\Security.SecurityServices\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\Security.SecurityServices\securityservices.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\ADODB.dll" />
@@ -261,6 +258,7 @@
     <Content Include="Lib\log4net.dll" />
     <Content Include="Lib\lua51.dll" />
     <Content Include="Lib\LuaInterface.dll" />
+    <Content Include="Lib\Wintellect.Threading.dll" />
     <Content Include="SChart\images\Compiler-Namespace.gif" />
     <Content Include="SChart\images\Compiler-Parameter.gif" />
     <Content Include="SChart\images\Compiler-Program.gif" />
@@ -1145,8 +1143,6 @@
     <Content Include="Setting\MHL\KOR\Sound\Sound0.wav" />
     <Content Include="Setting\MHL\KOR\Sound\Sound1.wav" />
     <Content Include="Setting\MHL\Settings.xml" />
-    <None Include="Web References\Security.SecurityServices\securityservices.disco" />
-    <None Include="Web References\Security.ParticipantService\participantservices.disco" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Setting\MHL\CHS\Report\RptAccountSummary.rdlc" />
@@ -1197,30 +1193,6 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://ws0303/iExchangeCollection/iExchange3%2520Team/iExchange3/Security/web//Service/securityservices.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\Security.SecurityServices\</RelPath>
-      <UpdateFromURL>http://ws0303/iExchangeCollection/iExchange3%2520Team/iExchange3/Security/web//Service/securityservices.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>AsyncSslServerTest_Security_SecurityServices_SecurityServices</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://ws0303/iExchangeCollection/iExchange3%2520Team/iExchange3/Security/web/Service/participantservices.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\Security.ParticipantService\</RelPath>
-      <UpdateFromURL>http://ws0303/iExchangeCollection/iExchange3%2520Team/iExchange3/Security/web/Service/participantservices.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>AsyncSslServerTest_Security_ParticipantService_ParticipantServices</CachedSettingsPropName>
-    </WebReferenceUrl>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
@@ -1243,6 +1215,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

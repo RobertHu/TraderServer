@@ -7,11 +7,12 @@ using Trader.Server.Session;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
+using System.Xml.Linq;
 namespace Trader.Server.Bll
 {
     public class LogService
     {
-        public static XmlNode SaveLog(string session, string logCode, DateTime timestamp, string action, Guid transactionId)
+        public static XElement SaveLog(Guid  session, string logCode, DateTime timestamp, string action, Guid transactionId)
         {
             try
             {

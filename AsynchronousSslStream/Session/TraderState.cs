@@ -5,6 +5,7 @@ using System.Text;
 using iExchange.Common;
 using System.Security.Cryptography;
 using System.Collections;
+using Trader.Server._4BitCompress;
 namespace Trader.Server.Session
 {
     public class TraderState:TradingConsoleState
@@ -33,6 +34,8 @@ namespace Trader.Server.Session
 
         public string QuotationFilterSign { get; private set; }
 
+        public long SignMapping { get; private set; }
+
         public void CaculateQuotationFilterSign()
         {
             List<Guid> instrumentIds = new List<Guid>(this.Instruments.Keys.Cast<Guid>());
@@ -45,6 +48,7 @@ namespace Trader.Server.Session
             }
             byte[] sign = MD5.Create().ComputeHash(ASCIIEncoding.ASCII.GetBytes(sb.ToString()));
             this.QuotationFilterSign = Convert.ToBase64String(sign);
+            this.SignMapping = QuotationFilterSignMapping.AddSign(this.QuotationFilterSign);
         }
 
     }

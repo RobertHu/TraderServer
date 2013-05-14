@@ -16,6 +16,7 @@ using Trader.Server.TypeExtension;
 using Trader.Helper;
 using Trader.Common;
 using log4net;
+using System.Xml.Linq;
 namespace Trader.Server.Service
 {
     public class CommandManager
@@ -43,11 +44,11 @@ namespace Trader.Server.Service
         public void AddCommand(Token token,Command command)
         {
             this._Commands.Add(command);
-            CommandSender.Default.Send(command);
+            AgentController.Default.AddQuotation(new Quotation(command));
         }
 
 
-        public XmlNode VerifyRefrence(string session,State state, XmlNode xmlCommands, out bool changed)
+        public XmlNode VerifyRefrence(Guid session,State state, XmlNode xmlCommands, out bool changed)
         {
             changed = false;
             if (!(state is TradingConsoleState)) return xmlCommands;
@@ -110,13 +111,13 @@ namespace Trader.Server.Service
 
             return xmlCommands;
         }
-        private XmlNode VerifyRefrence(string session,State state, XmlNode xmlCommands)
+        private XmlNode VerifyRefrence(Guid session,State state, XmlNode xmlCommands)
         {
             bool changed;
             return this.VerifyRefrence(session,state, xmlCommands, out changed);
         }
 
-        public DataSet GetInstruments(string session,ArrayList instrumentIDs)
+        public DataSet GetInstruments(Guid session,ArrayList instrumentIDs)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace Trader.Server.Service
         }
 
 
-        public XmlNode GetLostCommands(string session,int firstSequence, int lastSequence)
+        public XElement GetLostCommands(Guid session,int firstSequence, int lastSequence)
         {
             XmlNode xmlCommands = null;
             try

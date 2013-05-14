@@ -17,9 +17,12 @@ namespace Trader.Server.Bll
 
         private Application()
         {
-            this.ParticipantService = new Trader.Server.Security.ParticipantService.ParticipantServices();
-            this.SecurityService = new Trader.Server.Security.SecurityServices.SecurityServices();
+            this.ParticipantService = new ParticipantServices();
+            this.ParticipantService.Url = SettingManager.Default.ParticipantServiceUrl;
+            this.SecurityService = new SecurityServices();
+            this.SecurityService.Url = SettingManager.Default.SecurityServiceUrl;
             this.StateServer = new StateServerService();
+            this.StateServer.Url = SettingManager.Default.StateServerUrl;
             this.StateServerReadyCheck(this.StateServer);
             this.MarketDepthManager = new MarketDepthManager();
             int tickDataReturnCount = Convert.ToInt32(ConfigurationManager.AppSettings["TickDataReturnCount"]);
@@ -62,8 +65,8 @@ namespace Trader.Server.Bll
         }
         
 
-        public Trader.Server.Security.ParticipantService.ParticipantServices ParticipantService { get; private set; }
-        public Trader.Server.Security.SecurityServices.SecurityServices SecurityService { get; private set; }
+        public ParticipantServices ParticipantService { get; private set; }
+        public SecurityServices SecurityService { get; private set; }
         public StateServerService StateServer { get; private set; }
         public TradingConsoleServer TradingConsoleServer { get; private set; }
         public MarketDepthManager MarketDepthManager { get; set; }

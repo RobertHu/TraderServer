@@ -4,21 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Serialization;
+using System.Xml.Linq;
 
 namespace Trader.Server.Util
 {
     public static class XmlRequestCommandHelper
     {
-        public static List<string> GetArguments(XmlNode content)
+        public static List<string> GetArguments(XElement content)
         {
-            XmlNode args = content.SelectSingleNode(string.Format("//{0}/{1}", content.Name, RequestConstants.ArgumentNodeName));
+            var args = content.Descendants(RequestConstants.ArgumentNodeName).SingleOrDefault();
             List<string> argList = new List<string>();
             if (args == null) { return null; }
             else
             {
-                foreach (XmlNode node in args.ChildNodes)
+                foreach (var node in args.Descendants())
                 {
-                    argList.Add(node.InnerText);
+                    argList.Add(node.Value);
                 }
                 return argList;
             }

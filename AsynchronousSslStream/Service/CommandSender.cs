@@ -28,7 +28,7 @@ namespace Trader.Server.Service
         {
             try
             {
-                QuotationAgent.Quotation.Default.Send(new Quotation(command), this.SendCommand);
+                //QuotationAgent.Quotation.Default.Send(new Quotation(command), this.SendCommand);
             }
             catch (Exception ex)
             {
@@ -36,42 +36,6 @@ namespace Trader.Server.Service
             }
         }
 
-        public void SendCommand(object commandObj,Guid session, Trader.Helper.Common.ICommunicationAgent sendAgent)
-        {
-            Quotation command = commandObj as Quotation;
-            if (command == null) return;
-            string sessionStr = session.ToString();
-            var tokenAndState = SessionManager.Default.GetTokenAndState(sessionStr);
-            Token token = tokenAndState.Item1;
-            TraderState state = tokenAndState.Item2;
-            if (token == null || state == null)
-            {
-                return;
-            }
-            var result = command.ToBytes(token,state);
-            bool isQuotation = result.Item1;
-            byte[] quotation = result.Item2;
-            if (quotation == null)
-            {
-                return;
-            }
-            JobItem job = new JobItem();
-            if (token.AppType == AppType.TradingConsole&&isQuotation)
-            {
-                job.Type = JobType.Price;
-                job.Price = quotation;
-            }
-            else
-            {
-                job.Type = JobType.Transaction;
-                job.ContentInByte = quotation;
-                job.SessionID = session;
-            }
-            byte[] packet = SendManager.SerializeMsg(job);
-            sendAgent.Send(packet);
-        }
-
-       
 
 
     }

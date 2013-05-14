@@ -10,6 +10,7 @@ using System.Xml;
 using System.Diagnostics;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
+using System.Xml.Linq;
 
 namespace Trader.Server.Bll
 {
@@ -17,7 +18,7 @@ namespace Trader.Server.Bll
     {
         private AccountManager() { }
         public static readonly AccountManager Default = new AccountManager();
-        public XmlNode GetAccountsForTradingConsole(string session)
+        public XElement  GetAccountsForTradingConsole(Guid  session)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace Trader.Server.Bll
             throw new NotImplementedException("Reserved");
         }
 
-        public static XmlNode GetAccountBanksApproved(Guid accountId,string language)
+        public static XElement  GetAccountBanksApproved(Guid accountId,string language)
         {
             try
             {
@@ -52,7 +53,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public XmlNode GetAccountBankReferenceData(string countryId, string language)
+        public XElement  GetAccountBankReferenceData(string countryId, string language)
         {
             try
             {
@@ -70,7 +71,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode GetAccountForCut(string session,ref DateTime lastAlertTime, Guid accountId, bool includeTransactions)
+        public XmlNode  GetAccountForCut(Guid  session,ref DateTime lastAlertTime, Guid accountId, bool includeTransactions)
         {
             try
             {
@@ -104,13 +105,13 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode GetAccountsForCut(string session,Guid[] accountIDs, bool includeTransactions)
+        public XmlNode  GetAccountsForCut(Guid  session,Guid[] accountIDs, bool includeTransactions)
         {
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
                 AppDebug.LogEvent("[TradingConsole.GetAccountsForCut]", string.Format("Token={0},AccountIDs={1}", token, accountIDs), EventLogEntryType.Warning);
-                return Application.Default.TradingConsoleServer.GetAccounts(token, Application.Default.StateServer, accountIDs, includeTransactions);
+                return  Application.Default.TradingConsoleServer.GetAccounts(token, Application.Default.StateServer, accountIDs, includeTransactions);
             }
             catch (System.Exception exception)
             {
@@ -128,7 +129,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode UpdateAccountSetting(string session,Guid[] accountIds)
+        public XElement  UpdateAccountSetting(Guid  session,Guid[] accountIds)
         {
             bool result = false;
             try
@@ -145,7 +146,7 @@ namespace Trader.Server.Bll
 
         }
 
-        public void UpdateAccount(string session,Guid accountID, Guid groupID, bool isDelete, bool isDeleteGroup)
+        public void UpdateAccount(Guid session, Guid accountID, Guid groupID, bool isDelete, bool isDeleteGroup)
         {
             try
             {
@@ -159,7 +160,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode GetAccounts(string session, Guid[] accountIDs, bool includeTransactions)
+        public XmlNode  GetAccounts(Guid  session, Guid[] accountIDs, bool includeTransactions)
         {
             try
             {

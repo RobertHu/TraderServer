@@ -15,6 +15,10 @@ using System.Xml.Linq;
 using Trader.Server.TypeExtension;
 using Trader.Server.Util;
 using Trader.Helper;
+using Wintellect.Threading;
+using Wintellect.Threading.AsyncProgModel;
+using Serialization;
+using Trader.Common;
 namespace Trader.Server.Bll
 {
     public class LoginManager
@@ -23,208 +27,186 @@ namespace Trader.Server.Bll
         private LoginManager() {}
         public readonly static LoginManager Default = new LoginManager();
 
-        public XmlNode Login(string session,string loginID, string password, string version,int appType)
+        public IEnumerator<int> Login(SerializedObject request, string loginID, string password, string version, int appType, AsyncEnumerator ae)
         {
-            XmlNode systemParameter;
-            string companyName="";
-            bool disallowLogin;
-            bool isActivateAccount;
-            bool isDisableJava30;
-            byte[] companyLogo;
-            XmlNode colorSettings;
-            XmlNode settings;
-            DataSet recoverPasswordData;
-            DataSet tradingAccountData;
-            XmlNode result = null;
-            try
+            Guid session = request.Session.Value;
+            string connectionString = SettingManager.Default.ConnectionString;
+            IsFailedCountExceed(loginID, password, connectionString);
+            LoginParameter loginParameter = new LoginParameter();
+            loginParameter.CompanyName = string.Empty;
+            if (loginID == String.Empty)
             {
-                string connectionString = SettingManager.Default.ConnectionString;
-                if (LoginRetryTimeHelper.IsFailedCountExceeded(loginID, ParticipantType.Customer, connectionString))
+                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
+                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
+                SendErrorResult(request);
+                yield break;
+            }
+            string message = string.Empty;
+            Application.Default.ParticipantService.BeginLogin(loginID, password, ae.End(), null);
+            yield return 1;
+            loginParameter.UserID = Application.Default.ParticipantService.EndLogin(ae.DequeueAsyncResult());
+            if (loginParameter.UserID == Guid.Empty)
+            {
+                _Logger.ErrorFormat("{0} is not a valid user", loginID);
+            }
+            else
+            {
+                Guid programID = new Guid(SettingManager.Default.GetLoginSetting("TradingConsole"));
+                Guid permissionID = new Guid(SettingManager.Default.GetLoginSetting("Run"));
+                Application.Default.SecurityService.BeginCheckPermission(loginParameter.UserID, programID, permissionID, "", "", loginParameter.UserID, ae.End(), null);
+                yield return 1;
+                bool isAuthrized = Application.Default.SecurityService.EndCheckPermission(ae.DequeueAsyncResult(), out message);
+                if (!isAuthrized)
                 {
-                    string info = string.Format("{0} login failed: exceed max login retry times", loginID);
-                    _Logger.Warn(info);
-                    AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
-                    Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, this.GetLocalIP());
-                    XmlDocument document = new XmlDocument();
-                    document.LoadXml("<?xml version=\"1.0\" encoding=\"gb2312\" ?><Error Code=\"ExceedMaxRetryLimit\"/>");
-                    systemParameter = document.DocumentElement;
-                    _Logger.WarnFormat("login failed: exceed max login retry times, parameter={0}", systemParameter.OuterXml);
+                    _Logger.ErrorFormat("{0} doesn't have the right to login trader", loginID);
+                    loginParameter.UserID = Guid.Empty;
                 }
-                Guid userId = this.Login2(session, loginID, password, ref companyName, out disallowLogin, out isActivateAccount, out isDisableJava30, true, version, appType);
-                if (userId != Guid.Empty)
+                else
                 {
-                    LoginRetryTimeHelper.ClearFailedCount(userId, ParticipantType.Customer, connectionString);
-                    string language = string.IsNullOrEmpty(version) ? "ENG" : version.Substring(version.Length - 3);
-                    Token token = SessionManager.Default.GetToken(session);
-                    if (token == null)
+                    Token token = new Token(Guid.Empty, UserType.Customer, (AppType)appType);
+                    token.UserID = loginParameter.UserID;
+                    token.SessionID = session.ToString();
+                    SessionManager.Default.AddToken(session, token);
+                    Application.Default.StateServer.BeginLogin(token, ae.End(), null);
+                    yield return 1;
+                    bool isStateServerLogined = Application.Default.StateServer.EndLogin(ae.DequeueAsyncResult());
+                    SetLoginParameter(loginParameter, session, password, version, appType, isStateServerLogined, token);
+                }
+            }
+            if (loginParameter.UserID == Guid.Empty)
+            {
+                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
+                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
+                SendErrorResult(request);
+            }
+            else
+            {
+                SetResult(request, loginParameter, session, loginID, password, version, appType, connectionString);
+            }
+        }
+
+        private void SendErrorResult(SerializedObject request)
+        {
+            request.Content= XmlResultHelper.ErrorResult;
+            SendCenter.Default.Send(new JobItem(request));
+        }
+
+
+        private void IsFailedCountExceed(string loginID, string password, string connectionString)
+        {
+            if (LoginRetryTimeHelper.IsFailedCountExceeded(loginID, ParticipantType.Customer, connectionString))
+            {
+                string info = string.Format("{0} login failed: exceed max login retry times", loginID);
+                _Logger.Warn(info);
+                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
+                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, this.GetLocalIP());
+                XmlDocument document = new XmlDocument();
+                document.LoadXml("<?xml version=\"1.0\" encoding=\"gb2312\" ?><Error Code=\"ExceedMaxRetryLimit\"/>");
+                var result = document.DocumentElement;
+                _Logger.WarnFormat("login failed: exceed max login retry times, parameter={0}", result.OuterXml);
+            }
+        }
+
+        private void SetResult(SerializedObject request, LoginParameter loginParameter, Guid session, string loginID, string password, string version, int appType, string connectionString)
+        {
+            XElement result;
+            if (loginParameter.UserID != Guid.Empty)
+            {
+                LoginRetryTimeHelper.ClearFailedCount(loginParameter.UserID, ParticipantType.Customer, connectionString);
+                string language = string.IsNullOrEmpty(version) ? "ENG" : version.Substring(version.Length - 3);
+                Token token = SessionManager.Default.GetToken(session);
+                if (token == null)
+                {
+                    AppType tokenType = (AppType)appType;
+                    token = new Token(loginParameter.UserID, UserType.Customer, tokenType);
+                    SessionManager.Default.AddToken(session, token);
+                }
+                token.Language = language;
+                var companyLogo = this.GetLogoForJava(loginParameter.CompanyName);
+                var colorSettings = this.GetColorSettingsForJava(loginParameter.CompanyName);
+                var systemParameter = this.GetParameterForJava(session, loginParameter.CompanyName, language);
+                 var settings = this.GetSettings(loginParameter.CompanyName);
+                var tradingAccountData = Application.Default.TradingConsoleServer.GetTradingAccountData(loginParameter.UserID);
+                var recoverPasswordData = Application.Default.TradingConsoleServer.GetRecoverPasswordData(language, loginParameter.UserID);
+                var dict = new Dictionary<string, string>()
                     {
-                        AppType tokenType = (AppType)appType;
-                        token = new Token(userId, UserType.Customer, tokenType);
-                        SessionManager.Default.AddToken(session, token);
-                    }
-                    token.Language = language;
-                    companyLogo = this.GetLogoForJava(companyName);
-                    colorSettings = this.GetColorSettingsForJava(companyName);
-                    systemParameter = this.GetParameterForJava(session, companyName, language);
-                    settings = this.GetSettings(companyName);
-                    tradingAccountData = Application.Default.TradingConsoleServer.GetTradingAccountData(userId);
-                    recoverPasswordData = Application.Default.TradingConsoleServer.GetRecoverPasswordData(language, userId);
-                    var dict = new Dictionary<string, string>()
-                    {
-                        {"companyName", companyName},
-                        {"disallowLogin", disallowLogin.ToString()},
-                        {"isActivateAccount", isActivateAccount.ToString()},
-                        {"isDisableJava30", isDisableJava30.ToString()},
+                        {"companyName", loginParameter.CompanyName},
+                        {"disallowLogin", loginParameter.DisallowLogin.ToString()},
+                        {"isActivateAccount", loginParameter.IsActivateAccount.ToString()},
+                        {"isDisableJava30", loginParameter.IsDisableJava30.ToString()},
                         {"companyLogo",Convert.ToBase64String(companyLogo)},
                         {"colorSettings",colorSettings.OuterXml},
                         {"parameter",systemParameter.OuterXml},
                         {"settings",settings.OuterXml},
                         {"recoverPasswordData",recoverPasswordData.ToXml()},
                         {"tradingAccountData", tradingAccountData.ToXml()},
-                        {"userId", userId.ToString()},
-                        {"session", session}
+                        {"userId", loginParameter.UserID.ToString()},
+                        {"session", session.ToString()}
                     };
-                    result = XmlResultHelper.NewResult(dict);
-                    Application.Default.SessionMonitor.Add(session);
-                }
-                else
-                {
-                    LoginRetryTimeHelper.IncreaseFailedCount(loginID, ParticipantType.Customer, connectionString);
-                    result = XmlResultHelper.ErrorResult;
-                }
-
-            }
-            catch (System.Exception exception)
-            {
-                AppDebug.LogEvent("TradingConsole.LoginForJava4:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, this.GetLocalIP());
-                result = XmlResultHelper.ErrorResult;
-            }
-            return result;
-        }
-
-
-        private Guid Login2(string session,string loginID, string password, ref string companyName, out bool disallowLogin, out bool isActivateAccount, out bool isDisableJava30, bool isForJava, string environmentInfo,int appType)
-        {
-            disallowLogin = false;
-            isActivateAccount = false;
-            isDisableJava30 = false;
-            Guid userID = Guid.Empty;
-
-            if (loginID == String.Empty)
-            {
-                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
-                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
-                return userID;
-            }
-
-            string message = string.Empty;
-            try
-            {
-                userID = Application.Default.ParticipantService.Login(loginID, password);
-                if (userID != Guid.Empty)
-                {
-                    Guid programID = new Guid(SettingManager.Default.GetLoginSetting("TradingConsole"));
-                    Guid permissionID = new Guid(SettingManager.Default.GetLoginSetting("Run"));
-
-                    bool isAuthrized = Application.Default.SecurityService.CheckPermission(userID, programID, permissionID, "", "", userID, out message);
-                    if (!isAuthrized)
-                    {
-                        _Logger.ErrorFormat("{0} doesn't have the right to login trader", loginID);
-                        userID = Guid.Empty;
-                    }
-                    else
-                    {
-                        bool isPathPassed = false;
-                        DataSet dataSet = Application.Default.TradingConsoleServer.GetLoginParameters(userID, companyName);
-                        DataRowCollection rows = dataSet.Tables[0].Rows;
-                        foreach (DataRow row in rows)
-                        {
-                            isPathPassed = (System.Boolean)row["IsPathPassed"];
-                            disallowLogin = (System.Boolean)row["DisallowLogin"];
-                            isActivateAccount = (System.Boolean)row["IsActivateAccount"];
-                            isDisableJava30 = (System.Boolean)row["IsDisableJava30"];
-                            //Java used
-                            if (string.IsNullOrEmpty(companyName))
-                            {
-                                string companyName2 = (System.String)row["Path"];
-                                if (companyName2 == string.Empty) companyName2 = "MHL";
-                                if (!Directory.Exists(GetOrginazationDir(companyName2)))
-                                {
-                                    isPathPassed = false;
-                                }
-                                else
-                                {
-                                    companyName = companyName2;
-                                    isPathPassed = true;
-                                }
-                            }
-
-                            break;
-                        }
-                        if (!isPathPassed || disallowLogin)
-                        {
-                            userID = Guid.Empty;
-                        }
-                        else
-                        {
-                            Token token = new Token(Guid.Empty, UserType.Customer, (AppType)appType);
-                            token.UserID = userID;
-                            token.SessionID = session;
-                            SessionManager.Default.AddToken(token.SessionID, token);
-                            if (Application.Default.StateServer.Login(token))
-                            {
-                                if (isForJava)
-                                {
-                                    //FormsAuthentication.SetAuthCookie(userID.ToString(), false);
-                                }
-
-                                //Used for kickout--Michael
-                                SessionManager.Default.AddSession(userID, token.SessionID);
-
-                                Application.Default.TradingConsoleServer.SaveLogonLog(token, GetLocalIP(), environmentInfo);
-                                //try
-                                //{
-                                //    this.SilverlightKickoutService.KickoutPredecessor(loginID);
-                                //}
-                                //catch (Exception exception)
-                                //{
-                                //    AppDebug.LogEvent("TradingConsole", exception.ToString() + " Return message is: " + message, EventLogEntryType.Error);
-                                //    this.SilverlightKickoutService = null;
-                                //}
-                            }
-                            else
-                            {
-                                AppDebug.LogEvent("TradingConsole.Login2", userID + " StateServer.Login failed", EventLogEntryType.Error);
-                                SessionManager.Default.RemoveToken(token.SessionID);
-                                userID = Guid.Empty;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    _Logger.ErrorFormat("{0} is not a valid user", loginID);
-                }
-            }
-            catch (System.Exception e)
-            {
-                _Logger.Error(e);
-            }
-
-            if (userID != Guid.Empty)
-            {
-              //  CookieContainer cookieContainer = new CookieContainer();
-               // Session["CookieContainer"] = cookieContainer;
-                //this.AuthenticateDailyChart(loginID, password);
-                //this.AuthenticateForTickByTick(loginID, password);
+                result = XmlResultHelper.NewResult(dict);
+                Application.Default.SessionMonitor.Add(session);
             }
             else
             {
-                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
-                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
+                LoginRetryTimeHelper.IncreaseFailedCount(loginID, ParticipantType.Customer, connectionString);
+                result = XmlResultHelper.ErrorResult;
             }
-            return userID;
+            request.Content = result;
+            SendCenter.Default.Send(new Common.JobItem(request)); 
+        }
+
+        private class LoginParameter
+        {
+            public Guid UserID { get; set; }
+            public string CompanyName { get; set; }
+            public bool DisallowLogin { get; set; }
+            public bool IsActivateAccount { get; set; }
+            public bool IsDisableJava30 { get; set; }
+
+        }
+
+
+        private void SetLoginParameter(LoginParameter loginParameter, Guid session, string password, string environmentInfo, int appType, bool isStateServerLogined, Token token)
+        {
+            bool isPathPassed = false;
+            DataSet dataSet = Application.Default.TradingConsoleServer.GetLoginParameters(loginParameter.UserID,loginParameter.CompanyName);
+            DataRowCollection rows = dataSet.Tables[0].Rows;
+            foreach (DataRow row in rows)
+            {
+                isPathPassed = (System.Boolean)row["IsPathPassed"];
+                loginParameter.DisallowLogin = (System.Boolean)row["DisallowLogin"];
+                loginParameter.IsActivateAccount = (System.Boolean)row["IsActivateAccount"];
+                loginParameter.IsDisableJava30 = (System.Boolean)row["IsDisableJava30"];
+                if (string.IsNullOrEmpty(loginParameter.CompanyName))
+                {
+                    string companyName2 = (System.String)row["Path"];
+                    if (companyName2 == string.Empty) companyName2 = "MHL";
+                    if (Directory.Exists(GetOrginazationDir(companyName2)))
+                    {
+                        isPathPassed = true;
+                        loginParameter.CompanyName = companyName2;
+                    }
+                }
+                break;
+            }
+            if (!isPathPassed || loginParameter.DisallowLogin)
+            {
+                loginParameter.UserID = Guid.Empty;
+            }
+            else
+            {
+                if (isStateServerLogined)
+                {
+                    SessionManager.Default.AddSession(loginParameter.UserID, session); 
+                    Application.Default.TradingConsoleServer.SaveLogonLog(token, GetLocalIP(), environmentInfo);
+                }
+                else
+                {
+                    AppDebug.LogEvent("TradingConsole.Login2", loginParameter.UserID + " StateServer.Login failed", EventLogEntryType.Error);
+                    SessionManager.Default.RemoveToken(session);
+                    loginParameter.UserID = Guid.Empty;
+                }
+            }
         }
 
 
@@ -281,7 +263,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        private XmlNode GetParameterForJava(string session,string companyCode, string version)
+        private XmlNode GetParameterForJava(Guid session,string companyCode, string version)
         {
             SessionManager.Default.AddVersion(session, version);
             string physicalPath = Path.Combine(GetOrginazationDir(companyCode), version);
@@ -304,7 +286,7 @@ namespace Trader.Server.Bll
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session);
                 if (state == null)
                 {
-                    state = new TraderState(session);
+                    state = new TraderState(session.ToString());
                 }
                 state.Language = newsLanguage.ToLower();
                 SessionManager.Default.AddTradingConsoleState(session, state);
@@ -364,7 +346,7 @@ namespace Trader.Server.Bll
             return Path.Combine(SettingManager.Default.PhysicPath, companyCode);
         }
 
-        public System.Xml.XmlNode Logout(string session)
+        public XElement Logout(Guid session)
         {
             try
             {

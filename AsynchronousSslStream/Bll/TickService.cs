@@ -16,10 +16,10 @@ namespace Trader.Server.Bll
 {
     public static class TickService
     {
-        public static XmlNode GetTickByTickHistoryData(String session, Guid instrumentId, DateTime from, DateTime to)
+        public static XElement GetTickByTickHistoryData(Guid session, Guid instrumentId, DateTime from, DateTime to)
         {
             TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
-            XmlNode result = null;
+            XElement  result = null;
             if (state.Instruments.ContainsKey(instrumentId))
             {
                 Guid quotePolicyId = (Guid)state.Instruments[instrumentId];
@@ -35,7 +35,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XmlNode GetChartData(Guid asyncResultId)
+        public static XElement  GetChartData(Guid asyncResultId)
         {
             try
             {
@@ -50,11 +50,11 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XmlNode AsyncGetChartData2(string session, Guid instrumentId, DateTime from, DateTime to, string dataCycleParameter)
+        public static XElement  AsyncGetChartData2(Guid session, Guid instrumentId, DateTime from, DateTime to, string dataCycleParameter)
         {
             try
             {
-                AsyncResult asyncResult = new AsyncResult("AsyncGetChartData2", session);
+                AsyncResult asyncResult = new AsyncResult("AsyncGetChartData2", session.ToString());
                 Application.Default.AssistantOfCreateChartData2.AddTask(asyncResult, new ChartDataArgument2(instrumentId, dataCycleParameter, from, to, asyncResult, session),CreateChartData2);
                 return XmlResultHelper.NewResult(asyncResult.Id.ToString());
             }

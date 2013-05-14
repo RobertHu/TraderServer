@@ -14,6 +14,8 @@ using Trader.Server.TypeExtension;
 using System.Configuration;
 using System.IO;
 using Trader.Server.Service;
+using Trader.Server.Report;
+using System.Xml.Linq;
 namespace Trader.Server.Bll
 {
     public class StatementService
@@ -21,12 +23,12 @@ namespace Trader.Server.Bll
         private static TimeSpan _StatementReportTimeout = TimeSpan.MinValue;
         private static TimeSpan _LedgerReportTimeout = TimeSpan.MinValue;
 
-        public static XmlNode LedgerForJava2(string session, string dateFrom, string dateTo, string IDs, string rdlc)
+        public static XElement LedgerForJava2(Guid session, string dateFrom, string dateTo, string IDs, string rdlc)
         {
             Guid result = Guid.Empty;
             try
             {
-                AsyncResult asyncResult = new AsyncResult("LedgerForJava2", session);
+                AsyncResult asyncResult = new AsyncResult("LedgerForJava2", session.ToString());
                 Token token = SessionManager.Default.GetToken(session);
                 if (ThreadPool.QueueUserWorkItem(CreateLedger, new LedgerArgument(dateFrom, dateTo, IDs, rdlc, asyncResult, session)))
                 {
@@ -82,12 +84,12 @@ namespace Trader.Server.Bll
 
 
 
-        public static XmlNode StatementForJava2(string session, int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc)
+        public static XElement  StatementForJava2(Guid session, int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc)
         {
             Guid result = Guid.Empty;
             try
             {
-                AsyncResult asyncResult = new AsyncResult("StatementForJava2", session);
+                AsyncResult asyncResult = new AsyncResult("StatementForJava2", session.ToString());
                 Token token = SessionManager.Default.GetToken(session);
                 if (ThreadPool.QueueUserWorkItem(CreateStatement, new StatementArg(statementReportType, dayBegin, dayTo, IDs, rdlc, asyncResult, session)))
                 {
@@ -107,7 +109,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XmlNode GetReportContent(Guid asyncResultId)
+        public static XElement  GetReportContent(Guid asyncResultId)
         {
             String result = "";
             try
@@ -189,6 +191,61 @@ namespace Trader.Server.Bll
                 AppDebug.LogEvent("TradingConsole.CreateStatement", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
             }
         }
+
+
+        public static XElement AccountSummaryForJava2(Guid session, string tradeDay, string accountIds, string rdlc)
+        {
+            Guid result = Guid.Empty;
+            try
+            {
+                AsyncResult asyncResult = new AsyncResult("AccountSummaryForJava2", session.ToString());
+                Token token = SessionManager.Default.GetToken(session);
+                if (ThreadPool.QueueUserWorkItem(CreateAccountSummary, new AccountSummaryArgument(tradeDay, accountIds, rdlc, asyncResult, session)))
+                {
+                    result = asyncResult.Id;
+                }
+                else
+                {
+                    AppDebug.LogEvent("TradingConsole.LedgerForJava2:", "ThreadPool.QueueUserWorkItem failed", System.Diagnostics.EventLogEntryType.Warning);
+                }
+            }
+            catch (System.Exception exception)
+            {
+                AppDebug.LogEvent("TradingConsole.LedgerForJava2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                return XmlResultHelper.ErrorResult;
+            }
+            return XmlResultHelper.NewResult(result.ToString());
+        }
+
+
+
+        private static void CreateAccountSummary(object state)
+        {
+            AccountSummaryArgument accountSummaryArgument = (AccountSummaryArgument)state;
+            Token token = accountSummaryArgument.Token;
+            string sql = "EXEC P_RptAccountSummary @xmlAccounts=\'" + XmlTransform.Transform(accountSummaryArgument.AccountIds, ',', "Accounts", "Account", "ID") + "\',@tradeDay=\'"
+                + accountSummaryArgument.TradeDay + "\',@language=\'" + accountSummaryArgument.Version + "\',@userID=\'" + accountSummaryArgument.Token.UserID.ToString() + "\', @skipNoTransactionAccount=0";
+            try
+            {
+                DataSet dataSet = DataAccess.GetData(sql, SettingManager.Default.ConnectionString, LedgerReportTimeout);
+                if (dataSet.Tables.Count > 0)
+                {
+                    string filepath = Path.Combine(SettingManager.Default.PhysicPath, accountSummaryArgument.Rdlc);
+                    //this.Server.MapPath(accountSummaryArgument.Rdlc);
+                    byte[] reportContent = PDFHelper.ExportPDF(filepath, dataSet.Tables[0]);
+                    AsyncResultManager asyncResultManager = accountSummaryArgument.AsyncResultManager;
+                    asyncResultManager.SetResult(accountSummaryArgument.AsyncResult, reportContent);
+                    CommandManager.Default.AddCommand(accountSummaryArgument.Token, new AsyncCommand(0, accountSummaryArgument.AsyncResult));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                CommandManager.Default.AddCommand(accountSummaryArgument.Token, new AsyncCommand(0, accountSummaryArgument.AsyncResult, true, ex));
+                AppDebug.LogEvent("TradingConsole.CreateAccountSummary", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+            }
+        }
+
+
 
         private static TimeSpan StatementReportTimeout
         {

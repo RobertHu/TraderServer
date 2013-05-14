@@ -6,14 +6,14 @@ using log4net;
 using Trader.Common;
 using System.Threading;
 using Trader.Helper;
+using System.Collections.Concurrent;
 namespace Trader.Server
 {
     public class SendCenter
     {
         public static readonly SendCenter Default = new SendCenter();
         private ILog _Logger = LogManager.GetLogger(typeof(SendCenter));
-        private Queue<JobItem> _Queue = new Queue<JobItem>(1024);
-        private object _Lock = new object();
+        private ConcurrentQueue<JobItem> _Queue = new ConcurrentQueue<JobItem>();
         private AutoResetEvent _Event = new AutoResetEvent(false);
         private volatile bool _IsStarted=false;
         private volatile bool _IsStopped=false;
@@ -43,19 +43,14 @@ namespace Trader.Server
             this._IsStopped = true;
         }
 
-        public void ResponseSentHandle(object sender, Trader.Helper.Common.ResponseEventArgs e)
-        {
-            this.Send(e.Job);
-        }
-
-
         public void Send(JobItem item)
         {
-            lock (this._Lock)
+            if (item == null)
             {
-                this._Queue.Enqueue(item);
-                this._Event.Set();
+                return;
             }
+            this._Queue.Enqueue(item);
+            this._Event.Set();
         }
 
         private void Process()
@@ -67,30 +62,22 @@ namespace Trader.Server
                     break;
                 }
                 this._Event.WaitOne();
-                while (true)
+                while (this._Queue.Count != 0)
                 {
                     if (this._IsStopped)
                     {
                         break;
                     }
                     JobItem workItem = null;
-                    lock (this._Lock)
+                    if (!this._Queue.TryDequeue(out workItem))
                     {
-                        if (this._Queue.Count != 0)
-                        {
-                            workItem = this._Queue.Dequeue();
-                        }
-                    }
-                    if (workItem == null)
-                    {
-                        break;
+                        continue;
                     }
                     byte[] packet = SendManager.SerializeMsg(workItem);
                     if (packet == null)
                     {
                         continue;
                     }
-
                     if (!workItem.SessionID.HasValue)
                     {
                         continue;

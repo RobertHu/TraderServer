@@ -13,7 +13,7 @@ public class TickByTickHistoryDataArgument2 : HttpContextHolder
     private AsyncResult _asyncResult;
 
     public TickByTickHistoryDataArgument2(Guid instrumentId, DateTime from, DateTime to,
-        AsyncResult asyncResult, string session)
+        AsyncResult asyncResult, Guid session)
         : base(session)
     {
         this._instrumentId = instrumentId;

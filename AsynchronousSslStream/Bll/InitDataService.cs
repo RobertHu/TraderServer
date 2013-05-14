@@ -14,102 +14,100 @@ using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using Trader.Server._4BitCompress;
 using Trader.Server.Service;
+using Serialization;
+using Wintellect.Threading.AsyncProgModel;
 namespace Trader.Server.Bll
 {
     public class InitDataService
     {
-        public static XmlNode GetInitData(string session, DataSet initData)
+        public static IEnumerator<int> GetInitData(SerializedObject request, DataSet initData, AsyncEnumerator ae)
         {
-            int commandSequence;
-            XmlNode result = null;
-            DataSet ds = null;
-            try
+            XElement result = null;
+            Guid session = request.Session.Value;
+            Token token = SessionManager.Default.GetToken(session);
+            if (initData == null)
             {
-                Token token = SessionManager.Default.GetToken(session);
-                if (initData == null)
-                {
-                    initData = Application.Default.StateServer.GetInitData(token, null, out commandSequence);
-                }
-                commandSequence = CommandManager.Default.LastSequence;
-                AppDebug.LogEvent("[TradingConsole.GetInitData]commandSequence", string.Format("{0} by {1}", commandSequence, token), EventLogEntryType.Information);
-                //Fill state
-                DataRowCollection rows;
-                TraderState state = new TraderState(session);
-                TraderState state2 = SessionManager.Default.GetTradingConsoleState(session);
-                if (state2 != null)
-                {
-                    state.Language = state2.Language;
-                }
-                //Customer
-                //rows=initData.Tables["Customer"].Rows;
-                //Instrument
+                Application.Default.StateServer.BeginGetInitData(token, null, ae.End(), null);
+                yield return 1;
+                int sequence;
+                initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
+            }
 
-                StringBuilder quotePolicyInfo = new StringBuilder();
-                quotePolicyInfo.Append("SessionId = " + state.SessionId + "\t");
-                rows = initData.Tables["Instrument"].Rows;
-                List<Guid> instrumentsFromBursa = new List<Guid>();
-                foreach (DataRow instrumentRow in rows)
-                {
-                    state.Instruments.Add(instrumentRow["ID"], instrumentRow["QuotePolicyID"]);
-
-                    if (quotePolicyInfo.Length > 0) quotePolicyInfo.Append(";");
-                    quotePolicyInfo.Append(instrumentRow["ID"]);
-                    quotePolicyInfo.Append("=");
-                    quotePolicyInfo.Append(instrumentRow["QuotePolicyID"]);
-
-                    if (IsFromBursa(instrumentRow))
-                    {
-                        instrumentsFromBursa.Add((Guid)instrumentRow["ID"]);
-                    }
-                }
-                //AppDebug.LogEvent("[TradingConsole.GetInitData]QuotePolicy", quotePolicyInfo.ToString() + Environment.NewLine + Environment.StackTrace, EventLogEntryType.Information);
-
-                //Account			
-                rows = initData.Tables["Account"].Rows;
-                Guid[] accountIDs = new Guid[rows.Count];
-                int i = 0;
-                foreach (DataRow accountRow in rows)
-                {
-                    state.Accounts.Add(accountRow["ID"], null);
-                    state.AccountGroups[accountRow["GroupID"]] = null;
-
-                    accountIDs[i++] = (Guid)accountRow["ID"];
-                }
-
-                SessionManager.Default.AddTradingConsoleState(session, state);
-                SessionManager.Default.AddNextSequence(session, commandSequence);
-                DataTable customerTable = initData.Tables["Customer"];
-                state.IsEmployee = (bool)customerTable.Rows[0]["IsEmployee"];
-
-                ds = Merge(token, initData, accountIDs);
-
-                bool supportBursa = Convert.ToBoolean(ConfigurationManager.AppSettings["SupportBursa"]);
-                if (supportBursa)
-                {
-                    //DataTable dataTable = ds.Tables["TradeDay"];
-                    //DateTime tradeDay = (DateTime)dataTable.Rows[0]["TradeDay"];
-                    DateTime tradeDay = DateTime.Now.Date;
-                    AddDefaultTimeTableForBursa(ds, tradeDay);
-                }
-
-                AddBestLimitsForBursa(ds, instrumentsFromBursa);
-                ds.SetInstrumentGuidMapping();
-                var dict = new Dictionary<string, string>()
+            var data = Init(session, initData);
+            int commandSequence = data.Item2;
+            DataSet ds = data.Item1;
+            var dict = new Dictionary<string, string>()
                 {
                     {"commandSequence",commandSequence.ToString()},
                     {"data",ds.ToXml()}
                 };
-                result = XmlResultHelper.NewResult(dict);
-                state.CaculateQuotationFilterSign();
-               
-            }
-            catch (System.Exception ex)
+            result = XmlResultHelper.NewResult(dict);
+            request.Content = result;
+            SendCenter.Default.Send(new Common.JobItem(request));
+        }
+
+
+        public static Tuple<DataSet,int> Init(Guid session,DataSet initData)
+        {
+            DataRowCollection rows;
+            TraderState state = SessionManager.Default.GetTradingConsoleState(session);
+            //Customer
+            //rows=initData.Tables["Customer"].Rows;
+            //Instrument
+
+            StringBuilder quotePolicyInfo = new StringBuilder();
+            quotePolicyInfo.Append("SessionId = " + state.SessionId + "\t");
+            rows = initData.Tables["Instrument"].Rows;
+            List<Guid> instrumentsFromBursa = new List<Guid>();
+            foreach (DataRow instrumentRow in rows)
             {
-                AppDebug.LogEvent("TradingConsole.GetInitData", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                return XmlResultHelper.ErrorResult;
-                
+                state.Instruments.Add(instrumentRow["ID"], instrumentRow["QuotePolicyID"]);
+
+                if (quotePolicyInfo.Length > 0) quotePolicyInfo.Append(";");
+                quotePolicyInfo.Append(instrumentRow["ID"]);
+                quotePolicyInfo.Append("=");
+                quotePolicyInfo.Append(instrumentRow["QuotePolicyID"]);
+
+                if (IsFromBursa(instrumentRow))
+                {
+                    instrumentsFromBursa.Add((Guid)instrumentRow["ID"]);
+                }
             }
-            return result;
+            //AppDebug.LogEvent("[TradingConsole.GetInitData]QuotePolicy", quotePolicyInfo.ToString() + Environment.NewLine + Environment.StackTrace, EventLogEntryType.Information);
+
+            //Account			
+            rows = initData.Tables["Account"].Rows;
+            Guid[] accountIDs = new Guid[rows.Count];
+            int i = 0;
+            foreach (DataRow accountRow in rows)
+            {
+                state.Accounts.Add(accountRow["ID"], null);
+                state.AccountGroups[accountRow["GroupID"]] = null;
+
+                accountIDs[i++] = (Guid)accountRow["ID"];
+            }
+
+            SessionManager.Default.AddTradingConsoleState(session, state);
+            int commandSequence = CommandManager.Default.LastSequence;
+            SessionManager.Default.AddNextSequence(session, commandSequence);
+            DataTable customerTable = initData.Tables["Customer"];
+            state.IsEmployee = (bool)customerTable.Rows[0]["IsEmployee"];
+            Token token = SessionManager.Default.GetToken(session);
+            DataSet ds = Merge(token, initData, accountIDs);
+
+            bool supportBursa = Convert.ToBoolean(ConfigurationManager.AppSettings["SupportBursa"]);
+            if (supportBursa)
+            {
+                //DataTable dataTable = ds.Tables["TradeDay"];
+                //DateTime tradeDay = (DateTime)dataTable.Rows[0]["TradeDay"];
+                DateTime tradeDay = DateTime.Now.Date;
+                AddDefaultTimeTableForBursa(ds, tradeDay);
+            }
+
+            AddBestLimitsForBursa(ds, instrumentsFromBursa);
+            ds.SetInstrumentGuidMapping();
+            state.CaculateQuotationFilterSign();
+            return Tuple.Create(ds, commandSequence);
         }
 
 

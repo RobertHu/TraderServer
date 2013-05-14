@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using log4net;
+using System.Collections.Concurrent;
 namespace Trader.Server
 {
     public class ReceiveCenter
     {
         public static readonly ReceiveCenter Default = new ReceiveCenter();
-        private Queue<Tuple<Guid, byte[]>> _Queue = new Queue<Tuple<Guid, byte[]>>(1024);
+        private ConcurrentQueue<Tuple<Guid, byte[]>> _Queue = new ConcurrentQueue<Tuple<Guid, byte[]>>();
         private volatile bool _IsStarted = false;
         private volatile bool _IsStopped = false;
-        private object _Lock = new object();
         private AutoResetEvent _Event = new AutoResetEvent(false);
         private ILog _Logger = LogManager.GetLogger(typeof(ReceiveCenter));
         private ReceiveCenter() { }
@@ -49,11 +49,8 @@ namespace Trader.Server
 
         public void Send(Guid session, byte[] packet)
         {
-            lock (this._Lock)
-            {
-                this._Queue.Enqueue(Tuple.Create(session, packet));
-                this._Event.Set();
-            }
+            this._Queue.Enqueue(Tuple.Create(session, packet));
+            this._Event.Set();
         }
 
 
@@ -66,23 +63,16 @@ namespace Trader.Server
                     break;
                 }
                 this._Event.WaitOne();
-                while (true)
+                while (this._Queue.Count != 0)
                 {
                     if (this._IsStopped)
                     {
                         break;
                     }
                     Tuple<Guid, Byte[]> workItem = null;
-                    lock (this._Lock)
+                    if (!this._Queue.TryDequeue(out workItem))
                     {
-                        if (this._Queue.Count != 0)
-                        {
-                            workItem = this._Queue.Dequeue();
-                        }
-                    }
-                    if (workItem == null)
-                    {
-                        break;
+                        continue;
                     }
                     Guid session = workItem.Item1;
                     byte[] packet = workItem.Item2;

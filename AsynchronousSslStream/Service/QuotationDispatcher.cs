@@ -6,13 +6,13 @@ using iExchange.Common;
 using System.Threading;
 using System.Collections.Concurrent;
 using log4net;
+using System.Threading.Tasks;
 namespace Trader.Server.Service
 {
     public class QuotationDispatcher
     {
-        private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>();
+        private ConcurrentQueue<QuotationCommand> _QuotationQueue = new ConcurrentQueue<QuotationCommand>();
         public static readonly QuotationDispatcher Default = new QuotationDispatcher();
-        private object _DispatchLock = new object();
         private volatile bool _IsStoped = false;
         private const int _ProcessPeriodMilliseconds = 800;
         private ILog _Logger = LogManager.GetLogger(typeof(QuotationDispatcher));
@@ -36,14 +36,11 @@ namespace Trader.Server.Service
 
         public void Add(QuotationCommand quotation)
         {
-            lock (this._DispatchLock)
+            if (quotation == null)
             {
-                if (quotation == null)
-                {
-                    return;
-                }
-                this._QuotationQueue.Add(quotation);
+                return;
             }
+            this._QuotationQueue.Enqueue(quotation);
         }
 
         private void Process()
@@ -55,27 +52,25 @@ namespace Trader.Server.Service
                     break;
                 }
                 Thread.Sleep(_ProcessPeriodMilliseconds);
-                lock (this._DispatchLock)
+                if (this._QuotationQueue.Count == 0)
                 {
-                    if (this._QuotationQueue.Count == 0)
-                    {
-                        continue;
-                    }
-                    var qotation = new QuotationCommand();
-                    qotation.Merge(new System.Collections.ArrayList(this._QuotationQueue));
-                    this._QuotationQueue.Clear();
-                    if (qotation.OverridedQs == null)
-                    {
-                        continue;
-                    }
-                    CommandManager.Default.AddCommand(null, qotation);
+                    continue;
                 }
+                var qotation = new QuotationCommand();
+                int count = this._QuotationQueue.Count;
+                qotation.Merge(new System.Collections.ArrayList(this._QuotationQueue));
+                Parallel.For(0, count, i =>
+                {
+                    QuotationCommand command;
+                    this._QuotationQueue.TryDequeue(out command);
+                });
+                if (qotation.OverridedQs == null)
+                {
+                    continue;
+                }
+                CommandManager.Default.AddCommand(null, qotation);
             }
         }
-
-        
-
-
 
     }
 }

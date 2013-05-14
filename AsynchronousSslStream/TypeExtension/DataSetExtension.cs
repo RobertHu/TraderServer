@@ -26,9 +26,7 @@ namespace Trader.Server.TypeExtension
                     var xmlSerializer = new XmlSerializer(typeof(DataSet));
                     xmlSerializer.Serialize(tw, dataset);
                     string xml = Encoding.UTF8.GetString(ms.ToArray());
-                    XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(xml);
-                    return doc.OuterXml;
+                    return xml;
                 }
 
             }

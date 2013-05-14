@@ -8,17 +8,18 @@ using System.Xml;
 using Trader.Helper;
 using log4net;
 using Trader.Common;
+using System.Xml.Linq;
 namespace Trader.Server.Bll
 {
     public static class RecoverService
     {
         private static ILog _Logger = LogManager.GetLogger(typeof(RecoverService));
-        public static XmlNode Recover(string originSession,string currentSession)
+        public static XElement Recover(Guid originSession,Guid currentSession)
         {
-            XmlNode result = XmlResultHelper.ErrorResult;
+            XElement result = XmlResultHelper.ErrorResult;
             try
             {
-                if (AgentController.Default.RecoverConnection(Guid.Parse(originSession), Guid.Parse(currentSession)))
+                if (AgentController.Default.RecoverConnection(originSession, currentSession))
                 {
                     result = XmlResultHelper.NewResult(StringConstants.OK_RESULT);
                 }

@@ -12,7 +12,7 @@ namespace Trader.Server.Bll
 {
     public static class NewsService
     {
-        public static XmlNode GetNewsList2(string newsCategoryID, string language, DateTime date)
+        public static XElement GetNewsList2(string newsCategoryID, string language, DateTime date)
         {
             try
             {

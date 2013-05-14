@@ -8,6 +8,7 @@ using log4net;
 using Trader.Server.Bll;
 using Trader.Server.Service;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace Trader.Server.Session
 {
@@ -16,16 +17,13 @@ namespace Trader.Server.Session
         private SessionManager() { }
         public static readonly SessionManager Default = new SessionManager();
         private ILog _Logger = LogManager.GetLogger(typeof(SessionManager));
-        private Dictionary<string, Token> _TokenDict = new Dictionary<string, Token>();
-        private Dictionary<Guid, string> _UseridToSessionDict = new Dictionary<Guid, string>();
-        private Dictionary<string, string> _VersionDict = new Dictionary<string, string>();
-        private Dictionary<string, TraderState> _TradingConsoleStateDict = new Dictionary<string, TraderState>();
-        private Dictionary<string, int> _NextSequenceDict = new Dictionary<string, int>();
+        private ConcurrentDictionary<Guid, Token> _TokenDict = new ConcurrentDictionary<Guid, Token>();
+        private ConcurrentDictionary<Guid, string> _UseridToSessionDict = new ConcurrentDictionary<Guid, string>();
+        private ConcurrentDictionary<Guid, string> _VersionDict = new ConcurrentDictionary<Guid, string>();
+        private ConcurrentDictionary<Guid, TraderState> _TradingConsoleStateDict = new ConcurrentDictionary<Guid, TraderState>();
+        private ConcurrentDictionary<Guid, int> _NextSequenceDict = new ConcurrentDictionary<Guid, int>();
 
-        private ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
-
-
-        public void RemoveAllItem(string session)
+        public void RemoveAllItem(Guid session)
         {
             this.RemoveNextSequence(session);
             this.RemoveUserIdBySession(session);
@@ -34,67 +32,67 @@ namespace Trader.Server.Session
             this.RemoveVersion(session);
         }
 
-        public int GetNextSequence(string session)
+        public int GetNextSequence(Guid session)
         {
             return GetCommon(session, this._NextSequenceDict);
         }
 
 
-        public void AddNextSequence(string session, int nextSequence)
+        public void AddNextSequence(Guid session, int nextSequence)
         {
             AddCommon(session, nextSequence, this._NextSequenceDict);
         }
 
 
-        public void RemoveNextSequence(string session)
+        public void RemoveNextSequence(Guid session)
         {
             RemoveCommon(session, this._NextSequenceDict);
         }
         
-        public TraderState GetTradingConsoleState(string session)
+        public TraderState GetTradingConsoleState(Guid session)
         {
             return GetCommon(session,this._TradingConsoleStateDict);
         }
 
-        public void AddTradingConsoleState(string session, TraderState state)
+        public void AddTradingConsoleState(Guid session, TraderState state)
         {
             AddCommon(session, state, this._TradingConsoleStateDict);
 
         }
 
-        public void RemoveTradingConsoleState(string session)
+        public void RemoveTradingConsoleState(Guid session)
         {
             RemoveCommon(session, this._TradingConsoleStateDict);
         }
 
      
 
-        public string GetVersion(string session)
+        public string GetVersion(Guid session)
         {
             return GetCommon(session, this._VersionDict);
         }
 
-        public void AddVersion(string session, string version)
+        public void AddVersion(Guid session, string version)
         {
             AddCommon(session, version, this._VersionDict);
         }
 
-        public void RemoveVersion(string session)
+        public void RemoveVersion(Guid session)
         {
             RemoveCommon(session, this._VersionDict);
         }
 
-        public Token GetToken(string session)
+        public Token GetToken(Guid session)
         {
             return GetCommon(session, this._TokenDict);
         }
 
-        public void AddToken(string session,Token token)
+        public void AddToken(Guid session,Token token)
         {
             AddCommon(session, token, this._TokenDict);
         }
 
-        public void RemoveToken(string session)
+        public void RemoveToken(Guid session)
         {
             RemoveCommon(session, this._TokenDict);
         }
@@ -109,79 +107,47 @@ namespace Trader.Server.Session
             RemoveCommon(userID, this._UseridToSessionDict);
         }
 
-        public void RemoveUserIdBySession(string session)
+        public void RemoveUserIdBySession(Guid session)
         {
-            var result = this._UseridToSessionDict.Where(p => p.Value == session).FirstOrDefault();
+            var result = this._UseridToSessionDict.Where(p =>p.Value==(session.ToString())).FirstOrDefault();
             this.RemoveSession(result.Key);
 
         }
         
 
-        public void AddSession(Guid userID, string session)
+        public void AddSession(Guid userID, Guid session)
         {
-            AddCommon(userID, session,this._UseridToSessionDict);
+            AddCommon(userID, session.ToString(),this._UseridToSessionDict);
         }
 
-        public T2 GetCommon<T1, T2>(T1 session, Dictionary<T1, T2> dict)
+        public T2 GetCommon<T1, T2>(T1 session, ConcurrentDictionary<T1, T2> dict)
         {
             try
             {
-                this._ReadWriteLock.EnterReadLock();
-                if (dict.ContainsKey(session))
-                {
-                    return dict[session];
-                }
+                return dict[session];
+            }
+            catch (Exception ex)
+            {
                 return default(T2);
+
             }
-            finally
-            {
-                this._ReadWriteLock.ExitReadLock();
-            }
-            
         }
 
 
-        public void AddCommon<T1, T2>(T1 key, T2 value, Dictionary<T1, T2> dict)
+        public void AddCommon<T1, T2>(T1 key, T2 value, ConcurrentDictionary<T1, T2> dict)
         {
-            try
-            {
-                this._ReadWriteLock.EnterWriteLock();
-                if (dict.ContainsKey(key))
-                {
-                    dict[key] = value;
-                }
-                else
-                {
-                    dict.Add(key, value);
-                }
-            }
-            finally
-            {
-                this._ReadWriteLock.ExitWriteLock();
-            }
-            
+            dict.AddOrUpdate(key, value, (k, v) => v);
         }
 
 
-        public void RemoveCommon<T1, T2>(T1 key, Dictionary<T1, T2> dict)
+        public void RemoveCommon<T1, T2>(T1 key, ConcurrentDictionary<T1, T2> dict)
         {
-            try
-            {
-                this._ReadWriteLock.EnterWriteLock();
-                if (dict.ContainsKey(key))
-                {
-                    dict.Remove(key);
-                }
-            }
-            finally
-            {
-                this._ReadWriteLock.ExitWriteLock();
-            }
-            
+            T2 result;
+            dict.TryRemove(key, out result);
         }
 
 
-        public Tuple<Token, TraderState> GetTokenAndState(string session)
+        public Tuple<Token, TraderState> GetTokenAndState(Guid session)
         {
             var token = this.GetToken(session);
             var state = this.GetTradingConsoleState(session);

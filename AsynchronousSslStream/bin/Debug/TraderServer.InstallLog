@@ -1,0 +1,108 @@
+﻿Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Installing service TraderService...
+Service TraderService has been successfully installed.
+Creating EventLog source TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Removing EventLog source TraderService.
+Service TraderService is being removed from the system...
+Service TraderService was successfully removed from the system.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Installing service TraderService...
+Service TraderService has been successfully installed.
+Creating EventLog source TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Removing EventLog source TraderService.
+Service TraderService is being removed from the system...
+Service TraderService was successfully removed from the system.
+Attempt to stop service TraderService.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Installing service TraderService...
+Service TraderService has been successfully installed.
+Creating EventLog source TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Removing EventLog source TraderService.
+Service TraderService is being removed from the system...
+Service TraderService was successfully removed from the system.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Installing service TraderService...
+Service TraderService has been successfully installed.
+Creating EventLog source TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Removing EventLog source TraderService.
+Service TraderService is being removed from the system...
+Service TraderService was successfully removed from the system.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog
+Installing service TraderService...
+Service TraderService has been successfully installed.
+Creating EventLog source TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\TraderServer.InstallLog

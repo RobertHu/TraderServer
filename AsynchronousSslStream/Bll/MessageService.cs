@@ -13,7 +13,7 @@ namespace Trader.Server.Bll
 {
     public static class MessageService
     {
-        public static XmlNode GetMessages(string session)
+        public static XElement GetMessages(Guid session)
         {
             try
             {

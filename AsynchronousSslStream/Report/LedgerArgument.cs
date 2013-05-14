@@ -15,7 +15,7 @@ public class LedgerArgument : HttpContextHolder
     private string _Rdlc;    
     private AsyncResult _AsyncResult;
 
-    public LedgerArgument(string dateFrom, string dateTo, string IDs, string rdlc, AsyncResult asyncResult, string session)
+    public LedgerArgument(string dateFrom, string dateTo, string IDs, string rdlc, AsyncResult asyncResult, Guid session)
         : base(session)
     {
         this._DateFrom = dateFrom;

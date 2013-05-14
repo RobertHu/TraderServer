@@ -13,7 +13,7 @@ namespace Trader.Server.Report
         private string _Rdlc;
         private AsyncResult _AsyncResult;
 
-        public AccountSummaryArgument(string tradeDay, string accountIds, string rdlc, AsyncResult asyncResult, string session)
+        public AccountSummaryArgument(string tradeDay, string accountIds, string rdlc, AsyncResult asyncResult, Guid session)
             : base(session)
         {
             this._TradeDay = tradeDay;

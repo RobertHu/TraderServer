@@ -22,6 +22,7 @@ using Trader.Server.Service;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using Trader.Common;
+using System.Xml.Linq;
 namespace Trader.Server.Bll
 {
     public class Service 
@@ -87,7 +88,7 @@ namespace Trader.Server.Bll
 
       
 
-        public void Complain(string session,string loginName, string complaint)
+        public void Complain(Guid  session,string loginName, string complaint)
         {
             try
             {
@@ -127,7 +128,7 @@ namespace Trader.Server.Bll
 
 
 
-        private DataSet GetTickDatas(string session,Guid instrumentId, DateTime dateTime, int minutes)
+        private DataSet GetTickDatas(Guid  session,Guid instrumentId, DateTime dateTime, int minutes)
         {
             TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
             return this.GetTickDatas(instrumentId, dateTime, minutes, state, Application.Default.TradingConsoleServer);
@@ -159,7 +160,7 @@ namespace Trader.Server.Bll
      
 
         //Use in TickByTick Chart
-        public DataSet GetTickByTickHistoryDatas(string session,Guid instrumentId)
+        public DataSet GetTickByTickHistoryDatas(Guid  session,Guid instrumentId)
         {
             try
             {
@@ -183,13 +184,13 @@ namespace Trader.Server.Bll
             }
         }
 
-  
 
-        public Guid AsyncGetTickByTickHistoryData(string session,Guid instrumentId)
+
+        public Guid AsyncGetTickByTickHistoryData(Guid session, Guid instrumentId)
         {
             try
             {
-                AsyncResult asyncResult = new AsyncResult("AsyncGetTickByTickHistoryData", session);
+                AsyncResult asyncResult = new AsyncResult("AsyncGetTickByTickHistoryData", session.ToString());
                 if (ThreadPool.QueueUserWorkItem(this.CreateTickByTickHistoryDatas, new TickByTickHistoryDataArgument(instrumentId, asyncResult, session)))
                 {
                     return asyncResult.Id;
@@ -207,13 +208,13 @@ namespace Trader.Server.Bll
             return Guid.Empty;
         }
 
-        public Guid AsyncGetTickByTickHistoryData2(string session,Guid instrumentId, DateTime from, DateTime to)
+        public Guid AsyncGetTickByTickHistoryData2(Guid session,Guid instrumentId, DateTime from, DateTime to)
         {
             try
             {
                 AppDebug.LogEvent("TradingConsole.AsyncGetTickByTickHistoryData2", string.Format("{0}-{1}", from, to), System.Diagnostics.EventLogEntryType.Information);
 
-                AsyncResult asyncResult = new AsyncResult("AsyncGetTickByTickHistoryData2", session);
+                AsyncResult asyncResult = new AsyncResult("AsyncGetTickByTickHistoryData2", session.ToString());
                 if (ThreadPool.QueueUserWorkItem(this.CreateTickByTickHistoryDatas2, new TickByTickHistoryDataArgument2(instrumentId, from, to, asyncResult, session)))
                 {
                     return asyncResult.Id;
@@ -236,7 +237,7 @@ namespace Trader.Server.Bll
 
     
 
-        public void SaveIsCalculateFloat(string session,bool isCalculateFloat)
+        public void SaveIsCalculateFloat(Guid  session,bool isCalculateFloat)
         {
             try
             {
@@ -249,7 +250,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public XmlNode OrderQuery(string session,Guid customerId, string accountId, string instrumentId, int lastDays)
+        public XElement OrderQuery(Guid  session,Guid customerId, string accountId, string instrumentId, int lastDays)
         {
             try
             {
@@ -273,7 +274,7 @@ namespace Trader.Server.Bll
 
       
 
-        public string[] Get99BillBanks(string session)
+        public string[] Get99BillBanks(Guid  session)
         {
             try
             {
@@ -302,7 +303,7 @@ namespace Trader.Server.Bll
 
    
 
-        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState2(string session,Guid customerID)
+        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState2(Guid  session,Guid customerID)
         {
             try
             {
@@ -315,7 +316,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState(string session,Guid customerID)
+        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState(Guid session, Guid customerID)
         {
             try
             {
@@ -329,11 +330,11 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        private DataSet InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(string session,Guid customerID)
+        private DataSet InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(Guid session,Guid customerID)
         {
             DataSet dataSet = Application.Default.TradingConsoleServer.GetQuotePolicyDetails(customerID);
             TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
-            Application.Default.TradingConsoleServer.RefreshInstrumentsState2(dataSet, ref state, session);
+            Application.Default.TradingConsoleServer.RefreshInstrumentsState2(dataSet, ref state, session.ToString());
             if (state != null)
             {
                 TraderState traderState = new TraderState(state);
@@ -351,7 +352,7 @@ namespace Trader.Server.Bll
                 string.Format("{0}, {1}, firstSequence = {2}, lastSequence = {3}", userId, resultOfGetCommand ? "GetCommands" : "GetCommands2", firstSequence, lastSequence), EventLogEntryType.Information);
         }
 
-        public XmlNode Quote(string session,string instrumentID, double quoteLot, int BSStatus)
+        public XElement Quote(Guid session,string instrumentID, double quoteLot, int BSStatus)
         {
             try
             {
@@ -368,7 +369,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public XmlNode Quote2(string session,string instrumentID, double buyQuoteLot, double sellQuoteLot, int tick)
+        public XElement Quote2(Guid session, string instrumentID, double buyQuoteLot, double sellQuoteLot, int tick)
         {
             try
             {
@@ -385,7 +386,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public void CancelQuote(string session,string instrumentID, double buyQuoteLot, double sellQuoteLot)
+        public void CancelQuote(Guid session,string instrumentID, double buyQuoteLot, double sellQuoteLot)
         {
             try
             {
@@ -398,22 +399,23 @@ namespace Trader.Server.Bll
             }
         }
 
-        public TransactionError CancelLMTOrder(string session,string transactionID)
+        public XElement   CancelLMTOrder(Guid session,string transactionID)
         {
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
 
-                return Application.Default.TradingConsoleServer.CancelLMTOrder(token, Application.Default.StateServer, transactionID);
+                var result = Application.Default.TradingConsoleServer.CancelLMTOrder(token, Application.Default.StateServer, transactionID);
+                return XmlResultHelper.NewResult(result.ToString());
             }
             catch (System.Exception exception)
             {
                 AppDebug.LogEvent("TradingConsole.CancelLMTOrder:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                throw exception;
+                return XmlResultHelper.ErrorResult;
             }
         }
 
-        public bool UpdateAccountLock(string session,string agentAccountID, string[][] arrayAccountLock)
+        public bool UpdateAccountLock(Guid session,string agentAccountID, string[][] arrayAccountLock)
         {
             try
             {
@@ -473,7 +475,7 @@ namespace Trader.Server.Bll
 
    
 
-        public DataSet GetInstruments(string session,ArrayList instrumentIDs)
+        public DataSet GetInstruments(Guid session,ArrayList instrumentIDs)
         {
             try
             {
@@ -489,9 +491,9 @@ namespace Trader.Server.Bll
             return null;
         }
 
-       
 
-        public XmlNode DeleteMessage(string session,Guid id)
+
+        public XElement DeleteMessage(Guid session, Guid id)
         {
             try
             {
@@ -513,20 +515,20 @@ namespace Trader.Server.Bll
         }
 
 
-       
-
-   
-      
-
-     
 
 
-      
 
 
-      
 
-        public DataSet GetDealingPolicyDetails(string session)
+
+
+
+
+
+
+
+
+        public DataSet GetDealingPolicyDetails(Guid session)
         {
             try
             {
@@ -553,44 +555,23 @@ namespace Trader.Server.Bll
             }
         }
 
-        public Guid AccountSummaryForJava2(string session,string tradeDay, string accountIds, string rdlc)
-        {
-            try
-            {
-                AsyncResult asyncResult = new AsyncResult("AccountSummaryForJava2", session);
-                Token token = SessionManager.Default.GetToken(session);
-                if (ThreadPool.QueueUserWorkItem(this.CreateAccountSummary, new AccountSummaryArgument(tradeDay, accountIds, rdlc, asyncResult, session)))
-                {
-                    return asyncResult.Id;
-                }
-                else
-                {
-                    AppDebug.LogEvent("TradingConsole.LedgerForJava2:", "ThreadPool.QueueUserWorkItem failed", System.Diagnostics.EventLogEntryType.Warning);
-                    return Guid.Empty;
-                }
-            }
-            catch (System.Exception exception)
-            {
-                AppDebug.LogEvent("TradingConsole.LedgerForJava2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-            }
-            return Guid.Empty;
-        }
-
-       
-
-    
 
 
-      
-
-        
-
-        
-
-        
 
 
-        public void NotifyCustomerExecuteOrderForJava(string session,string[][] arrayNotifyCustomerExecuteOrder, string companyCode, string version)
+
+
+
+
+
+
+
+
+
+
+
+
+        public void NotifyCustomerExecuteOrderForJava(Guid session, string[][] arrayNotifyCustomerExecuteOrder, string companyCode, string version)
         {
             try
             {
@@ -638,7 +619,7 @@ namespace Trader.Server.Bll
         }
 
         //no use
-        public XmlNode GetParameterForJava(string session,string companyCode, string version)
+        public XmlNode GetParameterForJava(Guid  session,string companyCode, string version)
         {
             string physicalPath = SettingManager.Default.PhysicPath+"\\" + companyCode + "\\" + version + "\\";
 
@@ -663,7 +644,7 @@ namespace Trader.Server.Bll
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session);
                 if (state == null)
                 {
-                    state = new TraderState(session);
+                    state = new TraderState(session.ToString());
                 }
                 state.Language = newsLanguage.ToLower();
                 SessionManager.Default.AddTradingConsoleState(session, state);
@@ -731,7 +712,7 @@ namespace Trader.Server.Bll
         }
         */
 
-        public bool UpdateSystemParameters(string session,string parameters, string objectID)
+        public bool UpdateSystemParameters(Guid session, string parameters, string objectID)
         {
             try
             {
@@ -758,9 +739,9 @@ namespace Trader.Server.Bll
             return null;
         }
 
-       
 
-        public DataSet GetNewsContents(string session,string newsID)
+
+        public DataSet GetNewsContents(Guid session, string newsID)
         {
             try
             {
@@ -787,7 +768,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        public DataSet GetInterestRate2(string session,Guid interestRateId)
+        public DataSet GetInterestRate2(Guid session,Guid interestRateId)
         {
             try
             {
@@ -837,7 +818,7 @@ namespace Trader.Server.Bll
             return doc;
         }
 
-        public void SaveLog(string session,string logCode, DateTime timestamp, string action)
+        public void SaveLog(Guid session,string logCode, DateTime timestamp, string action)
         {
             try
             {
@@ -852,9 +833,9 @@ namespace Trader.Server.Bll
             }
         }
 
-       
 
-        public void SaveLogForWeb(string session,string logCode, string action, string transactionId)
+
+        public void SaveLogForWeb(Guid session, string logCode, string action, string transactionId)
         {
             try
             {
@@ -875,7 +856,7 @@ namespace Trader.Server.Bll
      
 
 
-        public XmlNode Apply(string session,Guid id, string accountBankApprovedId, string accountId, string countryId, string bankId, string bankName,
+        public XElement  Apply(Guid session,Guid id, string accountBankApprovedId, string accountId, string countryId, string bankId, string bankName,
             string accountBankNo, string accountBankType,//#00;银行卡|#01;存折
             string accountOpener, string accountBankProp, Guid accountBankBCId, string accountBankBCName,
             string idType,//#0;身份证|#1;户口簿|#2;护照|#3;军官证|#4;士兵证|#5;港澳居民来往内地通行证|#6;台湾同胞来往内地通行证|#7;临时身份证|#8;外国人居留证|#9;警官证|#x;其他证件
@@ -948,32 +929,7 @@ namespace Trader.Server.Bll
 
       
 
-        private void CreateAccountSummary(object state)
-        {
-            AccountSummaryArgument accountSummaryArgument = (AccountSummaryArgument)state;
-            Token token = accountSummaryArgument.Token;
-            string sql = "EXEC P_RptAccountSummary @xmlAccounts=\'" + XmlTransform.Transform(accountSummaryArgument.AccountIds, ',', "Accounts", "Account", "ID") + "\',@tradeDay=\'"
-                + accountSummaryArgument.TradeDay + "\',@language=\'" + accountSummaryArgument.Version + "\',@userID=\'" + accountSummaryArgument.Token.UserID.ToString() + "\', @skipNoTransactionAccount=0";
-            try
-            {
-                DataSet dataSet = null; //DataAccess.GetData(sql, SettingManager.Default.ConnectionString,this.LedgerReportTimeout);
-                if (dataSet.Tables.Count > 0)
-                {
-                    string filepath = "";
-                        //this.Server.MapPath(accountSummaryArgument.Rdlc);
-                    byte[] reportContent = PDFHelper.ExportPDF(filepath, dataSet.Tables[0]);
-                    AsyncResultManager asyncResultManager = accountSummaryArgument.AsyncResultManager;
-                    asyncResultManager.SetResult(accountSummaryArgument.AsyncResult, reportContent);
-                    CommandManager.Default.AddCommand(accountSummaryArgument.Token, new AsyncCommand(0, accountSummaryArgument.AsyncResult));
-                }
-            }
-            catch (System.Exception ex)
-            {
-                CommandManager.Default.AddCommand(accountSummaryArgument.Token, new AsyncCommand(0, accountSummaryArgument.AsyncResult, true, ex));
-                AppDebug.LogEvent("TradingConsole.CreateAccountSummary", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
-            }
-        }
-
+     
        
 
        

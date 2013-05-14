@@ -10,7 +10,7 @@ namespace Trader.Server
     {
         private ResouceManager() { }
         public static readonly ResouceManager Default = new ResouceManager();
-        public void ReleaseResource(string session)
+        public void ReleaseResource(Guid session)
         {
             SessionManager.Default.RemoveAllItem(session);
         }

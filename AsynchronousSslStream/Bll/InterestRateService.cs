@@ -8,11 +8,12 @@ using Trader.Server.Session;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
+using System.Xml.Linq;
 namespace Trader.Server.Bll
 {
     public class InterestRateService
     {
-        public static XmlNode GetInterestRate(Guid[] orderIds)
+        public static XElement GetInterestRate(Guid[] orderIds)
         {
             try
             {
@@ -27,7 +28,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public static XmlNode GetInterestRate2(string session, Guid interestRateId)
+        public static XElement GetInterestRate2(Guid session, Guid interestRateId)
         {
             try
             {

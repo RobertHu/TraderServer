@@ -18,38 +18,40 @@ namespace Trader.Server.Util
 {
     public static class ClientRequestHelper
     {
-        public static JobItem Process(SerializedObject request)
+        public static void Process(SerializedObject request)
         {
-            JobItem result;
+            JobItem result = null;
             try
             {
-                XmlNode content = ProcessHelper(request);
+                XElement content = ProcessHelper(request);
                 request.Content = content;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);                
+                Console.WriteLine(ex);
                 request.Content = XmlResultHelper.NewErrorResult(ex.ToString());
             }
-            finally
+            if (request.Content != null)
             {
                 result = new JobItem(request);
-                Application.Default.SessionMonitor.Update(request.Session);
             }
-            return result;
-
+            Application.Default.SessionMonitor.Update(request.Session);
+            if (result != null)
+            {
+                SendCenter.Default.Send(result);
+            }
         }
 
-        private static XmlNode ProcessHelper(SerializedObject request)
+        private static XElement  ProcessHelper(SerializedObject request)
         {
-            XmlNode result = XmlResultHelper.ErrorResult;
-            XmlNode content = request.Content;
+            XElement  result = XmlResultHelper.ErrorResult;
+            XElement  content = request.Content;
             if (content.Name == RequestConstants.RootNodeName)
             {
-                XmlNode methodNode = content.SelectSingleNode(string.Format("//{0}/{1}", content.Name, RequestConstants.MethodNodeName));
+                XElement methodNode = content.Descendants().Single(m => m.Name == RequestConstants.MethodNodeName);
                 if (methodNode.Name == RequestConstants.MethodNodeName)
                 {
-                    result = ProcessMethodReqeust(request, methodNode.InnerText);
+                    result = ProcessMethodReqeust(request, methodNode.Value);
                 }
             }
             return result;
@@ -57,18 +59,18 @@ namespace Trader.Server.Util
 
         private static void WhenSessionNotExistRecoverSessionToCurrentSession(SerializedObject request)
         {
-            if (!string.IsNullOrEmpty(request.CurrentSession))
+            if (request.CurrentSession.HasValue)
             {
                 request.Session = request.CurrentSession;
             }
         }
 
-        private static XmlNode ProcessMethodReqeust(SerializedObject request,string methodName)
+        private static XElement ProcessMethodReqeust(SerializedObject request,string methodName)
         {
-            iExchange.Common.Token token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session);
-            XmlNode result = XmlResultHelper.ErrorResult;
-            XmlNode content = request.Content;
-            if (!Application.Default.SessionMonitor.Exist(request.Session))
+            iExchange.Common.Token token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session.Value);
+            XElement  result = XmlResultHelper.ErrorResult;
+            XElement  content = request.Content;
+            if (!Application.Default.SessionMonitor.Exist(request.Session.Value))
             {
                 if (methodName == "Login")
                 {

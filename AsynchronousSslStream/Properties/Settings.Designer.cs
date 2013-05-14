@@ -22,27 +22,5 @@ namespace Trader.Server.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Servi" +
-            "ce/participantservices.asmx")]
-        public string AsyncSslServerTest_Security_ParticipantService_ParticipantServices {
-            get {
-                return ((string)(this["AsyncSslServerTest_Security_ParticipantService_ParticipantServices"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Servi" +
-            "ce/securityservices.asmx")]
-        public string AsyncSslServerTest_Security_SecurityServices_SecurityServices {
-            get {
-                return ((string)(this["AsyncSslServerTest_Security_SecurityServices_SecurityServices"]));
-            }
-        }
     }
 }

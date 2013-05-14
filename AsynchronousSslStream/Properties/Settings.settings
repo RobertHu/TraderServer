@@ -1,12 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Trader.Server.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="AsyncSslServerTest_Security_ParticipantService_ParticipantServices" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Service/participantservices.asmx</Value>
-    </Setting>
-    <Setting Name="AsyncSslServerTest_Security_SecurityServices_SecurityServices" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://ws0303/iExchangeCollection/iExchange3%20Team/iExchange3/Security/web/Service/securityservices.asmx</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>
