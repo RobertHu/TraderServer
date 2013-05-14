@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using CommonUtil;
 using System.Xml;
+using System.Xml.Linq;
 namespace Serialization
 {
     public class PacketParser
@@ -30,20 +31,35 @@ namespace Serialization
                 {
                     string session = Constants.SessionEncoding.GetString(packet, Constants.HeadCount, sessionLength);
                     string content = Constants.ContentEncoding.GetString(contentBytes);
-                    XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(content);
-                    XmlNode contentNode = doc.FirstChild;
-                    XmlNode clientInvokeIdNode = contentNode.SelectSingleNode(string.Format("//{0}/{1}", contentNode.Name, RequestConstants.InvokeIdNodeName));
-                    string clientInvokeId = clientInvokeIdNode == null ? string.Empty : clientInvokeIdNode.InnerText;
-                    target = new SerializedObject(contentInBytes: null, isPrice: isPrice, session: session, clientInvokeId: clientInvokeId, content: contentNode);
+                    string processContent = GetRidOfUnprintablesAndUnicode(content);
+                    XElement contentNode = XElement.Parse(processContent, LoadOptions.None);
+                    XElement clientInvokeNode = contentNode.Descendants().Single(m => m.Name == RequestConstants.InvokeIdNodeName);
+                    string clientInvokeId = clientInvokeNode == null ? string.Empty : clientInvokeNode.Value;
+                    Guid? sessionGuid = string.IsNullOrEmpty(session) ? new Nullable<Guid>() : Guid.Parse(session);
+                    target = new SerializedObject(contentInBytes: null, isPrice: isPrice, session: sessionGuid, clientInvokeId: clientInvokeId, content: contentNode);
                 }
                 return target;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
         }
+
+
+        private static string GetRidOfUnprintablesAndUnicode(string inpString)
+        {
+            string outputs = String.Empty;
+            for (int jj = 0; jj < inpString.Length; jj++)
+            {
+                char ch = inpString[jj];
+                if (((int)(byte)ch) >= 32 & ((int)(byte)ch) <= 128)
+                {
+                    outputs += ch;
+                }
+            }
+            return outputs;
+        } 
 
        
 

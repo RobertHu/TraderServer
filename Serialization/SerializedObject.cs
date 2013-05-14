@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Serialization
 {
     public class SerializedObject
     {
 
-        public SerializedObject(byte[] price) : this(true, string.Empty, price,string.Empty) { }
-        public SerializedObject(bool isPrice, byte[] price) : this(isPrice, string.Empty, price,string.Empty) { }
+        public SerializedObject(byte[] price) : this(true, null, price,string.Empty) { }
+        public SerializedObject(bool isPrice, byte[] price) : this(isPrice, null, price,string.Empty) { }
 
-        public SerializedObject(bool isPrice,string session,byte[] price,string clientInvokeID)
+        public SerializedObject(bool isPrice,Guid? session,byte[] price,string clientInvokeID)
         {
             this.IsPrice = isPrice;
             this.Session = session;
@@ -20,26 +21,26 @@ namespace Serialization
             this.ClientInvokeID = clientInvokeID;
         }
 
-        public SerializedObject(XmlNode content, string clientInvokeId):this(clientInvokeId:clientInvokeId,content:content,session:"") { }
-        public SerializedObject(byte[] contentInBytes, string clientInvokeId) : this(contentInBytes: contentInBytes, clientInvokeId: clientInvokeId,session:"") { }
+        public SerializedObject(XElement content, string clientInvokeId):this(clientInvokeId:clientInvokeId,content:content,session:null) { }
+        public SerializedObject(byte[] contentInBytes, string clientInvokeId) : this(contentInBytes: contentInBytes, clientInvokeId: clientInvokeId,session:null) { }
 
 
-        public SerializedObject(byte[] contentInBytes=null, string clientInvokeId = "", string session = "", XmlNode content = null,bool isPrice=false)
+        public SerializedObject(byte[] contentInBytes = null, string clientInvokeId = "", Guid? session = null, XElement content = null, bool isPrice = false)
         {
             this.ContentInByte = contentInBytes;
             this.ClientInvokeID = clientInvokeId;
-            this.Session = session;
+            this.Session = session ?? Guid.Empty;
             this.Content = content;
             this.IsPrice = isPrice;
         }
        
-        public string Session { get;  set; }
+        public Guid? Session { get;  set; }
         public bool IsPrice { get; private set; }
         public byte[] Price { get; private set; }
-        public XmlNode Content { get;  set; }
+        public XElement Content { get;  set; }
         public byte[] ContentInByte { get; set; }
         public string ClientInvokeID { get; private set; }
-        public string CurrentSession { get; set; }
+        public Guid? CurrentSession { get; set; }
 
     }
 }

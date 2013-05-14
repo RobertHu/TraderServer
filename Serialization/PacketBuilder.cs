@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using CommonUtil;
+using System.Xml.Linq;
 namespace Serialization
 {
     public class PacketBuilder
@@ -12,11 +13,13 @@ namespace Serialization
         public static byte[] Build(SerializedObject target)
         {
             byte priceByte = target.IsPrice? (byte)1 : (byte)0;
-            byte[] sessionBytes = GetSessionBytes(target.Session);
+            byte sessionLengthByte= 0;
             byte[] contentBytes;
+            byte[] sessionBytes = null;
             if (target.IsPrice)
             {
                 contentBytes = target.Price;
+
             }
             else
             {
@@ -30,34 +33,35 @@ namespace Serialization
                     {
                         AppendClientInvokeIdToContentNode(target.Content, target.ClientInvokeID);
                     }
-                    contentBytes = GetContentBytes(target.Content.OuterXml);
+                    contentBytes = GetContentBytes(target.Content.ToString());
                 }
+                sessionBytes = GetSessionBytes(target.Session.ToString());
+                sessionLengthByte = (byte)sessionBytes.Length;
                 //contentBytes = ZlibHelper.ZibCompress(contentBytes);
             }
             byte[] contentLengthBytes = contentBytes.Length.ToCustomerBytes();
-            byte sessionLengthByte = (byte)sessionBytes.Length;
-            int packetLength = Constants.HeadCount + sessionBytes.Length + contentBytes.Length;
+            int packetLength = Constants.HeadCount + sessionLengthByte + contentBytes.Length;
             byte[] packet = new byte[packetLength];
             AddHeaderToPacket(packet, priceByte, sessionLengthByte, contentLengthBytes);
             AddSessionToPacket(packet, sessionBytes,Constants.HeadCount);
-            AddContentToPacket(packet, contentBytes, Constants.HeadCount + sessionBytes.Length);
+            AddContentToPacket(packet, contentBytes, Constants.HeadCount + sessionLengthByte);
             return packet;
         }
 
 
 
-        private static void AppendClientInvokeIdToContentNode(XmlNode contentNode,string invokeID)
+        private static void AppendClientInvokeIdToContentNode(XElement contentNode,string invokeID)
         {
-            XmlElement invokeNode = new XmlDocument().CreateElement(RequestConstants.InvokeIdNodeName);
-            invokeNode.InnerText = invokeID;
-            XmlNode invokeNode2 = contentNode.OwnerDocument.ImportNode(invokeNode, true);
-            contentNode.AppendChild(invokeNode2);
+            contentNode.Add(new XElement(RequestConstants.InvokeIdNodeName, invokeID));
         }
 
 
         private static void AddSessionToPacket(byte[] packet,byte[] sessionBytes,int index)
         {
-            Array.Copy(sessionBytes, 0, packet, index, sessionBytes.Length);
+            if (sessionBytes != null)
+            {
+                Array.Copy(sessionBytes, 0, packet, index, sessionBytes.Length);
+            }
         }
 
         private static void AddContentToPacket(byte[] packet, byte[] contentBytes,int index)
