@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Security;
 
-namespace iExchange3Promotion.Net.AsyncSslServer
+namespace AsyncSslServer
 {
     public delegate void SecureConnectionResultsCallback(object sender, SecureConnectionResults args);
 

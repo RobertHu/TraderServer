@@ -7,7 +7,7 @@ using System.Security.Authentication;
 using System.Diagnostics;
 using log4net;
 
-namespace iExchange3Promotion.Net.AsyncSslServer
+namespace AsyncSslServer
 {
     public class SecureTcpServer : IDisposable
     {
