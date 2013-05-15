@@ -53,7 +53,6 @@ namespace Trader.Server.Bll
             table.Add("GetChartData", GetChartDataAction);
             table.Add("VerifyTransaction", VerifyTransactionAction);
             table.Add("Place", PlaceAction);
-            table.Add("KeepAlive", KeepAliveAction);
             table.Add("Recover", RecoverAction);
             table.Add("Logout", LogoutAction);
             table.Add("LedgerForJava2", LedgerForJava2Action);
@@ -515,17 +514,6 @@ namespace Trader.Server.Bll
             {
                 throw new NotImplementedException();
             }
-        }
-
-        private XElement  KeepAliveAction(SerializedObject request, Token token)
-        {
-            return ProcessAliveKeepRequest();
-
-        }
-        private  XElement  ProcessAliveKeepRequest()
-        {
-            string content = "1";
-            return XmlResultHelper.NewResult(content);
         }
 
 

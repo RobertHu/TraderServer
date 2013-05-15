@@ -9,7 +9,7 @@ namespace Serialization
 {
     public class SerializedObject
     {
-
+        
         public SerializedObject(byte[] price) : this(true, null, price,string.Empty) { }
         public SerializedObject(bool isPrice, byte[] price) : this(isPrice, null, price,string.Empty) { }
 
@@ -33,14 +33,26 @@ namespace Serialization
             this.Content = content;
             this.IsPrice = isPrice;
         }
+        protected SerializedObject() { }
+        public static SerializedObject Create(Guid? session, bool isKeepAlive, byte[] keepAlivePacket)
+        {
+            SerializedObject target = new SerializedObject();
+            target.Session = session;
+            target.IsKeepAlive = isKeepAlive;
+            target.KeepAlivePacket = keepAlivePacket;
+            return target;
+        }
        
         public Guid? Session { get;  set; }
-        public bool IsPrice { get; private set; }
-        public byte[] Price { get; private set; }
+        public bool IsPrice { get; set; }
+        public byte[] Price { get; set; }
         public XElement Content { get;  set; }
         public byte[] ContentInByte { get; set; }
         public string ClientInvokeID { get; private set; }
         public Guid? CurrentSession { get; set; }
+        public bool IsKeepAlive { get; private set; }
+        public bool IsKeepAliveSuccess { get;set; }
+        public byte[] KeepAlivePacket { get; private set; }
 
     }
 }

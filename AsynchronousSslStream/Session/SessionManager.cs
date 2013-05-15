@@ -122,15 +122,13 @@ namespace Trader.Server.Session
 
         public T2 GetCommon<T1, T2>(T1 session, ConcurrentDictionary<T1, T2> dict)
         {
-            try
+            T2 result;
+            if (dict.TryGetValue(session, out result))
             {
-                return dict[session];
+                return result;
             }
-            catch (Exception ex)
-            {
-                return default(T2);
+            return default(T2);
 
-            }
         }
 
 

@@ -29,14 +29,23 @@ namespace Serialization
                 }
                 else
                 {
+                    bool isKeepAlive = (packet[0] & KeepAliveConstants.IsKeepAliveMask) == KeepAliveConstants.IsKeepAliveMask ? true : false;
                     string session = Constants.SessionEncoding.GetString(packet, Constants.HeadCount, sessionLength);
-                    string content = Constants.ContentEncoding.GetString(contentBytes);
-                    string processContent = GetRidOfUnprintablesAndUnicode(content);
-                    XElement contentNode = XElement.Parse(processContent, LoadOptions.None);
-                    XElement clientInvokeNode = contentNode.Descendants().Single(m => m.Name == RequestConstants.InvokeIdNodeName);
-                    string clientInvokeId = clientInvokeNode == null ? string.Empty : clientInvokeNode.Value;
-                    Guid? sessionGuid = string.IsNullOrEmpty(session) ? new Nullable<Guid>() : Guid.Parse(session);
-                    target = new SerializedObject(contentInBytes: null, isPrice: isPrice, session: sessionGuid, clientInvokeId: clientInvokeId, content: contentNode);
+                    Guid sessionGuid2;
+                    Guid? sessionGuid = Guid.TryParse(session, out sessionGuid2) ? sessionGuid2 :new System.Nullable<Guid>();
+                    if (!isKeepAlive)
+                    {
+                        string content = Constants.ContentEncoding.GetString(contentBytes);
+                        string processContent = GetRidOfUnprintablesAndUnicode(content);
+                        XElement contentNode = XElement.Parse(processContent, LoadOptions.None);
+                        XElement clientInvokeNode = contentNode.Descendants().Single(m => m.Name == RequestConstants.InvokeIdNodeName);
+                        string clientInvokeId = clientInvokeNode == null ? string.Empty : clientInvokeNode.Value;
+                        target = new SerializedObject(contentInBytes: null, isPrice: isPrice, session: sessionGuid, clientInvokeId: clientInvokeId, content: contentNode);
+                    }
+                    else
+                    {
+                        target =SerializedObject.Create(sessionGuid, isKeepAlive, packet);
+                    }
                 }
                 return target;
             }

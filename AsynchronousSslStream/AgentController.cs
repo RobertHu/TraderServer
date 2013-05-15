@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Trader.Server.Session;
 using iExchange.Common;
 using Trader.Common;
+using Serialization;
 namespace Trader.Server
 {
     public class AgentController
@@ -31,14 +32,6 @@ namespace Trader.Server
             this._Container.TryAdd(session, new ClientRelation(sender, receiver));
         }
 
-        public void AddForLogined(Guid session)
-        {
-            ClientRelation relation;
-            if (this._Container.TryGetValue(session, out relation))
-            {
-               // QuotationAgent.Quotation.Default.Add(session, relation.Sender);
-            }
-        }
 
         public void Remove(Guid session)
         {
@@ -51,7 +44,6 @@ namespace Trader.Server
             {
                 relation.Sender.DataArrived -= ReceiveCenter.Default.DataArrivedHandler;
                 relation.Sender.Closed -= this.SenderClosedEventHandle;
-                //QuotationAgent.Quotation.Default.Remove(session);
             }
         }
 
@@ -61,10 +53,8 @@ namespace Trader.Server
             ClientRelation currentRelation;
             if (this._Container.TryRemove(currentSession, out currentRelation))
             {
-                //QuotationAgent.Quotation.Default.Remove(currentSession);
                 this._Container.TryAdd(originSession, currentRelation);
                 currentRelation.Sender.UpdateSession(originSession);
-                //QuotationAgent.Quotation.Default.Add(originSession, currentRelation.Sender);
                 return true;
             }
             else
@@ -75,43 +65,25 @@ namespace Trader.Server
 
         public Trader.Helper.Common.ICommunicationAgent GetSender(Guid session)
         {
-            try
+            Trader.Helper.Common.ICommunicationAgent result = null;
+            ClientRelation relation;
+            if (this._Container.TryGetValue(session, out relation))
             {
-                ClientRelation relation = this._Container[session];
-                if (relation == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return relation.Sender;
-                }
+                result = relation.Sender;
             }
-            catch
-            {
-                return null;
-            }
+            return result;
         }
 
 
         public Trader.Helper.Common.IReceiveAgent GetReceiver(Guid session)
         {
-            try
+            Trader.Helper.Common.IReceiveAgent result = null;
+            ClientRelation relation;
+            if (this._Container.TryGetValue(session, out relation))
             {
-                ClientRelation relation = this._Container[session];
-                if (relation == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return relation.Receiver;
-                }
+                result = relation.Receiver;
             }
-            catch
-            {
-                return null;
-            }
+            return result;
         }
 
         public void Start()
@@ -174,6 +146,10 @@ namespace Trader.Server
 
         public void AddQuotation(Quotation quotation)
         {
+            if (this._Container.Count == 0)
+            {
+                return;
+            }
             this._Quotations.Enqueue(quotation);
             this._SendQuotationEvent.Set();
         }
@@ -197,6 +173,10 @@ namespace Trader.Server
                     Quotation item;
                     if (this._Quotations.TryDequeue(out item))
                     {
+                        if (this._Container.Count == 0)
+                        {
+                            continue;
+                        }
                         Parallel.ForEach(this._Container, p =>
                         {
                             SendCommand(item, p.Key, p.Value.Sender);
@@ -230,19 +210,18 @@ namespace Trader.Server
             {
                 return;
             }
-            JobItem job = new JobItem();
+            SerializedObject job = new SerializedObject();
             if (token.AppType == AppType.TradingConsole && isQuotation)
             {
-                job.Type = JobType.Price;
+                job.IsPrice = true;
                 job.Price = quotation;
             }
             else
             {
-                job.Type = JobType.Transaction;
                 job.ContentInByte = quotation;
-                job.SessionID = session;
+                job.Session = session;
             }
-            byte[] packet = SendManager.SerializeMsg(job);
+            byte[] packet = SerializeManager.Default.Serialize(job);
             sendAgent.Send(packet);
         }
 

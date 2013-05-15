@@ -9,17 +9,31 @@ namespace Trader.Server._4BitCompress
 {
     public class QuotationFilterSignMapping
     {
-        private static ConcurrentDictionary<string, long> dict = new ConcurrentDictionary<string, long>();
+        private static  Dictionary<string, long> dict = new Dictionary<string, long>();
         private static long _NextSequence = 0;
+        private static object _Lock = new object();
         public static long AddSign(string sign)
         {
-            long sequence;
-            if (!dict.TryGetValue(sign, out sequence))
+            lock (_Lock)
             {
-                sequence = Interlocked.Increment(ref _NextSequence);
-                dict.TryAdd(sign, sequence);
+                if (!dict.ContainsKey(sign))
+                {
+                    _NextSequence++;
+                    dict.Add(sign, _NextSequence);
+                }
+                return _NextSequence;
             }
-            return sequence;
+        }
+
+        public static void Remove(string sign)
+        {
+            lock (_Lock)
+            {
+                if (dict.ContainsKey(sign))
+                {
+                    dict.Remove(sign);
+                }
+            }
         }
     }
 }

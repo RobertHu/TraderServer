@@ -88,7 +88,7 @@ namespace Trader.Server.Bll
         private void SendErrorResult(SerializedObject request)
         {
             request.Content= XmlResultHelper.ErrorResult;
-            SendCenter.Default.Send(new JobItem(request));
+            SendCenter.Default.Send(request);
         }
 
 
@@ -152,7 +152,7 @@ namespace Trader.Server.Bll
                 result = XmlResultHelper.ErrorResult;
             }
             request.Content = result;
-            SendCenter.Default.Send(new Common.JobItem(request)); 
+            SendCenter.Default.Send(request);
         }
 
         private class LoginParameter

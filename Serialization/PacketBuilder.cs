@@ -12,14 +12,18 @@ namespace Serialization
 
         public static byte[] Build(SerializedObject target)
         {
-            byte priceByte = target.IsPrice? (byte)1 : (byte)0;
+            byte priceByte = target.IsPrice? KeepAliveConstants.IsPricevValue : (byte)0;
             byte sessionLengthByte= 0;
             byte[] contentBytes;
             byte[] sessionBytes = null;
             if (target.IsPrice)
             {
                 contentBytes = target.Price;
-
+            }
+            else if (target.IsKeepAlive)
+            {
+                target.KeepAlivePacket[0] = target.IsKeepAliveSuccess ? KeepAliveConstants.IsKeepAliveAndSuccessValue : KeepAliveConstants.IsKeepAliveAndFailedValue;
+                return target.KeepAlivePacket;
             }
             else
             {
@@ -60,20 +64,20 @@ namespace Serialization
         {
             if (sessionBytes != null)
             {
-                Array.Copy(sessionBytes, 0, packet, index, sessionBytes.Length);
+                Buffer.BlockCopy(sessionBytes, 0, packet, index, sessionBytes.Length);
             }
         }
 
         private static void AddContentToPacket(byte[] packet, byte[] contentBytes,int index)
         {
-            Array.Copy(contentBytes, 0, packet, index, contentBytes.Length);
+            Buffer.BlockCopy(contentBytes, 0, packet, index, contentBytes.Length);
         }
 
         private static void AddHeaderToPacket(byte[] packet,byte isPrice,byte sessionLength,byte[] contentLengthBytes)
         {
             packet[0] = isPrice;
             packet[1] = sessionLength;
-            Array.Copy(contentLengthBytes, 0, packet, 2, contentLengthBytes.Length);
+            Buffer.BlockCopy(contentLengthBytes, 0, packet, 2, contentLengthBytes.Length);
         }
 
         private static byte[] GetSessionBytes(string sessionID)

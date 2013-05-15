@@ -47,7 +47,9 @@ type Client(stream: SslStream,session: Guid) as this =
                 |false -> 
                     while !readedHeadCount <> Constants.HeadCount do
                         let! c = stream.AsyncRead(headerBuff,!readedHeadCount,(Constants.HeadCount - !readedHeadCount))
-                        readedHeadCount := !readedHeadCount + c
+                        match c > 0 with
+                        |false -> this.Close()
+                        |true -> readedHeadCount := !readedHeadCount + c
                 | _  -> ()
                 let packetLength = Constants.GetPacketLength(headerBuff,0)
                 let contentLength = packetLength - Constants.HeadCount

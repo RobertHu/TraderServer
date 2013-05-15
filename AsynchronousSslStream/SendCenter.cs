@@ -7,13 +7,14 @@ using Trader.Common;
 using System.Threading;
 using Trader.Helper;
 using System.Collections.Concurrent;
+using Serialization;
 namespace Trader.Server
 {
     public class SendCenter
     {
         public static readonly SendCenter Default = new SendCenter();
         private ILog _Logger = LogManager.GetLogger(typeof(SendCenter));
-        private ConcurrentQueue<JobItem> _Queue = new ConcurrentQueue<JobItem>();
+        private ConcurrentQueue<SerializedObject> _Queue = new ConcurrentQueue<SerializedObject>();
         private AutoResetEvent _Event = new AutoResetEvent(false);
         private volatile bool _IsStarted=false;
         private volatile bool _IsStopped=false;
@@ -43,7 +44,7 @@ namespace Trader.Server
             this._IsStopped = true;
         }
 
-        public void Send(JobItem item)
+        public void Send(SerializedObject item)
         {
             if (item == null)
             {
@@ -68,21 +69,21 @@ namespace Trader.Server
                     {
                         break;
                     }
-                    JobItem workItem = null;
+                    SerializedObject workItem = null;
                     if (!this._Queue.TryDequeue(out workItem))
                     {
                         continue;
                     }
-                    byte[] packet = SendManager.SerializeMsg(workItem);
+                    byte[] packet = SerializeManager.Default.Serialize(workItem);
                     if (packet == null)
                     {
                         continue;
                     }
-                    if (!workItem.SessionID.HasValue)
+                    if (!workItem.Session.HasValue)
                     {
                         continue;
                     }
-                    var client = AgentController.Default.GetSender(workItem.SessionID.Value);
+                    var client = AgentController.Default.GetSender(workItem.Session.Value);
                     if (client != null)
                     {
                         client.Send(packet);
@@ -90,5 +91,6 @@ namespace Trader.Server
                 }
             }
         }
+
     }
 }

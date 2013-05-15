@@ -43,7 +43,7 @@ namespace Trader.Server.Bll
                 };
             result = XmlResultHelper.NewResult(dict);
             request.Content = result;
-            SendCenter.Default.Send(new Common.JobItem(request));
+            SendCenter.Default.Send(request);
         }
 
 

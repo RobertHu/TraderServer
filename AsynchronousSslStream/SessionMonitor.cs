@@ -14,7 +14,8 @@ namespace Trader.Server
         private long _ClientCount = 0;
         private volatile bool _IsStarted = false;
         private volatile bool _IsStoped = false;
-        private ConcurrentDictionary<Guid, DateTime> dict = new ConcurrentDictionary<Guid, DateTime>();
+        private ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
+        private Dictionary<Guid, DateTime> dict = new Dictionary<Guid, DateTime>();
         public SessionMonitor(TimeSpan timeout)
         {
             this._ExpiredTimeout = timeout;
@@ -47,39 +48,70 @@ namespace Trader.Server
 
         public void Add(Guid session)
         {
-            if (this.dict.TryAdd(session, DateTime.Now))
+            this._ReadWriteLock.EnterWriteLock();
+            try
             {
-                this._ClientCount++;
-                this._Logger.InfoFormat("ClientCount={0}", this._ClientCount);
-                //AgentController.Default.AddForLogined(session);
+                if (!this.dict.ContainsKey(session))
+                {
+                    this.dict.Add(session, DateTime.Now);
+                    this._ClientCount++;
+                    this._Logger.InfoFormat("ClientCount={0}", this._ClientCount);
+                }
+            }
+            finally
+            {
+                this._ReadWriteLock.ExitWriteLock();
             }
         }
 
         public void Update(Guid? session)
         {
-            if (!session.HasValue)
+            this._ReadWriteLock.EnterWriteLock();
+            try
             {
-                return;
+                if (!session.HasValue)
+                {
+                    return;
+                }
+                if (this.dict.ContainsKey(session.Value))
+                {
+                    this.dict[session.Value] = DateTime.Now;
+                }
             }
-            if (this.dict.ContainsKey(session.Value))
+            finally
             {
-                this.dict.AddOrUpdate(session.Value, DateTime.Now, (k, v) => v);
+                this._ReadWriteLock.ExitWriteLock();
             }
         }
 
         public void Remove(Guid session)
         {
-            RemoveHelper(session);
-        }
-
-        public int GetClientCount()
-        {
-            return this.dict.Count;
+            this._ReadWriteLock.EnterWriteLock();
+            try
+            {
+                if (!this.dict.ContainsKey(session))
+                {
+                    return;
+                }
+                RemoveHelper(session);
+            }
+            finally
+            {
+                this._ReadWriteLock.ExitWriteLock();
+            }
         }
 
         public bool Exist(Guid session)
         {
-            return this.dict.ContainsKey(session);
+            this._ReadWriteLock.EnterReadLock();
+            try
+            {
+                return this.dict.ContainsKey(session);
+            }
+            finally
+            {
+                this._ReadWriteLock.ExitReadLock();
+            }
         }
 
         private void MotitorHandle()
@@ -91,25 +123,30 @@ namespace Trader.Server
                     break;
                 }
                 Thread.Sleep(60000);
-                var target = this.dict.Where(p => DateTime.Now - p.Value > this._ExpiredTimeout);
-                foreach (var item in target)
+                this._ReadWriteLock.EnterWriteLock();
+                try
                 {
-                    this._Logger.InfoFormat("remove session:{0}", item.Key);
-                    RemoveHelper(item.Key);
+                    var target = this.dict.Where(p => DateTime.Now - p.Value > this._ExpiredTimeout).ToArray();
+                    foreach (var item in target)
+                    {
+                        this._Logger.InfoFormat("remove session:{0}", item.Key);
+                        RemoveHelper(item.Key);
+                    }
+                }
+                finally
+                {
+                    this._ReadWriteLock.ExitWriteLock();
                 }
             }
         }
 
         private void RemoveHelper(Guid session)
         {
-            DateTime result;
-            if (this.dict.TryRemove(session, out result))
-            {
-                ResouceManager.Default.ReleaseResource(session);
-                AgentController.Default.EnqueueDisconnectSession(session);
-                this._ClientCount--;
-                this._Logger.InfoFormat("ClientCount={0}", this._ClientCount);
-            }
+            this.dict.Remove(session);
+            ResouceManager.Default.ReleaseResource(session);
+            AgentController.Default.EnqueueDisconnectSession(session);
+            this._ClientCount--;
+            this._Logger.InfoFormat("ClientCount={0}", this._ClientCount);
         }
 
     }

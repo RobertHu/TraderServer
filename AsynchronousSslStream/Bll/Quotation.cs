@@ -15,12 +15,12 @@ namespace Trader.Server.Bll
 {
     public class Quotation
     {
-        private WeakReference _Command;
-        private ILog _Logger = LogManager.GetLogger(typeof(Quotation));
+        private Command  _Command;
+        private static ILog _Logger = LogManager.GetLogger(typeof(Quotation));
         private ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>> _QuotationFilterByAppTypeDict = new ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>>();
         public Quotation(Command command)
         {
-            this._Command = new WeakReference(command);
+            this._Command = command;
         }
 
         public Tuple<bool,byte[]> ToBytes(Token token, TraderState state)
@@ -49,7 +49,7 @@ namespace Trader.Server.Bll
             }
             catch(Exception ex)
             {
-                this._Logger.Error(ex);
+                _Logger.Error(ex);
                 result = null;
             }
             return Tuple.Create(isQuotation, result);
@@ -62,7 +62,7 @@ namespace Trader.Server.Bll
             result = GetQuotationCommon(token, state);
             if (result == null)
             {
-                QuotationCommand command = (QuotationCommand)this._Command.Target;
+                QuotationCommand command = (QuotationCommand)this._Command;
                 var target = ConvertQuotation(command,state);
                 result = target.DataInBytes.Value;
                 CacheQuotationCommon(token.AppType, state.SignMapping, result);
@@ -139,56 +139,42 @@ namespace Trader.Server.Bll
                 dict = new ConcurrentDictionary<long, byte[]>();
                 this._QuotationFilterByAppTypeDict.TryAdd(token.AppType,dict);
             }
-            try
-            {
-                result = dict[state.SignMapping];
-            }
-            catch { }
+            dict.TryGetValue(state.SignMapping,out result);
             return result;
         }
 
         private byte[] GetDataBytesInUtf8Format(Token token, TraderState state)
         {
-            var node = GetXmlNodeHelper(token, state);
+            var node = ConvertCommand(token, state);
             return node == null ? null : Constants.ContentEncoding.GetBytes(node.OuterXml);
         }
-
-
-        private XmlNode GetXmlNodeHelper(Token token,TraderState state)
-        {
-            Command command = (Command)this._Command.Target;
-            return ConvertCommand(command,token,state);
-        }
-
 
         private bool IsQuotationCommand()
         {
             bool isQuotation = false;
-            if (this._Command.IsAlive)
+
+            if (this._Command is QuotationCommand)
             {
-                if (this._Command.Target is QuotationCommand)
-                {
-                    isQuotation = true;
-                }
+                isQuotation = true;
             }
             return isQuotation;
         }
 
 
-        private XmlNode ConvertCommand(Command command, Token token, State state)
+        private XmlNode ConvertCommand( Token token, State state)
         {
-            if (!(command is QuotationCommand) && token.AppType == AppType.Mobile)
+            if (!(this._Command is QuotationCommand) && token.AppType == AppType.Mobile)
             {
-                return Mobile.Manager.ConvertCommand(token, command);
+                return Mobile.Manager.ConvertCommand(token, this._Command);
             }
             else
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 XmlElement commands = xmlDoc.CreateElement("Commands");
                 xmlDoc.AppendChild(commands);
-                this.AppendChild(commands, command, token, state);
-                commands.SetAttribute("FirstSequence", command.Sequence.ToString());
-                commands.SetAttribute("LastSequence", command.Sequence.ToString());
+                this.AppendChild(commands, this._Command, token, state);
+                commands.SetAttribute("FirstSequence", this._Command.Sequence.ToString());
+                commands.SetAttribute("LastSequence", this._Command.Sequence.ToString());
                 return commands;
             }
         }

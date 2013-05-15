@@ -2,7 +2,6 @@
 open System
 open Common
 open Serialization
-open SendManager
 open Trader.Common
 open log4net
 

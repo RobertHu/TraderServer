@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Trader.Server.Session;
+using Trader.Server._4BitCompress;
 
 namespace Trader.Server
 {
@@ -12,6 +13,11 @@ namespace Trader.Server
         public static readonly ResouceManager Default = new ResouceManager();
         public void ReleaseResource(Guid session)
         {
+            var traderState = SessionManager.Default.GetTradingConsoleState(session);
+            if (traderState != null && traderState.QuotationFilterSign != null)
+            {
+                QuotationFilterSignMapping.Remove(traderState.QuotationFilterSign);
+            }
             SessionManager.Default.RemoveAllItem(session);
         }
     }

@@ -20,26 +20,43 @@ namespace Trader.Server.Util
     {
         public static void Process(SerializedObject request)
         {
-            JobItem result = null;
+            XElement content = null;
             try
             {
-                XElement content = ProcessHelper(request);
-                request.Content = content;
+                if (!request.IsKeepAlive)
+                {
+                     content = ProcessHelper(request);
+                   
+                }
+                else
+                {
+                    ProcessForKeepAlive(request);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                request.Content = XmlResultHelper.NewErrorResult(ex.ToString());
-            }
-            if (request.Content != null)
-            {
-                result = new JobItem(request);
+                content = XmlResultHelper.NewErrorResult(ex.ToString());
             }
             Application.Default.SessionMonitor.Update(request.Session);
-            if (result != null)
+            if (content != null)
             {
-                SendCenter.Default.Send(result);
+                request.Content = content;
+                SendCenter.Default.Send(request);
             }
+        }
+
+        private static void ProcessForKeepAlive(SerializedObject request)
+        {
+            if (Application.Default.SessionMonitor.Exist(request.Session.Value))
+            {
+                request.IsKeepAliveSuccess = true;
+            }
+            else
+            {
+                request.IsKeepAliveSuccess = false;
+            }
+            SendCenter.Default.Send(request);
         }
 
         private static XElement  ProcessHelper(SerializedObject request)

@@ -11,10 +11,11 @@ namespace Trader.Server.Service
 {
     public class QuotationDispatcher
     {
-        private ConcurrentQueue<QuotationCommand> _QuotationQueue = new ConcurrentQueue<QuotationCommand>();
+        private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>();
         public static readonly QuotationDispatcher Default = new QuotationDispatcher();
         private volatile bool _IsStoped = false;
         private const int _ProcessPeriodMilliseconds = 800;
+        private object _Lock = new object();
         private ILog _Logger = LogManager.GetLogger(typeof(QuotationDispatcher));
         private QuotationDispatcher()
         {
@@ -40,7 +41,10 @@ namespace Trader.Server.Service
             {
                 return;
             }
-            this._QuotationQueue.Enqueue(quotation);
+            lock (this._Lock)
+            {
+                this._QuotationQueue.Add(quotation);
+            }
         }
 
         private void Process()
@@ -57,13 +61,11 @@ namespace Trader.Server.Service
                     continue;
                 }
                 var qotation = new QuotationCommand();
-                int count = this._QuotationQueue.Count;
-                qotation.Merge(new System.Collections.ArrayList(this._QuotationQueue));
-                Parallel.For(0, count, i =>
+                lock (this._Lock)
                 {
-                    QuotationCommand command;
-                    this._QuotationQueue.TryDequeue(out command);
-                });
+                    qotation.Merge(new System.Collections.ArrayList(this._QuotationQueue));
+                    this._QuotationQueue.Clear();
+                }
                 if (qotation.OverridedQs == null)
                 {
                     continue;
