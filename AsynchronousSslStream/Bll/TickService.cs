@@ -16,7 +16,7 @@ namespace Trader.Server.Bll
 {
     public static class TickService
     {
-        public static XElement GetTickByTickHistoryData(Guid session, Guid instrumentId, DateTime from, DateTime to)
+        public static XElement GetTickByTickHistoryData(long session, Guid instrumentId, DateTime from, DateTime to)
         {
             TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
             XElement  result = null;
@@ -50,7 +50,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement  AsyncGetChartData2(Guid session, Guid instrumentId, DateTime from, DateTime to, string dataCycleParameter)
+        public static XElement  AsyncGetChartData2(long session, Guid instrumentId, DateTime from, DateTime to, string dataCycleParameter)
         {
             try
             {

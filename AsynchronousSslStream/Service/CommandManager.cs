@@ -48,7 +48,7 @@ namespace Trader.Server.Service
         }
 
 
-        public XmlNode VerifyRefrence(Guid session,State state, XmlNode xmlCommands, out bool changed)
+        public XmlNode VerifyRefrence(long session,State state, XmlNode xmlCommands, out bool changed)
         {
             changed = false;
             if (!(state is TradingConsoleState)) return xmlCommands;
@@ -111,13 +111,13 @@ namespace Trader.Server.Service
 
             return xmlCommands;
         }
-        private XmlNode VerifyRefrence(Guid session,State state, XmlNode xmlCommands)
+        private XmlNode VerifyRefrence(long session,State state, XmlNode xmlCommands)
         {
             bool changed;
             return this.VerifyRefrence(session,state, xmlCommands, out changed);
         }
 
-        public DataSet GetInstruments(Guid session,ArrayList instrumentIDs)
+        public DataSet GetInstruments(long session,ArrayList instrumentIDs)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace Trader.Server.Service
         }
 
 
-        public XElement GetLostCommands(Guid session,int firstSequence, int lastSequence)
+        public XElement GetLostCommands(long session,int firstSequence, int lastSequence)
         {
             XmlNode xmlCommands = null;
             try

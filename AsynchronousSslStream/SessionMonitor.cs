@@ -15,7 +15,7 @@ namespace Trader.Server
         private volatile bool _IsStarted = false;
         private volatile bool _IsStoped = false;
         private ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
-        private Dictionary<Guid, DateTime> dict = new Dictionary<Guid, DateTime>();
+        private Dictionary<long, DateTime> dict = new Dictionary<long, DateTime>();
         public SessionMonitor(TimeSpan timeout)
         {
             this._ExpiredTimeout = timeout;
@@ -46,7 +46,7 @@ namespace Trader.Server
         }
 
 
-        public void Add(Guid session)
+        public void Add(long session)
         {
             this._ReadWriteLock.EnterWriteLock();
             try
@@ -64,7 +64,7 @@ namespace Trader.Server
             }
         }
 
-        public void Update(Guid? session)
+        public void Update(long? session)
         {
             this._ReadWriteLock.EnterWriteLock();
             try
@@ -73,7 +73,8 @@ namespace Trader.Server
                 {
                     return;
                 }
-                if (this.dict.ContainsKey(session.Value))
+                DateTime value;
+                if (this.dict.TryGetValue(session.Value,out value))
                 {
                     this.dict[session.Value] = DateTime.Now;
                 }
@@ -84,7 +85,7 @@ namespace Trader.Server
             }
         }
 
-        public void Remove(Guid session)
+        public void Remove(long session)
         {
             this._ReadWriteLock.EnterWriteLock();
             try
@@ -101,12 +102,13 @@ namespace Trader.Server
             }
         }
 
-        public bool Exist(Guid session)
+        public bool Exist(long session)
         {
             this._ReadWriteLock.EnterReadLock();
             try
             {
-                return this.dict.ContainsKey(session);
+                DateTime value;
+                return this.dict.TryGetValue(session, out value);
             }
             finally
             {
@@ -140,7 +142,7 @@ namespace Trader.Server
             }
         }
 
-        private void RemoveHelper(Guid session)
+        private void RemoveHelper(long session)
         {
             this.dict.Remove(session);
             ResouceManager.Default.ReleaseResource(session);

@@ -29,7 +29,7 @@ namespace Trader.Server.Bll
 
         public IEnumerator<int> Login(SerializedObject request, string loginID, string password, string version, int appType, AsyncEnumerator ae)
         {
-            Guid session = request.Session.Value;
+            long session = request.Session.Value;
             string connectionString = SettingManager.Default.ConnectionString;
             IsFailedCountExceed(loginID, password, connectionString);
             LoginParameter loginParameter = new LoginParameter();
@@ -107,7 +107,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        private void SetResult(SerializedObject request, LoginParameter loginParameter, Guid session, string loginID, string password, string version, int appType, string connectionString)
+        private void SetResult(SerializedObject request, LoginParameter loginParameter, long session, string loginID, string password, string version, int appType, string connectionString)
         {
             XElement result;
             if (loginParameter.UserID != Guid.Empty)
@@ -166,7 +166,7 @@ namespace Trader.Server.Bll
         }
 
 
-        private void SetLoginParameter(LoginParameter loginParameter, Guid session, string password, string environmentInfo, int appType, bool isStateServerLogined, Token token)
+        private void SetLoginParameter(LoginParameter loginParameter, long session, string password, string environmentInfo, int appType, bool isStateServerLogined, Token token)
         {
             bool isPathPassed = false;
             DataSet dataSet = Application.Default.TradingConsoleServer.GetLoginParameters(loginParameter.UserID,loginParameter.CompanyName);
@@ -263,7 +263,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        private XmlNode GetParameterForJava(Guid session,string companyCode, string version)
+        private XmlNode GetParameterForJava(long session,string companyCode, string version)
         {
             SessionManager.Default.AddVersion(session, version);
             string physicalPath = Path.Combine(GetOrginazationDir(companyCode), version);
@@ -346,7 +346,7 @@ namespace Trader.Server.Bll
             return Path.Combine(SettingManager.Default.PhysicPath, companyCode);
         }
 
-        public XElement Logout(Guid session)
+        public XElement Logout(long session)
         {
             try
             {

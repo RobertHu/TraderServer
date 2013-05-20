@@ -2,12 +2,11 @@
 open System
 open Trader.Common
 
-
 let internal QUEUE_MAX_COUNT = 200
 
 type internal Agent<'a> = MailboxProcessor<'a>
 
-type DataArrivedEventArgs(data: byte[], session: Guid) =
+type DataArrivedEventArgs(data: byte[], session: Int64) =
     inherit EventArgs()
     member this.Data = data
     member this.Session = session
@@ -20,7 +19,7 @@ type SessionTimeoutEventArgs(session: string) =
 
 type SessionTimeoutDelegate = delegate of obj * SessionTimeoutEventArgs -> unit
 
-type SenderClosedEventArgs(session: Guid) =
+type SenderClosedEventArgs(session: System.Int64) =
     inherit EventArgs()
     member this.Session = session
 
@@ -29,14 +28,12 @@ type SenderClosedDelegate = delegate of obj * SenderClosedEventArgs -> unit
 
 [<AllowNullLiteralAttribute>]
 type IReceiveAgent =
-    abstract Send : System.Nullable<Guid> * byte[] -> unit
+    abstract Send : System.Nullable<Int64> * byte[] -> unit
 
 [<AllowNullLiteralAttribute>]
 type ICommunicationAgent =
     abstract Send :byte[] -> unit
-    abstract UpdateSession: Guid -> unit
-    [<CLIEvent>]
-    abstract DataArrived: IEvent<DataArrivedDelegate,DataArrivedEventArgs>
+    abstract UpdateSession: Int64 -> unit
     [<CLIEvent>]
     abstract Closed: IEvent<SenderClosedDelegate, SenderClosedEventArgs>
     

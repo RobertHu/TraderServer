@@ -12,7 +12,7 @@ namespace Trader.Server.Bll
 {
     public class LogService
     {
-        public static XElement SaveLog(Guid  session, string logCode, DateTime timestamp, string action, Guid transactionId)
+        public static XElement SaveLog(long  session, string logCode, DateTime timestamp, string action, Guid transactionId)
         {
             try
             {

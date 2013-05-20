@@ -23,7 +23,7 @@ namespace Trader.Server.Bll
         private static TimeSpan _StatementReportTimeout = TimeSpan.MinValue;
         private static TimeSpan _LedgerReportTimeout = TimeSpan.MinValue;
 
-        public static XElement LedgerForJava2(Guid session, string dateFrom, string dateTo, string IDs, string rdlc)
+        public static XElement LedgerForJava2(long session, string dateFrom, string dateTo, string IDs, string rdlc)
         {
             Guid result = Guid.Empty;
             try
@@ -84,7 +84,7 @@ namespace Trader.Server.Bll
 
 
 
-        public static XElement  StatementForJava2(Guid session, int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc)
+        public static XElement  StatementForJava2(long session, int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc)
         {
             Guid result = Guid.Empty;
             try
@@ -193,7 +193,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement AccountSummaryForJava2(Guid session, string tradeDay, string accountIds, string rdlc)
+        public static XElement AccountSummaryForJava2(long session, string tradeDay, string accountIds, string rdlc)
         {
             Guid result = Guid.Empty;
             try

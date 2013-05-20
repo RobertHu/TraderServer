@@ -14,7 +14,7 @@ namespace Trader.Server.Bll
     public class TransactionService
     {
 
-        public static XElement Place(Guid  session, XmlNode tran)
+        public static XElement Place(long  session, XmlNode tran)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement VerifyTransaction(Guid  session, Guid[] transactionIDs)
+        public static XElement VerifyTransaction(long  session, Guid[] transactionIDs)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement MultipleClose(Guid  session, Guid[] orderIds)
+        public static XElement MultipleClose(long  session, Guid[] orderIds)
         {
             XmlNode xmlTran;
             XmlNode xmlAccount;

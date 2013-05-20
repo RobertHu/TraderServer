@@ -182,6 +182,9 @@
     <Compile Include="SChart\TickByTickHistoryDataArgument2.cs" />
     <Compile Include="SendCenter.cs" />
     <Compile Include="Service\QuotationSender.cs" />
+    <Compile Include="Ssl\Client.cs" />
+    <Compile Include="Ssl\SecureConnectionResults.cs" />
+    <Compile Include="Ssl\SecureTcpServer.cs" />
     <Compile Include="TraderServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CommandCollectorHost.cs" />
@@ -212,10 +215,6 @@
     <Compile Include="WebService\SecurityServices.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AsyncSslServer\AsyncSslServer.csproj">
-      <Project>{C14F737B-6FF6-4860-B6D9-266A73BD9F3D}</Project>
-      <Name>AsyncSslServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mobile\Mobile.csproj">
       <Project>{9C271502-FB2A-406D-AC52-43273D53A2CB}</Project>
       <Name>Mobile</Name>

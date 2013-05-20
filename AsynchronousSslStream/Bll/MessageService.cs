@@ -13,7 +13,7 @@ namespace Trader.Server.Bll
 {
     public static class MessageService
     {
-        public static XElement GetMessages(Guid session)
+        public static XElement GetMessages(long session)
         {
             try
             {

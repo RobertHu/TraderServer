@@ -12,42 +12,42 @@ using Trader.Server.Session;
 using iExchange.Common;
 using Trader.Common;
 using Serialization;
+using Trader.Server.Ssl;
 namespace Trader.Server
 {
     public class AgentController
     {
         public static readonly AgentController Default = new AgentController();
         private ILog _Logger = LogManager.GetLogger(typeof(AgentController));
-        private ConcurrentDictionary<Guid,ClientRelation> _Container=new ConcurrentDictionary<Guid,ClientRelation>();
+        private ConcurrentDictionary<long,ClientRelation> _Container=new ConcurrentDictionary<long,ClientRelation>();
         private AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
         private AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
-        private ConcurrentQueue<Guid> _DisconnectQueue = new ConcurrentQueue<Guid>();
+        private ConcurrentQueue<long> _DisconnectQueue = new ConcurrentQueue<long>();
         private ConcurrentQueue<Quotation> _Quotations = new ConcurrentQueue<Quotation>();
         private volatile bool _IsDisconnectHandlerStarted = false;
         private volatile bool _IsDisconnectHandlerStopped = false;
         private AgentController() { }
 
-        public void Add(Guid session, Trader.Helper.Common.IReceiveAgent receiver, Trader.Helper.Common.ICommunicationAgent sender)
+        public void Add(long session, Trader.Helper.Common.IReceiveAgent receiver, Trader.Helper.Common.ICommunicationAgent sender)
         {
             this._Container.TryAdd(session, new ClientRelation(sender, receiver));
         }
 
 
-        public void Remove(Guid session)
+        public void Remove(long session)
         {
             RemoveHelper(session);
         }
-        private void RemoveHelper(Guid session)
+        private void RemoveHelper(long session)
         {
             ClientRelation relation;
             if (this._Container.TryRemove(session,out relation))
             {
-                relation.Sender.DataArrived -= ReceiveCenter.Default.DataArrivedHandler;
                 relation.Sender.Closed -= this.SenderClosedEventHandle;
             }
         }
 
-        public bool RecoverConnection(Guid originSession, Guid currentSession)
+        public bool RecoverConnection(long originSession, long currentSession)
         {
             RemoveHelper(originSession);
             ClientRelation currentRelation;
@@ -63,7 +63,7 @@ namespace Trader.Server
             }
         }
 
-        public Trader.Helper.Common.ICommunicationAgent GetSender(Guid session)
+        public Trader.Helper.Common.ICommunicationAgent GetSender(long session)
         {
             Trader.Helper.Common.ICommunicationAgent result = null;
             ClientRelation relation;
@@ -75,7 +75,7 @@ namespace Trader.Server
         }
 
 
-        public Trader.Helper.Common.IReceiveAgent GetReceiver(Guid session)
+        public Trader.Helper.Common.IReceiveAgent GetReceiver(long session)
         {
             Trader.Helper.Common.IReceiveAgent result = null;
             ClientRelation relation;
@@ -113,7 +113,7 @@ namespace Trader.Server
             this._IsDisconnectHandlerStopped = true;
         }
 
-        public void EnqueueDisconnectSession(Guid session)
+        public void EnqueueDisconnectSession(long session)
         {
             this._DisconnectQueue.Enqueue(session);
             this._DisconnectEvent.Set();
@@ -135,7 +135,7 @@ namespace Trader.Server
                     {
                         break;
                     }
-                    Guid session;
+                    long session;
                     if (this._DisconnectQueue.TryDequeue(out session))
                     {
                         this.Remove(session);
@@ -193,19 +193,18 @@ namespace Trader.Server
         }
 
 
-        private void SendCommand(Quotation command, Guid session, Trader.Helper.Common.ICommunicationAgent sendAgent)
+        private void SendCommand(Quotation command, long session, Trader.Helper.Common.ICommunicationAgent sendAgent)
         {
             if (command == null) return;
-            var tokenAndState = SessionManager.Default.GetTokenAndState(session);
-            Token token = tokenAndState.Item1;
-            TraderState state = tokenAndState.Item2;
+            Token token;
+            TraderState state = SessionManager.Default.GetTokenAndState(session,out token);
             if (token == null || state == null)
             {
                 return;
             }
-            var result = command.ToBytes(token, state);
-            bool isQuotation = result.Item1;
-            byte[] quotation = result.Item2;
+            bool isQuotation;
+            byte[] quotation;
+            quotation= command.ToBytes(token, state,out isQuotation);
             if (quotation == null)
             {
                 return;
@@ -229,7 +228,7 @@ namespace Trader.Server
 
     public class ClientRelation
     {
-        public ClientRelation(Trader.Helper.Common.ICommunicationAgent sender, Trader.Helper.Common.IReceiveAgent receiver)
+        public ClientRelation( Trader.Helper.Common.ICommunicationAgent sender, Trader.Helper.Common.IReceiveAgent receiver)
         {
             this.Receiver=receiver;
             this.Sender=sender;

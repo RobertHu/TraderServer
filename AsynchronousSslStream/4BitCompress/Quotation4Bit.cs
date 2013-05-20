@@ -2,96 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using iExchange.Common;
+using Trader.Server.Session;
 
 namespace Trader.Server._4BitCompress
 {
     public class Quotation4Bit
     {
-        public OriginQuotation[] OriginQuotations;
-        public OverridedQuotation[] OverridedQuotations;
-
-        public byte[] QuotationInBytes;     
+        private OverridedQuotation[] _OverridedQuotations;
+        private TraderState _State;
         public long Sequence { get; set; }
-        public Lazy<string> Data;
-        public Lazy<byte[]> DataInBytes;
-        public Quotation4Bit()
+        public Quotation4Bit(OverridedQuotation[] overridedQuotations,TraderState state)
         {
-            this.Data = new Lazy<string>(() =>
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(this.Sequence);
-                stringBuilder.Append("/");
-
-                if (OverridedQuotations != null && OverridedQuotations.Length > 0)
-                {
-                    bool addSeprator = false;
-                    foreach (OverridedQuotation overridedQuotation in this.OverridedQuotations)
-                    {
-                        if (addSeprator)
-                        {
-                            stringBuilder.Append(";");
-                        }
-                        else
-                        {
-                            addSeprator = true;
-                        }
-                        stringBuilder.Append(overridedQuotation.GetValue());
-
-                    }
-                }
-                stringBuilder.Append("/");
-
-                if (OriginQuotations != null && OriginQuotations.Length > 0)
-                {
-                    bool addSeprator = false;
-                    foreach (OriginQuotation originQuotation in this.OriginQuotations)
-                    {
-                        if (addSeprator)
-                        {
-                            stringBuilder.Append(";");
-                        }
-                        else
-                        {
-                            addSeprator = true;
-                        }
-                        stringBuilder.Append(originQuotation.GetValue());
-                    }
-                }
-
-                return stringBuilder.ToString();
-            });
-
-            this.DataInBytes = new Lazy<byte[]>(() =>
-            {
-                return Quotation4BitEncoder.Encode(this.Data.Value);
-            });
+            this._OverridedQuotations = overridedQuotations;
+            this._State = state;
         }
 
-        public override string ToString()
+        public byte[] GetData()
         {
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(this.Sequence);
+            stringBuilder.Append("/");
 
-            if (OriginQuotations != null && OriginQuotations.Length > 0)
+            if (_OverridedQuotations != null && _OverridedQuotations.Length > 0)
             {
-                stringBuilder.Append("Origins=");
-                foreach (OriginQuotation originQuotation in this.OriginQuotations)
+                bool addSeprator = false;
+                foreach (OverridedQuotation overridedQuotation in this._OverridedQuotations)
                 {
-                    stringBuilder.Append(originQuotation);
-                    stringBuilder.Append(";");
-                }
-                stringBuilder.Append("\t");
-            }
+                    if (!_State.Instruments.ContainsKey(overridedQuotation.InstrumentID))
+                    {
+                        continue;
+                    }
+                    if (overridedQuotation.QuotePolicyID != (Guid)_State.Instruments[overridedQuotation.InstrumentID])
+                    {
+                        continue;
+                    }
 
-            if (OverridedQuotations != null && OverridedQuotations.Length > 0)
-            {
-                stringBuilder.Append("Overrideds=");
-                foreach (OverridedQuotation overridedQuotation in this.OverridedQuotations)
-                {
-                    stringBuilder.Append(overridedQuotation);
+                    if (addSeprator)
+                    {
+                        stringBuilder.Append(";");
+                    }
+                    else
+                    {
+                        addSeprator = true;
+                    }
+                    var oq= string.Format("{0}:{1}:{2}:{3}:{4}:{5}:{6}:{7}:{8}", GuidMapping.Get(overridedQuotation.InstrumentID), overridedQuotation.Ask, overridedQuotation.Bid, overridedQuotation.High, overridedQuotation.Low, "", (long)(overridedQuotation.Timestamp - QuotationBase.OrginTime).TotalSeconds, overridedQuotation.Volume, overridedQuotation.TotalVolume);
+                    stringBuilder.Append(oq);
+
                 }
             }
+            stringBuilder.Append("/");
+            return Quotation4BitEncoder.Encode(stringBuilder.ToString());
 
-            return stringBuilder.ToString();
         }
 
     }

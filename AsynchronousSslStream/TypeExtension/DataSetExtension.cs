@@ -48,7 +48,7 @@ namespace Trader.Server.TypeExtension
                 {
                     DataRow dr = rowCol[rowIndex];
                     Guid id = (Guid)dr["ID"];
-                    int mappingId = GuidMapping.InstrumentIdMapping.AddOrGetExisting(id);
+                    int mappingId = GuidMapping.Add(id);
                     dr["SequenceForQuotatoin"] = mappingId;
                 }
             }

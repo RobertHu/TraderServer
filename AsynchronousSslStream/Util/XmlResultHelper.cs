@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using System.Xml;
 using Trader.Server.TypeExtension;
 using Serialization;
+using Trader.Common;
 namespace Trader.Server.Util
 {
     public static class XmlResultHelper

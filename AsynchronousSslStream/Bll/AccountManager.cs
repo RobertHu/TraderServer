@@ -18,7 +18,7 @@ namespace Trader.Server.Bll
     {
         private AccountManager() { }
         public static readonly AccountManager Default = new AccountManager();
-        public XElement  GetAccountsForTradingConsole(Guid  session)
+        public XElement  GetAccountsForTradingConsole(long  session)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode  GetAccountForCut(Guid  session,ref DateTime lastAlertTime, Guid accountId, bool includeTransactions)
+        public XmlNode  GetAccountForCut(long  session,ref DateTime lastAlertTime, Guid accountId, bool includeTransactions)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode  GetAccountsForCut(Guid  session,Guid[] accountIDs, bool includeTransactions)
+        public XmlNode  GetAccountsForCut(long  session,Guid[] accountIDs, bool includeTransactions)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XElement  UpdateAccountSetting(Guid  session,Guid[] accountIds)
+        public XElement  UpdateAccountSetting(long  session,Guid[] accountIds)
         {
             bool result = false;
             try
@@ -146,7 +146,7 @@ namespace Trader.Server.Bll
 
         }
 
-        public void UpdateAccount(Guid session, Guid accountID, Guid groupID, bool isDelete, bool isDeleteGroup)
+        public void UpdateAccount(long session, Guid accountID, Guid groupID, bool isDelete, bool isDeleteGroup)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode  GetAccounts(Guid  session, Guid[] accountIDs, bool includeTransactions)
+        public XmlNode  GetAccounts(long  session, Guid[] accountIDs, bool includeTransactions)
         {
             try
             {

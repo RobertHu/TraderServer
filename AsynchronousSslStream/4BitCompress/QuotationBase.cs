@@ -6,14 +6,8 @@ using System.Runtime.Serialization;
 
 namespace Trader.Server._4BitCompress
 {
-    public delegate int InstrumentIdToSequence(Guid id);
-    public delegate Guid SequenceToInstrumentId(int sequence);
-    
     public class QuotationBase
     {
-        public static InstrumentIdToSequence InstrumentIdToSequence;
-        public static SequenceToInstrumentId SequenceToInstrumentId;
-
         public static DateTime OrginTime = new DateTime(2011, 4, 1, 0, 0, 0);
         
         [IgnoreDataMember]

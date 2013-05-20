@@ -14,7 +14,7 @@ public class TickByTickHistoryDataArgument : HttpContextHolder
     
     private AsyncResult _asyncResult;
 
-    public TickByTickHistoryDataArgument(Guid instrumentId, AsyncResult asyncResult,Guid session)
+    public TickByTickHistoryDataArgument(Guid instrumentId, AsyncResult asyncResult,long session)
         :base(session)
     {
         this._instrumentId = instrumentId;        
@@ -42,7 +42,7 @@ public class HttpContextHolder
     private Token _Token;
     private TradingConsoleState _TradingConsoleState;
 
-    public HttpContextHolder(Guid session)
+    public HttpContextHolder(long session)
     {
         string version = SessionManager.Default.GetVersion(session);
         this._Version = version == null ? "ENG" : version;

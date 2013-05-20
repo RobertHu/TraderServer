@@ -7,7 +7,6 @@ using log4net;
 using Trader.Server.Bll;
 using iExchange.Common;
 using Trader.Server.Session;
-using AsyncSslServer;
 
 namespace Trader.Server.Service
 {

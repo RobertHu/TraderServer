@@ -23,7 +23,7 @@ namespace Trader.Server.Bll
         public static IEnumerator<int> GetInitData(SerializedObject request, DataSet initData, AsyncEnumerator ae)
         {
             XElement result = null;
-            Guid session = request.Session.Value;
+            long session = request.Session.Value;
             Token token = SessionManager.Default.GetToken(session);
             if (initData == null)
             {
@@ -47,7 +47,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static Tuple<DataSet,int> Init(Guid session,DataSet initData)
+        public static Tuple<DataSet,int> Init(long session,DataSet initData)
         {
             DataRowCollection rows;
             TraderState state = SessionManager.Default.GetTradingConsoleState(session);

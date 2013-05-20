@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading;
 using log4net;
 using System.Collections.Concurrent;
+using Trader.Common;
 namespace Trader.Server
 {
-    public class ReceiveCenter
+    public class ReceiveCenter:IReceiveCenter
     {
         public static readonly ReceiveCenter Default = new ReceiveCenter();
-        private ConcurrentQueue<Tuple<Guid, byte[]>> _Queue = new ConcurrentQueue<Tuple<Guid, byte[]>>();
+        private ConcurrentQueue<Tuple<long, byte[]>> _Queue = new ConcurrentQueue<Tuple<long, byte[]>>();
         private volatile bool _IsStarted = false;
         private volatile bool _IsStopped = false;
         private AutoResetEvent _Event = new AutoResetEvent(false);
@@ -41,13 +42,8 @@ namespace Trader.Server
             this._IsStopped = true;
         }
 
-        public void DataArrivedHandler(object sender, Trader.Helper.Common.DataArrivedEventArgs args)
-        {
-            this.Send(args.Session, args.Data);
-        }
 
-
-        public void Send(Guid session, byte[] packet)
+        public void Send(long session, byte[] packet)
         {
             this._Queue.Enqueue(Tuple.Create(session, packet));
             this._Event.Set();
@@ -63,18 +59,18 @@ namespace Trader.Server
                     break;
                 }
                 this._Event.WaitOne();
-                while (this._Queue.Count != 0)
+                while (this._Queue.Count!=0)
                 {
                     if (this._IsStopped)
                     {
                         break;
                     }
-                    Tuple<Guid, Byte[]> workItem = null;
+                    Tuple<long, Byte[]> workItem = null;
                     if (!this._Queue.TryDequeue(out workItem))
                     {
                         continue;
                     }
-                    Guid session = workItem.Item1;
+                    long session = workItem.Item1;
                     byte[] packet = workItem.Item2;
                     var receiveAgent = AgentController.Default.GetReceiver(session);
                     if (receiveAgent != null)

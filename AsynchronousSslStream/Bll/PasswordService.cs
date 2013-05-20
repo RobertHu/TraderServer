@@ -17,7 +17,7 @@ namespace Trader.Server.Bll
 {
     public class PasswordService
     {
-        public static XElement  RecoverPasswordDatas(Guid session, string[][] recoverPasswordDatas)
+        public static XElement  RecoverPasswordDatas(long session, string[][] recoverPasswordDatas)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Trader.Server.Bll
 
 
 
-        public static XElement  ModifyTelephoneIdentificationCode(Guid session, Guid accountId, string oldCode, string newCode)
+        public static XElement  ModifyTelephoneIdentificationCode(long session, Guid accountId, string oldCode, string newCode)
         {
             bool lastResult = false;
             try
@@ -105,7 +105,7 @@ namespace Trader.Server.Bll
 
 
 
-        private static bool UpdatePassword3(Guid session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
+        private static bool UpdatePassword3(long session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
         {
             message = "";
             try
@@ -144,7 +144,7 @@ namespace Trader.Server.Bll
         }
 
         //Activate
-        public static bool UpdatePassword2(Guid session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
+        public static bool UpdatePassword2(long session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
         {
             message = "";
             try
@@ -168,7 +168,7 @@ namespace Trader.Server.Bll
         }
 
         //Change Password
-        public static XElement  UpdatePassword(Guid session, string loginID, string oldPassword, string newPassword)
+        public static XElement  UpdatePassword(long session, string loginID, string oldPassword, string newPassword)
         {
             string message = "";
             bool isSucceed = false;

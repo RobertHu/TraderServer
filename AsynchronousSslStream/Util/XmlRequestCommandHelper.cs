@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using Serialization;
 using System.Xml.Linq;
+using Trader.Common;
 
 namespace Trader.Server.Util
 {

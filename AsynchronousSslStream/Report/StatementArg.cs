@@ -13,7 +13,7 @@ public class StatementArg : HttpContextHolder
     private string _Rdlc;    
     private AsyncResult _AsyncResult;
 
-    public StatementArg(int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc, AsyncResult asyncResult, Guid session)
+    public StatementArg(int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc, AsyncResult asyncResult, long session)
         : base(session)
     {
         this._StatementReportType = statementReportType;

@@ -1,7 +1,6 @@
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Setting\Script\setting.lua
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Trader.Server.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Trader.Server.pdb
-D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\AsyncSslServer.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Chart.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\CommonUtil.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Easychart.Finance.dll
@@ -16,7 +15,6 @@ D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSsl
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Trader.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Trader.Helper.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Ionic.Zip.dll
-D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\AsyncSslServer.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\iExchange3Promotion.Mobile.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Serialization.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Trader.Common.pdb

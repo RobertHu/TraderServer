@@ -11,7 +11,7 @@ namespace Trader.Server
     {
         private ResouceManager() { }
         public static readonly ResouceManager Default = new ResouceManager();
-        public void ReleaseResource(Guid session)
+        public void ReleaseResource(long session)
         {
             var traderState = SessionManager.Default.GetTradingConsoleState(session);
             if (traderState != null && traderState.QuotationFilterSign != null)

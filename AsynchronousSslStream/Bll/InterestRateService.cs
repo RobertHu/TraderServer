@@ -28,7 +28,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public static XElement GetInterestRate2(Guid session, Guid interestRateId)
+        public static XElement GetInterestRate2(long session, Guid interestRateId)
         {
             try
             {

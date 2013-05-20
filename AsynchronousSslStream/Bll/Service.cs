@@ -88,7 +88,7 @@ namespace Trader.Server.Bll
 
       
 
-        public void Complain(Guid  session,string loginName, string complaint)
+        public void Complain(long  session,string loginName, string complaint)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace Trader.Server.Bll
 
 
 
-        private DataSet GetTickDatas(Guid  session,Guid instrumentId, DateTime dateTime, int minutes)
+        private DataSet GetTickDatas(long  session,Guid instrumentId, DateTime dateTime, int minutes)
         {
             TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
             return this.GetTickDatas(instrumentId, dateTime, minutes, state, Application.Default.TradingConsoleServer);
@@ -160,7 +160,7 @@ namespace Trader.Server.Bll
      
 
         //Use in TickByTick Chart
-        public DataSet GetTickByTickHistoryDatas(Guid  session,Guid instrumentId)
+        public DataSet GetTickByTickHistoryDatas(long  session,Guid instrumentId)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace Trader.Server.Bll
 
 
 
-        public Guid AsyncGetTickByTickHistoryData(Guid session, Guid instrumentId)
+        public Guid AsyncGetTickByTickHistoryData(long session, Guid instrumentId)
         {
             try
             {
@@ -208,7 +208,7 @@ namespace Trader.Server.Bll
             return Guid.Empty;
         }
 
-        public Guid AsyncGetTickByTickHistoryData2(Guid session,Guid instrumentId, DateTime from, DateTime to)
+        public Guid AsyncGetTickByTickHistoryData2(long session,Guid instrumentId, DateTime from, DateTime to)
         {
             try
             {
@@ -237,7 +237,7 @@ namespace Trader.Server.Bll
 
     
 
-        public void SaveIsCalculateFloat(Guid  session,bool isCalculateFloat)
+        public void SaveIsCalculateFloat(long  session,bool isCalculateFloat)
         {
             try
             {
@@ -250,7 +250,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public XElement OrderQuery(Guid  session,Guid customerId, string accountId, string instrumentId, int lastDays)
+        public XElement OrderQuery(long  session,Guid customerId, string accountId, string instrumentId, int lastDays)
         {
             try
             {
@@ -274,7 +274,7 @@ namespace Trader.Server.Bll
 
       
 
-        public string[] Get99BillBanks(Guid  session)
+        public string[] Get99BillBanks(long  session)
         {
             try
             {
@@ -303,7 +303,7 @@ namespace Trader.Server.Bll
 
    
 
-        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState2(Guid  session,Guid customerID)
+        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState2(long  session,Guid customerID)
         {
             try
             {
@@ -316,7 +316,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState(Guid session, Guid customerID)
+        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState(long session, Guid customerID)
         {
             try
             {
@@ -330,7 +330,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        private DataSet InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(Guid session,Guid customerID)
+        private DataSet InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(long session,Guid customerID)
         {
             DataSet dataSet = Application.Default.TradingConsoleServer.GetQuotePolicyDetails(customerID);
             TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
@@ -352,7 +352,7 @@ namespace Trader.Server.Bll
                 string.Format("{0}, {1}, firstSequence = {2}, lastSequence = {3}", userId, resultOfGetCommand ? "GetCommands" : "GetCommands2", firstSequence, lastSequence), EventLogEntryType.Information);
         }
 
-        public XElement Quote(Guid session,string instrumentID, double quoteLot, int BSStatus)
+        public XElement Quote(long session,string instrumentID, double quoteLot, int BSStatus)
         {
             try
             {
@@ -369,7 +369,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public XElement Quote2(Guid session, string instrumentID, double buyQuoteLot, double sellQuoteLot, int tick)
+        public XElement Quote2(long session, string instrumentID, double buyQuoteLot, double sellQuoteLot, int tick)
         {
             try
             {
@@ -386,7 +386,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public void CancelQuote(Guid session,string instrumentID, double buyQuoteLot, double sellQuoteLot)
+        public void CancelQuote(long session,string instrumentID, double buyQuoteLot, double sellQuoteLot)
         {
             try
             {
@@ -399,7 +399,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public XElement   CancelLMTOrder(Guid session,string transactionID)
+        public XElement   CancelLMTOrder(long session,string transactionID)
         {
             try
             {
@@ -415,7 +415,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public bool UpdateAccountLock(Guid session,string agentAccountID, string[][] arrayAccountLock)
+        public bool UpdateAccountLock(long session,string agentAccountID, string[][] arrayAccountLock)
         {
             try
             {
@@ -475,7 +475,7 @@ namespace Trader.Server.Bll
 
    
 
-        public DataSet GetInstruments(Guid session,ArrayList instrumentIDs)
+        public DataSet GetInstruments(long session,ArrayList instrumentIDs)
         {
             try
             {
@@ -493,7 +493,7 @@ namespace Trader.Server.Bll
 
 
 
-        public XElement DeleteMessage(Guid session, Guid id)
+        public XElement DeleteMessage(long session, Guid id)
         {
             try
             {
@@ -528,7 +528,7 @@ namespace Trader.Server.Bll
 
 
 
-        public DataSet GetDealingPolicyDetails(Guid session)
+        public DataSet GetDealingPolicyDetails(long session)
         {
             try
             {
@@ -571,7 +571,7 @@ namespace Trader.Server.Bll
 
 
 
-        public void NotifyCustomerExecuteOrderForJava(Guid session, string[][] arrayNotifyCustomerExecuteOrder, string companyCode, string version)
+        public void NotifyCustomerExecuteOrderForJava(long session, string[][] arrayNotifyCustomerExecuteOrder, string companyCode, string version)
         {
             try
             {
@@ -619,7 +619,7 @@ namespace Trader.Server.Bll
         }
 
         //no use
-        public XmlNode GetParameterForJava(Guid  session,string companyCode, string version)
+        public XmlNode GetParameterForJava(long  session,string companyCode, string version)
         {
             string physicalPath = SettingManager.Default.PhysicPath+"\\" + companyCode + "\\" + version + "\\";
 
@@ -712,7 +712,7 @@ namespace Trader.Server.Bll
         }
         */
 
-        public bool UpdateSystemParameters(Guid session, string parameters, string objectID)
+        public bool UpdateSystemParameters(long session, string parameters, string objectID)
         {
             try
             {
@@ -741,7 +741,7 @@ namespace Trader.Server.Bll
 
 
 
-        public DataSet GetNewsContents(Guid session, string newsID)
+        public DataSet GetNewsContents(long session, string newsID)
         {
             try
             {
@@ -768,7 +768,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        public DataSet GetInterestRate2(Guid session,Guid interestRateId)
+        public DataSet GetInterestRate2(long session,Guid interestRateId)
         {
             try
             {
@@ -818,7 +818,7 @@ namespace Trader.Server.Bll
             return doc;
         }
 
-        public void SaveLog(Guid session,string logCode, DateTime timestamp, string action)
+        public void SaveLog(long session,string logCode, DateTime timestamp, string action)
         {
             try
             {
@@ -835,7 +835,7 @@ namespace Trader.Server.Bll
 
 
 
-        public void SaveLogForWeb(Guid session, string logCode, string action, string transactionId)
+        public void SaveLogForWeb(long session, string logCode, string action, string transactionId)
         {
             try
             {
@@ -856,7 +856,7 @@ namespace Trader.Server.Bll
      
 
 
-        public XElement  Apply(Guid session,Guid id, string accountBankApprovedId, string accountId, string countryId, string bankId, string bankName,
+        public XElement  Apply(long session,Guid id, string accountBankApprovedId, string accountId, string countryId, string bankId, string bankName,
             string accountBankNo, string accountBankType,//#00;银行卡|#01;存折
             string accountOpener, string accountBankProp, Guid accountBankBCId, string accountBankBCName,
             string idType,//#0;身份证|#1;户口簿|#2;护照|#3;军官证|#4;士兵证|#5;港澳居民来往内地通行证|#6;台湾同胞来往内地通行证|#7;临时身份证|#8;外国人居留证|#9;警官证|#x;其他证件

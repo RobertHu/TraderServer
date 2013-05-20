@@ -17,7 +17,7 @@ namespace Trader.Server.Bll
         private InstrumentManager() { }
         public static readonly InstrumentManager Default = new InstrumentManager();
 
-        public XElement GetInstrumentForSetting(Guid session)
+        public XElement GetInstrumentForSetting(long session)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XElement UpdateInstrumentSetting(Guid session, string[] instrumentIDs)
+        public XElement UpdateInstrumentSetting(long session, string[] instrumentIDs)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        private DataSet UpdateInstrumentSetting(Guid session, Token token, string[] instrumentIDs)
+        private DataSet UpdateInstrumentSetting(long session, Token token, string[] instrumentIDs)
         {
             DataSet dataSet = null;
             dataSet = Application.Default.TradingConsoleServer.GetUpdateInstrumentSetting(token, Application.Default.StateServer, instrumentIDs);

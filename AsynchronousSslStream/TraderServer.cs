@@ -8,11 +8,12 @@ using System.Threading;
 using log4net;
 using System.Configuration;
 using Trader.Helper;
-using AsyncSslServer;
 using Trader.Server.Service;
 using Trader.Server.Setting;
 using Trader.Server.Bll;
 using Trader.Server.Util;
+using Trader.Common;
+using Trader.Server.Ssl;
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Trader.Server 
 {
@@ -76,14 +77,13 @@ namespace Trader.Server
             try
             {
                 SslStream sslStream = args.SecureStream;
-                Guid session = Guid.NewGuid();
+                long sessionMappingID = SessionMapping.Get();
                 var receiveAgent = new ReceiveManager.ReceiveAgent(ClientRequestHelper.Process);
-                var client = new Communication.Client(sslStream, session);
+                var client = new Trader.Helper.Communication.Client(sslStream, sessionMappingID, ReceiveCenter.Default);
                 var iClient = client as Trader.Helper.Common.ICommunicationAgent;
-                iClient.DataArrived += ReceiveCenter.Default.DataArrivedHandler;
                 iClient.Closed += AgentController.Default.SenderClosedEventHandle;
                 var iReceiver = receiveAgent as Trader.Helper.Common.IReceiveAgent;
-                AgentController.Default.Add(session, receiveAgent, client);
+                AgentController.Default.Add(sessionMappingID, receiveAgent, client);
             }
             catch (Exception ex)
             {

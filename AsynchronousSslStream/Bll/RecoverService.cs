@@ -14,7 +14,7 @@ namespace Trader.Server.Bll
     public static class RecoverService
     {
         private static ILog _Logger = LogManager.GetLogger(typeof(RecoverService));
-        public static XElement Recover(Guid originSession,Guid currentSession)
+        public static XElement Recover(long originSession,long currentSession)
         {
             XElement result = XmlResultHelper.ErrorResult;
             try

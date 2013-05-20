@@ -1,78 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading;
 namespace Trader.Server._4BitCompress
 {
-    internal class GuidMapping
+    public class GuidMapping
     {
-        internal static GuidMapping InstrumentIdMapping = new GuidMapping(256);
 
-        private object _Lock = new object();
-        private int _NextSequence = 0;
-        private Guid[] _Guids;
-        private Dictionary<Guid, int> _Sequenes = new Dictionary<Guid, int>();
+        private static ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
+        private static int _NextSequence = 0;
+        private static Dictionary<Guid, int> _Sequenes = new Dictionary<Guid, int>();
 
-        static GuidMapping()
+        public static int Add(Guid id)
         {
-            QuotationBase.InstrumentIdToSequence = delegate(Guid id)
+            _ReadWriteLock.EnterWriteLock();
+            try
             {
-                return GuidMapping.InstrumentIdMapping.AddOrGetExisting(id);
-            };
-        }
-
-        private GuidMapping(int maxCapacity)
-        {
-            this._Guids = new Guid[maxCapacity];
-        }
-
-        internal int AddOrGetExisting(Guid id)
-        {
-            lock (this._Lock)
-            {
-                int sequence = this._NextSequence;
-                if (this._Sequenes.TryGetValue(id, out sequence))
+                int result;
+                if (_Sequenes.ContainsKey(id))
                 {
-                    return sequence;
+                    result = _Sequenes[id];
                 }
                 else
                 {
-                    this._Guids[this._NextSequence] = id;
-                    this._Sequenes.Add(id, this._NextSequence);
-                    return this._NextSequence++;
+                    _NextSequence++;
+                    _Sequenes.Add(id, _NextSequence);
+                    result = _NextSequence;
                 }
+                return result;
+            }
+            finally
+            {
+                _ReadWriteLock.ExitWriteLock();
             }
         }
 
-        internal void Clear()
+        public static int Get(Guid id)
         {
-            lock (this._Lock)
+            _ReadWriteLock.EnterReadLock();
+            try
             {
-                this._Sequenes.Clear();
-                this._NextSequence = 0;
-            }
-        }
-
-        internal bool TryGetSequence(Guid id, out int sequence)
-        {
-            lock (this._Lock)
-            {
-                return this._Sequenes.TryGetValue(id, out sequence);
-            }
-        }
-
-        internal bool TryGetGuid(int sequence, out Guid? id)
-        {
-            lock (this._Lock)
-            {
-                id = null;
-                if (sequence >= 0 && sequence < this._Guids.Length)
+                int result = -1;
+                if (_Sequenes.ContainsKey(id))
                 {
-                    id = this._Guids[sequence];
+                    result = _Sequenes[id];
                 }
-
-                return id != null;
+                return result;
+            }
+            finally
+            {
+                _ReadWriteLock.ExitReadLock();
             }
         }
+
+
+
+       
+
+        public void Clear()
+        {
+            _ReadWriteLock.EnterWriteLock();
+            try
+            {
+                _Sequenes.Clear();
+                _NextSequence = 0;
+            }
+            finally
+            {
+                _ReadWriteLock.ExitWriteLock();
+            }
+        }
+
     }
 }

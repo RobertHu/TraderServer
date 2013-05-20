@@ -63,7 +63,7 @@ namespace Trader.Server
                     break;
                 }
                 this._Event.WaitOne();
-                while (this._Queue.Count != 0)
+                while (this._Queue.Count!=0)
                 {
                     if (this._IsStopped)
                     {

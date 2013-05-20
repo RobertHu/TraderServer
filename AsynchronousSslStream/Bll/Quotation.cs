@@ -10,6 +10,7 @@ using Serialization;
 using log4net;
 using Trader.Server._4BitCompress;
 using Mobile = iExchange3Promotion.Mobile;
+using Trader.Common;
 
 namespace Trader.Server.Bll
 {
@@ -23,20 +24,20 @@ namespace Trader.Server.Bll
             this._Command = command;
         }
 
-        public Tuple<bool,byte[]> ToBytes(Token token, TraderState state)
+        public byte[] ToBytes(Token token, TraderState state,out bool isQuotation)
         {
             byte[] result = null;
-            bool isQuotation =false;
+            isQuotation =false;
             try
             {
                 if (state.QuotationFilterSign == null)
                 {
-                    return Tuple.Create(false,result);
+                    return result;
                 }
-                isQuotation = IsQuotationCommand();
+                isQuotation = this._Command is QuotationCommand;
                 if (!isQuotation)
                 {
-                    return Tuple.Create(isQuotation, GetDataBytesInUtf8Format(token, state));
+                    return GetDataBytesInUtf8Format(token, state);
                 }
                 if (token.AppType == AppType.Mobile)
                 {
@@ -52,7 +53,7 @@ namespace Trader.Server.Bll
                 _Logger.Error(ex);
                 result = null;
             }
-            return Tuple.Create(isQuotation, result);
+            return result;
         }
 
 
@@ -63,47 +64,13 @@ namespace Trader.Server.Bll
             if (result == null)
             {
                 QuotationCommand command = (QuotationCommand)this._Command;
-                var target = ConvertQuotation(command,state);
-                result = target.DataInBytes.Value;
+                Quotation4Bit quotation = new Quotation4Bit(command.OverridedQs, state);
+                quotation.Sequence = command.Sequence;
+                result = quotation.GetData();
                 CacheQuotationCommon(token.AppType, state.SignMapping, result);
             }
             return result;
         }
-
-        private Quotation4Bit ConvertQuotation(QuotationCommand quotationCommand,TraderState state)
-        {
-            var overridedQuotationList = new List<_4BitCompress.OverridedQuotation>();
-            for (int index = 0; index < quotationCommand.OverridedQs.Length; index++)
-            {
-                var originOverridedQuotation = quotationCommand.OverridedQs[index];
-                if (!state.Instruments.ContainsKey(originOverridedQuotation.InstrumentID))
-                {
-                    continue;
-                }
-                if (originOverridedQuotation.QuotePolicyID != (Guid)state.Instruments[originOverridedQuotation.InstrumentID])
-                {
-                    continue;
-                }
-                Trader.Server._4BitCompress.OverridedQuotation overridedQuotation = new Trader.Server._4BitCompress.OverridedQuotation();
-                overridedQuotationList.Add(overridedQuotation);
-                iExchange.Common.OverridedQuotation overridedQ = quotationCommand.OverridedQs[index];
-                overridedQuotation.InstrumentId = overridedQ.InstrumentID;
-                overridedQuotation.InstrumentSequence = GuidMapping.InstrumentIdMapping.AddOrGetExisting(overridedQuotation.InstrumentId);
-                overridedQuotation.QuotePolicyId = overridedQ.QuotePolicyID;
-                overridedQuotation.Timestamp = new DateTime(overridedQ.Timestamp.Ticks, DateTimeKind.Utc);
-                overridedQuotation.Ask = overridedQ.Ask;
-                overridedQuotation.Bid = overridedQ.Bid;
-                overridedQuotation.High = overridedQ.High;
-                overridedQuotation.Low = overridedQ.Low;
-                overridedQuotation.TotalVolume = overridedQ.TotalVolume;
-                overridedQuotation.Volume = overridedQ.Volume;
-            }
-            Quotation4Bit quotation = new Quotation4Bit();
-            quotation.Sequence = quotationCommand.Sequence;
-            quotation.OverridedQuotations =overridedQuotationList.ToArray() ;
-            return quotation;
-        }
-
 
 
 
@@ -148,18 +115,6 @@ namespace Trader.Server.Bll
             var node = ConvertCommand(token, state);
             return node == null ? null : Constants.ContentEncoding.GetBytes(node.OuterXml);
         }
-
-        private bool IsQuotationCommand()
-        {
-            bool isQuotation = false;
-
-            if (this._Command is QuotationCommand)
-            {
-                isQuotation = true;
-            }
-            return isQuotation;
-        }
-
 
         private XmlNode ConvertCommand( Token token, State state)
         {
