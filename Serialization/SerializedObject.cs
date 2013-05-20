@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Trader.Common;
 
 namespace Serialization
 {
@@ -13,7 +14,7 @@ namespace Serialization
         public SerializedObject(byte[] price) : this(true, null, price,string.Empty) { }
         public SerializedObject(bool isPrice, byte[] price) : this(isPrice, null, price,string.Empty) { }
 
-        public SerializedObject(bool isPrice,Guid? session,byte[] price,string clientInvokeID)
+        public SerializedObject(bool isPrice,long? session,byte[] price,string clientInvokeID)
         {
             this.IsPrice = isPrice;
             this.Session = session;
@@ -25,34 +26,33 @@ namespace Serialization
         public SerializedObject(byte[] contentInBytes, string clientInvokeId) : this(contentInBytes: contentInBytes, clientInvokeId: clientInvokeId,session:null) { }
 
 
-        public SerializedObject(byte[] contentInBytes = null, string clientInvokeId = "", Guid? session = null, XElement content = null, bool isPrice = false)
+        public SerializedObject(byte[] contentInBytes = null, string clientInvokeId = "", long? session = null, XElement content = null, bool isPrice = false)
         {
             this.ContentInByte = contentInBytes;
             this.ClientInvokeID = clientInvokeId;
-            this.Session = session ?? Guid.Empty;
+            this.Session = session;
             this.Content = content;
             this.IsPrice = isPrice;
         }
         protected SerializedObject() { }
-        public static SerializedObject Create(Guid? session, bool isKeepAlive, byte[] keepAlivePacket)
+        public static SerializedObject Create(long? session, bool isKeepAlive, byte[] keepAlivePacket)
         {
             SerializedObject target = new SerializedObject();
-            target.Session = session;
             target.IsKeepAlive = isKeepAlive;
             target.KeepAlivePacket = keepAlivePacket;
+            target.Session = session;
             return target;
         }
-       
-        public Guid? Session { get;  set; }
         public bool IsPrice { get; set; }
         public byte[] Price { get; set; }
         public XElement Content { get;  set; }
         public byte[] ContentInByte { get; set; }
         public string ClientInvokeID { get; private set; }
-        public Guid? CurrentSession { get; set; }
+        public long? CurrentSession { get; set; }
         public bool IsKeepAlive { get; private set; }
         public bool IsKeepAliveSuccess { get;set; }
         public byte[] KeepAlivePacket { get; private set; }
+        public long? Session { get; set; }
 
     }
 }

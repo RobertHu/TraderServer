@@ -5,6 +5,7 @@ using System.Text;
 using CommonUtil;
 using System.Xml;
 using System.Xml.Linq;
+using Trader.Common;
 namespace Serialization
 {
     public class PacketParser
@@ -31,8 +32,7 @@ namespace Serialization
                 {
                     bool isKeepAlive = (packet[0] & KeepAliveConstants.IsKeepAliveMask) == KeepAliveConstants.IsKeepAliveMask ? true : false;
                     string session = Constants.SessionEncoding.GetString(packet, Constants.HeadCount, sessionLength);
-                    Guid sessionGuid2;
-                    Guid? sessionGuid = Guid.TryParse(session, out sessionGuid2) ? sessionGuid2 :new System.Nullable<Guid>();
+                    long? sessionGuid = SessionMapping.Get(session);
                     if (!isKeepAlive)
                     {
                         string content = Constants.ContentEncoding.GetString(contentBytes);

@@ -55,9 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
     <Compile Include="PacketBuilder.cs" />
     <Compile Include="PacketParser.cs" />
+    <Compile Include="PriceEncoding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializedObject.cs" />
     <Compile Include="SerializeManager.cs" />
@@ -66,6 +66,12 @@
   <ItemGroup>
     <Content Include="Lib\CommonUtil.dll" />
     <Content Include="Lib\Ionic.Zip.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TraderCommon\Trader.Common.csproj">
+      <Project>{6D04B66A-FA81-46BE-8779-C8C5CB92BAF4}</Project>
+      <Name>Trader.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

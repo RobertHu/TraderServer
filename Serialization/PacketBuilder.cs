@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using CommonUtil;
 using System.Xml.Linq;
+using Trader.Common;
 namespace Serialization
 {
     public class PacketBuilder
@@ -12,44 +13,46 @@ namespace Serialization
 
         public static byte[] Build(SerializedObject target)
         {
-            byte priceByte = target.IsPrice? KeepAliveConstants.IsPricevValue : (byte)0;
-            byte sessionLengthByte= 0;
+            byte priceByte = target.IsPrice ? KeepAliveConstants.IsPricevValue : (byte)0;
+            byte sessionLengthByte = 0;
             byte[] contentBytes;
             byte[] sessionBytes = null;
             if (target.IsPrice)
             {
                 contentBytes = target.Price;
+                byte[] pricePacket = new byte[Constants.HeadCount + target.Price.Length];
+                byte[] contentLBytes = contentBytes.Length.ToCustomerBytes();
+                AddHeaderToPacket(pricePacket, priceByte, sessionLengthByte, contentLBytes);
+                AddContentToPacket(pricePacket, target.Price, Constants.HeadCount);
+                return pricePacket;
             }
-            else if (target.IsKeepAlive)
+            if (target.IsKeepAlive)
             {
                 target.KeepAlivePacket[0] = target.IsKeepAliveSuccess ? KeepAliveConstants.IsKeepAliveAndSuccessValue : KeepAliveConstants.IsKeepAliveAndFailedValue;
                 return target.KeepAlivePacket;
             }
+            if (target.ContentInByte != null && target.ContentInByte.Length > 0)
+            {
+                contentBytes = target.ContentInByte;
+            }
             else
             {
-                if (target.ContentInByte != null && target.ContentInByte.Length > 0)
+                if (!string.IsNullOrEmpty(target.ClientInvokeID))
                 {
-                    contentBytes = target.ContentInByte;
+                    AppendClientInvokeIdToContentNode(target.Content, target.ClientInvokeID);
                 }
-                else
-                {
-                    if (!string.IsNullOrEmpty(target.ClientInvokeID))
-                    {
-                        AppendClientInvokeIdToContentNode(target.Content, target.ClientInvokeID);
-                    }
-                    contentBytes = GetContentBytes(target.Content.ToString());
-                }
-                sessionBytes = GetSessionBytes(target.Session.ToString());
-                sessionLengthByte = (byte)sessionBytes.Length;
-                //contentBytes = ZlibHelper.ZibCompress(contentBytes);
+                contentBytes = GetContentBytes(target.Content.ToString());
             }
+            sessionBytes = GetSessionBytes(target.Session.ToString());
+            sessionLengthByte = (byte)sessionBytes.Length;
             byte[] contentLengthBytes = contentBytes.Length.ToCustomerBytes();
             int packetLength = Constants.HeadCount + sessionLengthByte + contentBytes.Length;
             byte[] packet = new byte[packetLength];
             AddHeaderToPacket(packet, priceByte, sessionLengthByte, contentLengthBytes);
-            AddSessionToPacket(packet, sessionBytes,Constants.HeadCount);
+            AddSessionToPacket(packet, sessionBytes, Constants.HeadCount);
             AddContentToPacket(packet, contentBytes, Constants.HeadCount + sessionLengthByte);
             return packet;
+
         }
 
 
