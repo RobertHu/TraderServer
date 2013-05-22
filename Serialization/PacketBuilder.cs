@@ -13,38 +13,19 @@ namespace Serialization
 
         public static byte[] Build(SerializedObject target)
         {
-            byte priceByte = target.IsPrice ? KeepAliveConstants.IsPricevValue : (byte)0;
-            byte sessionLengthByte = 0;
-            byte[] contentBytes;
-            byte[] sessionBytes = null;
-            if (target.IsPrice)
-            {
-                contentBytes = target.Price;
-                byte[] pricePacket = new byte[Constants.HeadCount + target.Price.Length];
-                byte[] contentLBytes = contentBytes.Length.ToCustomerBytes();
-                AddHeaderToPacket(pricePacket, priceByte, sessionLengthByte, contentLBytes);
-                AddContentToPacket(pricePacket, target.Price, Constants.HeadCount);
-                return pricePacket;
-            }
+            byte priceByte = 0;
             if (target.IsKeepAlive)
             {
                 target.KeepAlivePacket[0] = target.IsKeepAliveSuccess ? KeepAliveConstants.IsKeepAliveAndSuccessValue : KeepAliveConstants.IsKeepAliveAndFailedValue;
                 return target.KeepAlivePacket;
             }
-            if (target.ContentInByte != null && target.ContentInByte.Length > 0)
+            if (!string.IsNullOrEmpty(target.ClientInvokeID))
             {
-                contentBytes = target.ContentInByte;
+                AppendClientInvokeIdToContentNode(target.Content, target.ClientInvokeID);
             }
-            else
-            {
-                if (!string.IsNullOrEmpty(target.ClientInvokeID))
-                {
-                    AppendClientInvokeIdToContentNode(target.Content, target.ClientInvokeID);
-                }
-                contentBytes = GetContentBytes(target.Content.ToString());
-            }
-            sessionBytes = GetSessionBytes(target.Session.ToString());
-            sessionLengthByte = (byte)sessionBytes.Length;
+            byte[] contentBytes = GetContentBytes(target.Content.ToString());
+            byte[] sessionBytes = GetSessionBytes(target.Session.ToString());
+            byte sessionLengthByte = (byte)sessionBytes.Length;
             byte[] contentLengthBytes = contentBytes.Length.ToCustomerBytes();
             int packetLength = Constants.HeadCount + sessionLengthByte + contentBytes.Length;
             byte[] packet = new byte[packetLength];
@@ -52,10 +33,28 @@ namespace Serialization
             AddSessionToPacket(packet, sessionBytes, Constants.HeadCount);
             AddContentToPacket(packet, contentBytes, Constants.HeadCount + sessionLengthByte);
             return packet;
+        }
 
+        public static byte[] BuildPrice(byte[] price)
+        {
+            return BuildForContentBytesCommon(price, true);
+        }
+
+        public static byte[] BuildForContentInBytesCommand(byte[] content)
+        {
+            return BuildForContentBytesCommon(content, false);
         }
 
 
+        private static byte[] BuildForContentBytesCommon(byte[] content, bool isPrice)
+        {
+            byte[] packet = new byte[Constants.HeadCount + content.Length];
+            byte[] contentLengthBytes = CustomerIntCache.Get(content.Length);
+            byte priceByte = isPrice ? KeepAliveConstants.IsPricevValue : (byte)0; 
+            AddHeaderToPacket(packet, priceByte, 0, contentLengthBytes);
+            AddContentToPacket(packet, content, Constants.HeadCount);
+            return packet;
+        }
 
         private static void AppendClientInvokeIdToContentNode(XElement contentNode,string invokeID)
         {

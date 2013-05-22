@@ -9,11 +9,13 @@ open System.Collections.Concurrent
 
 type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as this =
     static let logger = LogManager.GetLogger(typeof<Client>)
-    let buff = Array.zeroCreate 512
+    let mutable buff = Array.zeroCreate 512
     let headerBuff = Array.zeroCreate Constants.HeadCount
     let stream = stream
     let session = ref session
     let receiver = receiveCenter
+    let mutable readedHeadCount = 0
+    let mutable readContentCount = 0
     
     [<VolatileField>]
     let  mutable isClosed = false
@@ -33,35 +35,33 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
 
         )
 
+
     let read() = async{
-        let readedHeadCount = ref 0
-        let readContentCount = ref 0 
-        let tempBuf= ref null
         while not isClosed do
             try
                 let! count = stream.AsyncRead(headerBuff)
-                readedHeadCount := count
+                readedHeadCount <- count
                 match count = Constants.HeadCount with
                 |false -> 
-                    while !readedHeadCount <> Constants.HeadCount do
-                        let! c = stream.AsyncRead(headerBuff,!readedHeadCount,(Constants.HeadCount - !readedHeadCount))
+                    while readedHeadCount <> Constants.HeadCount do
+                        let! c = stream.AsyncRead(headerBuff,readedHeadCount,(Constants.HeadCount - readedHeadCount))
                         match c > 0 with
                         |false -> this.Close()
-                        |true -> readedHeadCount := !readedHeadCount + c
+                        |true -> readedHeadCount <- readedHeadCount + c
                 | _  -> ()
                 let packetLength = Constants.GetPacketLength(headerBuff,0)
                 let contentLength = packetLength - Constants.HeadCount
                 match contentLength <= buff.Length with
                 | false -> 
-                    tempBuf := Array.zeroCreate contentLength
-                | true -> tempBuf := buff
-                readContentCount := 0
-                while !readContentCount <> contentLength do
-                    let! c = stream.AsyncRead(!tempBuf,!readContentCount,(contentLength - !readContentCount))
-                    readContentCount := !readContentCount + c
+                    buff <- Array.zeroCreate contentLength
+                | true -> ()
+                readContentCount <- 0
+                while readContentCount <> contentLength do
+                    let! c = stream.AsyncRead(buff,readContentCount,(contentLength - readContentCount))
+                    readContentCount <- readContentCount + c
                 let packet = Array.zeroCreate packetLength
                 System.Buffer.BlockCopy(headerBuff,0,packet,0,Constants.HeadCount)
-                System.Buffer.BlockCopy(!tempBuf,0,packet,Constants.HeadCount,contentLength)
+                System.Buffer.BlockCopy(buff,0,packet,Constants.HeadCount,contentLength)
                 receiver.Send(!session,packet)
             with
             |x -> 
@@ -71,12 +71,12 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
         Async.Start(read())
         agent.Start()
 
-
     interface ICommunicationAgent with
         member this.Send(msg: byte[])  = 
             match isClosed with
             |true -> ()
             |false -> agent.Post(msg)
+
         member this.UpdateSession(newsession) =
              session :=  newsession
         [<CLIEvent>]

@@ -24,13 +24,15 @@ namespace Trader.Server.Bll
             this._Command = command;
         }
 
+        public Command Command { get { return _Command; } }
+
         public byte[] ToBytes(Token token, TraderState state,out bool isQuotation)
         {
             byte[] result = null;
             isQuotation =false;
             try
             {
-                if (state.QuotationFilterSign == null)
+                if (state!=null && state.QuotationFilterSign == null &&!string.IsNullOrEmpty(state.SessionId))
                 {
                     return result;
                 }
@@ -45,7 +47,7 @@ namespace Trader.Server.Bll
                 }
                 else if (token.AppType == AppType.TradingConsole)
                 {
-                    result = GetQuotationWhenJavaTrader(token, state);
+                    result = GetQuotationForJavaTrader(token, state);
                 }
             }
             catch(Exception ex)
@@ -57,21 +59,19 @@ namespace Trader.Server.Bll
         }
 
 
-        private byte[] GetQuotationWhenJavaTrader(Token token, TraderState state)
+        private byte[] GetQuotationForJavaTrader(Token token, TraderState state)
         {
             byte[] result = null;
             result = GetQuotationCommon(token, state);
             if (result == null)
             {
                 QuotationCommand command = (QuotationCommand)this._Command;
-                Quotation4Bit quotation = new Quotation4Bit(command.OverridedQs, state);
-                quotation.Sequence = command.Sequence;
+                var quotation = Quotation4Bit.TryAddQuotation(command.OverridedQs, state,command.Sequence);
                 result = quotation.GetData();
                 CacheQuotationCommon(token.AppType, state.SignMapping, result);
             }
             return result;
         }
-
 
 
         private byte[] GetQuotationWhenMobile(Token token, TraderState state)
@@ -113,39 +113,42 @@ namespace Trader.Server.Bll
         private byte[] GetDataBytesInUtf8Format(Token token, TraderState state)
         {
             var node = ConvertCommand(token, state);
-            return node == null ? null : Constants.ContentEncoding.GetBytes(node.OuterXml);
+            if (node == null)
+            {
+                return null;
+            }
+            string xml = node.OuterXml;
+            if (string.IsNullOrEmpty(xml))
+            {
+                return null;
+            }
+            return Constants.ContentEncoding.GetBytes(xml);
         }
 
         private XmlNode ConvertCommand( Token token, State state)
         {
-            if (!(this._Command is QuotationCommand) && token.AppType == AppType.Mobile)
+            if (token != null && token.AppType == AppType.Mobile)
             {
                 return Mobile.Manager.ConvertCommand(token, this._Command);
             }
             else
             {
-                XmlDocument xmlDoc = new XmlDocument();
-                XmlElement commands = xmlDoc.CreateElement("Commands");
-                xmlDoc.AppendChild(commands);
-                this.AppendChild(commands, this._Command, token, state);
-                commands.SetAttribute("FirstSequence", this._Command.Sequence.ToString());
-                commands.SetAttribute("LastSequence", this._Command.Sequence.ToString());
-                return commands;
+                XmlNode commandNode = this._Command.ToXmlNode(token, state);
+                XmlElement commandElement = commandNode as XmlElement;
+                if (commandElement == null)
+                {
+                    return null;
+                }
+                lock (this._Command)
+                {
+                    if (!commandElement.HasAttribute(ResponseConstants.CommandSequence))
+                    {
+                        commandElement.SetAttribute(ResponseConstants.CommandSequence, this._Command.Sequence.ToString());
+                    }
+                  
+                }
+                return commandElement;
             }
         }
-
-
-        private void AppendChild(XmlElement commands, Command command, Token token, State state)
-        {
-            if (command == null) return;
-            XmlNode commandNode = command.ToXmlNode(token, state);
-            if (commandNode != null)
-            {
-                XmlNode commandNode2 = commands.OwnerDocument.ImportNode(commandNode, true);
-                commands.AppendChild(commandNode2);
-            }
-        }
-       
-        
     }
 }

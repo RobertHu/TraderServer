@@ -147,17 +147,11 @@ namespace Trader.Server.Session
 
         public TraderState GetTokenAndState(long session,out Token token)
         {
-            try
-            {
-                token = this._TokenDict[session];
-                var state = this._TradingConsoleStateDict[session];
-                return state;
-            }
-            catch
-            {
-                token = null;
-                return null;
-            }
+            token = null;
+            this._TokenDict.TryGetValue(session, out token);
+            TraderState state = null;
+            this._TradingConsoleStateDict.TryGetValue(session, out state);
+            return state;
         }
     }
 }

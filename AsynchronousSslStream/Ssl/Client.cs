@@ -17,12 +17,13 @@ namespace Trader.Server.Ssl
         private volatile bool _IsClosed = false;
         private ConcurrentQueue<byte[]> _Queue = new ConcurrentQueue<byte[]>();
         private AutoResetEvent _Event = new AutoResetEvent(false);
+        private volatile bool _IsWritten = true;
+        private object _Lock = new object();
         public Client(SslStream stream, long session,IReceiveCenter receiveCenter)
         {
             this._Stream = stream;
             this._Reader = new Reader.ClientReader(stream, session, receiveCenter);
             this._Reader.Start();
-            ThreadPool.QueueUserWorkItem( x=>BeginWrite(),null);
         }
 
         public void Send(byte[] packet)
@@ -32,7 +33,8 @@ namespace Trader.Server.Ssl
                 return;
             }
             this._Queue.Enqueue(packet);
-            this._Event.Set();
+            BeginWrite();
+            //Task.Factory.FromAsync(this._Stream.BeginWrite, this._Stream.EndWrite, packet, 0, packet.Length, null);
         }
 
         public void UpdateSession(long session)
@@ -44,18 +46,13 @@ namespace Trader.Server.Ssl
             try
             {
                 byte[] packet;
-                if (_Queue.TryDequeue(out packet))
+                if (!this._IsWritten)
                 {
-                    Task task = Task.Factory.FromAsync(this._Stream.BeginWrite, this._Stream.EndWrite, packet, 0, packet.Length, null);
-                    task.ContinueWith(t =>
-                        {
-                            BeginWrite();
-                        });
+                    return;
                 }
-                else
+                if (this._Queue.TryDequeue(out packet))
                 {
-                    this._Event.WaitOne();
-                    BeginWrite();
+                    this._Stream.BeginWrite(packet, 0, packet.Length,this.EndWrite , null);
                 }
             }
             catch (Exception ex)
@@ -63,6 +60,13 @@ namespace Trader.Server.Ssl
                 this.Close();
             }
 
+        }
+
+        private void EndWrite(IAsyncResult ar)
+        {
+            this._Stream.EndWrite(ar);
+            this._IsWritten = true;
+            BeginWrite();
         }
 
         private void Close()

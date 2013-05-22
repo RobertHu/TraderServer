@@ -13,6 +13,9 @@ using iExchange.Common;
 using Trader.Common;
 using Serialization;
 using Trader.Server.Ssl;
+using CommunicationAgent = Trader.Helper.Common.ICommunicationAgent;
+using ReceiveAgent = Trader.Helper.Common.IReceiveAgent;
+using Trader.Server._4BitCompress;
 namespace Trader.Server
 {
     public class AgentController
@@ -26,9 +29,13 @@ namespace Trader.Server
         private ConcurrentQueue<Quotation> _Quotations = new ConcurrentQueue<Quotation>();
         private volatile bool _IsDisconnectHandlerStarted = false;
         private volatile bool _IsDisconnectHandlerStopped = false;
-        private AgentController() { }
+        private Quotation _CurrentQuotation;
+        private TraderState _UpdateCommandState = new TraderState(string.Empty);
+        private AgentController() 
+        { 
+        }
 
-        public void Add(long session, Trader.Helper.Common.IReceiveAgent receiver, Trader.Helper.Common.ICommunicationAgent sender)
+        public void Add(long session, ReceiveAgent receiver, CommunicationAgent sender)
         {
             this._Container.TryAdd(session, new ClientRelation(sender, receiver));
         }
@@ -63,9 +70,9 @@ namespace Trader.Server
             }
         }
 
-        public Trader.Helper.Common.ICommunicationAgent GetSender(long session)
+        public CommunicationAgent GetSender(long session)
         {
-            Trader.Helper.Common.ICommunicationAgent result = null;
+            CommunicationAgent result = null;
             ClientRelation relation;
             if (this._Container.TryGetValue(session, out relation))
             {
@@ -75,9 +82,9 @@ namespace Trader.Server
         }
 
 
-        public Trader.Helper.Common.IReceiveAgent GetReceiver(long session)
+        public ReceiveAgent GetReceiver(long session)
         {
-            Trader.Helper.Common.IReceiveAgent result = null;
+            ReceiveAgent result = null;
             ClientRelation relation;
             if (this._Container.TryGetValue(session, out relation))
             {
@@ -154,7 +161,6 @@ namespace Trader.Server
             this._SendQuotationEvent.Set();
         }
 
-
         private void SendQuotation()
         {
             while (true)
@@ -170,17 +176,37 @@ namespace Trader.Server
                     {
                         break;
                     }
-                    Quotation item;
-                    if (this._Quotations.TryDequeue(out item))
+                    if (this._Quotations.TryDequeue(out this._CurrentQuotation))
                     {
                         if (this._Container.Count == 0)
                         {
                             continue;
                         }
-                        Parallel.ForEach(this._Container, p =>
+                        if (this._CurrentQuotation == null)
                         {
-                            SendCommand(item, p.Key, p.Value.Sender);
-                        });
+                            continue;
+                        }
+                        if (this._CurrentQuotation.Command is QuotationCommand)
+                        {
+                            Quotation4Bit.Clear();
+                        }
+                        else if (this._CurrentQuotation.Command is UpdateCommand)
+                        {
+                            bool isQuotation;
+                            
+                            byte[] data = this._CurrentQuotation.ToBytes(null, _UpdateCommandState, out isQuotation);
+                            if (data != null)
+                            {
+                                byte[] packet = SerializeManager.Default.SerializeCommand(data);
+                                foreach (var item in this._Container.Values)
+                                {
+                                    item.Sender.Send(packet);
+                                }
+                            }
+                            continue;
+                        }
+
+                        Parallel.ForEach(this._Container, SendCommand);
                     }
                 }
             }
@@ -193,47 +219,42 @@ namespace Trader.Server
         }
 
 
-        private void SendCommand(Quotation command, long session, Trader.Helper.Common.ICommunicationAgent sendAgent)
+        private void SendCommand(KeyValuePair<long,ClientRelation> p)
         {
-            if (command == null) return;
             Token token;
-            TraderState state = SessionManager.Default.GetTokenAndState(session,out token);
+            TraderState state = SessionManager.Default.GetTokenAndState(p.Key,out token);
             if (token == null || state == null)
             {
                 return;
             }
             bool isQuotation;
-            byte[] quotation;
-            quotation= command.ToBytes(token, state,out isQuotation);
+            byte[] quotation = this._CurrentQuotation.ToBytes(token, state,out isQuotation);
             if (quotation == null)
             {
                 return;
             }
-            SerializedObject job = new SerializedObject();
+            byte[] packet;
             if (token.AppType == AppType.TradingConsole && isQuotation)
             {
-                job.IsPrice = true;
-                job.Price = quotation;
+                packet = SerializeManager.Default.SerializePrice(quotation);
             }
             else
             {
-                job.ContentInByte = quotation;
-                job.Session = session;
+                packet = SerializeManager.Default.SerializeCommand(quotation);
             }
-            byte[] packet = SerializeManager.Default.Serialize(job);
-            sendAgent.Send(packet);
+            p.Value.Sender.Send(packet);
         }
 
     }
 
     public class ClientRelation
     {
-        public ClientRelation( Trader.Helper.Common.ICommunicationAgent sender, Trader.Helper.Common.IReceiveAgent receiver)
+        public ClientRelation( CommunicationAgent sender,ReceiveAgent  receiver)
         {
             this.Receiver=receiver;
             this.Sender=sender;
         }
-        public Trader.Helper.Common.IReceiveAgent Receiver { get; private set; }
-        public Trader.Helper.Common.ICommunicationAgent Sender { get; private set; }
+        public ReceiveAgent Receiver { get; private set; }
+        public CommunicationAgent Sender { get; private set; }
     }
 }

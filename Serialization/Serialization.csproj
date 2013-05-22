@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomerIntCache.cs" />
     <Compile Include="PacketBuilder.cs" />
     <Compile Include="PacketParser.cs" />
     <Compile Include="PriceEncoding.cs" />
