@@ -16,9 +16,10 @@ namespace Trader.Server.Service
         private ILog _Logger = LogManager.GetLogger(typeof(CommandCollectService));
         public void AddCommand(iExchange.Common.Token token, iExchange.Common.Command command)
         {
-            if (command is QuotationCommand)
+
+            var quotation = command as QuotationCommand;
+            if (quotation!=null)
             {
-                var quotation = command as QuotationCommand;
                 QuotationDispatcher.Default.Add(quotation);
             }
             else
@@ -28,12 +29,12 @@ namespace Trader.Server.Service
                 {
                     foreach (var cmd in compositeCommand.Commands)
                     {
-                        CommandManager.Default.AddCommand(token, cmd);
+                        CommandManager.Default.AddCommand(cmd);
                     }
                 }
                 else
                 {
-                    CommandManager.Default.AddCommand(token, command);
+                    CommandManager.Default.AddCommand(command);
                 }
             }
         }

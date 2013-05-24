@@ -80,7 +80,7 @@ namespace Trader.Server.Bll
                 DataSet dataSet = tradingConsoleServer.GetChartData2(chartDataArgument.InstrumentId, quotePolicyId, chartDataArgument.DataCycle, chartDataArgument.From, chartDataArgument.To);
                 AsyncResultManager asyncResultManager = chartDataArgument.AsyncResultManager;
                 asyncResultManager.SetResult(chartDataArgument.AsyncResult, dataSet);
-                CommandManager.Default.AddCommand(chartDataArgument.Token, new AsyncCommand(0, chartDataArgument.AsyncResult));
+                CommandManager.Default.AddCommand(new AsyncCommand(0, chartDataArgument.AsyncResult));
                 //else
                 //{
                 //    string userIdString = string.Empty;
@@ -97,7 +97,7 @@ namespace Trader.Server.Bll
             catch (Exception e)
             {
                 AppDebug.LogEvent("TradingConsole.CreateChartData2", e.ToString(), EventLogEntryType.Error);
-                CommandManager.Default.AddCommand(chartDataArgument.Token, new AsyncCommand(0, chartDataArgument.AsyncResult, true, e));
+                CommandManager.Default.AddCommand( new AsyncCommand(0, chartDataArgument.AsyncResult, true, e));
             }
         }
     }

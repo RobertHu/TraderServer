@@ -16,39 +16,23 @@ namespace Trader.Server.Bll
 {
     public class Quotation
     {
-        private Command  _Command;
         private static ILog _Logger = LogManager.GetLogger(typeof(Quotation));
-        private ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>> _QuotationFilterByAppTypeDict = new ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>>();
-        public Quotation(Command command)
-        {
-            this._Command = command;
-        }
+        private  ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>> _QuotationFilterByAppTypeDict = new ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>>();
+        private object _Lock = new object();
+        private Quotation() { }
+        public static readonly Quotation Default = new Quotation();
 
-        public Command Command { get { return _Command; } }
-
-        public byte[] ToBytes(Token token, TraderState state,out bool isQuotation)
+      
+        public byte[] ToBytesForGeneral(Token token, TraderState state,Command command)
         {
             byte[] result = null;
-            isQuotation =false;
             try
             {
                 if (state!=null && state.QuotationFilterSign == null &&!string.IsNullOrEmpty(state.SessionId))
                 {
                     return result;
                 }
-                isQuotation = this._Command is QuotationCommand;
-                if (!isQuotation)
-                {
-                    return GetDataBytesInUtf8Format(token, state);
-                }
-                if (token.AppType == AppType.Mobile)
-                {
-                    result = GetQuotationWhenMobile(token, state);
-                }
-                else if (token.AppType == AppType.TradingConsole)
-                {
-                    result = GetQuotationForJavaTrader(token, state);
-                }
+                return GetDataBytesInUtf8Format(token, state,command);
             }
             catch(Exception ex)
             {
@@ -59,13 +43,34 @@ namespace Trader.Server.Bll
         }
 
 
-        private byte[] GetQuotationForJavaTrader(Token token, TraderState state)
+        public byte[] ToBytesForQuotation(Token token,TraderState state,QuotationCommand command)
+        {
+            byte[] result = null;
+            try
+            {
+                if (token.AppType == AppType.Mobile)
+                {
+                    result = GetQuotationWhenMobile(token, state, command);
+                }
+                else if (token.AppType == AppType.TradingConsole)
+                {
+                    result = GetQuotationForJavaTrader(token, state,command);
+                }
+            }
+            catch (Exception ex)
+            {
+                _Logger.Error(ex);
+            }
+            return result;
+        }
+
+
+        private byte[] GetQuotationForJavaTrader(Token token, TraderState state,QuotationCommand command)
         {
             byte[] result = null;
             result = GetQuotationCommon(token, state);
             if (result == null)
             {
-                QuotationCommand command = (QuotationCommand)this._Command;
                 var quotation = Quotation4Bit.TryAddQuotation(command.OverridedQs, state,command.Sequence);
                 result = quotation.GetData();
                 CacheQuotationCommon(token.AppType, state.SignMapping, result);
@@ -74,13 +79,13 @@ namespace Trader.Server.Bll
         }
 
 
-        private byte[] GetQuotationWhenMobile(Token token, TraderState state)
+        private byte[] GetQuotationWhenMobile(Token token, TraderState state,QuotationCommand command)
         {
             byte[] result = null;
             result = GetQuotationCommon(token, state);
             if (result == null)
             {
-                result = GetDataBytesInUtf8Format(token, state);
+                result = GetDataBytesInUtf8Format(token, state,command);
                 CacheQuotationCommon(token.AppType, state.SignMapping, result);
             }
 
@@ -110,9 +115,9 @@ namespace Trader.Server.Bll
             return result;
         }
 
-        private byte[] GetDataBytesInUtf8Format(Token token, TraderState state)
+        private byte[] GetDataBytesInUtf8Format(Token token, TraderState state,Command command)
         {
-            var node = ConvertCommand(token, state);
+            var node = ConvertCommand(token, state,command);
             if (node == null)
             {
                 return null;
@@ -125,25 +130,25 @@ namespace Trader.Server.Bll
             return Constants.ContentEncoding.GetBytes(xml);
         }
 
-        private XmlNode ConvertCommand( Token token, State state)
+        private XmlNode ConvertCommand( Token token, State state,Command command)
         {
             if (token != null && token.AppType == AppType.Mobile)
             {
-                return Mobile.Manager.ConvertCommand(token, this._Command);
+                return Mobile.Manager.ConvertCommand(token, command);
             }
             else
             {
-                XmlNode commandNode = this._Command.ToXmlNode(token, state);
+                XmlNode commandNode = command.ToXmlNode(token, state);
                 XmlElement commandElement = commandNode as XmlElement;
                 if (commandElement == null)
                 {
                     return null;
                 }
-                lock (this._Command)
+                lock (_Lock)
                 {
                     if (!commandElement.HasAttribute(ResponseConstants.CommandSequence))
                     {
-                        commandElement.SetAttribute(ResponseConstants.CommandSequence, this._Command.Sequence.ToString());
+                        commandElement.SetAttribute(ResponseConstants.CommandSequence, command.Sequence.ToString());
                     }
                   
                 }

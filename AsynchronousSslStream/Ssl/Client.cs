@@ -15,9 +15,9 @@ namespace Trader.Server.Ssl
         private SslStream _Stream;
         private Reader.ClientReader _Reader;
         private volatile bool _IsClosed = false;
-        private ConcurrentQueue<byte[]> _Queue = new ConcurrentQueue<byte[]>();
-        private AutoResetEvent _Event = new AutoResetEvent(false);
-        private volatile bool _IsWritten = true;
+        private Queue<byte[]> _Queue = new Queue<byte[]>();
+        private volatile bool _IsEndWrote = true;
+        private volatile bool _IsStoped = true;
         private object _Lock = new object();
         public Client(SslStream stream, long session,IReceiveCenter receiveCenter)
         {
@@ -28,13 +28,18 @@ namespace Trader.Server.Ssl
 
         public void Send(byte[] packet)
         {
-            if (this._IsClosed || this._Reader.IsClosed)
+            lock (this._Lock)
             {
-                return;
+                if (this._IsClosed || this._Reader.IsClosed)
+                {
+                    return;
+                }
+                this._Queue.Enqueue(packet);
+                if (this._IsStoped && this._IsEndWrote)
+                {
+                    BeginWrite();
+                }
             }
-            this._Queue.Enqueue(packet);
-            BeginWrite();
-            //Task.Factory.FromAsync(this._Stream.BeginWrite, this._Stream.EndWrite, packet, 0, packet.Length, null);
         }
 
         public void UpdateSession(long session)
@@ -43,21 +48,33 @@ namespace Trader.Server.Ssl
         }
         private void BeginWrite()
         {
-            try
+            lock (this._Lock)
             {
-                byte[] packet;
-                if (!this._IsWritten)
+                try
                 {
-                    return;
+                    if (!this._IsEndWrote)
+                    {
+                        return;
+                    }
+                    if (this._Queue.Count != 0)
+                    {
+                        byte[] packet = this._Queue.Dequeue();
+                        if (this._IsStoped)
+                        {
+                            this._IsStoped = false;
+                        }
+                        this._IsEndWrote = false;
+                        this._Stream.BeginWrite(packet, 0, packet.Length, this.EndWrite, null);
+                    }
+                    else
+                    {
+                        this._IsStoped = true;
+                    }
                 }
-                if (this._Queue.TryDequeue(out packet))
+                catch (Exception ex)
                 {
-                    this._Stream.BeginWrite(packet, 0, packet.Length,this.EndWrite , null);
+                    this.Close();
                 }
-            }
-            catch (Exception ex)
-            {
-                this.Close();
             }
 
         }
@@ -65,7 +82,7 @@ namespace Trader.Server.Ssl
         private void EndWrite(IAsyncResult ar)
         {
             this._Stream.EndWrite(ar);
-            this._IsWritten = true;
+            this._IsEndWrote = true;
             BeginWrite();
         }
 

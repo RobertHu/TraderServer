@@ -23,6 +23,7 @@ namespace Trader.Server.Service
     {
         private CommandQueue _Commands;
         private ILog _Logger = LogManager.GetLogger(typeof(CommandManager));
+        private object _Lock = new object();
         private CommandManager()
         {
             this._Commands= new CommandQueue(new TimeSpan(0, 20, 0));
@@ -41,10 +42,19 @@ namespace Trader.Server.Service
         }
         
 
-        public void AddCommand(Token token,Command command)
+        public void AddCommand(Command command)
         {
-            this._Commands.Add(command);
-            AgentController.Default.AddQuotation(new Quotation(command));
+            lock (this._Lock)
+            {
+                this._Commands.Add(command);
+                AgentController.Default.AddGeneralCommand(command);
+            }
+        }
+
+        public void AddQuotation(QuotationCommand quotation)
+        {
+            this._Commands.Add(quotation);
+            AgentController.Default.AddQuotation(quotation);
         }
 
 

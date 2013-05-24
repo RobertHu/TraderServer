@@ -7,6 +7,7 @@ open log4net
 open Serialization
 open System.Collections.Concurrent
 
+
 type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as this =
     static let logger = LogManager.GetLogger(typeof<Client>)
     let mutable buff = Array.zeroCreate 512
@@ -22,7 +23,7 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
     let closeEvent = new Event<SenderClosedDelegate,SenderClosedEventArgs>()
 
     let agent = new Agent<byte[]>(fun inbox -> 
-            async{
+        async{
                 try
                     while true do
                         let! msg= inbox.Receive() 
@@ -32,7 +33,6 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
                         //logger.Error(x)
                         this.Close()
                 }
-
         )
 
 

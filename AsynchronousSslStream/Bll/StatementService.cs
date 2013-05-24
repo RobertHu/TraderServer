@@ -71,12 +71,12 @@ namespace Trader.Server.Bll
                     byte[] reportContent = PDFHelper.ExportPDF(filepath, dataSet.Tables[0]);
                     AsyncResultManager asyncResultManager = ledgerArgument.AsyncResultManager;
                     asyncResultManager.SetResult(ledgerArgument.AsyncResult, reportContent);
-                    CommandManager.Default.AddCommand(ledgerArgument.Token, new AsyncCommand(0, ledgerArgument.AsyncResult));
+                    CommandManager.Default.AddCommand(new AsyncCommand(0, ledgerArgument.AsyncResult));
                 }
             }
             catch (System.Exception ex)
             {
-                CommandManager.Default.AddCommand(ledgerArgument.Token, new AsyncCommand(0, ledgerArgument.AsyncResult, true, ex));
+                CommandManager.Default.AddCommand(new AsyncCommand(0, ledgerArgument.AsyncResult, true, ex));
                 AppDebug.LogEvent("TradingConsole.CreateLedger", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
             }
         }
@@ -182,12 +182,12 @@ namespace Trader.Server.Bll
                     byte[] reportContent = PDFHelper.ExportPDF(filepath, dataSet.Tables[0]);
                     AsyncResultManager asyncResultManager = statementArg.AsyncResultManager;
                     asyncResultManager.SetResult(statementArg.AsyncResult, reportContent);
-                    CommandManager.Default.AddCommand(statementArg.Token, new AsyncCommand(0, statementArg.AsyncResult));
+                    CommandManager.Default.AddCommand(new AsyncCommand(0, statementArg.AsyncResult));
                 }
             }
             catch (System.Exception ex)
             {
-                CommandManager.Default.AddCommand(statementArg.Token, new AsyncCommand(0, statementArg.AsyncResult, true, ex));
+                CommandManager.Default.AddCommand(new AsyncCommand(0, statementArg.AsyncResult, true, ex));
                 AppDebug.LogEvent("TradingConsole.CreateStatement", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
             }
         }
@@ -235,12 +235,12 @@ namespace Trader.Server.Bll
                     byte[] reportContent = PDFHelper.ExportPDF(filepath, dataSet.Tables[0]);
                     AsyncResultManager asyncResultManager = accountSummaryArgument.AsyncResultManager;
                     asyncResultManager.SetResult(accountSummaryArgument.AsyncResult, reportContent);
-                    CommandManager.Default.AddCommand(accountSummaryArgument.Token, new AsyncCommand(0, accountSummaryArgument.AsyncResult));
+                    CommandManager.Default.AddCommand( new AsyncCommand(0, accountSummaryArgument.AsyncResult));
                 }
             }
             catch (System.Exception ex)
             {
-                CommandManager.Default.AddCommand(accountSummaryArgument.Token, new AsyncCommand(0, accountSummaryArgument.AsyncResult, true, ex));
+                CommandManager.Default.AddCommand( new AsyncCommand(0, accountSummaryArgument.AsyncResult, true, ex));
                 AppDebug.LogEvent("TradingConsole.CreateAccountSummary", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
             }
         }

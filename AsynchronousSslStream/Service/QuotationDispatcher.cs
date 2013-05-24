@@ -38,10 +38,6 @@ namespace Trader.Server.Service
 
         public void Add(QuotationCommand quotation)
         {
-            if (quotation == null)
-            {
-                return;
-            }
             lock (this._Lock)
             {
                 this._QuotationQueue.Push(quotation);
@@ -71,7 +67,7 @@ namespace Trader.Server.Service
                 {
                     continue;
                 }
-                CommandManager.Default.AddCommand(null, qotation);
+                CommandManager.Default.AddQuotation(qotation);
             }
         }
 

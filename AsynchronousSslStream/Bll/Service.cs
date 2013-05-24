@@ -949,19 +949,19 @@ namespace Trader.Server.Bll
 
                     AsyncResultManager asyncResultManager = tickByTickHistoryDataArgument.AsyncResultManager;
                     asyncResultManager.SetResult(tickByTickHistoryDataArgument.AsyncResult, dataSet);
-                    CommandManager.Default.AddCommand(tickByTickHistoryDataArgument.Token, new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult));
+                    CommandManager.Default.AddCommand( new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult));
                 }
                 else
                 {
                     AppDebug.LogEvent("TradingConsole.CreateTickByTickHistoryDatas",
                         string.Format("Instrument {0} doesn't exists in TradingConsoleState", tickByTickHistoryDataArgument.InstrumentId), EventLogEntryType.Warning);
-                    CommandManager.Default.AddCommand(tickByTickHistoryDataArgument.Token, new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, null));
+                    CommandManager.Default.AddCommand(new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, null));
                 }
             }
             catch (Exception e)
             {
                 AppDebug.LogEvent("TradingConsole.CreateTickByTickHistoryDatas", e.ToString(), EventLogEntryType.Error);
-                CommandManager.Default.AddCommand(tickByTickHistoryDataArgument.Token, new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, e));
+                CommandManager.Default.AddCommand(new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, e));
             }
         }
 
@@ -980,19 +980,19 @@ namespace Trader.Server.Bll
 
                     AsyncResultManager asyncResultManager = tickByTickHistoryDataArgument.AsyncResultManager;
                     asyncResultManager.SetResult(tickByTickHistoryDataArgument.AsyncResult, dataSet);
-                    CommandManager.Default.AddCommand(tickByTickHistoryDataArgument.Token, new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult));
+                    CommandManager.Default.AddCommand( new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult));
                 }
                 else
                 {
                     AppDebug.LogEvent("TradingConsole.CreateTickByTickHistoryDatas2",
                         string.Format("Instrument {0} doesn't exists in TradingConsoleState", tickByTickHistoryDataArgument.InstrumentId), EventLogEntryType.Warning);
-                    CommandManager.Default.AddCommand(tickByTickHistoryDataArgument.Token, new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, null));
+                    CommandManager.Default.AddCommand( new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, null));
                 }
             }
             catch (Exception e)
             {
                 AppDebug.LogEvent("TradingConsole.CreateTickByTickHistoryDatas2", e.ToString(), EventLogEntryType.Error);
-                CommandManager.Default.AddCommand(tickByTickHistoryDataArgument.Token, new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, e));
+                CommandManager.Default.AddCommand(new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, e));
             }
         }
     }
