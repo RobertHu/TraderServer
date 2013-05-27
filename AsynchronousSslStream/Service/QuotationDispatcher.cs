@@ -12,7 +12,7 @@ namespace Trader.Server.Service
 {
     public class QuotationDispatcher
     {
-        private Stack<QuotationCommand> _QuotationQueue = new Stack<QuotationCommand>(20);
+        private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>(20);
         public static readonly QuotationDispatcher Default = new QuotationDispatcher();
         private volatile bool _IsStoped = false;
         private const int _ProcessPeriodMilliseconds = 800;
@@ -40,7 +40,7 @@ namespace Trader.Server.Service
         {
             lock (this._Lock)
             {
-                this._QuotationQueue.Push(quotation);
+                this._QuotationQueue.Add(quotation);
             }
         }
 

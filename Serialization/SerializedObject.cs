@@ -10,11 +10,11 @@ namespace Serialization
 {
     public class SerializedObject
     {
-        
-        public SerializedObject(byte[] price) : this(true, null, price,string.Empty) { }
-        public SerializedObject(bool isPrice, byte[] price) : this(isPrice, null, price,string.Empty) { }
 
-        public SerializedObject(bool isPrice,long? session,byte[] price,string clientInvokeID)
+        public SerializedObject(byte[] price) : this(true, SessionMapping.INVALID_VALUE, price, string.Empty) { }
+        public SerializedObject(bool isPrice, byte[] price) : this(isPrice, SessionMapping.INVALID_VALUE, price, string.Empty) { }
+
+        public SerializedObject(bool isPrice,long session,byte[] price,string clientInvokeID)
         {
             this.IsPrice = isPrice;
             this.Session = session;
@@ -22,11 +22,11 @@ namespace Serialization
             this.ClientInvokeID = clientInvokeID;
         }
 
-        public SerializedObject(XElement content, string clientInvokeId):this(clientInvokeId:clientInvokeId,content:content,session:null) { }
-        public SerializedObject(byte[] contentInBytes, string clientInvokeId) : this(contentInBytes: contentInBytes, clientInvokeId: clientInvokeId,session:null) { }
+        public SerializedObject(XElement content, string clientInvokeId) : this(clientInvokeId: clientInvokeId, content: content, session: SessionMapping.INVALID_VALUE) { }
+        public SerializedObject(byte[] contentInBytes, string clientInvokeId) : this(contentInBytes: contentInBytes, clientInvokeId: clientInvokeId, session: SessionMapping.INVALID_VALUE) { }
 
 
-        public SerializedObject(byte[] contentInBytes = null, string clientInvokeId = "", long? session = null, XElement content = null, bool isPrice = false)
+        public SerializedObject(byte[] contentInBytes = null, string clientInvokeId = "", long session = SessionMapping.INVALID_VALUE, XElement content = null, bool isPrice = false)
         {
             this.ContentInByte = contentInBytes;
             this.ClientInvokeID = clientInvokeId;
@@ -35,7 +35,7 @@ namespace Serialization
             this.IsPrice = isPrice;
         }
         protected SerializedObject() { }
-        public static SerializedObject Create(long? session, bool isKeepAlive, byte[] keepAlivePacket)
+        public static SerializedObject Create(long session, bool isKeepAlive, byte[] keepAlivePacket)
         {
             SerializedObject target = new SerializedObject();
             target.IsKeepAlive = isKeepAlive;
@@ -48,11 +48,11 @@ namespace Serialization
         public XElement Content { get;  set; }
         public byte[] ContentInByte { get; set; }
         public string ClientInvokeID { get; private set; }
-        public long? CurrentSession { get; set; }
+        public long CurrentSession { get; set; }
         public bool IsKeepAlive { get; private set; }
         public bool IsKeepAliveSuccess { get;set; }
         public byte[] KeepAlivePacket { get; private set; }
-        public long? Session { get; set; }
+        public long Session { get; set; }
 
     }
 }

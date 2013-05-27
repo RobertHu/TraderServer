@@ -8,6 +8,7 @@ namespace Trader.Common
 {
     public static  class SessionMapping
     {
+        public const long INVALID_VALUE = 0;
         private static long _NextSequence = 0;
         private static ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
         private static Dictionary<string, long> _dict = new Dictionary<string, long>();
@@ -27,7 +28,7 @@ namespace Trader.Common
                
         }
 
-        public static long? Get(string session)
+        public static long Get(string session)
         {
             _ReadWriteLock.EnterReadLock();
             try
@@ -36,7 +37,7 @@ namespace Trader.Common
                 {
                     return _dict[session];
                 }
-                return null;
+                return 0;
             }
             finally
             {

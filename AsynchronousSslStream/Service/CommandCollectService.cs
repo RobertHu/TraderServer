@@ -24,24 +24,12 @@ namespace Trader.Server.Service
             }
             else
             {
-                CompositeCommand compositeCommand = command as CompositeCommand;
-                if (compositeCommand != null)
-                {
-                    foreach (var cmd in compositeCommand.Commands)
-                    {
-                        CommandManager.Default.AddCommand(cmd);
-                    }
-                }
-                else
-                {
-                    CommandManager.Default.AddCommand(command);
-                }
+                CommandManager.Default.AddCommand(command);
             }
         }
 
         public void KickoutPredecessor(Guid userId)
         {
-            _Logger.Info(userId);
         }
     }
 }

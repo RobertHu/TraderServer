@@ -5,30 +5,30 @@ open Serialization
 open Trader.Common
 open log4net
 
-let parseData (session: System.Nullable<Int64>) data =
-    let result = PacketParser.Parse(data)
+let parseData (data: ReceiveData) =
+    let result = PacketParser.Parse(data.Data)
     match result with
-    |null -> None
+    |null -> null
     |_ -> 
-        match result.Session.HasValue with
+        match result.Session <> SessionMapping.INVALID_VALUE with
         |false ->
-            result.Session <- session
+            result.Session <- data.Session
         |true -> 
-            result.CurrentSession <- session
-        Some(result) 
+            result.CurrentSession <- data.Session
+        result 
 
 type processRequestDelegate = delegate of SerializedObject -> unit
 
 type ReceiveAgent(f: processRequestDelegate) =
     static let logger = LogManager.GetLogger(typeof<ReceiveAgent>)
     let processor = f
-    let agent = new Agent<System.Nullable<Int64> * byte[]>(fun inbox ->
+    let agent = new Agent<ReceiveData>(fun inbox ->
         async{
             while true do
-                let! session,data = inbox.Receive()
-                match parseData session data with
-                |None -> ()
-                |Some request ->
+                let! data = inbox.Receive()
+                match parseData data with
+                |null -> ()
+                |request ->
                     try
                         f.Invoke(request)
                     with
@@ -40,7 +40,7 @@ type ReceiveAgent(f: processRequestDelegate) =
         agent.Start()
 
     interface IReceiveAgent with
-        member this.Send(session,data) = agent.Post(session,data)
+        member this.Send(data) = agent.Post(data)
 
 
 

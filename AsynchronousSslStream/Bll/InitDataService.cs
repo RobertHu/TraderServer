@@ -23,7 +23,7 @@ namespace Trader.Server.Bll
         public static IEnumerator<int> GetInitData(SerializedObject request, DataSet initData, AsyncEnumerator ae)
         {
             XElement result = null;
-            long session = request.Session.Value;
+            long session = request.Session;
             Token token = SessionManager.Default.GetToken(session);
             if (initData == null)
             {

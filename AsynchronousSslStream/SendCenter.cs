@@ -63,27 +63,19 @@ namespace Trader.Server
                     break;
                 }
                 this._Event.WaitOne();
-                while (this._Queue.Count!=0)
+                SerializedObject workItem = null;
+                while (this._Queue.TryDequeue(out workItem))
                 {
-                    if (this._IsStopped)
-                    {
-                        break;
-                    }
-                    SerializedObject workItem = null;
-                    if (!this._Queue.TryDequeue(out workItem))
-                    {
-                        continue;
-                    }
                     byte[] packet = SerializeManager.Default.Serialize(workItem);
                     if (packet == null)
                     {
                         continue;
                     }
-                    if (!workItem.Session.HasValue)
+                    if (workItem.Session == SessionMapping.INVALID_VALUE)
                     {
                         continue;
                     }
-                    var client = AgentController.Default.GetSender(workItem.Session.Value);
+                    var client = AgentController.Default.GetSender(workItem.Session);
                     if (client != null)
                     {
                         client.Send(packet);

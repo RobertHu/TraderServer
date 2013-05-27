@@ -28,7 +28,7 @@ type SenderClosedDelegate = delegate of obj * SenderClosedEventArgs -> unit
 
 [<AllowNullLiteralAttribute>]
 type IReceiveAgent =
-    abstract Send : System.Nullable<Int64> * byte[] -> unit
+    abstract Send : ReceiveData -> unit
 
 [<AllowNullLiteralAttribute>]
 type ICommunicationAgent =

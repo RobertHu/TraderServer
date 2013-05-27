@@ -24,6 +24,7 @@ namespace Trader.Server.Service
         private CommandQueue _Commands;
         private ILog _Logger = LogManager.GetLogger(typeof(CommandManager));
         private object _Lock = new object();
+
         private CommandManager()
         {
             this._Commands= new CommandQueue(new TimeSpan(0, 20, 0));

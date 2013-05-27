@@ -8,104 +8,203 @@ using System.Threading;
 using System.Collections.Concurrent;
 using Trader.Helper;
 using System.Threading.Tasks;
+using log4net;
 namespace Trader.Server.Ssl
 {
     public class Client
     {
+        private static ILog _Logger = LogManager.GetLogger(typeof(Client));
         private SslStream _Stream;
-        private Reader.ClientReader _Reader;
         private volatile bool _IsClosed = false;
-        private Queue<byte[]> _Queue = new Queue<byte[]>();
-        private volatile bool _IsEndWrote = true;
-        private volatile bool _IsStoped = true;
-        private object _Lock = new object();
-        public Client(SslStream stream, long session,IReceiveCenter receiveCenter)
+        private ConcurrentQueue<byte[]> _Queue = new ConcurrentQueue<byte[]>();
+        private volatile bool _IsSendingData = false;
+        private byte[] _HeadBuf = new byte[Constants.HeadCount];
+        private byte[] _Buf = new byte[512];
+        private int _ReadedHeadCount = 0;
+        private int _ReadedContentCount = 0;
+        private int _ContentLength = 0;
+        private long _Session;
+        public Client(SslStream stream, long session)
         {
             this._Stream = stream;
-            this._Reader = new Reader.ClientReader(stream, session, receiveCenter);
-            this._Reader.Start();
+            this._Session = session;
+            this.BeginReadHeader();
         }
 
         public void Send(byte[] packet)
         {
-            lock (this._Lock)
+            if (this._IsClosed)
             {
-                if (this._IsClosed || this._Reader.IsClosed)
+                return;
+            }
+            this._Queue.Enqueue(packet);
+            if (!_IsSendingData)
+            {
+                this._IsSendingData = true;
+                BeginWrite();
+            }
+        }
+
+        private void BeginReadHeader()
+        {
+            if (this._IsClosed)
+            {
+                return;
+            }
+            try
+            {
+                this._Stream.BeginRead(this._HeadBuf, this._ReadedHeadCount,Constants.HeadCount - this._ReadedHeadCount, this.EndReadHeader, null);
+            }
+            catch (Exception ex)
+            {
+                this.Close();
+            }
+        }
+
+
+        private void BeginReadContent()
+        {
+            if (this._IsClosed)
+            {
+                return;
+            }
+            try
+            {
+                this._Stream.BeginRead(this._Buf, this._ReadedContentCount,this._ContentLength - this._ReadedContentCount,this.EndReadContent ,null);
+            }
+            catch (Exception ex)
+            {
+                this.Close();
+            }
+        }
+
+
+        private void EndReadContent(IAsyncResult ar)
+        {
+            try
+            {
+                int len = this._Stream.EndRead(ar);
+                if (len > 0)
                 {
-                    return;
+                    this._ReadedContentCount = +len;
+                    if (this._ReadedContentCount != this._ContentLength)
+                    {
+                        BeginReadContent();
+                    }
+                    else
+                    {
+                        byte[] packet = new byte[Constants.HeadCount + this._ContentLength];
+                        System.Buffer.BlockCopy(this._HeadBuf, 0, packet, 0, Constants.HeadCount);
+                        System.Buffer.BlockCopy(this._Buf, 0, packet, Constants.HeadCount, this._ContentLength);
+                        ReceiveCenter.Default.Send(new Common.ReceiveData(this._Session, packet));
+                        this.Reset();
+                        BeginReadHeader();
+                    }
                 }
-                this._Queue.Enqueue(packet);
-                if (this._IsStoped && this._IsEndWrote)
+                else
                 {
-                    BeginWrite();
+                    Close();
                 }
+            }
+            catch (Exception ex)
+            {
+                this.Close();
+            }
+
+        }
+
+        private void EndReadHeader(IAsyncResult ar)
+        {
+            try
+            {
+                int len = this._Stream.EndRead(ar);
+                if (len > 0)
+                {
+                    this._ReadedHeadCount += len;
+                    if (this._ReadedHeadCount != Constants.HeadCount)
+                    {
+                        BeginReadHeader();
+                    }
+                    else
+                    {
+                        int packetLength = Constants.GetPacketLength(this._HeadBuf, 0);
+                        this._ContentLength = packetLength - Constants.HeadCount;
+                        if (this._Buf.Length < this._ContentLength)
+                        {
+                            this._Buf = new byte[this._ContentLength];
+                        }
+                        BeginReadContent();
+                    }
+                }
+                else
+                {
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Close();
             }
         }
 
         public void UpdateSession(long session)
         {
-            this._Reader.UpdateSession(session);
+            this._Session = session;
         }
+
+        private void Reset()
+        {
+            this._ReadedContentCount = 0;
+            this._ReadedHeadCount = 0;
+            this._ContentLength = 0;
+        }
+
         private void BeginWrite()
         {
-            lock (this._Lock)
+            try
             {
-                try
+                byte[] packet;
+                if (this._Queue.TryDequeue(out packet))
                 {
-                    if (!this._IsEndWrote)
-                    {
-                        return;
-                    }
-                    if (this._Queue.Count != 0)
-                    {
-                        byte[] packet = this._Queue.Dequeue();
-                        if (this._IsStoped)
-                        {
-                            this._IsStoped = false;
-                        }
-                        this._IsEndWrote = false;
-                        this._Stream.BeginWrite(packet, 0, packet.Length, this.EndWrite, null);
-                    }
-                    else
-                    {
-                        this._IsStoped = true;
-                    }
+                    this._Stream.BeginWrite(packet, 0, packet.Length, this.EndWrite, null);
                 }
-                catch (Exception ex)
+                else
                 {
-                    this.Close();
+                    this._IsSendingData = false;
                 }
             }
-
+            catch (Exception ex)
+            {
+                _Logger.Error(ex);
+                this.Close();
+            }
         }
 
         private void EndWrite(IAsyncResult ar)
         {
-            this._Stream.EndWrite(ar);
-            this._IsEndWrote = true;
-            BeginWrite();
+            try
+            {
+                this._Stream.EndWrite(ar);
+                BeginWrite();
+            }
+            catch (Exception ex)
+            {
+                _Logger.Error(ex);
+                this.Close();
+            }
+           
         }
 
         private void Close()
         {
-            if (this._Reader.IsClosed && (!this._IsClosed))
-            {
-                this._IsClosed = true;
-                return;
-            }
-            if (this._IsClosed || this._Reader.IsClosed)
+            if (this._IsClosed )
             {
                 return;
             }
             this._Stream.Close();
             this._IsClosed = true;
-            this._Reader.IsClosed = true;
-            long session = this._Reader.GetSession();
-            AgentController.Default.EnqueueDisconnectSession(session);
+            AgentController.Default.EnqueueDisconnectSession(this._Session);
         }
-
-
-      
 
 
     }

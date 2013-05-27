@@ -6,10 +6,12 @@ using System.Threading;
 using iExchange.Common;
 using System.Xml;
 using System.Collections;
+using log4net;
 namespace Trader.Server.Service
 {
     public class CommandQueue
     {
+        private ILog _Logger = LogManager.GetLogger(typeof(CommandQueue));
         private ReaderWriterLockSlim _ReaderWriterLock = new ReaderWriterLockSlim();
         private static readonly int MessageListCapacity = 2048;
         private List<CommandList> _Commands = new List<CommandList>(MessageListCapacity);
@@ -184,6 +186,7 @@ namespace Trader.Server.Service
                     cmds.Clear();
                     this._Commands.Remove(cmds);
                 }
+                expiredCommands.Clear();
             }
             finally
             {

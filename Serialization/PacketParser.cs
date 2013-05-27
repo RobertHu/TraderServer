@@ -32,7 +32,7 @@ namespace Serialization
                 {
                     bool isKeepAlive = (packet[0] & KeepAliveConstants.IsKeepAliveMask) == KeepAliveConstants.IsKeepAliveMask ? true : false;
                     string session = Constants.SessionEncoding.GetString(packet, Constants.HeadCount, sessionLength);
-                    long? sessionGuid = SessionMapping.Get(session);
+                    long sessionGuid = SessionMapping.Get(session);
                     if (!isKeepAlive)
                     {
                         string content = Constants.ContentEncoding.GetString(contentBytes);

@@ -37,24 +37,24 @@ namespace Serialization
 
         public static byte[] BuildPrice(byte[] price)
         {
-            return BuildForContentBytesCommon(price, true);
+            byte[] packet = new byte[Constants.HeadCount + price.Length];
+            byte[] contentLengthBytes = CustomerIntCache.Get(price.Length);
+            byte priceByte = KeepAliveConstants.IsPricevValue;
+            packet[0] = priceByte;
+            Buffer.BlockCopy(contentLengthBytes, 0, packet, Constants.ContentLengthIndex, contentLengthBytes.Length);
+            Buffer.BlockCopy(price, 0, packet, Constants.HeadCount, price.Length);
+            return packet;
         }
 
         public static byte[] BuildForContentInBytesCommand(byte[] content)
         {
-            return BuildForContentBytesCommon(content, false);
-        }
-
-
-        private static byte[] BuildForContentBytesCommon(byte[] content, bool isPrice)
-        {
             byte[] packet = new byte[Constants.HeadCount + content.Length];
             byte[] contentLengthBytes = CustomerIntCache.Get(content.Length);
-            byte priceByte = isPrice ? KeepAliveConstants.IsPricevValue : (byte)0; 
-            AddHeaderToPacket(packet, priceByte, 0, contentLengthBytes);
-            AddContentToPacket(packet, content, Constants.HeadCount);
+            Buffer.BlockCopy(contentLengthBytes, 0, packet, Constants.ContentLengthIndex, contentLengthBytes.Length);
+            Buffer.BlockCopy(content, 0, packet, Constants.HeadCount, content.Length);
             return packet;
         }
+
 
         private static void AppendClientInvokeIdToContentNode(XElement contentNode,string invokeID)
         {

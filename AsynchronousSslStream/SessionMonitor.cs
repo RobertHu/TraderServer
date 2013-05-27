@@ -16,6 +16,7 @@ namespace Trader.Server
         private volatile bool _IsStoped = false;
         private ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
         private Dictionary<long, DateTime> dict = new Dictionary<long, DateTime>();
+        private List<long> _RemovedSessoinList = new List<long>(512);
         public SessionMonitor(TimeSpan timeout)
         {
             this._ExpiredTimeout = timeout;
@@ -128,12 +129,19 @@ namespace Trader.Server
                 this._ReadWriteLock.EnterWriteLock();
                 try
                 {
-                    var target = this.dict.Where(p => DateTime.Now - p.Value > this._ExpiredTimeout).ToArray();
-                    foreach (var item in target)
+                    foreach(var item in this.dict)
                     {
-                        this._Logger.InfoFormat("remove session:{0}", item.Key);
-                        RemoveHelper(item.Key);
+                        if (DateTime.Now - item.Value> this._ExpiredTimeout)
+                        {
+                            this._RemovedSessoinList.Add(item.Key);
+                        }
                     }
+                    for(int i=0;i<this._RemovedSessoinList.Count;i++)
+                    {
+                        this._Logger.InfoFormat("remove session:{0}", this._RemovedSessoinList[i]);
+                        RemoveHelper(this._RemovedSessoinList[i]);
+                    }
+                    this._RemovedSessoinList.Clear();
                 }
                 finally
                 {

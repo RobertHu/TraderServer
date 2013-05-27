@@ -47,7 +47,7 @@ namespace Trader.Server.Util
 
         private static void ProcessForKeepAlive(SerializedObject request)
         {
-            if (Application.Default.SessionMonitor.Exist(request.Session.Value))
+            if (Application.Default.SessionMonitor.Exist(request.Session))
             {
                 request.IsKeepAliveSuccess = true;
             }
@@ -75,7 +75,7 @@ namespace Trader.Server.Util
 
         private static void WhenSessionNotExistRecoverSessionToCurrentSession(SerializedObject request)
         {
-            if (request.CurrentSession.HasValue)
+            if (request.CurrentSession != SessionMapping.INVALID_VALUE)
             {
                 request.Session = request.CurrentSession;
             }
@@ -83,10 +83,10 @@ namespace Trader.Server.Util
 
         private static XElement ProcessMethodReqeust(SerializedObject request,string methodName)
         {
-            iExchange.Common.Token token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session.Value);
+            iExchange.Common.Token token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session);
             XElement  result = XmlResultHelper.ErrorResult;
             XElement  content = request.Content;
-            if (!Application.Default.SessionMonitor.Exist(request.Session.Value))
+            if (!Application.Default.SessionMonitor.Exist(request.Session))
             {
                 if (methodName == "Login")
                 {

@@ -11,7 +11,7 @@ namespace Trader.Server
     public class ReceiveCenter:IReceiveCenter
     {
         public static readonly ReceiveCenter Default = new ReceiveCenter();
-        private ConcurrentQueue<Tuple<long, byte[]>> _Queue = new ConcurrentQueue<Tuple<long, byte[]>>();
+        private ConcurrentQueue<ReceiveData> _Queue = new ConcurrentQueue<ReceiveData>();
         private volatile bool _IsStarted = false;
         private volatile bool _IsStopped = false;
         private AutoResetEvent _Event = new AutoResetEvent(false);
@@ -43,9 +43,9 @@ namespace Trader.Server
         }
 
 
-        public void Send(long session, byte[] packet)
+        public void Send(ReceiveData data)
         {
-            this._Queue.Enqueue(Tuple.Create(session, packet));
+            this._Queue.Enqueue(data);
             this._Event.Set();
         }
 
@@ -59,23 +59,13 @@ namespace Trader.Server
                     break;
                 }
                 this._Event.WaitOne();
-                while (this._Queue.Count!=0)
+                ReceiveData workItem = null;
+                while (this._Queue.TryDequeue(out workItem))
                 {
-                    if (this._IsStopped)
-                    {
-                        break;
-                    }
-                    Tuple<long, Byte[]> workItem = null;
-                    if (!this._Queue.TryDequeue(out workItem))
-                    {
-                        continue;
-                    }
-                    long session = workItem.Item1;
-                    byte[] packet = workItem.Item2;
-                    var receiveAgent = AgentController.Default.GetReceiver(session);
+                    var receiveAgent = AgentController.Default.GetReceiver(workItem.Session);
                     if (receiveAgent != null)
                     {
-                        receiveAgent.Send(session, packet);
+                        receiveAgent.Send(workItem);
                     }
                     else
                     {

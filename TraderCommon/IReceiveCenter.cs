@@ -7,6 +7,6 @@ namespace Trader.Common
 {
     public interface IReceiveCenter
     {
-        void Send(long session,byte[] packet);
+        void Send(ReceiveData data);
     }
 }

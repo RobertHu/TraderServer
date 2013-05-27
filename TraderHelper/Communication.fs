@@ -62,7 +62,7 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
                 let packet = Array.zeroCreate packetLength
                 System.Buffer.BlockCopy(headerBuff,0,packet,0,Constants.HeadCount)
                 System.Buffer.BlockCopy(buff,0,packet,Constants.HeadCount,contentLength)
-                receiver.Send(!session,packet)
+                receiver.Send(new ReceiveData(!session,packet))
             with
             |x -> 
                 this.Close()

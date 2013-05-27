@@ -43,7 +43,7 @@ type ClientReader(stream: SslStream,session: Int64, receiveCenter: IReceiveCente
                 let packet = Array.zeroCreate packetLength
                 System.Buffer.BlockCopy(headerBuff,0,packet,0,Constants.HeadCount)
                 System.Buffer.BlockCopy(!tempBuf,0,packet,Constants.HeadCount,contentLength)
-                receiver.Send(!session,packet)
+                receiver.Send(new Trader.Common.ReceiveData(!session,packet))
             with
             |x -> 
                 this.Close()

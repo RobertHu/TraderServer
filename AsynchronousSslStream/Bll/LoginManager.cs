@@ -29,7 +29,7 @@ namespace Trader.Server.Bll
 
         public IEnumerator<int> Login(SerializedObject request, string loginID, string password, string version, int appType, AsyncEnumerator ae)
         {
-            long session = request.Session.Value;
+            long session = request.Session;
             string connectionString = SettingManager.Default.ConnectionString;
             IsFailedCountExceed(loginID, password, connectionString);
             LoginParameter loginParameter = new LoginParameter();

@@ -54,26 +54,13 @@ namespace Trader.Server.Bll
                 }
                 else if (token.AppType == AppType.TradingConsole)
                 {
-                    result = GetQuotationForJavaTrader(token, state,command);
+                    var quotation = Quotation4Bit.TryAddQuotation(command.OverridedQs, state, command.Sequence);
+                    result = quotation.GetData(); 
                 }
             }
             catch (Exception ex)
             {
                 _Logger.Error(ex);
-            }
-            return result;
-        }
-
-
-        private byte[] GetQuotationForJavaTrader(Token token, TraderState state,QuotationCommand command)
-        {
-            byte[] result = null;
-            result = GetQuotationCommon(token, state);
-            if (result == null)
-            {
-                var quotation = Quotation4Bit.TryAddQuotation(command.OverridedQs, state,command.Sequence);
-                result = quotation.GetData();
-                CacheQuotationCommon(token.AppType, state.SignMapping, result);
             }
             return result;
         }
@@ -154,6 +141,11 @@ namespace Trader.Server.Bll
                 }
                 return commandElement;
             }
+        }
+
+        public void Clear()
+        {
+            this._QuotationFilterByAppTypeDict.Clear();
         }
     }
 }

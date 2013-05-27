@@ -14,7 +14,6 @@ using Trader.Common;
 using Serialization;
 using Trader.Server.Ssl;
 using CommunicationAgent = Trader.Helper.Common.ICommunicationAgent;
-using ReceiveAgent = Trader.Helper.Common.IReceiveAgent;
 using Trader.Server._4BitCompress;
 namespace Trader.Server
 {
@@ -38,7 +37,7 @@ namespace Trader.Server
         { 
         }
 
-        public void Add(long session, ReceiveAgent receiver, CommunicationAgent sender)
+        public void Add(long session, ReceiveAgent receiver, Client sender)
         {
             this._Container.TryAdd(session, new ClientRelation(sender, receiver));
         }
@@ -53,7 +52,7 @@ namespace Trader.Server
             ClientRelation relation;
             if (this._Container.TryRemove(session,out relation))
             {
-                relation.Sender.Closed -= this.SenderClosedEventHandle;
+                //relation.Sender.Closed -= this.SenderClosedEventHandle;
             }
         }
 
@@ -73,9 +72,9 @@ namespace Trader.Server
             }
         }
 
-        public CommunicationAgent GetSender(long session)
+        public Client GetSender(long session)
         {
-            CommunicationAgent result = null;
+            Client result = null;
             ClientRelation relation;
             if (this._Container.TryGetValue(session, out relation))
             {
@@ -180,17 +179,11 @@ namespace Trader.Server
                     break;
                 }
                 this._SendQuotationEvent.WaitOne();
-                while (this._Quotations.Count!=0)
+                while (this._Quotations.TryDequeue(out this._CurrentQuotation))
                 {
-                    if (this._Stopped)
-                    {
-                        break;
-                    }
-                    if (this._Quotations.TryDequeue(out this._CurrentQuotation))
-                    {
-                        Quotation4Bit.Clear();
-                        Parallel.ForEach(this._Container, SendQuotationHandler);
-                    }
+                    Quotation.Default.Clear();
+                    Quotation4Bit.Clear();
+                    Parallel.ForEach(this._Container, SendQuotationHandler);
                 }
             }
         }
@@ -222,31 +215,22 @@ namespace Trader.Server
                     break;
                 }
                 this._SendCommandEvent.WaitOne();
-                while (this._Commands.Count != 0)
+                while (this._Commands.TryDequeue(out this._CurrentCommand))
                 {
-                    if (this._Stopped)
+                    if (this._CurrentCommand is UpdateCommand)
                     {
-                        break;
-                    }
-                    if (this._Commands.TryDequeue(out this._CurrentCommand))
-                    {
-                        if (this._CurrentCommand is UpdateCommand)
+                        byte[] data = Quotation.Default.ToBytesForGeneral(null, _UpdateCommandState, this._CurrentCommand);
+                        if (data != null)
                         {
-                            byte[] data = Quotation.Default.ToBytesForGeneral(null, _UpdateCommandState, this._CurrentCommand);
-                            if (data != null)
+                            byte[] packet = SerializeManager.Default.SerializeCommand(data);
+                            foreach (var item in this._Container)
                             {
-                                byte[] packet = SerializeManager.Default.SerializeCommand(data);
-                                foreach (var item in this._Container.Values)
-                                {
-                                    item.Sender.Send(packet);
-                                }
+                                item.Value.Sender.Send(packet);
                             }
-                            continue;
                         }
-                        Parallel.ForEach(this._Container, this.SendCommandHandler);
+                        continue;
                     }
-
-
+                    Parallel.ForEach(this._Container, this.SendCommandHandler);
                 }
             }
         }
@@ -292,12 +276,12 @@ namespace Trader.Server
 
     public class ClientRelation
     {
-        public ClientRelation( CommunicationAgent sender,ReceiveAgent  receiver)
+        public ClientRelation(Client sender, ReceiveAgent receiver)
         {
             this.Receiver=receiver;
             this.Sender=sender;
         }
         public ReceiveAgent Receiver { get; private set; }
-        public CommunicationAgent Sender { get; private set; }
+        public Client Sender { get; private set; }
     }
 }

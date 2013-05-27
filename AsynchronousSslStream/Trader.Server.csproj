@@ -181,8 +181,8 @@
     <Compile Include="SChart\TickByTickHistoryDataArgument.cs" />
     <Compile Include="SChart\TickByTickHistoryDataArgument2.cs" />
     <Compile Include="SendCenter.cs" />
-    <Compile Include="Service\QuotationSender.cs" />
     <Compile Include="Ssl\Client.cs" />
+    <Compile Include="Ssl\ReceiveAgent.cs" />
     <Compile Include="Ssl\SecureConnectionResults.cs" />
     <Compile Include="Ssl\SecureTcpServer.cs" />
     <Compile Include="TraderServer.cs" />
@@ -193,7 +193,6 @@
     <Compile Include="Service\CommandQueue.cs" />
     <Compile Include="Service\QuotationDispatcher.cs" />
     <Compile Include="Service\CommandManager.cs" />
-    <Compile Include="Service\CommandSender.cs" />
     <Compile Include="Bll\InitDataService.cs" />
     <Compile Include="Service\ICommandCollectService.cs" />
     <Compile Include="SessionMonitor.cs" />
