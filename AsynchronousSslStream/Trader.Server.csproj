@@ -181,8 +181,11 @@
     <Compile Include="SChart\TickByTickHistoryDataArgument.cs" />
     <Compile Include="SChart\TickByTickHistoryDataArgument2.cs" />
     <Compile Include="SendCenter.cs" />
+    <Compile Include="Service\QuotationPool.cs" />
     <Compile Include="Ssl\Client.cs" />
+    <Compile Include="Ssl\ClientPool.cs" />
     <Compile Include="Ssl\ReceiveAgent.cs" />
+    <Compile Include="Ssl\ReceiveAgentPool.cs" />
     <Compile Include="Ssl\SecureConnectionResults.cs" />
     <Compile Include="Ssl\SecureTcpServer.cs" />
     <Compile Include="TraderServer.cs" />

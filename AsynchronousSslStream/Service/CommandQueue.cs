@@ -183,6 +183,14 @@ namespace Trader.Server.Service
                 }
                 foreach (CommandList cmds in expiredCommands)
                 {
+                    foreach (Command cmd in cmds)
+                    {
+                        QuotationCommand quotation = cmd as QuotationCommand;
+                        if (quotation != null)
+                        {
+                            QuotationPool.Default.Push(quotation);
+                        }
+                    }
                     cmds.Clear();
                     this._Commands.Remove(cmds);
                 }

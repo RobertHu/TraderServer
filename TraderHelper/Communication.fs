@@ -11,6 +11,7 @@ open System.Collections.Concurrent
 type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as this =
     static let logger = LogManager.GetLogger(typeof<Client>)
     let mutable buff = Array.zeroCreate 512
+    let writeBuff = Array.zeroCreate 512
     let headerBuff = Array.zeroCreate Constants.HeadCount
     let stream = stream
     let session = ref session
@@ -26,8 +27,12 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
         async{
                 try
                     while true do
-                        let! msg= inbox.Receive() 
-                        do! stream.AsyncWrite(msg)
+                        let! msg= inbox.Receive()
+                        match msg.Length > writeBuff.Length with
+                        |true -> do! stream.AsyncWrite(msg)
+                        |false -> 
+                            System.Buffer.BlockCopy(msg,0,writeBuff,0,msg.Length)
+                            do! stream.AsyncWrite(writeBuff,0,msg.Length)
                 with
                     |x ->
                         //logger.Error(x)

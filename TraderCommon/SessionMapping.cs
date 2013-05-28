@@ -45,5 +45,22 @@ namespace Trader.Common
             }
         }
 
+        public static void Remove(string session)
+        {
+            _ReadWriteLock.EnterWriteLock();
+            try
+            {
+                if (!_dict.ContainsKey(session))
+                {
+                    return;
+                }
+                _dict.Remove(session);
+            }
+            finally
+            {
+                _ReadWriteLock.ExitWriteLock();
+            }
+        }
+
     }
 }

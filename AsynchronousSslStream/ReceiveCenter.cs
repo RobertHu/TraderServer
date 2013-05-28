@@ -16,6 +16,7 @@ namespace Trader.Server
         private volatile bool _IsStopped = false;
         private AutoResetEvent _Event = new AutoResetEvent(false);
         private ILog _Logger = LogManager.GetLogger(typeof(ReceiveCenter));
+        private ReceiveData _Current;
         private ReceiveCenter() { }
 
         public void Start()
@@ -59,13 +60,12 @@ namespace Trader.Server
                     break;
                 }
                 this._Event.WaitOne();
-                ReceiveData workItem = null;
-                while (this._Queue.TryDequeue(out workItem))
+                while (this._Queue.TryDequeue(out this._Current))
                 {
-                    var receiveAgent = AgentController.Default.GetReceiver(workItem.Session);
+                    var receiveAgent = AgentController.Default.GetReceiver(this._Current.Session);
                     if (receiveAgent != null)
                     {
-                        receiveAgent.Send(workItem);
+                        receiveAgent.Send(this._Current);
                     }
                     else
                     {

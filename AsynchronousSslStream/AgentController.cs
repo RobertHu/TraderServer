@@ -15,6 +15,7 @@ using Serialization;
 using Trader.Server.Ssl;
 using CommunicationAgent = Trader.Helper.Common.ICommunicationAgent;
 using Trader.Server._4BitCompress;
+using Trader.Server.Service;
 namespace Trader.Server
 {
     public class AgentController
@@ -24,14 +25,11 @@ namespace Trader.Server
         private ConcurrentDictionary<long,ClientRelation> _Container=new ConcurrentDictionary<long,ClientRelation>();
         private AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
         private AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
-        private AutoResetEvent _SendCommandEvent = new AutoResetEvent(false);
         private ConcurrentQueue<long> _DisconnectQueue = new ConcurrentQueue<long>();
-        private ConcurrentQueue<QuotationCommand> _Quotations = new ConcurrentQueue<QuotationCommand>();
-        private ConcurrentQueue<Command> _Commands = new ConcurrentQueue<Command>();
+        private ConcurrentQueue<CommandWithQuotation> _Quotations = new ConcurrentQueue<CommandWithQuotation>();
         private volatile bool _Started = false;
         private volatile bool _Stopped = false;
-        private QuotationCommand _CurrentQuotation;
-        private Command _CurrentCommand;
+        private CommandWithQuotation _Current;
         private TraderState _UpdateCommandState = new TraderState(string.Empty);
         private AgentController() 
         { 
@@ -52,7 +50,7 @@ namespace Trader.Server
             ClientRelation relation;
             if (this._Container.TryRemove(session,out relation))
             {
-                //relation.Sender.Closed -= this.SenderClosedEventHandle;
+                ClientPool.Default.Push(relation);
             }
         }
 
@@ -112,10 +110,6 @@ namespace Trader.Server
                 quotationThread.IsBackground = true;
                 quotationThread.Start();
 
-                Thread commandThread = new Thread(this.SendCommand);
-                commandThread.IsBackground = true;
-                commandThread.Start();
-
                 this._Started = true;
             }
             catch (Exception ex)
@@ -160,7 +154,7 @@ namespace Trader.Server
             }
         }
 
-        public void AddQuotation(QuotationCommand quotation)
+        public void AddQuotation(CommandWithQuotation quotation)
         {
             if (this._Container.Count == 0)
             {
@@ -179,16 +173,36 @@ namespace Trader.Server
                     break;
                 }
                 this._SendQuotationEvent.WaitOne();
-                while (this._Quotations.TryDequeue(out this._CurrentQuotation))
+                while (this._Quotations.TryDequeue(out this._Current))
                 {
-                    Quotation.Default.Clear();
-                    Quotation4Bit.Clear();
-                    Parallel.ForEach(this._Container, SendQuotationHandler);
+                    if (this._Current.IsQuotation)
+                    {
+                        Quotation.Default.Clear();
+                        Quotation4Bit.Clear();
+                        Parallel.ForEach(this._Container, SendQuotationHandler);
+                    }
+                    else
+                    {
+                        if (this._Current.Command is UpdateCommand)
+                        {
+                            byte[] data = Quotation.Default.ToBytesForGeneral(null, _UpdateCommandState, this._Current.Command);
+                            if (data != null)
+                            {
+                                byte[] packet = SerializeManager.Default.SerializeCommand(data);
+                                foreach (var item in this._Container)
+                                {
+                                    item.Value.Sender.Send(packet);
+                                }
+                            }
+                            continue;
+                        }
+                        Parallel.ForEach(this._Container, this.SendCommandHandler);
+
+                    }
                 }
             }
-        }
 
-    
+        }
 
 
         public void SenderClosedEventHandle(object sender,Trader.Helper.Common.SenderClosedEventArgs e)
@@ -197,44 +211,7 @@ namespace Trader.Server
         }
 
 
-        public void AddGeneralCommand(Command command)
-        {
-            if (this._Container.Count == 0)
-            {
-                return;
-            }
-            this._Commands.Enqueue(command);
-            this._SendCommandEvent.Set();
-        }
-        private void SendCommand()
-        {
-            while (true)
-            {
-                if (this._Stopped)
-                {
-                    break;
-                }
-                this._SendCommandEvent.WaitOne();
-                while (this._Commands.TryDequeue(out this._CurrentCommand))
-                {
-                    if (this._CurrentCommand is UpdateCommand)
-                    {
-                        byte[] data = Quotation.Default.ToBytesForGeneral(null, _UpdateCommandState, this._CurrentCommand);
-                        if (data != null)
-                        {
-                            byte[] packet = SerializeManager.Default.SerializeCommand(data);
-                            foreach (var item in this._Container)
-                            {
-                                item.Value.Sender.Send(packet);
-                            }
-                        }
-                        continue;
-                    }
-                    Parallel.ForEach(this._Container, this.SendCommandHandler);
-                }
-            }
-        }
-
+      
         private void SendCommandHandler(KeyValuePair<long, ClientRelation> p)
         {
             Token token;
@@ -243,7 +220,7 @@ namespace Trader.Server
             {
                 return;
             }
-            byte[] content = Quotation.Default.ToBytesForGeneral(token, state, this._CurrentCommand);
+            byte[] content = Quotation.Default.ToBytesForGeneral(token, state, this._Current.Command);
             if (content == null)
             {
                 return;
@@ -262,7 +239,7 @@ namespace Trader.Server
             {
                 return;
             }
-            byte[] quotation =Quotation.Default.ToBytesForQuotation(token, state,this._CurrentQuotation);
+            byte[] quotation =Quotation.Default.ToBytesForQuotation(token, state,this._Current.QuotationCommand);
             if (quotation == null)
             {
                 return;
@@ -276,12 +253,14 @@ namespace Trader.Server
 
     public class ClientRelation
     {
+        private ReceiveAgent _Receiver;
+        private Client _Sender;
         public ClientRelation(Client sender, ReceiveAgent receiver)
         {
-            this.Receiver=receiver;
-            this.Sender=sender;
+            this._Receiver=receiver;
+            this._Sender=sender;
         }
-        public ReceiveAgent Receiver { get; private set; }
-        public Client Sender { get; private set; }
+        public ReceiveAgent Receiver { get { return this._Receiver; } }
+        public Client Sender { get { return this._Sender;} }
     }
 }

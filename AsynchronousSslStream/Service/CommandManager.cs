@@ -17,13 +17,18 @@ using Trader.Helper;
 using Trader.Common;
 using log4net;
 using System.Xml.Linq;
+using System.Collections.Concurrent;
 namespace Trader.Server.Service
 {
     public class CommandManager
     {
         private CommandQueue _Commands;
         private ILog _Logger = LogManager.GetLogger(typeof(CommandManager));
-        private object _Lock = new object();
+        private AutoResetEvent _Event = new AutoResetEvent(false);
+        private ConcurrentQueue<Command> _Queue = new ConcurrentQueue<Command>();
+        private volatile bool _IsStop = false;
+        private volatile bool _IsStart = false;
+        private Command _Current;
 
         private CommandManager()
         {
@@ -31,6 +36,54 @@ namespace Trader.Server.Service
           
         }
         public static readonly CommandManager Default = new CommandManager();
+
+        public void Start()
+        {
+            if (this._IsStart)
+            {
+                return;
+            }
+            Thread thread = new Thread(ProcessCommand);
+            thread.IsBackground = true;
+            thread.Start();
+            this._IsStart = true;
+        }
+
+        public void Stop()
+        {
+            this._IsStop = true;
+        }
+
+        public void Send(Command command)
+        {
+            this._Queue.Enqueue(command);
+            this._Event.Set();
+        }
+
+        private void ProcessCommand()
+        {
+            while (true)
+            {
+                if (this._IsStop)
+                {
+                    break;
+                }
+                this._Event.WaitOne();
+                while (this._Queue.TryDequeue(out this._Current))
+                {
+                    QuotationCommand quotation = this._Current as QuotationCommand;
+                    if (quotation != null)
+                    {
+                        QuotationDispatcher.Default.Add(quotation);
+                    }
+                    else
+                    {
+                        this._Commands.Add(this._Current);
+                        AgentController.Default.AddQuotation(new CommandWithQuotation(null, this._Current, false));
+                    }
+                }
+            }
+        }
 
 
 
@@ -41,21 +94,17 @@ namespace Trader.Server.Service
                 return this._Commands.LastSequence;
             }
         }
-        
 
         public void AddCommand(Command command)
         {
-            lock (this._Lock)
-            {
-                this._Commands.Add(command);
-                AgentController.Default.AddGeneralCommand(command);
-            }
+            this.Send(command);
         }
+
 
         public void AddQuotation(QuotationCommand quotation)
         {
             this._Commands.Add(quotation);
-            AgentController.Default.AddQuotation(quotation);
+            AgentController.Default.AddQuotation(new CommandWithQuotation(quotation,null,true));
         }
 
 
@@ -171,5 +220,22 @@ namespace Trader.Server.Service
         }
 
         
+    }
+
+    public struct CommandWithQuotation
+    {
+        private QuotationCommand _QuotationCommand;
+        public QuotationCommand QuotationCommand { get { return this._QuotationCommand; } }
+        private Command _Command;
+        public Command Command { get { return this._Command; } }
+        private bool _isQuotation;
+        public bool IsQuotation { get { return this._isQuotation; } }
+        public CommandWithQuotation(QuotationCommand quotation, Command command, bool isQuotation)
+        {
+            this._QuotationCommand = quotation;
+            this._Command = command;
+            this._isQuotation = isQuotation;
+        }
+
     }
 }

@@ -12,38 +12,38 @@ namespace Trader.Server.Ssl
 {
 	public class ReceiveAgent
 	{
-        private Queue<ReceiveData> _Queue = new Queue<ReceiveData>(50);
-        private  bool _IsStoped = true;
+        private ConcurrentQueue<ReceiveData> _Queue = new ConcurrentQueue<ReceiveData>();
+        private volatile  bool _IsStoped = true;
         private ReceiveData _Current;
-        private object _Lock = new object();
+
+        public void Reset()
+        {
+            this._IsStoped = true;
+            ReceiveData data;
+            while (this._Queue.TryDequeue(out data)) { }
+        }
+
+
         public void Send(ReceiveData data)
         {
-            lock (this._Lock)
+            this._Queue.Enqueue(data);
+            if (this._IsStoped)
             {
-                this._Queue.Enqueue(data);
-                if (this._IsStoped)
-                {
-                    ProcessData();
-                }
+                this._IsStoped = false;
+                ProcessData();
             }
         }
 
         private void ProcessData()
         {
-            lock (this._Lock)
+            if (this._Queue.TryDequeue(out this._Current))
             {
-                if (this._Queue.Count != 0)
-                {
-                    this._Current = this._Queue.Dequeue();
-                    this._IsStoped = false;
-                    ThreadPool.QueueUserWorkItem(this.ProcessCallback);
-                }
-                else
-                {
-                    this._IsStoped = true;
-                }
+                ThreadPool.QueueUserWorkItem(this.ProcessCallback);
             }
-                
+            else
+            {
+                this._IsStoped = true;
+            }
         }
 
         private void ProcessCallback(object state)
@@ -61,6 +61,7 @@ namespace Trader.Server.Ssl
             {
                 request.CurrentSession = this._Current.Session;
             }
+            ReceiveDataPool.Default.Push(this._Current);
             ClientRequestHelper.Process(request);
             ProcessData();
         }

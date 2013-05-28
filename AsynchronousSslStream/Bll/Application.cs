@@ -9,6 +9,7 @@ using System.Threading;
 using System.Configuration;
 using Trader.Server.Setting;
 using Trader.Helper;
+using Trader.Server.Service;
 namespace Trader.Server.Bll
 {
     public class Application
@@ -44,6 +45,7 @@ namespace Trader.Server.Bll
             ReceiveCenter.Default.Start();
             SendCenter.Default.Start();
             AgentController.Default.Start();
+            CommandManager.Default.Start();
         }
 
         public void Stop()
@@ -52,6 +54,7 @@ namespace Trader.Server.Bll
             ReceiveCenter.Default.Stop();
             SendCenter.Default.Stop();
             AgentController.Default.Stop();
+            CommandManager.Default.Stop();
         }
 
 

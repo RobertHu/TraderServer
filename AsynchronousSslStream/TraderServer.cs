@@ -79,9 +79,14 @@ namespace Trader.Server
             {
                 SslStream sslStream = args.SecureStream;
                 long sessionMappingID = SessionMapping.Get();
-                ReceiveAgent agent = new ReceiveAgent();
-                var client = new Client(sslStream, sessionMappingID);
-                AgentController.Default.Add(sessionMappingID, agent, client);
+                ClientRelation relation = ClientPool.Default.Pop();
+                if (relation == null)
+                {
+                    relation = new ClientRelation(new Client(),new ReceiveAgent());
+                }
+                relation.Sender.BufferIndex = BufferManager.Default.SetBuffer();
+                relation.Sender.Start(sslStream,sessionMappingID);
+                AgentController.Default.Add(sessionMappingID,relation.Receiver,relation.Sender);
             }
             catch (Exception ex)
             {

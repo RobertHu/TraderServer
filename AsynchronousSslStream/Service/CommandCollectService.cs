@@ -16,16 +16,7 @@ namespace Trader.Server.Service
         private ILog _Logger = LogManager.GetLogger(typeof(CommandCollectService));
         public void AddCommand(iExchange.Common.Token token, iExchange.Common.Command command)
         {
-
-            var quotation = command as QuotationCommand;
-            if (quotation!=null)
-            {
-                QuotationDispatcher.Default.Add(quotation);
-            }
-            else
-            {
-                CommandManager.Default.AddCommand(command);
-            }
+           CommandManager.Default.Send(command);
         }
 
         public void KickoutPredecessor(Guid userId)

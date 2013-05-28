@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Trader.Server.Session;
 using Trader.Server._4BitCompress;
+using Trader.Common;
 
 namespace Trader.Server
 {
@@ -19,6 +20,7 @@ namespace Trader.Server
                 QuotationFilterSignMapping.Remove(traderState.QuotationFilterSign);
             }
             SessionManager.Default.RemoveAllItem(session);
+            SessionMapping.Remove(session.ToString());
         }
     }
 }

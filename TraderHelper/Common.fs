@@ -44,5 +44,8 @@ type ClientDisconnectedEventArgs(session: string, client: ICommunicationAgent, r
     member this.ReceiveClient = receiveClient
 
 type ClientDisconnectedDelegate = delegate of obj * ClientDisconnectedEventArgs -> unit
+
+let AsyncWrite (stream :System.Net.Security.SslStream) data offset count = 
+    Async.RunSynchronously (stream.AsyncWrite( data,offset,count))
  
 
