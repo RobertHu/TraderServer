@@ -28,7 +28,6 @@ namespace Trader.Server.Ssl
                 if (this._Pool.Count > 0)
                 {
                     ClientRelation relation = this._Pool.Pop();
-                    relation.Receiver.Reset();
                 }
                 return null;
             }

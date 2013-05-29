@@ -25,14 +25,14 @@ type ReceiveAgent(f: processRequestDelegate) =
     let agent = new Agent<ReceiveData>(fun inbox ->
         async{
             while true do
-                let! data = inbox.Receive()
-                match parseData data with
-                |null -> ()
-                |request ->
-                    try
-                        f.Invoke(request)
-                    with
-                    | x -> ()
+                let! msg = inbox.Receive()
+                let request = PacketParser.Parse(msg.Data)
+                if request <> null then 
+                    if request.Session = SessionMapping.INVALID_VALUE then request.Session <- msg.Session
+                    else request.CurrentSession <- msg.Session
+                    ReceiveDataPool.Default.Push(msg)
+                    f.Invoke(request)
+                    
             }
         )
 

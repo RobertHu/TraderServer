@@ -14,6 +14,7 @@ using Trader.Common;
 using Serialization;
 using Trader.Server.Ssl;
 using CommunicationAgent = Trader.Helper.Common.ICommunicationAgent;
+using FsharpReceiveAgent = Trader.Helper.Common.IReceiveAgent;
 using Trader.Server._4BitCompress;
 using Trader.Server.Service;
 namespace Trader.Server
@@ -35,7 +36,7 @@ namespace Trader.Server
         { 
         }
 
-        public void Add(long session, ReceiveAgent receiver, Client sender)
+        public void Add(long session, FsharpReceiveAgent receiver, CommunicationAgent sender)
         {
             this._Container.TryAdd(session, new ClientRelation(sender, receiver));
         }
@@ -50,7 +51,8 @@ namespace Trader.Server
             ClientRelation relation;
             if (this._Container.TryRemove(session,out relation))
             {
-                ClientPool.Default.Push(relation);
+                relation.Sender.Closed -= this.SenderClosedEventHandle;
+               // ClientPool.Default.Push(relation);
             }
         }
 
@@ -70,9 +72,9 @@ namespace Trader.Server
             }
         }
 
-        public Client GetSender(long session)
+        public CommunicationAgent GetSender(long session)
         {
-            Client result = null;
+            CommunicationAgent result = null;
             ClientRelation relation;
             if (this._Container.TryGetValue(session, out relation))
             {
@@ -82,9 +84,9 @@ namespace Trader.Server
         }
 
 
-        public ReceiveAgent GetReceiver(long session)
+        public FsharpReceiveAgent GetReceiver(long session)
         {
-            ReceiveAgent result = null;
+            FsharpReceiveAgent result = null;
             ClientRelation relation;
             if (this._Container.TryGetValue(session, out relation))
             {
@@ -253,14 +255,14 @@ namespace Trader.Server
 
     public class ClientRelation
     {
-        private ReceiveAgent _Receiver;
-        private Client _Sender;
-        public ClientRelation(Client sender, ReceiveAgent receiver)
+        private FsharpReceiveAgent _Receiver;
+        private CommunicationAgent _Sender;
+        public ClientRelation(CommunicationAgent sender, FsharpReceiveAgent receiver)
         {
             this._Receiver=receiver;
             this._Sender=sender;
         }
-        public ReceiveAgent Receiver { get { return this._Receiver; } }
-        public Client Sender { get { return this._Sender;} }
+        public FsharpReceiveAgent Receiver { get { return this._Receiver; } }
+        public CommunicationAgent Sender { get { return this._Sender;} }
     }
 }

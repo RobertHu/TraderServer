@@ -18,14 +18,62 @@ namespace Trader.Server._4BitCompress
         private const char _StartSeparator='/';
         private const char _OutterSeparator= ';';
         public long Sequence { get; set; }
-        private byte[] _Data;
-        private object _Lock = new object();
-
+        private Lazy<byte[]> _PriceData;
         private Quotation4Bit(OverridedQuotation[] overridedQuotations,TraderState state)
         {
             this._OverridedQuotations = overridedQuotations;
             this._State = state;
-           
+            this._PriceData = new Lazy<byte[]>(() =>
+            {
+                StringBuilder stringBuilder = new StringBuilder(_Capacity);
+                stringBuilder.Append(this.Sequence);
+                stringBuilder.Append(_StartSeparator);
+
+                if (_OverridedQuotations != null && _OverridedQuotations.Length > 0)
+                {
+                    bool addSeprator = false;
+                    foreach (OverridedQuotation overridedQuotation in this._OverridedQuotations)
+                    {
+                        if (!_State.Instruments.ContainsKey(overridedQuotation.InstrumentID))
+                        {
+                            continue;
+                        }
+                        if (overridedQuotation.QuotePolicyID != (Guid)_State.Instruments[overridedQuotation.InstrumentID])
+                        {
+                            continue;
+                        }
+
+                        if (addSeprator)
+                        {
+                            stringBuilder.Append(_OutterSeparator);
+                        }
+                        else
+                        {
+                            addSeprator = true;
+                        }
+
+                        stringBuilder.Append(GuidMapping.Get(overridedQuotation.InstrumentID));
+                        stringBuilder.Append(_InnerSeparator);
+                        stringBuilder.Append(overridedQuotation.Ask);
+                        stringBuilder.Append(_InnerSeparator);
+                        stringBuilder.Append(overridedQuotation.Bid);
+                        stringBuilder.Append(_InnerSeparator);
+                        stringBuilder.Append(overridedQuotation.High);
+                        stringBuilder.Append(_InnerSeparator);
+                        stringBuilder.Append(overridedQuotation.Low);
+                        stringBuilder.Append(_InnerSeparator);
+                        stringBuilder.Append(string.Empty);
+                        stringBuilder.Append(_InnerSeparator);
+                        stringBuilder.Append((long)(overridedQuotation.Timestamp - QuotationBase.OrginTime).TotalSeconds);
+                        stringBuilder.Append(_InnerSeparator);
+                        stringBuilder.Append(overridedQuotation.Volume);
+                        stringBuilder.Append(_InnerSeparator);
+                        stringBuilder.Append(overridedQuotation.TotalVolume);
+                    }
+                }
+                stringBuilder.Append(_StartSeparator);
+                return Quotation4BitEncoder.Encode(stringBuilder.ToString());
+            });
         }
 
 
@@ -46,72 +94,12 @@ namespace Trader.Server._4BitCompress
             _Dict.TryGetValue(filterSign, out quotation);
             return quotation;
         }
+
         public byte[] GetData()
         {
-            if (this._Data != null)
-            {
-                return this._Data;
-            }
-            lock (this._Lock)
-            {
-                if (this._Data != null)
-                {
-                    return this._Data;
-                }
-                else
-                {
-                    StringBuilder stringBuilder = new StringBuilder(_Capacity);
-                    stringBuilder.Append(this.Sequence);
-                    stringBuilder.Append(_StartSeparator);
-
-                    if (_OverridedQuotations != null && _OverridedQuotations.Length > 0)
-                    {
-                        bool addSeprator = false;
-                        foreach (OverridedQuotation overridedQuotation in this._OverridedQuotations)
-                        {
-                            if (!_State.Instruments.ContainsKey(overridedQuotation.InstrumentID))
-                            {
-                                continue;
-                            }
-                            if (overridedQuotation.QuotePolicyID != (Guid)_State.Instruments[overridedQuotation.InstrumentID])
-                            {
-                                continue;
-                            }
-
-                            if (addSeprator)
-                            {
-                                stringBuilder.Append(_OutterSeparator);
-                            }
-                            else
-                            {
-                                addSeprator = true;
-                            }
-
-                            stringBuilder.Append(GuidMapping.Get(overridedQuotation.InstrumentID));
-                            stringBuilder.Append(_InnerSeparator);
-                            stringBuilder.Append(overridedQuotation.Ask);
-                            stringBuilder.Append(_InnerSeparator);
-                            stringBuilder.Append(overridedQuotation.Bid);
-                            stringBuilder.Append(_InnerSeparator);
-                            stringBuilder.Append(overridedQuotation.High);
-                            stringBuilder.Append(_InnerSeparator);
-                            stringBuilder.Append(overridedQuotation.Low);
-                            stringBuilder.Append(_InnerSeparator);
-                            stringBuilder.Append(string.Empty);
-                            stringBuilder.Append(_InnerSeparator);
-                            stringBuilder.Append((long)(overridedQuotation.Timestamp - QuotationBase.OrginTime).TotalSeconds);
-                            stringBuilder.Append(_InnerSeparator);
-                            stringBuilder.Append(overridedQuotation.Volume);
-                            stringBuilder.Append(_InnerSeparator);
-                            stringBuilder.Append(overridedQuotation.TotalVolume);
-                        }
-                    }
-                    stringBuilder.Append(_StartSeparator);
-                    _Data = Quotation4BitEncoder.Encode(stringBuilder.ToString());
-                    return _Data;
-                }
-            }
+            return this._PriceData.Value;
         }
+     
         public static void Clear()
         {
             _Dict.Clear();

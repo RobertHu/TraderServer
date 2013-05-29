@@ -10,14 +10,12 @@ open System.Collections.Concurrent
 
 type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as this =
     static let logger = LogManager.GetLogger(typeof<Client>)
-    let mutable buff = Array.zeroCreate 512
-    let writeBuff = Array.zeroCreate 512
-    let headerBuff = Array.zeroCreate Constants.HeadCount
     let stream = stream
     let session = ref session
     let receiver = receiveCenter
     let mutable readedHeadCount = 0
     let mutable readContentCount = 0
+    let mutable bufferIndex = -1
     
     [<VolatileField>]
     let  mutable isClosed = false
@@ -28,14 +26,14 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
                 try
                     while true do
                         let! msg= inbox.Receive()
-                        match msg.Length > writeBuff.Length with
+                        match msg.Length > BufferManager.BUFFER_SIZE / 2 with
                         |true -> do! stream.AsyncWrite(msg)
                         |false -> 
-                            System.Buffer.BlockCopy(msg,0,writeBuff,0,msg.Length)
-                            do! stream.AsyncWrite(writeBuff,0,msg.Length)
+                            let offset = bufferIndex + BufferManager.BUFFER_SIZE / 2
+                            System.Buffer.BlockCopy(msg,0,BufferManager.Default.Buffer,offset,msg.Length)
+                            do! stream.AsyncWrite(BufferManager.Default.Buffer,offset,msg.Length)
                 with
                     |x ->
-                        //logger.Error(x)
                         this.Close()
                 }
         )
@@ -44,30 +42,33 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
     let read() = async{
         while not isClosed do
             try
-                let! count = stream.AsyncRead(headerBuff)
+                let! count = stream.AsyncRead(BufferManager.Default.Buffer,bufferIndex,Constants.HeadCount)
                 readedHeadCount <- count
                 match count = Constants.HeadCount with
                 |false -> 
                     while readedHeadCount <> Constants.HeadCount do
-                        let! c = stream.AsyncRead(headerBuff,readedHeadCount,(Constants.HeadCount - readedHeadCount))
+                        let! c = stream.AsyncRead(BufferManager.Default.Buffer,readedHeadCount + bufferIndex,(Constants.HeadCount - readedHeadCount))
                         match c > 0 with
                         |false -> this.Close()
                         |true -> readedHeadCount <- readedHeadCount + c
                 | _  -> ()
-                let packetLength = Constants.GetPacketLength(headerBuff,0)
+                let packetLength = Constants.GetPacketLength(BufferManager.Default.Buffer,bufferIndex)
                 let contentLength = packetLength - Constants.HeadCount
-                match contentLength <= buff.Length with
-                | false -> 
-                    buff <- Array.zeroCreate contentLength
-                | true -> ()
                 readContentCount <- 0
                 while readContentCount <> contentLength do
-                    let! c = stream.AsyncRead(buff,readContentCount,(contentLength - readContentCount))
+                    let offset = bufferIndex + readContentCount + Constants.HeadCount
+                    let! c = stream.AsyncRead(BufferManager.Default.Buffer,offset,(contentLength - readContentCount))
                     readContentCount <- readContentCount + c
                 let packet = Array.zeroCreate packetLength
-                System.Buffer.BlockCopy(headerBuff,0,packet,0,Constants.HeadCount)
-                System.Buffer.BlockCopy(buff,0,packet,Constants.HeadCount,contentLength)
-                receiver.Send(new ReceiveData(!session,packet))
+                System.Buffer.BlockCopy(BufferManager.Default.Buffer,bufferIndex,packet,0,Constants.HeadCount)
+                let contentOffset = bufferIndex + Constants.HeadCount
+                System.Buffer.BlockCopy(BufferManager.Default.Buffer,contentOffset,packet,Constants.HeadCount,contentLength)
+                let receiveData = ReceiveDataPool.Default.Pop()
+                if receiveData = null then receiver.Send(new ReceiveData(!session,packet))
+                else
+                    receiveData.Session <- !session
+                    receiveData.Data <- packet 
+                    receiver.Send(receiveData)
             with
             |x -> 
                 this.Close()
@@ -77,23 +78,20 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
         agent.Start()
 
     interface ICommunicationAgent with
-        member this.Send(msg: byte[])  = 
-            match isClosed with
-            |true -> ()
-            |false -> agent.Post(msg)
+        member this.Send(msg: byte[])  = if not isClosed then agent.Post(msg)
 
-        member this.UpdateSession(newsession) =
-             session :=  newsession
+        member this.UpdateSession(newsession) = session :=  newsession
         [<CLIEvent>]
         member this.Closed = closeEvent.Publish
+        member this.BufferIndex
+            with get() = bufferIndex and set(value) = bufferIndex <- value
 
 
     member this.IsClosed 
-        with get() =
-             isClosed 
-        and set(value) = 
-            isClosed <- value
+        with get() = isClosed and set(value) = isClosed <- value
     
+    
+
 
     member private this.Close() =
         match this.IsClosed with
@@ -102,6 +100,7 @@ type Client(stream: SslStream,session: Int64, receiveCenter: IReceiveCenter) as 
             this.IsClosed <- true
             stream.Close()
             closeEvent.Trigger(new obj(), new SenderClosedEventArgs(!session))
+            BufferManager.Default.FreeBuffer(bufferIndex)
 
    
 

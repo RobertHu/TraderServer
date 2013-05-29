@@ -69,7 +69,7 @@ namespace Trader.Server
                     }
                     else
                     {
-                        this._Logger.Info("can't find a receive agent");
+                        this._Logger.InfoFormat("can't find a receive agent with session {0}",this._Current.Session);
                     }
                 }
             }

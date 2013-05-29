@@ -36,6 +36,7 @@ type ICommunicationAgent =
     abstract UpdateSession: Int64 -> unit
     [<CLIEvent>]
     abstract Closed: IEvent<SenderClosedDelegate, SenderClosedEventArgs>
+    abstract BufferIndex: int with get, set
     
 type ClientDisconnectedEventArgs(session: string, client: ICommunicationAgent, receiveClient: IReceiveAgent) =
     inherit EventArgs()
@@ -45,7 +46,4 @@ type ClientDisconnectedEventArgs(session: string, client: ICommunicationAgent, r
 
 type ClientDisconnectedDelegate = delegate of obj * ClientDisconnectedEventArgs -> unit
 
-let AsyncWrite (stream :System.Net.Security.SslStream) data offset count = 
-    Async.RunSynchronously (stream.AsyncWrite( data,offset,count))
- 
 
