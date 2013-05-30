@@ -17,7 +17,8 @@ namespace Trader.Server.Ssl
         private SslStream _Stream;
         private volatile bool _IsClosed = false;
         private ConcurrentQueue<byte[]> _Queue = new ConcurrentQueue<byte[]>();
-        private volatile bool _IsSendingData = false;
+        private bool _IsSendingData = false;
+        private object _Lock = new object();
         private int _ReadedHeadCount = 0;
         private int _ReadedContentCount = 0;
         private int _ContentLength = 0;
@@ -53,10 +54,13 @@ namespace Trader.Server.Ssl
                 return;
             }
             this._Queue.Enqueue(packet);
-            if (!_IsSendingData)
+            lock (this._Lock)
             {
-                this._IsSendingData = true;
-               BeginWrite();
+                if (!_IsSendingData)
+                {
+                    this._IsSendingData = true;
+                    BeginWrite();
+                }
             }
         }
 
@@ -193,20 +197,14 @@ namespace Trader.Server.Ssl
                 byte[] packet;
                 if (this._Queue.TryDequeue(out packet))
                 {
-                    if (packet.Length > BufferManager.BUFFER_SIZE / 2 )
-                    {
-                        this._Stream.BeginWrite(packet, 0, packet.Length, this.EndWrite, null);
-                    }
-                    else
-                    {
-                        int offset = this.BufferIndex + BufferManager.BUFFER_SIZE / 2;
-                        System.Buffer.BlockCopy(packet, 0, BufferManager.Default.Buffer, offset, packet.Length);
-                        this._Stream.BeginWrite(BufferManager.Default.Buffer, offset, packet.Length, this.EndWrite, null); 
-                    }
+                    this._Stream.BeginWrite(packet, 0, packet.Length, this.EndWrite, null);
                 }
                 else
                 {
-                    this._IsSendingData = false;
+                    lock (this._Lock)
+                    {
+                        this._IsSendingData = false;
+                    }
                 }
             }
             catch (Exception ex)
