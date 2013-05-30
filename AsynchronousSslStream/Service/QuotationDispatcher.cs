@@ -63,7 +63,7 @@ namespace Trader.Server.Service
                     qotation.Merge(this._QuotationQueue);
                     this._QuotationQueue.Clear();
                 }
-                if (qotation.OverridedQs == null)
+                if (qotation.OverridedQs == null || qotation.OverridedQs.Length==0)
                 {
                     continue;
                 }

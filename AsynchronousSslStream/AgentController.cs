@@ -14,7 +14,6 @@ using Trader.Common;
 using Serialization;
 using Trader.Server.Ssl;
 using CommunicationAgent = Trader.Helper.Common.ICommunicationAgent;
-using FsharpReceiveAgent = Trader.Helper.Common.IReceiveAgent;
 using Trader.Server._4BitCompress;
 using Trader.Server.Service;
 namespace Trader.Server
@@ -23,7 +22,7 @@ namespace Trader.Server
     {
         public static readonly AgentController Default = new AgentController();
         private ILog _Logger = LogManager.GetLogger(typeof(AgentController));
-        private ConcurrentDictionary<long,ClientRelation> _Container=new ConcurrentDictionary<long,ClientRelation>();
+        private ConcurrentDictionary<long, ClientRelation> _Container = new ConcurrentDictionary<long, ClientRelation>();
         private AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
         private AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
         private ConcurrentQueue<long> _DisconnectQueue = new ConcurrentQueue<long>();
@@ -32,11 +31,11 @@ namespace Trader.Server
         private volatile bool _Stopped = false;
         private CommandWithQuotation _Current;
         private TraderState _UpdateCommandState = new TraderState(string.Empty);
-        private AgentController() 
-        { 
+        private AgentController()
+        {
         }
 
-        public void Add(long session, FsharpReceiveAgent receiver, CommunicationAgent sender)
+        public void Add(long session, ReceiveAgent receiver, Client sender)
         {
             this._Container.TryAdd(session, new ClientRelation(sender, receiver));
         }
@@ -49,10 +48,9 @@ namespace Trader.Server
         private void RemoveHelper(long session)
         {
             ClientRelation relation;
-            if (this._Container.TryRemove(session,out relation))
+            if (this._Container.TryRemove(session, out relation))
             {
-                relation.Sender.Closed -= this.SenderClosedEventHandle;
-               // ClientPool.Default.Push(relation);
+                ClientPool.Default.Push(relation);
             }
         }
 
@@ -72,9 +70,9 @@ namespace Trader.Server
             }
         }
 
-        public CommunicationAgent GetSender(long session)
+        public Client GetSender(long session)
         {
-            CommunicationAgent result = null;
+            Client result = null;
             ClientRelation relation;
             if (this._Container.TryGetValue(session, out relation))
             {
@@ -84,9 +82,9 @@ namespace Trader.Server
         }
 
 
-        public FsharpReceiveAgent GetReceiver(long session)
+        public ReceiveAgent GetReceiver(long session)
         {
-            FsharpReceiveAgent result = null;
+            ReceiveAgent result = null;
             ClientRelation relation;
             if (this._Container.TryGetValue(session, out relation))
             {
@@ -141,7 +139,7 @@ namespace Trader.Server
                     break;
                 }
                 this._DisconnectEvent.WaitOne();
-                while (this._DisconnectQueue.Count!=0)
+                while (this._DisconnectQueue.Count != 0)
                 {
                     if (this._Stopped)
                     {
@@ -185,21 +183,7 @@ namespace Trader.Server
                     }
                     else
                     {
-                        if (this._Current.Command is UpdateCommand)
-                        {
-                            byte[] data = Quotation.Default.ToBytesForGeneral(null, _UpdateCommandState, this._Current.Command);
-                            if (data != null)
-                            {
-                                byte[] packet = SerializeManager.Default.SerializeCommand(data);
-                                foreach (var item in this._Container)
-                                {
-                                    item.Value.Sender.Send(packet);
-                                }
-                            }
-                            continue;
-                        }
                         Parallel.ForEach(this._Container, this.SendCommandHandler);
-
                     }
                 }
             }
@@ -207,17 +191,17 @@ namespace Trader.Server
         }
 
 
-        public void SenderClosedEventHandle(object sender,Trader.Helper.Common.SenderClosedEventArgs e)
+        public void SenderClosedEventHandle(object sender, Trader.Helper.Common.SenderClosedEventArgs e)
         {
             this.EnqueueDisconnectSession(e.Session);
         }
 
 
-      
+
         private void SendCommandHandler(KeyValuePair<long, ClientRelation> p)
         {
             Token token;
-            TraderState state = SessionManager.Default.GetTokenAndState(p.Key,out token);
+            TraderState state = SessionManager.Default.GetTokenAndState(p.Key, out token);
             if (token == null || state == null)
             {
                 return;
@@ -233,21 +217,21 @@ namespace Trader.Server
 
 
 
-        private void SendQuotationHandler(KeyValuePair<long,ClientRelation> p)
+        private void SendQuotationHandler(KeyValuePair<long, ClientRelation> p)
         {
             Token token;
-            TraderState state = SessionManager.Default.GetTokenAndState(p.Key,out token);
+            TraderState state = SessionManager.Default.GetTokenAndState(p.Key, out token);
             if (token == null || state == null)
             {
                 return;
             }
-            byte[] quotation =Quotation.Default.ToBytesForQuotation(token, state,this._Current.QuotationCommand);
+            byte[] quotation = Quotation.Default.ToBytesForQuotation(token, state, this._Current.QuotationCommand);
             if (quotation == null)
             {
                 return;
             }
             byte[] packet = SerializeManager.Default.SerializePrice(quotation);
-          
+
             p.Value.Sender.Send(packet);
         }
 
@@ -255,14 +239,14 @@ namespace Trader.Server
 
     public class ClientRelation
     {
-        private FsharpReceiveAgent _Receiver;
-        private CommunicationAgent _Sender;
-        public ClientRelation(CommunicationAgent sender, FsharpReceiveAgent receiver)
+        private ReceiveAgent _Receiver;
+        private Client _Sender;
+        public ClientRelation(Client sender, ReceiveAgent receiver)
         {
-            this._Receiver=receiver;
-            this._Sender=sender;
+            this._Receiver = receiver;
+            this._Sender = sender;
         }
-        public FsharpReceiveAgent Receiver { get { return this._Receiver; } }
-        public CommunicationAgent Sender { get { return this._Sender;} }
+        public ReceiveAgent Receiver { get { return this._Receiver; } }
+        public Client Sender { get { return this._Sender; } }
     }
 }

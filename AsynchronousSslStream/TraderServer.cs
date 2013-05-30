@@ -15,16 +15,15 @@ using Trader.Server.Util;
 using Trader.Common;
 using Trader.Server.Ssl;
 using CommunicationAgent = Trader.Helper.Common.ICommunicationAgent;
-using FsharpReceiveAgent = Trader.Helper.Common.IReceiveAgent;
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
-namespace Trader.Server 
+namespace Trader.Server
 {
-   public class TraderServer
+    public class TraderServer
     {
         private ILog _Log = LogManager.GetLogger(typeof(TraderServer));
-        private  CommandCollectorHost _CommandCollectorHost = new CommandCollectorHost();
+        private CommandCollectorHost _CommandCollectorHost = new CommandCollectorHost();
         private SecureTcpServer server = null;
-      
+
         public void Start()
         {
             try
@@ -80,14 +79,14 @@ namespace Trader.Server
             {
                 SslStream sslStream = args.SecureStream;
                 long sessionMappingID = SessionMapping.Get();
-                var client = new Trader.Helper.Communication.Client(sslStream, sessionMappingID, ReceiveCenter.Default);
-                var iClient = client as Trader.Helper.Common.ICommunicationAgent;
-                iClient.Closed += AgentController.Default.SenderClosedEventHandle;
-                iClient.BufferIndex = BufferManager.Default.SetBuffer();
-
-                var receiveAgent = new Trader.Helper.ReceiveManager.ReceiveAgent(ClientRequestHelper.Process);
-                var iReceiveAgent = receiveAgent as FsharpReceiveAgent;
-                AgentController.Default.Add(sessionMappingID,iReceiveAgent,iClient);
+                ClientRelation relation = ClientPool.Default.Pop();
+                if (relation == null)
+                {
+                    relation = new ClientRelation(new Client(), new ReceiveAgent());
+                }
+                relation.Sender.BufferIndex = BufferManager.Default.SetBuffer();
+                relation.Sender.Start(sslStream, sessionMappingID);
+                AgentController.Default.Add(sessionMappingID, relation.Receiver, relation.Sender);
             }
             catch (Exception ex)
             {
