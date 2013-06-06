@@ -221,7 +221,7 @@ namespace Trader.Server
         {
             Token token;
             TraderState state = SessionManager.Default.GetTokenAndState(p.Key, out token);
-            if (token == null || state == null)
+            if (token == null || state == null ||  string.IsNullOrEmpty(state.QuotationFilterSign))
             {
                 return;
             }

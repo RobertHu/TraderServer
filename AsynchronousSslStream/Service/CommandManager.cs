@@ -78,8 +78,20 @@ namespace Trader.Server.Service
                     }
                     else
                     {
-                        this._Commands.Add(this._Current);
-                        AgentController.Default.AddQuotation(new CommandWithQuotation(null, this._Current, false));
+                        CompositeCommand compositeCommand = this._Current as CompositeCommand;
+                        if (compositeCommand != null)
+                        {
+                            foreach (var cmd in compositeCommand.Commands)
+                            {
+                                this._Commands.Add(cmd);
+                                AgentController.Default.AddQuotation(new CommandWithQuotation(null, cmd, false));
+                            }
+                        }
+                        else
+                        {
+                            this._Commands.Add(this._Current);
+                            AgentController.Default.AddQuotation(new CommandWithQuotation(null, this._Current, false));
+                        }
                     }
                 }
             }
@@ -105,6 +117,10 @@ namespace Trader.Server.Service
         {
             this._Commands.Add(quotation);
             AgentController.Default.AddQuotation(new CommandWithQuotation(quotation,null,true));
+            //NewsCommand command = new NewsCommand();
+            //this._Commands.Add(command);
+            //AgentController.Default.AddQuotation(new CommandWithQuotation(null, command,false));
+
         }
 
 

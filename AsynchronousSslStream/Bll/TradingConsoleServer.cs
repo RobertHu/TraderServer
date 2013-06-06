@@ -14,7 +14,8 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Configuration;
-
+using Trader.Server.Util;
+using Trader.Common;
 namespace Trader.Server.Bll
 {
     public class TradingConsoleServer
@@ -731,19 +732,28 @@ namespace Trader.Server.Bll
             }
         }
 
-        public void UpdateQuotePolicyDetail(Guid instrumentID, Guid quotePolicyID, TradingConsoleState state)
+        public XElement UpdateQuotePolicyDetail(Guid instrumentID, Guid quotePolicyID, TradingConsoleState state)
         {
-            AppDebug.LogEvent("TradingConsole.UpdateQuotePolicyDetail]QuotePolicy",
-                string.Format("SessionId = {0}, InstrumentId = {1}, QuotePolicyId = {2}{3}{4}", state.SessionId, instrumentID, quotePolicyID, Environment.NewLine, Environment.StackTrace),
-                EventLogEntryType.Information);
+            try
+            {
+                AppDebug.LogEvent("TradingConsole.UpdateQuotePolicyDetail]QuotePolicy",
+                    string.Format("SessionId = {0}, InstrumentId = {1}, QuotePolicyId = {2}{3}{4}", state.SessionId, instrumentID, quotePolicyID, Environment.NewLine, Environment.StackTrace),
+                    EventLogEntryType.Information);
 
-            if (state.Instruments.ContainsKey(instrumentID))
-            {
-                state.Instruments[instrumentID] = quotePolicyID;
+                if (state.Instruments.ContainsKey(instrumentID))
+                {
+                    state.Instruments[instrumentID] = quotePolicyID;
+                }
+                else
+                {
+                    state.Instruments.Add(instrumentID, quotePolicyID);
+                }
+
+                return XmlResultHelper.NewResult(StringConstants.OK_RESULT);
             }
-            else
+            catch (Exception ex)
             {
-                state.Instruments.Add(instrumentID, quotePolicyID);
+                return XmlResultHelper.ErrorResult;
             }
         }
 

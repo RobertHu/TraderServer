@@ -60,5 +60,19 @@ namespace Trader.Server.Bll
             return dataSet;
         }
 
+
+        public void UpdateInstrumentSetting(long session, Dictionary<Guid, Guid> quotePolicyIds)
+        {
+            var state = SessionManager.Default.GetTradingConsoleState(session);
+            if (state != null)
+            {
+                state.Instruments.Clear();
+                foreach (KeyValuePair<Guid, Guid> pair in quotePolicyIds)
+                {
+                    state.Instruments.Add(pair.Key, pair.Value);
+                }
+                state.CaculateQuotationFilterSign();
+            }
+        }
     }
 }

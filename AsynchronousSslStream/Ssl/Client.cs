@@ -107,7 +107,7 @@ namespace Trader.Server.Ssl
                 int len = this._Stream.EndRead(ar);
                 if (len > 0)
                 {
-                    this._ReadedContentCount = +len;
+                    this._ReadedContentCount += len;
                     if (this._ReadedContentCount != this._ContentLength)
                     {
                         BeginReadContent();

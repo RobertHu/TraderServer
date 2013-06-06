@@ -86,6 +86,11 @@ namespace Trader.Server.Service
                     {
                         quotationCommands.Add(quotation);
                     }
+                    else
+                    {
+                        XmlNode xml = command.ToXmlNode(token, state);
+                        this._Logger.Info("get lost command  " + xml.OuterXml);
+                    }
                 }
                 if (quotationCommands.Count > 0)
                 {

@@ -11,6 +11,7 @@ using log4net;
 using Trader.Server._4BitCompress;
 using Mobile = iExchange3Promotion.Mobile;
 using Trader.Common;
+using System.Web;
 
 namespace Trader.Server.Bll
 {
@@ -72,10 +73,21 @@ namespace Trader.Server.Bll
             result = GetQuotationCommon(token, state);
             if (result == null)
             {
-                result = GetDataBytesInUtf8Format(token, state,command);
+                XmlDocument xmlDoc = new XmlDocument();
+                XmlElement commands = xmlDoc.CreateElement("Commands");
+                xmlDoc.AppendChild(commands);
+                XmlNode commandNode = command.ToXmlNode(token, state);
+                if (commandNode == null)
+                {
+                    return null;
+                }
+                XmlNode commandNode2 = commands.OwnerDocument.ImportNode(commandNode, true);
+                commands.AppendChild(commandNode2);
+                commands.SetAttribute("FirstSequence", command.Sequence.ToString());
+                commands.SetAttribute("LastSequence", command.Sequence.ToString());
+                result = Constants.ContentEncoding.GetBytes(commands.OuterXml);
                 CacheQuotationCommon(token.AppType, state.SignMapping, result);
             }
-
             return result;
         }
 
@@ -104,16 +116,18 @@ namespace Trader.Server.Bll
 
         private byte[] GetDataBytesInUtf8Format(Token token, TraderState state,Command command)
         {
-            var node = ConvertCommand(token, state,command);
+            var node = ConvertCommand(token, state, command);
             if (node == null)
             {
                 return null;
             }
+
             string xml = node.OuterXml;
             if (string.IsNullOrEmpty(xml))
             {
                 return null;
             }
+            //string news = "<News C_S=\"" + command.Sequence + "\"><NewsItem Id=\"8b8499ee-24d6-46b0-9f5c-5fd7026e5424\" PublishTime=\"2013-06-04 11:53:37\" Language=\"Chs\" Title=\"11:53 港股 西王特钢 月报表\" /><NewsItem Id=\"837d4948-0bbe-4a84-a5c6-801c13feb59c\" PublishTime=\"2013-06-04 11:53:30\" Language=\"Chs\" Title=\"11:53 港股 恒指花旗四一牛A 债券及结构性产品,牛熊证到期公告\" /></News>";
             return Constants.ContentEncoding.GetBytes(xml);
         }
 
@@ -138,6 +152,10 @@ namespace Trader.Server.Bll
                         commandElement.SetAttribute(ResponseConstants.CommandSequence, command.Sequence.ToString());
                     }
                   
+                }
+                if (command is NewsCommand)
+                {
+                    _Logger.Info(commandElement.OuterXml);
                 }
                 return commandElement;
             }

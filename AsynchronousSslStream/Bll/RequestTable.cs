@@ -13,6 +13,7 @@ using log4net;
 using System.Xml.Linq;
 using Trader.Common;
 using Wintellect.Threading.AsyncProgModel;
+using Trader.Server.Session;
 namespace Trader.Server.Bll
 {
     public class RequestTable
@@ -65,6 +66,7 @@ namespace Trader.Server.Bll
             table.Add("Apply", ApplyAction);
             table.Add("Cancel", CancelAction);
             table.Add("ModifyOrder", ModifyOrderAction);
+            table.Add("ClearWorkingOrder", ClearWorkingOrder);
             table.Add("QueryOrder", QueryOrderAction);
             table.Add("DeleteMessage", DeleteMessageAction);
             table.Add("MultipleClose", MultipleCloseAction);
@@ -73,6 +75,9 @@ namespace Trader.Server.Bll
             table.Add("GetInterestRateByInterestRateId", GetInterestRateByInterestRateIdAction);
             table.Add("GetInterestRateByOrderId", GetInterestRateByOrderIdAction);
             table.Add("AccountSummaryForJava2", AccountSummaryForJava2Action);
+            table.Add("UpdateQuotePolicyDetail", UpdateQuotePolicyDetailAction);
+            table.Add("GetQuotePolicyDetailsAndRefreshInstrumentsState", GetQuotePolicyDetailsAndRefreshInstrumentsStateAction);
+            table.Add("GetNewsContents", GetNewsContentsAction);
 
         }
 
@@ -88,6 +93,22 @@ namespace Trader.Server.Bll
                 this._Logger.InfoFormat("the request methed {0} not exist", methodName);
                 return XmlResultHelper.ErrorResult;
             }
+        }
+        private XElement GetNewsContentsAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return this._Service.GetNewsContents(request.Session, args[0]);
+        }
+        private XElement GetQuotePolicyDetailsAndRefreshInstrumentsStateAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return this._Service.GetQuotePolicyDetailsAndRefreshInstrumentsState(request.Session, args[0].ToGuid());
+        }
+        private XElement UpdateQuotePolicyDetailAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            TraderState state = SessionManager.Default.GetTradingConsoleState(request.Session);
+            return Application.Default.TradingConsoleServer.UpdateQuotePolicyDetail(args[0].ToGuid(), args[1].ToGuid(), state);
         }
         private XElement AccountSummaryForJava2Action(SerializedObject request, Token token)
         {
@@ -109,7 +130,32 @@ namespace Trader.Server.Bll
         private XElement CancelLMTOrderAction(SerializedObject request, Token token)
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
-            return this._Service.CancelLMTOrder(request.Session, args[0]);
+            if (token.AppType == AppType.Mobile)
+            {
+                return Mobile.Manager.CancelPendingOrder(token, new Guid(args[0]));
+            }
+            else
+            {
+                return this._Service.CancelLMTOrder(request.Session, args[0]);
+            }
+        }
+
+        private XElement ClearWorkingOrder(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            Guid? orderId = null;
+            if (args != null && args.Count > 0 && !string.IsNullOrEmpty(args[0]))
+            {
+                orderId = new Guid(args[0]);
+            }
+            if (token.AppType == AppType.Mobile)
+            {
+                return Mobile.Manager.ClearWorkingOrder(token, orderId);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
         private XElement VerifyMarginPinAction(SerializedObject request, Token token)
         {
@@ -143,8 +189,9 @@ namespace Trader.Server.Bll
                 int lastDays = int.Parse(args[1]);
                 int orderStatus = int.Parse(args[2]);
                 int orderType = int.Parse(args[3]);
-                return null;
-                //return Mobile.Manager.QueryOrder(token, instrumentId, lastDays, orderStatus, orderType);
+                XElement result = new XElement("Result");
+                result.Add(Mobile.Manager.QueryOrder(token, instrumentId, lastDays, orderStatus, orderType));
+                return result;
             }
             else
             {
@@ -218,6 +265,13 @@ namespace Trader.Server.Bll
                 token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session);
                 result = iExchange3Promotion.Mobile.Manager.Login(token);
             }
+
+
+            //test:
+            if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"] == "true")
+            {
+                Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[] { });
+            }
             return result;
         }
 
@@ -235,7 +289,7 @@ namespace Trader.Server.Bll
                 if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"]=="true")
                 {
                     ////test place
-                    //string s = "<PlacingInstruction AccountId=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentId=\"864ac5d7-b872-45a6-887e-7189463beb12\" PlacingType=\"LimitStop\" EndTime=\"2013-05-02 12:19:07.007\" ExpireType=\"GoodTillSession\" ExpireDate=\"2013-05-02 12:19:07.007\" PriceIsQuote=\"false\" PriceTimestamp=\"2013-05-02 12:19:07.007\"><PlacingOrders><PlacingOrder Id=\"e2a72e0d-ddf6-4d83-8a04-9883a0eee84e\" Lot=\"1\" IsOpen=\"true\" IsBuy=\"false\" SetPrice=\"2.0988\" TradeOption=\"Better\" /></PlacingOrders></PlacingInstruction>";                    
+                    //string s = "<PlacingInstruction AccountId=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentId=\"864ac5d7-b872-45a6-887e-7189463beb12\" PlacingType=\"LimitStop\" EndTime=\"2013-05-02 12:19:07.007\" ExpireType=\"GoodTillSession\" ExpireDate=\"2013-05-02 12:19:07.007\" PriceIsQuote=\"false\" PriceTimestamp=\"2013-05-02 12:19:07.007\"><PlacingOrders><PlacingOrder Id=\"e2a72e0d-ddf6-4d83-8a04-9883a0eee84e\" Lot=\"1\" IsOpen=\"true\" IsBuy=\"false\" SetPrice=\"2.0988\" TradeOption=\"Better\" /></PlacingOrders></PlacingInstruction>";
                     //XmlDocument doc = new XmlDocument();
                     //doc.LoadXml(s);
                     //ICollection<Mobile.Server.Transaction> transactionsTest = Mobile.Manager.ConvertPlacingRequest(token, doc.FirstChild);
@@ -247,8 +301,28 @@ namespace Trader.Server.Bll
                     //}
                     //// test quote
                     //this._Service.Quote(request.Session, "282fa038-1330-43a6-aa87-9d7d01c1a594", 30, 2);
+                   
                     // test order query
-                   // XElement  node =Mobile.Manager.QueryOrder(token, new Guid("1DFC557A-3FB5-4A9F-BD08-E165FA6DFCE6"), 10, 4, 3);
+                    //XElement node = Mobile.Manager.QueryOrder(token, new Guid("1DFC557A-3FB5-4A9F-BD08-E165FA6DFCE6"), 10, 4, 3);
+                    //XElement x = new XElement("Result");
+                    //x.Add(node);
+                    
+
+                    //XElement e = XElement.Parse("<Transaction ID=\"ec123d66-77af-4403-b739-0bbfa618a37b\" AccountID=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentID=\"864ac5d7-b872-45a6-887e-7189463beb12\" Type=\"2\" SubType=\"1\" OrderType=\"1\" BeginTime=\"2013-05-02 11:52:22\" EndTime=\"2013-05-03 04:00:00\" ExpireType=\"3\" SubmitTime=\"2013-05-10 09:41:07\" ContractSize=\"10001.0000\" SubmitorID=\"79eb2fa2-4ced-4d0e-a283-85adc0136d05\" AssigningOrderID=\"4F23DE3E-3968-440E-829A-3D78685EAA8C\"><Order ID=\"aca88b2e-7640-4a26-9284-6a8993d420e3\" TradeOption=\"1\" IsOpen=\"true\" IsBuy=\"false\" SetPrice=\"2.102\" SetPrice2=\"\" DQMaxMove=\"0\" Lot=\"1.0000\" OriginalLot=\"1.0000\" /></Transaction>");
+                    //Mobile.Server.Transaction transaction = Mobile.Manager.ConvertModifyRequest(token, new Guid("4F23DE3E-3968-440E-829A-3D78685EAA8C"), "2.3", new Guid("11111111-AEF4-4717-8101-522E284DDA6D"), "2.0", null, null, null, null, true);
+                    
+                    //XElement element = new XElement("Result");
+                    //ICollection<XElement> errorCodes = this.GetPlaceResultForMobile(transaction, token);
+
+                    //XmlNode n = InstrumentManager.Default.UpdateInstrumentSetting(request.Session, new string[] { "27b059c2-1913-44ac-93ec-dc39e9863f1a" });
+                    //string instrumentIds = "6a3fbe21-2e49-46ea-ae93-2be31caa3c6c,babf7daa-af0f-4396-85f2-67e2c97952b7,382be55a-3b33-403e-b9e0-b9eccabd5019,ab98797c-0b0c-427f-8d1b-0de006d153a1,63a02916-28b2-4da1-a65e-59bb1dd4f951,eb82dca7-2625-48df-ac5c-464d160bccbc,282fa038-1330-43a6-aa87-9d7d01c1a594,864ac5d7-b872-45a6-887e-7189463beb12,1bac5d80-7f4a-4b94-98fa-0b76e13fcb1b";
+                    //Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token,  instrumentIds.Split(new char[]{','}));
+                    //var state = Trader.Server.Session.SessionManager.Default.GetTradingConsoleState(request.Session);
+                    //InstrumentManager.Default.UpdateInstrumentSetting(request.Session, quotePolicyIds);
+                    //XElement e= Mobile.Manager.GetChanges(request.Session, true);
+
+                    Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[] { });
+
                 }
             }
             else
@@ -302,9 +376,27 @@ namespace Trader.Server.Bll
         private XElement  UpdateInstrumentSettingAction(SerializedObject request, Token token)
         {
             List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
-            string[] instrumentIds = argList[0].Split(StringConstants.ArrayItemSeparator);
-            return InstrumentManager.Default.UpdateInstrumentSetting(request.Session, instrumentIds);
-
+                string[] instrumentIds = argList[0].Split(StringConstants.ArrayItemSeparator);
+            if (token.AppType == AppType.Mobile)
+            {
+                Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, instrumentIds);                
+                InstrumentManager.Default.UpdateInstrumentSetting(request.Session, quotePolicyIds);
+                if (Mobile.Manager.IsTradeStateInitialized(token))
+                {
+                    return Mobile.Manager.GetChanges(request.Session.ToString(), true);
+                }
+                else
+                {                    
+                    XElement root = new XElement("Result");
+                    root.Add(new XElement("Account"));
+                    return root;
+                }
+            }
+            else
+            {
+                
+                return InstrumentManager.Default.UpdateInstrumentSetting(request.Session, instrumentIds);
+            }
         }
 
         private XElement  saveLogAction(SerializedObject request, Token token)
