@@ -120,20 +120,22 @@ namespace Trader.Server.Ssl
                 //complete the last operation...
                 TcpClient client = listener.EndAcceptTcpClient(result);
                 bool leaveStreamOpen = false; //close the socket when done
+                TraderNetworkStream networkStream = new TraderNetworkStream(client.Client);
                 if (this._CertValidationCallback != null)
                 {
-                    sslStream = new SslStream(client.GetStream(), leaveStreamOpen, this._CertValidationCallback);
+                    sslStream = new SslStream(networkStream, leaveStreamOpen, this._CertValidationCallback);
                 }
                 else
                 {
-                    sslStream = new SslStream(client.GetStream(), leaveStreamOpen);
+                    sslStream = new SslStream(networkStream, leaveStreamOpen);
                 }
+                SslInfo sslInfo = new SslInfo(networkStream, sslStream);
                 sslStream.BeginAuthenticateAsServer(this._ServerCertificate,
                     this._ClientCertificateRequired,
                     this._SslProtocols,
                     this._CheckCertifcateRevocation, //checkCertifcateRevocation
                     this.OnAuthenticateAsServer,
-                    sslStream);
+                    sslInfo);
 
             }
             catch (Exception ex)
@@ -150,20 +152,19 @@ namespace Trader.Server.Ssl
 
         private void OnAuthenticateAsServer(IAsyncResult result)
         {
-            SslStream sslStream = null;
+            SslInfo sslInfo = null;
             try
             {
-                sslStream = result.AsyncState as SslStream;
-                sslStream.EndAuthenticateAsServer(result);
-                this._ConnectionCallback(this, new SecureConnectionResults(sslStream));
+                sslInfo = result.AsyncState as SslInfo;
+                sslInfo.SslStream.EndAuthenticateAsServer(result);
+                this._ConnectionCallback(this, new SecureConnectionResults(sslInfo));
             }
             catch (Exception ex)
             {
                 _Logger.Error(ex);
-                if (sslStream != null)
+                if (sslInfo.SslStream != null)
                 {
-                    sslStream.Dispose();
-                    sslStream = null;
+                    sslInfo.SslStream.Dispose();
                 }
                 this._ConnectionCallback(this, new SecureConnectionResults(ex));
             }
@@ -180,5 +181,16 @@ namespace Trader.Server.Ssl
                 GC.SuppressFinalize(this);
             }
         }
+    }
+
+    public class SslInfo
+    {
+        public SslInfo(TraderNetworkStream stream1, SslStream stream2)
+        {
+            this.NetworkStream = stream1;
+            this.SslStream = stream2;
+        }
+        public TraderNetworkStream NetworkStream { get; private set; }
+        public SslStream SslStream { get; private set; }
     }
 }

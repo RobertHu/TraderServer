@@ -77,7 +77,7 @@ namespace Trader.Server
             }
             try
             {
-                SslStream sslStream = args.SecureStream;
+                SslInfo sslInfo= args.SecureInfo;
                 long sessionMappingID = SessionMapping.Get();
                 ClientRelation relation = ClientPool.Default.Pop();
                 if (relation == null)
@@ -85,7 +85,8 @@ namespace Trader.Server
                     relation = new ClientRelation(new Client(), new ReceiveAgent());
                 }
                 relation.Sender.BufferIndex = BufferManager.Default.SetBuffer();
-                relation.Sender.Start(sslStream, sessionMappingID);
+                sslInfo.NetworkStream.BufferIndex = relation.Sender.BufferIndex;
+                relation.Sender.Start(sslInfo.SslStream, sessionMappingID);
                 AgentController.Default.Add(sessionMappingID, relation.Receiver, relation.Sender);
             }
             catch (Exception ex)

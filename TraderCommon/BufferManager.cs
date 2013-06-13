@@ -8,7 +8,10 @@ namespace Trader.Common
     public class BufferManager
     {
         private const int CONNECTION_COUNT = 8000;
-        public const int BUFFER_SIZE = 2048;
+        public const int INNER_READ_BUFFER_SIZE = 4096;
+        public const int WRITE_BUFFER_SIZE = 4096;
+        public const int OUTTER_READ_BUFFER_SIZE = 3072;
+        public const int PREVIOUS_PATIAL_PACKET_SIZE = 3072;
         private int _NumBytes;
         private const int CAPACITY = 8000;
         private Stack<int> _FreeIndexPool = new Stack<int>(CAPACITY);
@@ -16,11 +19,23 @@ namespace Trader.Common
         private object _Lock = new object();
         private BufferManager()
         {
-            this._NumBytes = CONNECTION_COUNT * BUFFER_SIZE;
+            this._NumBytes = CONNECTION_COUNT * GetWholePartLength();
             this.Buffer = new byte[this._NumBytes];
         }
 
+        //outer read / inner read /write
+        private int GetWholePartLength()
+        {
+            return OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE + WRITE_BUFFER_SIZE + PREVIOUS_PATIAL_PACKET_SIZE;
+        }
+
         public static readonly BufferManager Default = new BufferManager();
+
+        public const int OnePartLength = OUTTER_READ_BUFFER_SIZE;
+        public const int TwoPartLength = OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE;
+        public const int ThreePartLength = OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE + WRITE_BUFFER_SIZE;
+        public const int FourPartLength = OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE + WRITE_BUFFER_SIZE + PREVIOUS_PATIAL_PACKET_SIZE;
+
 
         public int SetBuffer()
         {
@@ -34,7 +49,7 @@ namespace Trader.Common
                 else
                 {
                     index = this._CurrentIndex;
-                    this._CurrentIndex += BUFFER_SIZE;
+                    this._CurrentIndex += GetWholePartLength();
                 }
                 return index;
             }
