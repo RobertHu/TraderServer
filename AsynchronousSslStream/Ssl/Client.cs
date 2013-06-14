@@ -22,7 +22,7 @@ namespace Trader.Server.Ssl
         private bool _HasPartialPacket = false;
         private int _PartialReadedLenth = 0;
         private long _Session;
-        private const int MAX_WRITE_LENGTH = 2048;
+        private const int MAX_WRITE_LENGTH = 10240;
         private int _LastWriteIndex = 0;
         private byte[] _LastWriteBuffer;
         public Client() { }
@@ -100,85 +100,92 @@ namespace Trader.Server.Ssl
 
         private void EndRead(IAsyncResult ar)
         {
-            try
+
+            Action action = new Action(() =>
             {
-                int len = this._Stream.EndRead(ar);
-                int currentIndex = this.BufferIndex;
-                int used = 0;
-                byte[] buffer = BufferManager.Default.Buffer;
-                if (len <= 0)
+                try
                 {
-                    Close();
-                    return;
-                }
-                if (this._HasPartialPacket)
-                {
-                    int partialStartIndex = this.BufferIndex + BufferManager.ThreePartLength;
-                    int partialCurrentIndex = partialStartIndex + this._PartialReadedLenth;
-                    if (this._PartialReadedLenth < Constants.HeadCount)
-                    {
-                        int needToRead = Constants.HeadCount - this._PartialReadedLenth;
-                        if (needToRead > len)
-                        {
-                            Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, len);
-                            this._PartialReadedLenth += len;
-                            return;
-                        }
-                        Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, needToRead);
-                        partialCurrentIndex += needToRead;
-                        len -= needToRead;
-                        used += needToRead;
-                    }
-                    int packetLength = Constants.GetPacketLength(buffer, partialStartIndex);
-                    int howMuchNeedToRead = packetLength - Constants.HeadCount;
-                    if (howMuchNeedToRead > len)
-                    {
-                        Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, len);
-                        return;
-                    }
-                    int offset = used + currentIndex;
-                    Buffer.BlockCopy(buffer, offset, buffer, partialCurrentIndex, howMuchNeedToRead);
-                    ProcessPackage(buffer, partialStartIndex, packetLength);
-                    len -= howMuchNeedToRead;
-                    used += howMuchNeedToRead;
-                }
-                this._HasPartialPacket = false;
-                this._PartialReadedLenth = 0;
-                while (true)
-                {
+                    int len = this._Stream.EndRead(ar);
+                    int currentIndex = this.BufferIndex;
+                    int used = 0;
+                    byte[] buffer = BufferManager.Default.Buffer;
                     if (len <= 0)
                     {
-                        break;
+                        Close();
+                        return;
                     }
+                    if (this._HasPartialPacket)
+                    {
+                        int partialStartIndex = this.BufferIndex + BufferManager.ThreePartLength;
+                        int partialCurrentIndex = partialStartIndex + this._PartialReadedLenth;
+                        if (this._PartialReadedLenth < Constants.HeadCount)
+                        {
+                            int needToRead = Constants.HeadCount - this._PartialReadedLenth;
+                            if (needToRead > len)
+                            {
+                                Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, len);
+                                this._PartialReadedLenth += len;
+                                return;
+                            }
+                            Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, needToRead);
+                            partialCurrentIndex += needToRead;
+                            len -= needToRead;
+                            used += needToRead;
+                        }
+                        int packetLength = Constants.GetPacketLength(buffer, partialStartIndex);
+                        int howMuchNeedToRead = packetLength - Constants.HeadCount;
+                        if (howMuchNeedToRead > len)
+                        {
+                            Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, len);
+                            return;
+                        }
+                        int offset = used + currentIndex;
+                        Buffer.BlockCopy(buffer, offset, buffer, partialCurrentIndex, howMuchNeedToRead);
+                        ProcessPackage(buffer, partialStartIndex, packetLength);
+                        len -= howMuchNeedToRead;
+                        used += howMuchNeedToRead;
+                    }
+                    this._HasPartialPacket = false;
+                    this._PartialReadedLenth = 0;
+                    while (true)
+                    {
+                        if (len <= 0)
+                        {
+                            break;
+                        }
 
-                    int offset = currentIndex + used;
-                    if (len < Constants.HeadCount)
-                    {
-                        Buffer.BlockCopy(buffer,offset, buffer, this.BufferIndex + BufferManager.ThreePartLength, len);
-                        this._PartialReadedLenth = len;
-                        this._HasPartialPacket = true;
-                        break;
+                        int offset = currentIndex + used;
+                        if (len < Constants.HeadCount)
+                        {
+                            Buffer.BlockCopy(buffer, offset, buffer, this.BufferIndex + BufferManager.ThreePartLength, len);
+                            this._PartialReadedLenth = len;
+                            this._HasPartialPacket = true;
+                            break;
+                        }
+                        int packetLength = Constants.GetPacketLength(buffer, currentIndex + used);
+                        if (len < packetLength)
+                        {
+                            Buffer.BlockCopy(buffer, offset, buffer, this.BufferIndex + BufferManager.ThreePartLength, len);
+                            this._PartialReadedLenth = len;
+                            this._HasPartialPacket = true;
+                            break;
+                        }
+                        ProcessPackage(buffer, offset, packetLength);
+                        used += packetLength;
+                        len -= packetLength;
                     }
-                    int packetLength = Constants.GetPacketLength(buffer, currentIndex + used);
-                    if (len < packetLength)
-                    {
-                        Buffer.BlockCopy(buffer, offset, buffer, this.BufferIndex + BufferManager.ThreePartLength, len);
-                        this._PartialReadedLenth = len;
-                        this._HasPartialPacket = true;
-                        break;
-                    }
-                    ProcessPackage(buffer, offset, packetLength);
-                    used += packetLength;
-                    len -= packetLength;
+                    Read();
+
                 }
-                Read();
 
-            }
+                catch (Exception ex)
+                {
+                    this.Close();
+                }
+            });
+            Task task = new Task(action);
+            TaskQueue.Default.Enqueue(task);
 
-            catch (Exception ex)
-            {
-                this.Close();
-            }
         }
 
         public void UpdateSession(long session)
@@ -215,11 +222,6 @@ namespace Trader.Server.Ssl
             if (len <= MAX_WRITE_LENGTH)
             {
                 this._Stream.BeginWrite(data, offset, len, this.EndWrite, null);
-                if (len < MAX_WRITE_LENGTH)
-                {
-                    this._LastWriteBuffer = null;
-                    this._LastWriteIndex = 0;
-                }
             }
             else
             {
@@ -229,30 +231,39 @@ namespace Trader.Server.Ssl
         }
 
 
-       
+
         private void EndWrite(IAsyncResult ar)
         {
-            try
+            Action action = new Action(() =>
             {
-                this._Stream.EndWrite(ar);
-                if (this._LastWriteBuffer == null)
+                try
                 {
-                    Write();
-                }
-                else
-                {
+                    this._Stream.EndWrite(ar);
+                    if (this._LastWriteBuffer == null)
+                    {
+                        Write();
+                        return;
+                    }
                     this._LastWriteIndex += MAX_WRITE_LENGTH;
                     int len = this._LastWriteBuffer.Length - this._LastWriteIndex;
+                    if (len <= 0)
+                    {
+                        this._LastWriteBuffer = null;
+                        this._LastWriteIndex = 0;
+                        Write();
+                        return;
+                    }
                     int lenToBeWrite = len >= MAX_WRITE_LENGTH ? MAX_WRITE_LENGTH : len;
                     this.BeginWrite(this._LastWriteBuffer, this._LastWriteIndex, lenToBeWrite);
                 }
-            }
-            catch (Exception ex)
-            {
-                _Logger.Error(ex);
-                this.Close();
-            }
-           
+                catch (Exception ex)
+                {
+                    _Logger.Error(ex);
+                    this.Close();
+                }
+            });
+            Task task = new Task(action);
+            TaskQueue.Default.Enqueue(task);
         }
 
         private void Close()

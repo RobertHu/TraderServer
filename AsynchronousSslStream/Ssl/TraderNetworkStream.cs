@@ -18,7 +18,6 @@ namespace Trader.Server.Ssl
         public TraderNetworkStream(Socket socket, bool ownsSocket) : base(socket, ownsSocket) { }
         public TraderNetworkStream(Socket socket, FileAccess access) : base(socket, access) { }
         public TraderNetworkStream(Socket socket, FileAccess access, bool ownsSocket) : base(socket, access, ownsSocket) { }
-        [HostProtectionAttribute(SecurityAction.LinkDemand, ExternalThreading = true)]
         public override IAsyncResult BeginWrite(byte[] buffer, int offset, int size, AsyncCallback callback, Object state)
         {
             int currentOffset = this.BufferIndex + BufferManager.TwoPartLength;
@@ -31,7 +30,6 @@ namespace Trader.Server.Ssl
             base.EndWrite(asyncResult);
         }
 
-        [HostProtectionAttribute(SecurityAction.LinkDemand, ExternalThreading = true)]
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int size, AsyncCallback callback, Object state)
         {
             this._LastReadBuffer = buffer;

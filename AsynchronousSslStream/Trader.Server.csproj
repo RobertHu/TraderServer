@@ -189,6 +189,7 @@
     <Compile Include="Ssl\ReceiveAgentPool.cs" />
     <Compile Include="Ssl\SecureConnectionResults.cs" />
     <Compile Include="Ssl\SecureTcpServer.cs" />
+    <Compile Include="Ssl\TaskQueue.cs" />
     <Compile Include="Ssl\TraderNetworkStream.cs" />
     <Compile Include="TraderServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

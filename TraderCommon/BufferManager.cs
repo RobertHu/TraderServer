@@ -9,7 +9,7 @@ namespace Trader.Common
     {
         private const int CONNECTION_COUNT = 8000;
         public const int INNER_READ_BUFFER_SIZE = 4096;
-        public const int WRITE_BUFFER_SIZE = 4096;
+        public const int WRITE_BUFFER_SIZE = 13240;
         public const int OUTTER_READ_BUFFER_SIZE = 3072;
         public const int PREVIOUS_PATIAL_PACKET_SIZE = 3072;
         private int _NumBytes;

@@ -77,7 +77,7 @@ namespace Trader.Server
             }
             try
             {
-                SslInfo sslInfo= args.SecureInfo;
+                SslInfo sslInfo = args.SecureInfo;
                 long sessionMappingID = SessionMapping.Get();
                 ClientRelation relation = ClientPool.Default.Pop();
                 if (relation == null)
