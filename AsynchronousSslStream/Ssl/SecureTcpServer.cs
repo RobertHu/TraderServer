@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Authentication;
 using System.Diagnostics;
 using log4net;
+using Trader.Common;
 
 namespace Trader.Server.Ssl
 {
@@ -15,11 +16,11 @@ namespace Trader.Server.Ssl
         private X509Certificate _ServerCertificate;
         private RemoteCertificateValidationCallback _CertValidationCallback;
         private SecureConnectionResultsCallback _ConnectionCallback;
-        private bool _Started=false;
+        private bool _Started = false;
         private int _ListenPort;
         private TcpListener _ListenerV4;
         private TcpListener _ListenerV6;
-        private int _Disposed=0;
+        private int _Disposed = 0;
         private bool _ClientCertificateRequired;
         private bool _CheckCertifcateRevocation;
         private SslProtocols _SslProtocols;
@@ -120,7 +121,7 @@ namespace Trader.Server.Ssl
                 //complete the last operation...
                 TcpClient client = listener.EndAcceptTcpClient(result);
                 bool leaveStreamOpen = false; //close the socket when done
-                TraderNetworkStream networkStream = new TraderNetworkStream(client.Client);
+                TraderNetworkStream networkStream = new TraderNetworkStream(client.Client,BufferManager.Default.SetBuffer());
                 if (this._CertValidationCallback != null)
                 {
                     sslStream = new SslStream(networkStream, leaveStreamOpen, this._CertValidationCallback);
@@ -161,7 +162,6 @@ namespace Trader.Server.Ssl
             }
             catch (Exception ex)
             {
-                _Logger.Error(ex);
                 if (sslInfo.SslStream != null)
                 {
                     sslInfo.SslStream.Dispose();
