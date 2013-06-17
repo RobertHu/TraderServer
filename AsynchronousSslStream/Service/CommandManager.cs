@@ -78,8 +78,24 @@ namespace Trader.Server.Service
                     }
                     else
                     {
-                        this._Commands.Add(this._Current);
-                        AgentController.Default.AddQuotation(new CommandWithQuotation(null, this._Current, false));
+                        CompositeCommand compositeCommand = this._Current as CompositeCommand;
+                        if (compositeCommand != null)
+                        {
+                            foreach (var cmd in compositeCommand.Commands)
+                            {
+                                this._Commands.Add(cmd);
+                                var target = CommandWithQuotationPool.Default.Pop();
+                                target.Initialize(null, cmd, false);
+                                AgentController.Default.AddQuotation(target);
+                            }
+                        }
+                        else
+                        {
+                            this._Commands.Add(this._Current);
+                            var target = CommandWithQuotationPool.Default.Pop();
+                            target.Initialize(null, this._Current, false);
+                            AgentController.Default.AddQuotation(target);
+                        }
                     }
                 }
             }
@@ -104,7 +120,9 @@ namespace Trader.Server.Service
         public void AddQuotation(QuotationCommand quotation)
         {
             this._Commands.Add(quotation);
-            AgentController.Default.AddQuotation(new CommandWithQuotation(quotation,null,true));
+            var target = CommandWithQuotationPool.Default.Pop();
+            target.Initialize(quotation, null, true);
+            AgentController.Default.AddQuotation(target);
         }
 
 
@@ -222,7 +240,7 @@ namespace Trader.Server.Service
         
     }
 
-    public struct CommandWithQuotation
+    public class CommandWithQuotation
     {
         private QuotationCommand _QuotationCommand;
         public QuotationCommand QuotationCommand { get { return this._QuotationCommand; } }
@@ -230,7 +248,7 @@ namespace Trader.Server.Service
         public Command Command { get { return this._Command; } }
         private bool _isQuotation;
         public bool IsQuotation { get { return this._isQuotation; } }
-        public CommandWithQuotation(QuotationCommand quotation, Command command, bool isQuotation)
+        public void Initialize(QuotationCommand quotation, Command command, bool isQuotation)
         {
             this._QuotationCommand = quotation;
             this._Command = command;

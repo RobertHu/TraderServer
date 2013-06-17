@@ -316,18 +316,19 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState(long session, Guid customerID)
+        public XElement GetQuotePolicyDetailsAndRefreshInstrumentsState(long session, Guid customerID)
         {
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-                return this.InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(session,token.UserID);
+                var ds=this.InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(session,token.UserID);
+                return XmlResultHelper.NewResult(ds.ToXml());
             }
             catch (System.Exception exception)
             {
                 AppDebug.LogEvent("TradingConsole.GetQuotePolicyDetailsAndRefreshInstrumentsState:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                return XmlResultHelper.ErrorResult;
             }
-            return null;
         }
 
         private DataSet InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(long session,Guid customerID)
@@ -741,18 +742,19 @@ namespace Trader.Server.Bll
 
 
 
-        public DataSet GetNewsContents(long session, string newsID)
+        public XElement GetNewsContents(long session, string newsID)
         {
             try
             {
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                return Application.Default.TradingConsoleServer.GetNewsContents(newsID, state.Language);
+                var ds=Application.Default.TradingConsoleServer.GetNewsContents(newsID, state.Language);
+                return XmlResultHelper.NewResult(ds.ToXml());
             }
             catch (System.Exception exception)
             {
                 AppDebug.LogEvent("TradingConsole.GetNewsContents:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                return XmlResultHelper.ErrorResult;
             }
-            return null;
         }
 
         public DataSet GetInterestRate(Guid[] orderIds)

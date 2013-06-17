@@ -11,6 +11,7 @@ using log4net;
 using Trader.Server._4BitCompress;
 using Mobile = iExchange3Promotion.Mobile;
 using Trader.Common;
+using System.Web;
 
 namespace Trader.Server.Bll
 {
@@ -28,7 +29,7 @@ namespace Trader.Server.Bll
             byte[] result = null;
             try
             {
-                if (state!=null && state.QuotationFilterSign == null &&!string.IsNullOrEmpty(state.SessionId))
+                if (state.QuotationFilterSign == null)
                 {
                     return result;
                 }
@@ -55,6 +56,10 @@ namespace Trader.Server.Bll
                 else if (token.AppType == AppType.TradingConsole)
                 {
                     var quotation = Quotation4Bit.TryAddQuotation(command.OverridedQs, state, command.Sequence);
+                    if (quotation == null)
+                    {
+                        return null;
+                    }
                     result = quotation.GetData(); 
                 }
             }
@@ -72,10 +77,21 @@ namespace Trader.Server.Bll
             result = GetQuotationCommon(token, state);
             if (result == null)
             {
-                result = GetDataBytesInUtf8Format(token, state,command);
+                XmlDocument xmlDoc = new XmlDocument();
+                XmlElement commands = xmlDoc.CreateElement("Commands");
+                xmlDoc.AppendChild(commands);
+                XmlNode commandNode = command.ToXmlNode(token, state);
+                if (commandNode == null)
+                {
+                    return null;
+                }
+                XmlNode commandNode2 = commands.OwnerDocument.ImportNode(commandNode, true);
+                commands.AppendChild(commandNode2);
+                commands.SetAttribute("FirstSequence", command.Sequence.ToString());
+                commands.SetAttribute("LastSequence", command.Sequence.ToString());
+                result = Constants.ContentEncoding.GetBytes(commands.OuterXml);
                 CacheQuotationCommon(token.AppType, state.SignMapping, result);
             }
-
             return result;
         }
 
@@ -104,7 +120,7 @@ namespace Trader.Server.Bll
 
         private byte[] GetDataBytesInUtf8Format(Token token, TraderState state,Command command)
         {
-            var node = ConvertCommand(token, state,command);
+            var node = ConvertCommand(token, state, command);
             if (node == null)
             {
                 return null;
@@ -137,7 +153,6 @@ namespace Trader.Server.Bll
                     {
                         commandElement.SetAttribute(ResponseConstants.CommandSequence, command.Sequence.ToString());
                     }
-                  
                 }
                 return commandElement;
             }

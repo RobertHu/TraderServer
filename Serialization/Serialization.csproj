@@ -61,6 +61,7 @@
     <Compile Include="PriceEncoding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializedObject.cs" />
+    <Compile Include="SerializedobjectPool.cs" />
     <Compile Include="SerializeManager.cs" />
     <Compile Include="ZlibHelper.cs" />
   </ItemGroup>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using Trader.Common;
 namespace Trader.Server.Util
 {
     public static class XmlSerializeHelper
@@ -14,7 +15,7 @@ namespace Trader.Server.Util
             using (var ms = new MemoryStream())
             {
                 serializer.Serialize(ms, target);
-                return Encoding.UTF8.GetString(ms.ToArray());
+                return Constants.ContentEncoding.GetString(ms.ToArray());
             }
 
         }

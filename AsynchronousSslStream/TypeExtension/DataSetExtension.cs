@@ -8,6 +8,7 @@ using System.IO;
 using System.Xml.Serialization;
 using Trader.Server._4BitCompress;
 using log4net;
+using Trader.Common;
 namespace Trader.Server.TypeExtension
 {
     public static class DataSetExtension
@@ -25,7 +26,7 @@ namespace Trader.Server.TypeExtension
                 {
                     var xmlSerializer = new XmlSerializer(typeof(DataSet));
                     xmlSerializer.Serialize(tw, dataset);
-                    string xml = Encoding.UTF8.GetString(ms.ToArray());
+                    string xml = Constants.ContentEncoding.GetString(ms.ToArray());
                     return xml;
                 }
 
@@ -36,6 +37,10 @@ namespace Trader.Server.TypeExtension
         {
             try
             {
+                if (ds == null)
+                {
+                    return;
+                }
                 DataTable table = ds.Tables["Instrument"];
                 if (table == null) return;
                 DataColumn column = new DataColumn();

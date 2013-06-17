@@ -32,18 +32,25 @@ namespace Trader.Server.Bll
                 int sequence;
                 initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
             }
-
-            var data = Init(session, initData);
-            int commandSequence = data.Item2;
-            DataSet ds = data.Item1;
-            var dict = new Dictionary<string, string>()
+            try
+            {
+                var data = Init(session, initData);
+                int commandSequence = data.Item2;
+                DataSet ds = data.Item1;
+                var dict = new Dictionary<string, string>()
                 {
                     {"commandSequence",commandSequence.ToString()},
                     {"data",ds.ToXml()}
                 };
-            result = XmlResultHelper.NewResult(dict);
-            request.Content = result;
-            SendCenter.Default.Send(request);
+                result = XmlResultHelper.NewResult(dict);
+                request.Content = result;
+                SendCenter.Default.Send(request);
+            }
+            catch (Exception ex)
+            {
+                request.Content = XmlResultHelper.NewErrorResult(ex.ToString());
+                SendCenter.Default.Send(request);
+            }
         }
 
 
@@ -61,8 +68,10 @@ namespace Trader.Server.Bll
             List<Guid> instrumentsFromBursa = new List<Guid>();
             foreach (DataRow instrumentRow in rows)
             {
-                state.Instruments.Add(instrumentRow["ID"], instrumentRow["QuotePolicyID"]);
-
+                if (!state.Instruments.ContainsKey(instrumentRow["ID"]))
+                {
+                    state.Instruments.Add(instrumentRow["ID"], instrumentRow["QuotePolicyID"]);
+                }
                 if (quotePolicyInfo.Length > 0) quotePolicyInfo.Append(";");
                 quotePolicyInfo.Append(instrumentRow["ID"]);
                 quotePolicyInfo.Append("=");
@@ -81,9 +90,11 @@ namespace Trader.Server.Bll
             int i = 0;
             foreach (DataRow accountRow in rows)
             {
-                state.Accounts.Add(accountRow["ID"], null);
-                state.AccountGroups[accountRow["GroupID"]] = null;
-
+                if (!state.Accounts.ContainsKey(accountRow["ID"]))
+                {
+                    state.Accounts.Add(accountRow["ID"], null);
+                    state.AccountGroups[accountRow["GroupID"]] = null;
+                }
                 accountIDs[i++] = (Guid)accountRow["ID"];
             }
 

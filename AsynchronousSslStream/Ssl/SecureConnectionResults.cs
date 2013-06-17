@@ -7,12 +7,12 @@ namespace Trader.Server.Ssl
 
     public class SecureConnectionResults
     {
-        private SslStream secureStream;
+        private SslInfo sslInfo;
         private Exception asyncException;
 
-        internal SecureConnectionResults(SslStream sslStream)
+        internal SecureConnectionResults(SslInfo sslInfo)
         {
-            this.secureStream = sslStream;
+            this.sslInfo = sslInfo;
         }
 
         internal SecureConnectionResults(Exception exception)
@@ -21,6 +21,6 @@ namespace Trader.Server.Ssl
         }
 
         public Exception AsyncException { get { return asyncException; } }
-        public SslStream SecureStream { get { return secureStream; } }
+        public SslInfo SecureInfo { get { return this.sslInfo; } }
     }
 }

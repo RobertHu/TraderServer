@@ -10,6 +10,7 @@ using System.Configuration;
 using Trader.Server.Setting;
 using Trader.Helper;
 using Trader.Server.Service;
+using Trader.Server.Ssl;
 namespace Trader.Server.Bll
 {
     public class Application
@@ -46,6 +47,7 @@ namespace Trader.Server.Bll
             SendCenter.Default.Start();
             AgentController.Default.Start();
             CommandManager.Default.Start();
+            TaskQueue.Default.Start();
         }
 
         public void Stop()
@@ -55,6 +57,7 @@ namespace Trader.Server.Bll
             SendCenter.Default.Stop();
             AgentController.Default.Stop();
             CommandManager.Default.Stop();
+            TaskQueue.Default.Stop();
         }
 
 

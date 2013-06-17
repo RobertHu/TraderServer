@@ -50,7 +50,7 @@ namespace Trader.Server
             ClientRelation relation;
             if (this._Container.TryRemove(session, out relation))
             {
-                ClientPool.Default.Push(relation);
+                //ClientPool.Default.Push(relation);
             }
         }
 
@@ -221,7 +221,7 @@ namespace Trader.Server
         {
             Token token;
             TraderState state = SessionManager.Default.GetTokenAndState(p.Key, out token);
-            if (token == null || state == null)
+            if (token == null || state == null || string.IsNullOrEmpty(state.QuotationFilterSign))
             {
                 return;
             }

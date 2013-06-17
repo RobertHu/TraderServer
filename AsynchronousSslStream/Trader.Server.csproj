@@ -181,6 +181,7 @@
     <Compile Include="SChart\TickByTickHistoryDataArgument.cs" />
     <Compile Include="SChart\TickByTickHistoryDataArgument2.cs" />
     <Compile Include="SendCenter.cs" />
+    <Compile Include="Service\CommandWithQuotationPool.cs" />
     <Compile Include="Service\Quotation4BitPool.cs" />
     <Compile Include="Service\QuotationPool.cs" />
     <Compile Include="Ssl\Client.cs" />
@@ -189,6 +190,8 @@
     <Compile Include="Ssl\ReceiveAgentPool.cs" />
     <Compile Include="Ssl\SecureConnectionResults.cs" />
     <Compile Include="Ssl\SecureTcpServer.cs" />
+    <Compile Include="Ssl\TaskQueue.cs" />
+    <Compile Include="Ssl\TraderNetworkStream.cs" />
     <Compile Include="TraderServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CommandCollectorHost.cs" />

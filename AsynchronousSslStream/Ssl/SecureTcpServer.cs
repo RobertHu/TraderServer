@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Authentication;
 using System.Diagnostics;
 using log4net;
+using Trader.Common;
 
 namespace Trader.Server.Ssl
 {
@@ -15,11 +16,11 @@ namespace Trader.Server.Ssl
         private X509Certificate _ServerCertificate;
         private RemoteCertificateValidationCallback _CertValidationCallback;
         private SecureConnectionResultsCallback _ConnectionCallback;
-        private bool _Started=false;
+        private bool _Started = false;
         private int _ListenPort;
         private TcpListener _ListenerV4;
         private TcpListener _ListenerV6;
-        private int _Disposed=0;
+        private int _Disposed = 0;
         private bool _ClientCertificateRequired;
         private bool _CheckCertifcateRevocation;
         private SslProtocols _SslProtocols;
@@ -118,22 +119,24 @@ namespace Trader.Server.Ssl
             {
                 listener.BeginAcceptTcpClient(this.OnAcceptConnection, listener);
                 //complete the last operation...
-                TcpClient client = listener.EndAcceptTcpClient(result);
+                TcpClient tcpClient = listener.EndAcceptTcpClient(result);
                 bool leaveStreamOpen = false; //close the socket when done
+                TraderNetworkStream networkStream = new TraderNetworkStream(tcpClient.Client,BufferManager.Default.SetBuffer());
                 if (this._CertValidationCallback != null)
                 {
-                    sslStream = new SslStream(client.GetStream(), leaveStreamOpen, this._CertValidationCallback);
+                    sslStream = new SslStream(networkStream, leaveStreamOpen, this._CertValidationCallback);
                 }
                 else
                 {
-                    sslStream = new SslStream(client.GetStream(), leaveStreamOpen);
+                    sslStream = new SslStream(networkStream, leaveStreamOpen);
                 }
+                SslInfo sslInfo = new SslInfo(networkStream, sslStream);
                 sslStream.BeginAuthenticateAsServer(this._ServerCertificate,
                     this._ClientCertificateRequired,
                     this._SslProtocols,
                     this._CheckCertifcateRevocation, //checkCertifcateRevocation
                     this.OnAuthenticateAsServer,
-                    sslStream);
+                    sslInfo);
 
             }
             catch (Exception ex)
@@ -150,20 +153,18 @@ namespace Trader.Server.Ssl
 
         private void OnAuthenticateAsServer(IAsyncResult result)
         {
-            SslStream sslStream = null;
+            SslInfo sslInfo = null;
             try
             {
-                sslStream = result.AsyncState as SslStream;
-                sslStream.EndAuthenticateAsServer(result);
-                this._ConnectionCallback(this, new SecureConnectionResults(sslStream));
+                sslInfo = result.AsyncState as SslInfo;
+                sslInfo.SslStream.EndAuthenticateAsServer(result);
+                this._ConnectionCallback(this, new SecureConnectionResults(sslInfo));
             }
             catch (Exception ex)
             {
-                _Logger.Error(ex);
-                if (sslStream != null)
+                if (sslInfo.SslStream != null)
                 {
-                    sslStream.Dispose();
-                    sslStream = null;
+                    sslInfo.SslStream.Dispose();
                 }
                 this._ConnectionCallback(this, new SecureConnectionResults(ex));
             }
@@ -180,5 +181,16 @@ namespace Trader.Server.Ssl
                 GC.SuppressFinalize(this);
             }
         }
+    }
+
+    public class SslInfo
+    {
+        public SslInfo(TraderNetworkStream stream1, SslStream stream2)
+        {
+            this.NetworkStream = stream1;
+            this.SslStream = stream2;
+        }
+        public TraderNetworkStream NetworkStream { get; private set; }
+        public SslStream SslStream { get; private set; }
     }
 }

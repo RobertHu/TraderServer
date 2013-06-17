@@ -110,11 +110,11 @@ namespace Trader.Server.Bll
         private void SetResult(SerializedObject request, LoginParameter loginParameter, long session, string loginID, string password, string version, int appType, string connectionString)
         {
             XElement result;
+            Token token = SessionManager.Default.GetToken(session);
             if (loginParameter.UserID != Guid.Empty)
             {
                 LoginRetryTimeHelper.ClearFailedCount(loginParameter.UserID, ParticipantType.Customer, connectionString);
                 string language = string.IsNullOrEmpty(version) ? "ENG" : version.Substring(version.Length - 3);
-                Token token = SessionManager.Default.GetToken(session);
                 if (token == null)
                 {
                     AppType tokenType = (AppType)appType;
@@ -151,8 +151,11 @@ namespace Trader.Server.Bll
                 LoginRetryTimeHelper.IncreaseFailedCount(loginID, ParticipantType.Customer, connectionString);
                 result = XmlResultHelper.ErrorResult;
             }
-            request.Content = result;
-            SendCenter.Default.Send(request);
+            if (token.AppType != AppType.Mobile)
+            {
+                request.Content = result;
+                SendCenter.Default.Send(request);
+            }
         }
 
         private class LoginParameter

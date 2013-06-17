@@ -26,6 +26,7 @@ namespace Trader.Server
 
         public void Start()
         {
+            AppDomain.CurrentDomain.UnhandledException +=new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             try
             {
                 _Log.InfoFormat("{0} certificate path", SettingManager.Default.CertificatePath);
@@ -40,6 +41,11 @@ namespace Trader.Server
             {
                 _Log.Error(ex);
             }
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            this._Log.Error(e.ExceptionObject);
         }
 
         public void Stop()
@@ -77,15 +83,11 @@ namespace Trader.Server
             }
             try
             {
-                SslStream sslStream = args.SecureStream;
+                SslInfo sslInfo = args.SecureInfo;
                 long sessionMappingID = SessionMapping.Get();
-                ClientRelation relation = ClientPool.Default.Pop();
-                if (relation == null)
-                {
-                    relation = new ClientRelation(new Client(), new ReceiveAgent());
-                }
-                relation.Sender.BufferIndex = BufferManager.Default.SetBuffer();
-                relation.Sender.Start(sslStream, sessionMappingID);
+                ClientRelation relation = new ClientRelation(new Client(), new ReceiveAgent());
+                relation.Sender.BufferIndex = sslInfo.NetworkStream.BufferIndex;
+                relation.Sender.Start(sslInfo.SslStream, sessionMappingID);
                 AgentController.Default.Add(sessionMappingID, relation.Receiver, relation.Sender);
             }
             catch (Exception ex)

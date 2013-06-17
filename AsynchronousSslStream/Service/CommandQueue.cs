@@ -75,6 +75,7 @@ namespace Trader.Server.Service
                 List<Command> commandList = this.InnerGet(firstSequence, lastSequence);
                 if (commandList == null)
                 {
+                    this._Logger.ErrorFormat("get lost command {0} -------{1} return null", firstSequence, lastSequence);
                     return null;
                 }
                 TradingConsoleState tradingConsoleState = state as TradingConsoleState;
@@ -86,6 +87,16 @@ namespace Trader.Server.Service
                     {
                         quotationCommands.Add(quotation);
                     }
+                    else
+                    {
+                        if (quotationCommands.Count > 0)
+                        {
+                            QuotationCommand mergingCommand = this.Merge(quotationCommands);
+                            quotationCommands.Clear();
+                            this.AppendChild(commands, mergingCommand, token, state);
+                        }
+                        this.AppendChild(commands, command, token, state);
+                    }
                 }
                 if (quotationCommands.Count > 0)
                 {
@@ -93,8 +104,10 @@ namespace Trader.Server.Service
                     quotationCommands.Clear();
                     this.AppendChild(commands, mergingCommand, token, state);
                 }
+
                 commands.SetAttribute("FirstSequence", firstSequence.ToString());
                 commands.SetAttribute("LastSequence", lastSequence.ToString());
+
                 return commands;
             }
             finally
