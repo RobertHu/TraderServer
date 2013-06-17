@@ -25,6 +25,7 @@ namespace Trader.Server.Setting
                 this.ParticipantServiceUrl = GetSettingFromAppSettingConfig("ParticipantServiceUrl");
                 this.SecurityServiceUrl = GetSettingFromAppSettingConfig("SecurityServiceUrl");
                 this.StateServerUrl = GetSettingFromAppSettingConfig("iExchange.StateServer.Service");
+                this.PriceSendPeriodInMilisecond = int.Parse(GetSettingFromAppSettingConfig("PriceSendPeriodInMilisecond"));
             }
             catch (Exception ex)
             {
@@ -47,6 +48,7 @@ namespace Trader.Server.Setting
         public TimeSpan SessionExpiredTimeSpan { get; set; }
         public string CommandUrl { get; private set; }
         public string CertificatePath { get; private set; }
+        public int PriceSendPeriodInMilisecond { get; private set; }
 
         public string SecurityServiceUrl { get; private set; }
         public string ParticipantServiceUrl { get; private set; }

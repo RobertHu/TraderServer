@@ -15,11 +15,17 @@ namespace Trader.Server.Service
         private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>(20);
         public static readonly QuotationDispatcher Default = new QuotationDispatcher();
         private volatile bool _IsStoped = false;
-        private const int _ProcessPeriodMilliseconds = 800;
+        private  int _ProcessPeriodMilliseconds;
         private object _Lock = new object();
         private ILog _Logger = LogManager.GetLogger(typeof(QuotationDispatcher));
         private QuotationDispatcher()
         {
+            
+        }
+
+        public void Initialize(int priceProcessPeriod)
+        {
+            this._ProcessPeriodMilliseconds = priceProcessPeriod;
             try
             {
                 Thread thread = new Thread(this.Process);
@@ -31,6 +37,8 @@ namespace Trader.Server.Service
                 this._Logger.Error(ex);
             }
         }
+
+
         public void Stop()
         {
             this._IsStoped = true;

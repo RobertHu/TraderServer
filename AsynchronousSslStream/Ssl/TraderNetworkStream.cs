@@ -75,5 +75,16 @@ namespace Trader.Server.Ssl
             }
             return len;
         }
+
+        public override int Read( byte[] buffer, int offset, int size)
+        {
+            if (size <= BufferManager.INNER_READ_BUFFER_SIZE)
+            {
+                int len = base.Read(BufferManager.Default.Buffer, this._ReadOffset, size);
+                Buffer.BlockCopy(BufferManager.Default.Buffer, this._ReadOffset, buffer, offset, len);
+                return len;
+            }
+            return base.Read(buffer, offset, size);
+        }
     }
 }

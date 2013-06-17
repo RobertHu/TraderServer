@@ -23,6 +23,7 @@ namespace Trader.Server.Ssl
         private int _PartialReadedLenth = 0;
         private long _Session;
         private const int MAX_WRITE_LENGTH = 10240;
+        private const int FIRST_READ_COUNT = 1;
         private int _LastWriteIndex = 0;
         private byte[] _LastWriteBuffer;
         public Client() { }
@@ -73,7 +74,7 @@ namespace Trader.Server.Ssl
                 {
                     return;
                 }
-                this._Stream.BeginRead(BufferManager.Default.Buffer, this.BufferIndex, BufferManager.OUTTER_READ_BUFFER_SIZE, this.EndRead, null);
+                this._Stream.BeginRead(BufferManager.Default.Buffer, this.BufferIndex, FIRST_READ_COUNT, this.EndRead, null);
             }
             catch (Exception ex)
             {
@@ -105,7 +106,18 @@ namespace Trader.Server.Ssl
             {
                 try
                 {
-                    int len = this._Stream.EndRead(ar);
+                    int lenFirst =this._Stream.EndRead(ar);
+                    if (lenFirst <= 0)
+                    {
+                        Close();
+                        return;
+                    }
+                    int count = this._Stream.Read(BufferManager.Default.Buffer, this.BufferIndex + lenFirst, BufferManager.OUTTER_READ_BUFFER_SIZE - lenFirst);
+                    if(count <=0){
+                        Close();
+                        return;
+                    }
+                    int len = lenFirst + count;
                     int currentIndex = this.BufferIndex;
                     int used = 0;
                     byte[] buffer = BufferManager.Default.Buffer;

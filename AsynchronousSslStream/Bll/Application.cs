@@ -48,6 +48,7 @@ namespace Trader.Server.Bll
             AgentController.Default.Start();
             CommandManager.Default.Start();
             TaskQueue.Default.Start();
+            QuotationDispatcher.Default.Initialize(SettingManager.Default.PriceSendPeriodInMilisecond);
         }
 
         public void Stop()
@@ -58,6 +59,7 @@ namespace Trader.Server.Bll
             AgentController.Default.Stop();
             CommandManager.Default.Stop();
             TaskQueue.Default.Stop();
+            QuotationDispatcher.Default.Stop();
         }
 
 
