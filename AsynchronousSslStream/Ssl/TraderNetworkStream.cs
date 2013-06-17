@@ -71,8 +71,6 @@ namespace Trader.Server.Ssl
             int len = base.EndRead(asyncResult);
             if (this._IsCustomerRead)
             {
-
-                int currentOffset = this.BufferIndex + BufferManager.OnePartLength;
                 Buffer.BlockCopy(BufferManager.Default.Buffer, this._ReadOffset, this._LastReadBuffer, this._LastReadOffset, len);
             }
             return len;

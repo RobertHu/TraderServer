@@ -29,7 +29,7 @@ namespace Trader.Server.Bll
             byte[] result = null;
             try
             {
-                if (state!=null && state.QuotationFilterSign == null &&!string.IsNullOrEmpty(state.SessionId))
+                if (state.QuotationFilterSign == null)
                 {
                     return result;
                 }
@@ -56,6 +56,10 @@ namespace Trader.Server.Bll
                 else if (token.AppType == AppType.TradingConsole)
                 {
                     var quotation = Quotation4Bit.TryAddQuotation(command.OverridedQs, state, command.Sequence);
+                    if (quotation == null)
+                    {
+                        return null;
+                    }
                     result = quotation.GetData(); 
                 }
             }
@@ -121,13 +125,11 @@ namespace Trader.Server.Bll
             {
                 return null;
             }
-
             string xml = node.OuterXml;
             if (string.IsNullOrEmpty(xml))
             {
                 return null;
             }
-            //string news = "<News C_S=\"" + command.Sequence + "\"><NewsItem Id=\"8b8499ee-24d6-46b0-9f5c-5fd7026e5424\" PublishTime=\"2013-06-04 11:53:37\" Language=\"Chs\" Title=\"11:53 港股 西王特钢 月报表\" /><NewsItem Id=\"837d4948-0bbe-4a84-a5c6-801c13feb59c\" PublishTime=\"2013-06-04 11:53:30\" Language=\"Chs\" Title=\"11:53 港股 恒指花旗四一牛A 债券及结构性产品,牛熊证到期公告\" /></News>";
             return Constants.ContentEncoding.GetBytes(xml);
         }
 
@@ -151,11 +153,6 @@ namespace Trader.Server.Bll
                     {
                         commandElement.SetAttribute(ResponseConstants.CommandSequence, command.Sequence.ToString());
                     }
-                  
-                }
-                if (command is NewsCommand)
-                {
-                    _Logger.Info(commandElement.OuterXml);
                 }
                 return commandElement;
             }

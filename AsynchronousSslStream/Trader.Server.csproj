@@ -181,6 +181,7 @@
     <Compile Include="SChart\TickByTickHistoryDataArgument.cs" />
     <Compile Include="SChart\TickByTickHistoryDataArgument2.cs" />
     <Compile Include="SendCenter.cs" />
+    <Compile Include="Service\CommandWithQuotationPool.cs" />
     <Compile Include="Service\Quotation4BitPool.cs" />
     <Compile Include="Service\QuotationPool.cs" />
     <Compile Include="Ssl\Client.cs" />

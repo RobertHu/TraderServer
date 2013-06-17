@@ -119,9 +119,9 @@ namespace Trader.Server.Ssl
             {
                 listener.BeginAcceptTcpClient(this.OnAcceptConnection, listener);
                 //complete the last operation...
-                TcpClient client = listener.EndAcceptTcpClient(result);
+                TcpClient tcpClient = listener.EndAcceptTcpClient(result);
                 bool leaveStreamOpen = false; //close the socket when done
-                TraderNetworkStream networkStream = new TraderNetworkStream(client.Client,BufferManager.Default.SetBuffer());
+                TraderNetworkStream networkStream = new TraderNetworkStream(tcpClient.Client,BufferManager.Default.SetBuffer());
                 if (this._CertValidationCallback != null)
                 {
                     sslStream = new SslStream(networkStream, leaveStreamOpen, this._CertValidationCallback);

@@ -25,6 +25,14 @@ namespace Trader.Server._4BitCompress
         {
             this.OverridedQuotations = overridedQuotations;
             this.State = state;
+            this.Price = null;
+        }
+
+        public void Initialize(OverridedQuotation[] overridedQuotations, TraderState state)
+        {
+            this.OverridedQuotations = overridedQuotations;
+            this.State = state;
+            this.Price = null;
         }
 
 
@@ -43,15 +51,13 @@ namespace Trader.Server._4BitCompress
             }
             else
             {
-                quotation.OverridedQuotations = overridedQuotations;
-                quotation.State = state;
+               quotation.Initialize(overridedQuotations, state);
             }
             quotation.Sequence = sequence;
             if (_Dict.TryAdd(filterSign, quotation))
             {
                 return quotation;
             }
-            _Dict.TryGetValue(filterSign, out quotation);
             return quotation;
         }
 

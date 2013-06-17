@@ -34,28 +34,28 @@ namespace Trader.Server.Service
             try
             {
                 command.Sequence = Interlocked.Increment(ref this._LastSequence);
-                //if (this._Commands.Count == 0)
-                //{
-                //    this._Commands.Add(new CommandList(MessageListCapacity));
-                //    this._Commands[0].Add(command);
-                //    this._Commands[0].LastTime = DateTime.Now;
-                //}
-                //else if (this._Commands[0].Count == 0)
-                //{
-                //    this._Commands[0].Add(command);
-                //    this._Commands[0].LastTime = DateTime.Now;
-                //}
-                //else
-                //{
-                //    long minSequence = this._Commands[0][0].Sequence;
-                //    int indexOfMessageList = (int)Math.Floor((double)(command.Sequence - minSequence) / MessageListCapacity);
-                //    if (indexOfMessageList >= this._Commands.Count)
-                //    {
-                //        this._Commands.Add(new CommandList(MessageListCapacity));
-                //    }
-                //    this._Commands[indexOfMessageList].Add(command);
-                //    this._Commands[indexOfMessageList].LastTime = DateTime.Now;
-                //}
+                if (this._Commands.Count == 0)
+                {
+                    this._Commands.Add(new CommandList(MessageListCapacity));
+                    this._Commands[0].Add(command);
+                    this._Commands[0].LastTime = DateTime.Now;
+                }
+                else if (this._Commands[0].Count == 0)
+                {
+                    this._Commands[0].Add(command);
+                    this._Commands[0].LastTime = DateTime.Now;
+                }
+                else
+                {
+                    long minSequence = this._Commands[0][0].Sequence;
+                    int indexOfMessageList = (int)Math.Floor((double)(command.Sequence - minSequence) / MessageListCapacity);
+                    if (indexOfMessageList >= this._Commands.Count)
+                    {
+                        this._Commands.Add(new CommandList(MessageListCapacity));
+                    }
+                    this._Commands[indexOfMessageList].Add(command);
+                    this._Commands[indexOfMessageList].LastTime = DateTime.Now;
+                }
             }
             finally
             {
@@ -75,6 +75,7 @@ namespace Trader.Server.Service
                 List<Command> commandList = this.InnerGet(firstSequence, lastSequence);
                 if (commandList == null)
                 {
+                    this._Logger.ErrorFormat("get lost command {0} -------{1} return null", firstSequence, lastSequence);
                     return null;
                 }
                 TradingConsoleState tradingConsoleState = state as TradingConsoleState;
@@ -88,8 +89,13 @@ namespace Trader.Server.Service
                     }
                     else
                     {
-                        XmlNode xml = command.ToXmlNode(token, state);
-                        this._Logger.Info("get lost command  " + xml.OuterXml);
+                        if (quotationCommands.Count > 0)
+                        {
+                            QuotationCommand mergingCommand = this.Merge(quotationCommands);
+                            quotationCommands.Clear();
+                            this.AppendChild(commands, mergingCommand, token, state);
+                        }
+                        this.AppendChild(commands, command, token, state);
                     }
                 }
                 if (quotationCommands.Count > 0)
@@ -98,8 +104,10 @@ namespace Trader.Server.Service
                     quotationCommands.Clear();
                     this.AppendChild(commands, mergingCommand, token, state);
                 }
+
                 commands.SetAttribute("FirstSequence", firstSequence.ToString());
                 commands.SetAttribute("LastSequence", lastSequence.ToString());
+
                 return commands;
             }
             finally
