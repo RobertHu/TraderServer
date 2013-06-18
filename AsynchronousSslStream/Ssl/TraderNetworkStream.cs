@@ -35,17 +35,17 @@ namespace Trader.Server.Ssl
             if (size <= BufferManager.WRITE_BUFFER_SIZE)
             {
                 Buffer.BlockCopy(buffer, offset, BufferManager.Default.Buffer, this._WriteOffset, size);
-                return base.BeginWrite(BufferManager.Default.Buffer, this._WriteOffset, size, callback, state);
+                return this.Socket.BeginSend(BufferManager.Default.Buffer, this._WriteOffset,size, SocketFlags.None , callback, state);
             }
             else
             {
-                return base.BeginWrite(buffer, offset, size, callback, state);
+                return this.Socket.BeginSend(buffer, offset,size, SocketFlags.None , callback, state);
             }
         }
 
         public override void EndWrite(IAsyncResult asyncResult)
         {
-            base.EndWrite(asyncResult);
+            this.Socket.EndSend(asyncResult);
         }
 
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int size, AsyncCallback callback, Object state)
@@ -56,19 +56,19 @@ namespace Trader.Server.Ssl
                 this._LastReadBuffer = buffer;
                 this._LastReadOffset = offset;
                 this._IsCustomerRead = true;
-                return base.BeginRead(BufferManager.Default.Buffer, this._ReadOffset, size, callback, state);
+                return this.Socket.BeginReceive(BufferManager.Default.Buffer, this._ReadOffset, size,SocketFlags.None, callback, state);
             }
             else
             {
                 this._IsCustomerRead = false;
-                return base.BeginRead(buffer, offset, size, callback, state);
+                return this.Socket.BeginReceive(buffer, offset, size,SocketFlags.None, callback, state);
             }
 
         }
 
         public override int EndRead(IAsyncResult asyncResult)
         {
-            int len = base.EndRead(asyncResult);
+            int len = this.Socket.EndReceive(asyncResult);
             if (this._IsCustomerRead)
             {
                 Buffer.BlockCopy(BufferManager.Default.Buffer, this._ReadOffset, this._LastReadBuffer, this._LastReadOffset, len);

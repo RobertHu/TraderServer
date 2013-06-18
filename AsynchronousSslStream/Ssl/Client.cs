@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Security;
-using  Trader.Common;
+using Trader.Common;
 using System.Threading;
 using System.Collections.Concurrent;
 using Trader.Helper;
@@ -23,7 +23,6 @@ namespace Trader.Server.Ssl
         private int _PartialReadedLenth = 0;
         private long _Session;
         private const int MAX_WRITE_LENGTH = 10240;
-        private const int FIRST_READ_COUNT = 1;
         private int _LastWriteIndex = 0;
         private byte[] _LastWriteBuffer;
         public Client() { }
@@ -35,7 +34,7 @@ namespace Trader.Server.Ssl
         }
         public int BufferIndex { get; set; }
 
-        public void Start(SslStream stream,long session)
+        public void Start(SslStream stream, long session)
         {
             this._IsClosed = false;
             this._Stream = stream;
@@ -74,7 +73,7 @@ namespace Trader.Server.Ssl
                 {
                     return;
                 }
-                this._Stream.BeginRead(BufferManager.Default.Buffer, this.BufferIndex, FIRST_READ_COUNT, this.EndRead, null);
+                this._Stream.BeginRead(BufferManager.Default.Buffer, this.BufferIndex, BufferManager.OUTTER_READ_BUFFER_SIZE, this.EndRead, null);
             }
             catch (Exception ex)
             {
@@ -82,7 +81,7 @@ namespace Trader.Server.Ssl
             }
         }
 
-        private void ProcessPackage(byte[] data,int offset,int len)
+        private void ProcessPackage(byte[] data, int offset, int len)
         {
             byte[] packet = new byte[len];
             Buffer.BlockCopy(data, offset, packet, 0, len);
@@ -106,18 +105,7 @@ namespace Trader.Server.Ssl
             {
                 try
                 {
-                    int lenFirst =this._Stream.EndRead(ar);
-                    if (lenFirst <= 0)
-                    {
-                        Close();
-                        return;
-                    }
-                    int count = this._Stream.Read(BufferManager.Default.Buffer, this.BufferIndex + lenFirst, BufferManager.OUTTER_READ_BUFFER_SIZE - lenFirst);
-                    if(count <=0){
-                        Close();
-                        return;
-                    }
-                    int len = lenFirst + count;
+                    int len = this._Stream.EndRead(ar);
                     int currentIndex = this.BufferIndex;
                     int used = 0;
                     byte[] buffer = BufferManager.Default.Buffer;
@@ -229,7 +217,7 @@ namespace Trader.Server.Ssl
             }
         }
 
-        private void BeginWrite(byte[] data ,int offset, int len)
+        private void BeginWrite(byte[] data, int offset, int len)
         {
             if (len <= MAX_WRITE_LENGTH)
             {
@@ -280,7 +268,7 @@ namespace Trader.Server.Ssl
 
         private void Close()
         {
-            if (this._IsClosed )
+            if (this._IsClosed)
             {
                 return;
             }

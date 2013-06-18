@@ -34,9 +34,8 @@ namespace Trader.Server.Bll
             }
             try
             {
-                var data = Init(session, initData);
-                int commandSequence = data.Item2;
-                DataSet ds = data.Item1;
+                int commandSequence ;
+                DataSet ds = Init(session, initData,out commandSequence);
                 var dict = new Dictionary<string, string>()
                 {
                     {"commandSequence",commandSequence.ToString()},
@@ -54,7 +53,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static Tuple<DataSet,int> Init(long session,DataSet initData)
+        public static DataSet Init(long session, DataSet initData, out int commandSequence)
         {
             DataRowCollection rows;
             TraderState state = SessionManager.Default.GetTradingConsoleState(session);
@@ -99,7 +98,7 @@ namespace Trader.Server.Bll
             }
 
             SessionManager.Default.AddTradingConsoleState(session, state);
-            int commandSequence = CommandManager.Default.LastSequence;
+             commandSequence = CommandManager.Default.LastSequence;
             SessionManager.Default.AddNextSequence(session, commandSequence);
             DataTable customerTable = initData.Tables["Customer"];
             state.IsEmployee = (bool)customerTable.Rows[0]["IsEmployee"];
@@ -118,7 +117,7 @@ namespace Trader.Server.Bll
             AddBestLimitsForBursa(ds, instrumentsFromBursa);
             ds.SetInstrumentGuidMapping();
             state.CaculateQuotationFilterSign();
-            return Tuple.Create(ds, commandSequence);
+            return ds;
         }
 
 
