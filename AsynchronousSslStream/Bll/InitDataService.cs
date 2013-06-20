@@ -20,14 +20,16 @@ namespace Trader.Server.Bll
 {
     public class InitDataService
     {
-        public static XElement GetInitData(SerializedObject request, DataSet initData)
+        public static IEnumerator<int> GetInitData(SerializedObject request, DataSet initData, AsyncEnumerator ae)
         {
             long session = request.Session;
             Token token = SessionManager.Default.GetToken(session);
             if (initData == null)
             {
+                Application.Default.StateServer.BeginGetInitData(token, null, ae.End(), null);
+                yield return 1;
                 int sequence;
-                initData = Application.Default.StateServer.GetInitData(token, null, out sequence);
+                initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
             }
             try
             {
@@ -40,7 +42,6 @@ namespace Trader.Server.Bll
                 request.Content = XmlResultHelper.NewErrorResult(ex.ToString());
                 SendCenter.Default.Send(request);
             }
-            return null;
         }
 
 

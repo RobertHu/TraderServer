@@ -47,7 +47,6 @@ namespace Trader.Common
         public void Dispose()
         {
             this.Dispose(true);
-            GC.SuppressFinalize(true);
         }
 
 
@@ -66,12 +65,6 @@ namespace Trader.Common
             }
             this._Disposed = true;
         }
-
-        ~UnmanagedMemory()
-        {
-            Dispose(false);
-        }
-
         
     }
 }
