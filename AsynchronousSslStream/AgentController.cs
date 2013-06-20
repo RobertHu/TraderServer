@@ -211,7 +211,7 @@ namespace Trader.Server
             {
                 return;
             }
-            byte[] packet = SerializeManager.Default.SerializeCommand(content);
+            UnmanagedMemory packet = SerializeManager.Default.SerializeCommand(content);
             p.Value.Sender.Send(packet);
         }
 
@@ -230,14 +230,13 @@ namespace Trader.Server
             {
                 return;
             }
-            byte[] packet = SerializeManager.Default.SerializePrice(quotation);
-
+            UnmanagedMemory packet = SerializeManager.Default.SerializePrice(quotation);
             p.Value.Sender.Send(packet);
         }
 
     }
 
-    public class ClientRelation
+    public struct ClientRelation
     {
         private ReceiveAgent _Receiver;
         private Client _Sender;

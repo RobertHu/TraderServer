@@ -44,15 +44,7 @@ namespace Trader.Server._4BitCompress
             {
                 return quotation;
             }
-            quotation = Quotation4BitPool.Default.Pop();
-            if (quotation == null)
-            {
-                quotation = new Quotation4Bit(overridedQuotations, state);
-            }
-            else
-            {
-               quotation.Initialize(overridedQuotations, state);
-            }
+            quotation =new Quotation4Bit(overridedQuotations,state);
             quotation.Sequence = sequence;
             if (_Dict.TryAdd(filterSign, quotation))
             {
@@ -130,7 +122,7 @@ namespace Trader.Server._4BitCompress
             foreach (KeyValuePair<long, Quotation4Bit> p in _Dict)
             {
                 p.Value.Price = null;
-                Quotation4BitPool.Default.Push(p.Value);
+                //Quotation4BitPool.Default.Push(p.Value);
             }
             _Dict.Clear();
         }

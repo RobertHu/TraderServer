@@ -13,19 +13,18 @@ namespace Trader.Server.Ssl
 {
     public class TraderNetworkStream : NetworkStream
     {
-        private int _BufferIndex;
         private int _LastReadOffset = -1;
         private byte[] _LastReadBuffer;
         private bool _IsCustomerRead = false;
         private int _WriteOffset;
         private int _ReadOffset;
-        public int BufferIndex { get { return this._BufferIndex; } }
-        public TraderNetworkStream(Socket socket, int bufferIndex)
+        public byte[] BufferInUsed{get;private set;}
+        public TraderNetworkStream(Socket socket, byte[] buffer)
             : base(socket)
         {
-            this._BufferIndex = bufferIndex;
-            this._WriteOffset = this._BufferIndex + BufferManager.TwoPartLength;
-            this._ReadOffset = this._BufferIndex + BufferManager.OnePartLength;
+            this.BufferInUsed = buffer;
+            this._WriteOffset =BufferManager.TwoPartLength;
+            this._ReadOffset = BufferManager.OnePartLength;
         }
         public TraderNetworkStream(Socket socket, bool ownsSocket) : base(socket, ownsSocket) { }
         public TraderNetworkStream(Socket socket, FileAccess access) : base(socket, access) { }
@@ -34,8 +33,8 @@ namespace Trader.Server.Ssl
         {
             if (size <= BufferManager.WRITE_BUFFER_SIZE)
             {
-                Buffer.BlockCopy(buffer, offset, BufferManager.Default.Buffer, this._WriteOffset, size);
-                return this.Socket.BeginSend(BufferManager.Default.Buffer, this._WriteOffset,size, SocketFlags.None , callback, state);
+                Buffer.BlockCopy(buffer, offset, this.BufferInUsed, this._WriteOffset, size);
+                return this.Socket.BeginSend(this.BufferInUsed, this._WriteOffset,size, SocketFlags.None , callback, state);
             }
             else
             {
@@ -56,12 +55,12 @@ namespace Trader.Server.Ssl
                 this._LastReadBuffer = buffer;
                 this._LastReadOffset = offset;
                 this._IsCustomerRead = true;
-                return this.Socket.BeginReceive(BufferManager.Default.Buffer, this._ReadOffset, size,SocketFlags.None, callback, state);
+                return this.Socket.BeginReceive(this.BufferInUsed, this._ReadOffset, size,SocketFlags.None, callback, state);
             }
             else
             {
                 this._IsCustomerRead = false;
-                return this.Socket.BeginReceive(buffer, offset, size,SocketFlags.None, callback, state);
+                return this.Socket.BeginReceive(this.BufferInUsed, offset, size,SocketFlags.None, callback, state);
             }
 
         }
@@ -71,7 +70,7 @@ namespace Trader.Server.Ssl
             int len = this.Socket.EndReceive(asyncResult);
             if (this._IsCustomerRead)
             {
-                Buffer.BlockCopy(BufferManager.Default.Buffer, this._ReadOffset, this._LastReadBuffer, this._LastReadOffset, len);
+                Buffer.BlockCopy(this.BufferInUsed, this._ReadOffset, this._LastReadBuffer, this._LastReadOffset, len);
             }
             return len;
         }
@@ -80,8 +79,8 @@ namespace Trader.Server.Ssl
         {
             if (size <= BufferManager.INNER_READ_BUFFER_SIZE)
             {
-                int len = base.Read(BufferManager.Default.Buffer, this._ReadOffset, size);
-                Buffer.BlockCopy(BufferManager.Default.Buffer, this._ReadOffset, buffer, offset, len);
+                int len = base.Read(this.BufferInUsed, this._ReadOffset, size);
+                Buffer.BlockCopy(this.BufferInUsed, this._ReadOffset, buffer, offset, len);
                 return len;
             }
             return base.Read(buffer, offset, size);

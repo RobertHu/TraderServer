@@ -1,9 +1,7 @@
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\CommonUtil.dll
-D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\Serialization.dll
-D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\Serialization.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Release\ResolveAssemblyReference.cache
-D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\Ionic.Zip.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\Trader.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\Trader.Common.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Release\Trader.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Release\Trader.Common.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\log4net.dll

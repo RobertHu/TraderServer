@@ -5,25 +5,23 @@ using System.Text;
 
 namespace Trader.Common
 {
-    public class ReceiveData
+    public struct ReceiveData
     {
 
+        private long _Session;
+        private byte[] _Data;
         public long Session
         {
-            get;
-            set;
+            get { return _Session; }
         }
-
-
         public byte[] Data
         {
-            get;
-            set;
+            get { return _Data; }
         }
         public ReceiveData(long session, byte[] data)
         {
-            this.Session = session;
-            this.Data = data;
+            this._Session = session;
+             this._Data= data;
         }
     }
 }

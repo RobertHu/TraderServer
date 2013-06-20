@@ -26,7 +26,7 @@ namespace Trader.Server
 
         public void Start()
         {
-            AppDomain.CurrentDomain.UnhandledException +=new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             try
             {
                 _Log.InfoFormat("{0} certificate path", SettingManager.Default.CertificatePath);
@@ -36,6 +36,7 @@ namespace Trader.Server
                 server.StartListening();
                 _CommandCollectorHost.Start();
                 Application.Default.Start();
+
             }
             catch (Exception ex)
             {
@@ -86,7 +87,7 @@ namespace Trader.Server
                 SslInfo sslInfo = args.SecureInfo;
                 long sessionMappingID = SessionMapping.Get();
                 ClientRelation relation = new ClientRelation(new Client(), new ReceiveAgent());
-                relation.Sender.BufferIndex = sslInfo.NetworkStream.BufferIndex;
+                relation.Sender.SetBuffer(sslInfo.NetworkStream.BufferInUsed);
                 relation.Sender.Start(sslInfo.SslStream, sessionMappingID);
                 AgentController.Default.Add(sessionMappingID, relation.Receiver, relation.Sender);
             }

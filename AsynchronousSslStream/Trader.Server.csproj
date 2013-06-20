@@ -43,6 +43,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -53,6 +54,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -185,12 +187,12 @@
     <Compile Include="Service\Quotation4BitPool.cs" />
     <Compile Include="Service\QuotationPool.cs" />
     <Compile Include="Ssl\Client.cs" />
-    <Compile Include="Ssl\ClientPool.cs" />
     <Compile Include="Ssl\ReceiveAgent.cs" />
     <Compile Include="Ssl\ReceiveAgentPool.cs" />
     <Compile Include="Ssl\SecureConnectionResults.cs" />
     <Compile Include="Ssl\SecureTcpServer.cs" />
     <Compile Include="Ssl\TaskQueue.cs" />
+    <Compile Include="Ssl\TraderMemoryStream.cs" />
     <Compile Include="Ssl\TraderNetworkStream.cs" />
     <Compile Include="TraderServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

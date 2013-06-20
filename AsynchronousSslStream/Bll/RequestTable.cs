@@ -258,14 +258,12 @@ namespace Trader.Server.Bll
             XElement result = null;
             AsyncEnumerator ae = new AsyncEnumerator();
             int appType = argList[3].ToInt();
-            IAsyncResult asyncResult = ae.BeginExecute(LoginManager.Default.Login(request, argList[0], argList[1], argList[2], appType, ae), ae.EndExecute);
+            result = LoginManager.Default.Login(request, argList[0], argList[1], argList[2], appType);
             if ((int)AppType.Mobile == appType)
             {
-                ae.EndExecute(asyncResult);
                 token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session);
                 result = iExchange3Promotion.Mobile.Manager.Login(token);
             }
-
 
             //test:
             if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"] == "true")
@@ -327,8 +325,7 @@ namespace Trader.Server.Bll
             }
             else
             {
-                AsyncEnumerator ae = new AsyncEnumerator();
-                ae.BeginExecute(InitDataService.GetInitData(request, null, ae),ae.EndExecute);
+                InitDataService.GetInitData(request, null);
             }
             return result;
         }

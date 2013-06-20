@@ -7,65 +7,51 @@ namespace Trader.Common
 {
     public class BufferManager
     {
-        private const int CONNECTION_COUNT = 8000;
+        private const int CONNECTION_COUNT = 500;
         public const int INNER_READ_BUFFER_SIZE = 4096;
         public const int WRITE_BUFFER_SIZE = 13240;
         public const int OUTTER_READ_BUFFER_SIZE = 3072;
         public const int PREVIOUS_PATIAL_PACKET_SIZE = 3072;
-        private int _NumBytes;
         private const int CAPACITY = 8000;
-        private Stack<int> _FreeIndexPool = new Stack<int>(CAPACITY);
-        private int _CurrentIndex=0;
+        private Queue<byte[]> _BufferPool = new Queue<byte[]>(CAPACITY);
         private object _Lock = new object();
         private BufferManager()
         {
-            this._NumBytes = CONNECTION_COUNT * GetWholePartLength();
-            this.Buffer = new byte[this._NumBytes];
+            for (int i = 0; i < CAPACITY; i++)
+            {
+                this._BufferPool.Enqueue(new byte[WholePartLength]);
+            }
         }
 
         //outer read / inner read /write
-        private int GetWholePartLength()
-        {
-            return OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE + WRITE_BUFFER_SIZE + PREVIOUS_PATIAL_PACKET_SIZE;
-        }
 
         public static readonly BufferManager Default = new BufferManager();
 
         public const int OnePartLength = OUTTER_READ_BUFFER_SIZE;
         public const int TwoPartLength = OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE;
         public const int ThreePartLength = OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE + WRITE_BUFFER_SIZE;
-        public const int FourPartLength = OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE + WRITE_BUFFER_SIZE + PREVIOUS_PATIAL_PACKET_SIZE;
+        public const int WholePartLength = OUTTER_READ_BUFFER_SIZE + INNER_READ_BUFFER_SIZE + WRITE_BUFFER_SIZE + PREVIOUS_PATIAL_PACKET_SIZE;
 
-
-        public int SetBuffer()
+        public byte[] Dequeue()
         {
             lock (this._Lock)
             {
-                int index;
-                if (this._FreeIndexPool.Count > 0)
+                if (this._BufferPool.Count > 0)
                 {
-                    index = this._FreeIndexPool.Pop();
+                    return this._BufferPool.Dequeue();
                 }
-                else
-                {
-                    index = this._CurrentIndex;
-                    this._CurrentIndex += GetWholePartLength();
-                }
-                return index;
+                return new byte[WholePartLength];
             }
         }
 
-        public void FreeBuffer(int index)
+        public void Enqueue(byte[] buffer)
         {
             lock (this._Lock)
             {
-                this._FreeIndexPool.Push(index);
+                this._BufferPool.Enqueue(buffer);
             }
         }
-
-        public byte[] Buffer { get; private set; }
-
-
-
+        
+        
     }
 }

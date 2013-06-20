@@ -10,15 +10,22 @@ namespace Serialization
 {
     public class PacketBuilder
     {
-
-        public static byte[] Build(SerializedObject target)
+        private const int PRICE_LIMIT_LENGTH = 512;
+        public  static UnmanagedMemory Build(SerializedObject target)
         {
             byte priceByte = 0;
             if (target.IsKeepAlive)
             {
-                target.KeepAlivePacket[0] = target.IsKeepAliveSuccess ? KeepAliveConstants.IsKeepAliveAndSuccessValue : KeepAliveConstants.IsKeepAliveAndFailedValue;
-                return target.KeepAlivePacket;
+                target.KeepAlivePacket[0] = target.IsKeepAliveSuccess ? FirstHeadByteBitConstants.IsKeepAliveAndSuccessValue : FirstHeadByteBitConstants.IsKeepAliveAndFailedValue;
+                UnmanagedMemory keepAlivePacket = new UnmanagedMemory(target.KeepAlivePacket);
+                return keepAlivePacket;
             }
+
+            if (target.ContentInPointer != null)
+            {
+                return BuildForPointer(target.ContentInPointer, target.ClientInvokeID); 
+            }
+
             if (!string.IsNullOrEmpty(target.ClientInvokeID))
             {
                 AppendClientInvokeIdToContentNode(target.Content, target.ClientInvokeID);
@@ -28,30 +35,72 @@ namespace Serialization
             byte sessionLengthByte = (byte)sessionBytes.Length;
             byte[] contentLengthBytes = contentBytes.Length.ToCustomerBytes();
             int packetLength = Constants.HeadCount + sessionLengthByte + contentBytes.Length;
-            byte[] packet = new byte[packetLength];
+            UnmanagedMemory packet = new UnmanagedMemory(packetLength);
             AddHeaderToPacket(packet, priceByte, sessionLengthByte, contentLengthBytes);
             AddSessionToPacket(packet, sessionBytes, Constants.HeadCount);
             AddContentToPacket(packet, contentBytes, Constants.HeadCount + sessionLengthByte);
             return packet;
         }
 
-        public static byte[] BuildPrice(byte[] price)
+        private unsafe static UnmanagedMemory BuildForPointer(UnmanagedMemory content, string invokeID)
         {
-            byte[] packet = new byte[Constants.HeadCount + price.Length];
-            byte[] contentLengthBytes = CustomerIntCache.Get(price.Length);
-            byte priceByte = KeepAliveConstants.IsPricevValue;
-            packet[0] = priceByte;
-            Buffer.BlockCopy(contentLengthBytes, 0, packet, Constants.ContentLengthIndex, contentLengthBytes.Length);
-            Buffer.BlockCopy(price, 0, packet, Constants.HeadCount, price.Length);
+            int contentLength = Constants.INVOKE_ID_LENGTH + content.Length;
+            int packetLength=Constants.HeadCount + contentLength;
+            UnmanagedMemory packet = new UnmanagedMemory(packetLength);
+            byte[] contentLengthBytes = contentLength.ToCustomerBytes();
+            packet.Handle[0] = FirstHeadByteBitConstants.IsPlainString;
+            packet.Handle[1] = 0;
+            byte[] invokeIDBytes = Constants.ClientInvokeIDEncoding.GetBytes(invokeID);
+            for (int i = 0; i < contentLengthBytes.Length; i++)
+            {
+                packet.Handle[Constants.ContentLengthIndex + i] = contentLengthBytes[i];
+            }
+            int index = Constants.HeadCount;
+            for (int i = 0; i < invokeIDBytes.Length; i++)
+            {
+                packet.Handle[index + i] = invokeIDBytes[i];
+            }
+            index += invokeIDBytes.Length;
+            for (int i = 0; i < content.Length; i++)
+            {
+                packet.Handle[index + i] = content.Handle[i];
+            }
+            content.Dispose();
             return packet;
         }
 
-        public static byte[] BuildForContentInBytesCommand(byte[] content)
+
+
+        public static UnmanagedMemory BuildPrice(byte[] price)
         {
-            byte[] packet = new byte[Constants.HeadCount + content.Length];
-            byte[] contentLengthBytes = CustomerIntCache.Get(content.Length);
-            Buffer.BlockCopy(contentLengthBytes, 0, packet, Constants.ContentLengthIndex, contentLengthBytes.Length);
-            Buffer.BlockCopy(content, 0, packet, Constants.HeadCount, content.Length);
+            return BuildForCommandCommon(price, true);
+          
+        }
+
+        public static UnmanagedMemory BuildForContentInBytesCommand(byte[] content)
+        {
+            return BuildForCommandCommon(content, false);
+        }
+
+        private unsafe static UnmanagedMemory BuildForCommandCommon(byte[] data, bool isPrice)
+        {
+            int packetLength = Constants.HeadCount + data.Length;
+            UnmanagedMemory packet =new UnmanagedMemory(packetLength);
+            byte[] contentLengthBytes = CustomerIntCache.Get(data.Length);
+            if (isPrice)
+            {
+                byte priceByte = FirstHeadByteBitConstants.IsPricevValue;
+                packet.Handle[0] = priceByte;
+            }
+            packet.Handle[1] = 0;
+            for (int i = 0; i < contentLengthBytes.Length; i++)
+            {
+                packet.Handle[Constants.ContentLengthIndex + i] = contentLengthBytes[i];
+            }
+            for (int i = 0; i < data.Length; i++)
+            {
+                packet.Handle[Constants.HeadCount + i] = data[i];
+            }
             return packet;
         }
 
@@ -62,24 +111,34 @@ namespace Serialization
         }
 
 
-        private static void AddSessionToPacket(byte[] packet,byte[] sessionBytes,int index)
+        private unsafe static void AddSessionToPacket(UnmanagedMemory packet,byte[] sessionBytes,int index)
         {
             if (sessionBytes != null)
             {
-                Buffer.BlockCopy(sessionBytes, 0, packet, index, sessionBytes.Length);
+                for (int i = 0; i < sessionBytes.Length; i++)
+                {
+                    packet.Handle[index + i] = sessionBytes[i];
+                }
             }
         }
 
-        private static void AddContentToPacket(byte[] packet, byte[] contentBytes,int index)
+        private unsafe static void AddContentToPacket(UnmanagedMemory packet, byte[] contentBytes,int index)
         {
-            Buffer.BlockCopy(contentBytes, 0, packet, index, contentBytes.Length);
+            for (int i = 0; i < contentBytes.Length; i++)
+            {
+                packet.Handle[index + i] = contentBytes[i];
+            }
         }
 
-        private static void AddHeaderToPacket(byte[] packet,byte isPrice,byte sessionLength,byte[] contentLengthBytes)
+        private unsafe static void AddHeaderToPacket(UnmanagedMemory packet, byte isPrice, byte sessionLength, byte[] contentLengthBytes)
         {
-            packet[0] = isPrice;
-            packet[1] = sessionLength;
-            Buffer.BlockCopy(contentLengthBytes, 0, packet, 2, contentLengthBytes.Length);
+            packet.Handle[0] = isPrice;
+            packet.Handle[1] = sessionLength;
+            int startIndex = Constants.ContentLengthIndex;
+            for (int i = 0; i < contentLengthBytes.Length; i++)
+            {
+                packet.Handle[startIndex + i] = contentLengthBytes[i];
+            }
         }
 
         private static byte[] GetSessionBytes(string sessionID)

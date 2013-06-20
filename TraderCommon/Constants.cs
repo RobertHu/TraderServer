@@ -15,6 +15,8 @@ namespace Trader.Common
         public const int ContentLengthIndex = 2;
         public const int HeadCount = 6;
 
+        public const int INVOKE_ID_LENGTH = 36;
+
         public static readonly Encoding SessionEncoding = Encoding.ASCII;
         public static readonly Encoding ContentEncoding = Encoding.UTF8;
         public static readonly Encoding ClientInvokeIDEncoding = Encoding.ASCII;
@@ -54,12 +56,13 @@ namespace Trader.Common
         public const string CommandSequence = "C_S";
     }
 
-    public static class KeepAliveConstants
+    public static class FirstHeadByteBitConstants
     {
         public const byte IsPricevValue = 0x01;
         public const byte IsKeepAliveMask = 0x02;
         public const byte IsKeepAliveAndSuccessValue = 0x06;
         public const byte IsKeepAliveAndFailedValue = 0x02;
+        public const byte IsPlainString = 0x08;
     }
      
 

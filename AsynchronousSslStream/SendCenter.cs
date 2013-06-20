@@ -66,7 +66,7 @@ namespace Trader.Server
                 SerializedObject workItem = null;
                 while (this._Queue.TryDequeue(out workItem))
                 {
-                    byte[] packet = SerializeManager.Default.Serialize(workItem);
+                    UnmanagedMemory packet = SerializeManager.Default.Serialize(workItem);
                     if (packet == null)
                     {
                         continue;

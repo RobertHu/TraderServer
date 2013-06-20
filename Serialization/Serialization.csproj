@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonUtil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -68,6 +70,7 @@
   <ItemGroup>
     <Content Include="Lib\CommonUtil.dll" />
     <Content Include="Lib\Ionic.Zip.dll" />
+    <Content Include="note.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TraderCommon\Trader.Common.csproj">

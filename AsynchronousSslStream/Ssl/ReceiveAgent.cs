@@ -14,6 +14,7 @@ namespace Trader.Server.Ssl
 	{
         private ConcurrentQueue<ReceiveData> _Queue = new ConcurrentQueue<ReceiveData>();
         private volatile  bool _IsStoped = true;
+        private ReceiveData _Current;
 
         public void Reset()
         {
@@ -35,10 +36,9 @@ namespace Trader.Server.Ssl
 
         private void ProcessData()
         {
-            ReceiveData item;
-            if (this._Queue.TryDequeue(out item))
+            if (this._Queue.TryDequeue(out this._Current))
             {
-                ThreadPool.QueueUserWorkItem(this.ProcessCallback,item);
+                ThreadPool.QueueUserWorkItem(this.ProcessCallback,null);
             }
             else
             {
@@ -48,21 +48,19 @@ namespace Trader.Server.Ssl
 
         private void ProcessCallback(object state)
         {
-            ReceiveData item = (ReceiveData)state;
-            SerializedObject request = PacketParser.Parse(item.Data);
+            SerializedObject request = PacketParser.Parse(this._Current.Data);
             if (request == null)
             {
                 return;
             }
             if (request.Session == SessionMapping.INVALID_VALUE)
             {
-                request.Session = item.Session;
+                request.Session = this._Current.Session;
             }
             else
             {
-                request.CurrentSession = item.Session;
+                request.CurrentSession = this._Current.Session;
             }
-            ReceiveDataPool.Default.Push(item);
             ClientRequestHelper.Process(request);
             ProcessData();
         }

@@ -20,29 +20,19 @@ namespace Trader.Server.Bll
 {
     public class InitDataService
     {
-        public static IEnumerator<int> GetInitData(SerializedObject request, DataSet initData, AsyncEnumerator ae)
+        public static XElement GetInitData(SerializedObject request, DataSet initData)
         {
-            XElement result = null;
             long session = request.Session;
             Token token = SessionManager.Default.GetToken(session);
             if (initData == null)
             {
-                Application.Default.StateServer.BeginGetInitData(token, null, ae.End(), null);
-                yield return 1;
                 int sequence;
-                initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
+                initData = Application.Default.StateServer.GetInitData(token, null, out sequence);
             }
             try
             {
-                int commandSequence ;
-                DataSet ds = Init(session, initData,out commandSequence);
-                var dict = new Dictionary<string, string>()
-                {
-                    {"commandSequence",commandSequence.ToString()},
-                    {"data",ds.ToXml()}
-                };
-                result = XmlResultHelper.NewResult(dict);
-                request.Content = result;
+                DataSet ds = Init(session, initData);
+                request.ContentInPointer = ds.ToPointer();
                 SendCenter.Default.Send(request);
             }
             catch (Exception ex)
@@ -50,10 +40,11 @@ namespace Trader.Server.Bll
                 request.Content = XmlResultHelper.NewErrorResult(ex.ToString());
                 SendCenter.Default.Send(request);
             }
+            return null;
         }
 
 
-        public static DataSet Init(long session, DataSet initData, out int commandSequence)
+        public static DataSet Init(long session, DataSet initData)
         {
             DataRowCollection rows;
             TraderState state = SessionManager.Default.GetTradingConsoleState(session);
@@ -98,7 +89,7 @@ namespace Trader.Server.Bll
             }
 
             SessionManager.Default.AddTradingConsoleState(session, state);
-             commandSequence = CommandManager.Default.LastSequence;
+            int commandSequence = CommandManager.Default.LastSequence;
             SessionManager.Default.AddNextSequence(session, commandSequence);
             DataTable customerTable = initData.Tables["Customer"];
             state.IsEmployee = (bool)customerTable.Rows[0]["IsEmployee"];
@@ -116,6 +107,7 @@ namespace Trader.Server.Bll
 
             AddBestLimitsForBursa(ds, instrumentsFromBursa);
             ds.SetInstrumentGuidMapping();
+            ds.SetCommandSequence(commandSequence);
             state.CaculateQuotationFilterSign();
             return ds;
         }

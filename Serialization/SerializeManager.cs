@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Trader.Common;
 namespace Serialization
 {
     public class SerializeManager
@@ -11,18 +12,18 @@ namespace Serialization
 
         public static readonly SerializeManager Default = new SerializeManager();
 
-        public byte[] Serialize(SerializedObject target)
+        public UnmanagedMemory Serialize(SerializedObject target)
         {
             return PacketBuilder.Build(target);
         }
 
 
-        public byte[] SerializePrice(byte[] price)
+        public UnmanagedMemory SerializePrice(byte[] price)
         {
             return PacketBuilder.BuildPrice(price);
         }
 
-        public byte[] SerializeCommand(byte[] content)
+        public UnmanagedMemory SerializeCommand(byte[] content)
         {
             return PacketBuilder.BuildForContentInBytesCommand(content);
         }

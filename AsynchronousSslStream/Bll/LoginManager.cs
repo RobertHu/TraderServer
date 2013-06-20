@@ -24,71 +24,66 @@ namespace Trader.Server.Bll
     public class LoginManager
     {
         private ILog _Logger = LogManager.GetLogger(typeof(LoginManager));
-        private LoginManager() {}
+        private LoginManager() { }
         public readonly static LoginManager Default = new LoginManager();
 
-        public IEnumerator<int> Login(SerializedObject request, string loginID, string password, string version, int appType, AsyncEnumerator ae)
+        public XElement Login(SerializedObject request, string loginID, string password, string version, int appType)
         {
-            long session = request.Session;
-            string connectionString = SettingManager.Default.ConnectionString;
-            IsFailedCountExceed(loginID, password, connectionString);
-            LoginParameter loginParameter = new LoginParameter();
-            loginParameter.CompanyName = string.Empty;
-            if (loginID == String.Empty)
+            try
             {
-                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
-                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
-                SendErrorResult(request);
-                yield break;
-            }
-            string message = string.Empty;
-            Application.Default.ParticipantService.BeginLogin(loginID, password, ae.End(), null);
-            yield return 1;
-            loginParameter.UserID = Application.Default.ParticipantService.EndLogin(ae.DequeueAsyncResult());
-            if (loginParameter.UserID == Guid.Empty)
-            {
-                _Logger.ErrorFormat("{0} is not a valid user", loginID);
-            }
-            else
-            {
-                Guid programID = new Guid(SettingManager.Default.GetLoginSetting("TradingConsole"));
-                Guid permissionID = new Guid(SettingManager.Default.GetLoginSetting("Run"));
-                Application.Default.SecurityService.BeginCheckPermission(loginParameter.UserID, programID, permissionID, "", "", loginParameter.UserID, ae.End(), null);
-                yield return 1;
-                bool isAuthrized = Application.Default.SecurityService.EndCheckPermission(ae.DequeueAsyncResult(), out message);
-                if (!isAuthrized)
+                long session = request.Session;
+                string connectionString = SettingManager.Default.ConnectionString;
+                IsFailedCountExceed(loginID, password, connectionString);
+                LoginParameter loginParameter = new LoginParameter();
+                loginParameter.CompanyName = string.Empty;
+                if (loginID == String.Empty)
                 {
-                    _Logger.ErrorFormat("{0} doesn't have the right to login trader", loginID);
-                    loginParameter.UserID = Guid.Empty;
+                    AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
+                    Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
+                    return XmlResultHelper.ErrorResult;
+                }
+                string message = string.Empty;
+                loginParameter.UserID = Application.Default.ParticipantService.Login(loginID, password);
+                if (loginParameter.UserID == Guid.Empty)
+                {
+                    _Logger.ErrorFormat("{0} is not a valid user", loginID);
                 }
                 else
                 {
-                    Token token = new Token(Guid.Empty, UserType.Customer, (AppType)appType);
-                    token.UserID = loginParameter.UserID;
-                    token.SessionID = session.ToString();
-                    SessionManager.Default.AddToken(session, token);
-                    Application.Default.StateServer.BeginLogin(token, ae.End(), null);
-                    yield return 1;
-                    bool isStateServerLogined = Application.Default.StateServer.EndLogin(ae.DequeueAsyncResult());
-                    SetLoginParameter(loginParameter, session, password, version, appType, isStateServerLogined, token);
+                    Guid programID = new Guid(SettingManager.Default.GetLoginSetting("TradingConsole"));
+                    Guid permissionID = new Guid(SettingManager.Default.GetLoginSetting("Run"));
+                    bool isAuthrized = Application.Default.SecurityService.CheckPermission(loginParameter.UserID, programID, permissionID, "", "", loginParameter.UserID, out message);
+                    if (!isAuthrized)
+                    {
+                        _Logger.ErrorFormat("{0} doesn't have the right to login trader", loginID);
+                        loginParameter.UserID = Guid.Empty;
+                    }
+                    else
+                    {
+                        Token token = new Token(Guid.Empty, UserType.Customer, (AppType)appType);
+                        token.UserID = loginParameter.UserID;
+                        token.SessionID = session.ToString();
+                        SessionManager.Default.AddToken(session, token);
+                        bool isStateServerLogined = Application.Default.StateServer.Login(token);
+                        SetLoginParameter(loginParameter, session, password, version, appType, isStateServerLogined, token);
+                    }
+                }
+                if (loginParameter.UserID == Guid.Empty)
+                {
+                    AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
+                    Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
+                    return XmlResultHelper.ErrorResult;
+                }
+                else
+                {
+                    return SetResult(request, loginParameter, session, loginID, password, version, appType, connectionString);
                 }
             }
-            if (loginParameter.UserID == Guid.Empty)
+            catch (Exception ex)
             {
-                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
-                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
-                SendErrorResult(request);
+                _Logger.Error(ex);
+                return XmlResultHelper.ErrorResult;
             }
-            else
-            {
-                SetResult(request, loginParameter, session, loginID, password, version, appType, connectionString);
-            }
-        }
-
-        private void SendErrorResult(SerializedObject request)
-        {
-            request.Content= XmlResultHelper.ErrorResult;
-            SendCenter.Default.Send(request);
         }
 
 
@@ -107,7 +102,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        private void SetResult(SerializedObject request, LoginParameter loginParameter, long session, string loginID, string password, string version, int appType, string connectionString)
+        private XElement SetResult(SerializedObject request, LoginParameter loginParameter, long session, string loginID, string password, string version, int appType, string connectionString)
         {
             XElement result;
             Token token = SessionManager.Default.GetToken(session);
@@ -125,7 +120,7 @@ namespace Trader.Server.Bll
                 var companyLogo = this.GetLogoForJava(loginParameter.CompanyName);
                 var colorSettings = this.GetColorSettingsForJava(loginParameter.CompanyName);
                 var systemParameter = this.GetParameterForJava(session, loginParameter.CompanyName, language);
-                 var settings = this.GetSettings(loginParameter.CompanyName);
+                var settings = this.GetSettings(loginParameter.CompanyName);
                 var tradingAccountData = Application.Default.TradingConsoleServer.GetTradingAccountData(loginParameter.UserID);
                 var recoverPasswordData = Application.Default.TradingConsoleServer.GetRecoverPasswordData(language, loginParameter.UserID);
                 var dict = new Dictionary<string, string>()
@@ -151,11 +146,7 @@ namespace Trader.Server.Bll
                 LoginRetryTimeHelper.IncreaseFailedCount(loginID, ParticipantType.Customer, connectionString);
                 result = XmlResultHelper.ErrorResult;
             }
-            if (token.AppType != AppType.Mobile)
-            {
-                request.Content = result;
-                SendCenter.Default.Send(request);
-            }
+            return result;
         }
 
         private class LoginParameter
@@ -172,7 +163,7 @@ namespace Trader.Server.Bll
         private void SetLoginParameter(LoginParameter loginParameter, long session, string password, string environmentInfo, int appType, bool isStateServerLogined, Token token)
         {
             bool isPathPassed = false;
-            DataSet dataSet = Application.Default.TradingConsoleServer.GetLoginParameters(loginParameter.UserID,loginParameter.CompanyName);
+            DataSet dataSet = Application.Default.TradingConsoleServer.GetLoginParameters(loginParameter.UserID, loginParameter.CompanyName);
             DataRowCollection rows = dataSet.Tables[0].Rows;
             foreach (DataRow row in rows)
             {
@@ -200,7 +191,7 @@ namespace Trader.Server.Bll
             {
                 if (isStateServerLogined)
                 {
-                    SessionManager.Default.AddSession(loginParameter.UserID, session); 
+                    SessionManager.Default.AddSession(loginParameter.UserID, session);
                     Application.Default.TradingConsoleServer.SaveLogonLog(token, GetLocalIP(), environmentInfo);
                 }
                 else
@@ -266,7 +257,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        private XmlNode GetParameterForJava(long session,string companyCode, string version)
+        private XmlNode GetParameterForJava(long session, string companyCode, string version)
         {
             SessionManager.Default.AddVersion(session, version);
             string physicalPath = Path.Combine(GetOrginazationDir(companyCode), version);

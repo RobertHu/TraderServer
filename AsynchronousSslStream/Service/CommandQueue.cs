@@ -34,28 +34,28 @@ namespace Trader.Server.Service
             try
             {
                 command.Sequence = Interlocked.Increment(ref this._LastSequence);
-                //if (this._Commands.Count == 0)
-                //{
-                //    this._Commands.Add(new CommandList(MessageListCapacity));
-                //    this._Commands[0].Add(command);
-                //    this._Commands[0].LastTime = DateTime.Now;
-                //}
-                //else if (this._Commands[0].Count == 0)
-                //{
-                //    this._Commands[0].Add(command);
-                //    this._Commands[0].LastTime = DateTime.Now;
-                //}
-                //else
-                //{
-                //    long minSequence = this._Commands[0][0].Sequence;
-                //    int indexOfMessageList = (int)Math.Floor((double)(command.Sequence - minSequence) / MessageListCapacity);
-                //    if (indexOfMessageList >= this._Commands.Count)
-                //    {
-                //        this._Commands.Add(new CommandList(MessageListCapacity));
-                //    }
-                //    this._Commands[indexOfMessageList].Add(command);
-                //    this._Commands[indexOfMessageList].LastTime = DateTime.Now;
-                //}
+                if (this._Commands.Count == 0)
+                {
+                    this._Commands.Add(new CommandList(MessageListCapacity));
+                    this._Commands[0].Add(command);
+                    this._Commands[0].LastTime = DateTime.Now;
+                }
+                else if (this._Commands[0].Count == 0)
+                {
+                    this._Commands[0].Add(command);
+                    this._Commands[0].LastTime = DateTime.Now;
+                }
+                else
+                {
+                    long minSequence = this._Commands[0][0].Sequence;
+                    int indexOfMessageList = (int)Math.Floor((double)(command.Sequence - minSequence) / MessageListCapacity);
+                    if (indexOfMessageList >= this._Commands.Count)
+                    {
+                        this._Commands.Add(new CommandList(MessageListCapacity));
+                    }
+                    this._Commands[indexOfMessageList].Add(command);
+                    this._Commands[indexOfMessageList].LastTime = DateTime.Now;
+                }
             }
             finally
             {
@@ -196,14 +196,6 @@ namespace Trader.Server.Service
                 }
                 foreach (CommandList cmds in expiredCommands)
                 {
-                    foreach (Command cmd in cmds)
-                    {
-                        QuotationCommand quotation = cmd as QuotationCommand;
-                        if (quotation != null)
-                        {
-                            QuotationPool.Default.Push(quotation);
-                        }
-                    }
                     cmds.Clear();
                     this._Commands.Remove(cmds);
                 }

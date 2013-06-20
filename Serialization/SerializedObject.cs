@@ -47,6 +47,7 @@ namespace Serialization
         public byte[] Price { get; set; }
         public XElement Content { get;  set; }
         public byte[] ContentInByte { get; set; }
+        public UnmanagedMemory  ContentInPointer { get; set; }
         public string ClientInvokeID { get; private set; }
         public long CurrentSession { get; set; }
         public bool IsKeepAlive { get; private set; }

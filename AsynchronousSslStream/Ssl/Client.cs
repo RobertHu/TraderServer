@@ -16,7 +16,7 @@ namespace Trader.Server.Ssl
         private static ILog _Logger = LogManager.GetLogger(typeof(Client));
         private SslStream _Stream;
         private volatile bool _IsClosed = false;
-        private ConcurrentQueue<byte[]> _Queue = new ConcurrentQueue<byte[]>();
+        private ConcurrentQueue<UnmanagedMemory> _Queue = new ConcurrentQueue<UnmanagedMemory>();
         private bool _IsSendingData = false;
         private object _Lock = new object();
         private bool _HasPartialPacket = false;
@@ -24,7 +24,10 @@ namespace Trader.Server.Ssl
         private long _Session;
         private const int MAX_WRITE_LENGTH = 10240;
         private int _LastWriteIndex = 0;
-        private byte[] _LastWriteBuffer;
+        private UnmanagedMemory _LastWriteBuffer;
+        private byte[] _Buffer;
+        private int _WriteBufferIndex;
+        private UnmanagedMemory _CurrentPacket;
         public Client() { }
         public Client(SslStream stream, long session)
         {
@@ -32,14 +35,19 @@ namespace Trader.Server.Ssl
             this._Session = session;
             Read();
         }
-        public int BufferIndex { get; set; }
+
+        public void SetBuffer(byte[] buffer)
+        {
+            this._Buffer = buffer;
+            this._WriteBufferIndex = BufferManager.TwoPartLength;
+        }
 
         public void Start(SslStream stream, long session)
         {
             this._IsClosed = false;
             this._Stream = stream;
             this._Session = session;
-            byte[] packet;
+            UnmanagedMemory packet;
             while (this._Queue.TryDequeue(out packet)) { }
             this._IsSendingData = false;
             this._HasPartialPacket = false;
@@ -48,7 +56,7 @@ namespace Trader.Server.Ssl
         }
 
 
-        public void Send(byte[] packet)
+        public void Send(UnmanagedMemory packet)
         {
             if (this._IsClosed)
             {
@@ -73,7 +81,7 @@ namespace Trader.Server.Ssl
                 {
                     return;
                 }
-                this._Stream.BeginRead(BufferManager.Default.Buffer, this.BufferIndex, BufferManager.OUTTER_READ_BUFFER_SIZE, this.EndRead, null);
+                this._Stream.BeginRead(this._Buffer, 0, BufferManager.OUTTER_READ_BUFFER_SIZE, this.EndRead, null);
             }
             catch (Exception ex)
             {
@@ -85,16 +93,7 @@ namespace Trader.Server.Ssl
         {
             byte[] packet = new byte[len];
             Buffer.BlockCopy(data, offset, packet, 0, len);
-            ReceiveData receiveData = ReceiveDataPool.Default.Pop();
-            if (receiveData == null)
-            {
-                receiveData = new Common.ReceiveData(this._Session, packet);
-            }
-            else
-            {
-                receiveData.Session = this._Session;
-                receiveData.Data = packet;
-            }
+            ReceiveData receiveData = new ReceiveData(this._Session, packet);
             ReceiveCenter.Default.Send(receiveData);
         }
 
@@ -106,9 +105,8 @@ namespace Trader.Server.Ssl
                 try
                 {
                     int len = this._Stream.EndRead(ar);
-                    int currentIndex = this.BufferIndex;
+                    int currentIndex = 0;
                     int used = 0;
-                    byte[] buffer = BufferManager.Default.Buffer;
                     if (len <= 0)
                     {
                         Close();
@@ -116,32 +114,32 @@ namespace Trader.Server.Ssl
                     }
                     if (this._HasPartialPacket)
                     {
-                        int partialStartIndex = this.BufferIndex + BufferManager.ThreePartLength;
+                        int partialStartIndex = BufferManager.ThreePartLength;
                         int partialCurrentIndex = partialStartIndex + this._PartialReadedLenth;
                         if (this._PartialReadedLenth < Constants.HeadCount)
                         {
                             int needToRead = Constants.HeadCount - this._PartialReadedLenth;
                             if (needToRead > len)
                             {
-                                Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, len);
+                                Buffer.BlockCopy(this._Buffer, currentIndex, this._Buffer, partialCurrentIndex, len);
                                 this._PartialReadedLenth += len;
                                 return;
                             }
-                            Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, needToRead);
+                            Buffer.BlockCopy(this._Buffer, currentIndex, this._Buffer, partialCurrentIndex, needToRead);
                             partialCurrentIndex += needToRead;
                             len -= needToRead;
                             used += needToRead;
                         }
-                        int packetLength = Constants.GetPacketLength(buffer, partialStartIndex);
+                        int packetLength = Constants.GetPacketLength(this._Buffer, partialStartIndex);
                         int howMuchNeedToRead = packetLength - Constants.HeadCount;
                         if (howMuchNeedToRead > len)
                         {
-                            Buffer.BlockCopy(buffer, currentIndex, buffer, partialCurrentIndex, len);
+                            Buffer.BlockCopy(this._Buffer, currentIndex, this._Buffer, partialCurrentIndex, len);
                             return;
                         }
                         int offset = used + currentIndex;
-                        Buffer.BlockCopy(buffer, offset, buffer, partialCurrentIndex, howMuchNeedToRead);
-                        ProcessPackage(buffer, partialStartIndex, packetLength);
+                        Buffer.BlockCopy(this._Buffer, offset, this._Buffer, partialCurrentIndex, howMuchNeedToRead);
+                        ProcessPackage(this._Buffer, partialStartIndex, packetLength);
                         len -= howMuchNeedToRead;
                         used += howMuchNeedToRead;
                     }
@@ -157,20 +155,20 @@ namespace Trader.Server.Ssl
                         int offset = currentIndex + used;
                         if (len < Constants.HeadCount)
                         {
-                            Buffer.BlockCopy(buffer, offset, buffer, this.BufferIndex + BufferManager.ThreePartLength, len);
+                            Buffer.BlockCopy(this._Buffer, offset, this._Buffer,  BufferManager.ThreePartLength, len);
                             this._PartialReadedLenth = len;
                             this._HasPartialPacket = true;
                             break;
                         }
-                        int packetLength = Constants.GetPacketLength(buffer, currentIndex + used);
+                        int packetLength = Constants.GetPacketLength(this._Buffer, currentIndex + used);
                         if (len < packetLength)
                         {
-                            Buffer.BlockCopy(buffer, offset, buffer, this.BufferIndex + BufferManager.ThreePartLength, len);
+                            Buffer.BlockCopy(this._Buffer, offset, this._Buffer,  BufferManager.ThreePartLength, len);
                             this._PartialReadedLenth = len;
                             this._HasPartialPacket = true;
                             break;
                         }
-                        ProcessPackage(buffer, offset, packetLength);
+                        ProcessPackage(this._Buffer, offset, packetLength);
                         used += packetLength;
                         len -= packetLength;
                     }
@@ -197,10 +195,9 @@ namespace Trader.Server.Ssl
         {
             try
             {
-                byte[] packet;
-                if (this._Queue.TryDequeue(out packet))
+                if (this._Queue.TryDequeue(out this._CurrentPacket))
                 {
-                    BeginWrite(packet, 0, packet.Length);
+                    BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
                 }
                 else
                 {
@@ -217,16 +214,29 @@ namespace Trader.Server.Ssl
             }
         }
 
-        private void BeginWrite(byte[] data, int offset, int len)
+        private unsafe void BeginWrite(UnmanagedMemory data, int offset, int len)
         {
+            if (data.Data != null) // keep alive data
+            {
+                this._Stream.BeginWrite(data.Data, 0, data.Data.Length, this.EndWrite, null);
+                return;
+            }
             if (len <= MAX_WRITE_LENGTH)
             {
-                this._Stream.BeginWrite(data, offset, len, this.EndWrite, null);
+                for (int i = 0; i < len; i++)
+                {
+                    this._Buffer[this._WriteBufferIndex + i] = data.Handle[offset + i];
+                }
+                this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, len, this.EndWrite, null);
             }
             else
             {
                 this._LastWriteBuffer = data;
-                this._Stream.BeginWrite(data, offset, MAX_WRITE_LENGTH, this.EndWrite, null);
+                for (int i = 0; i < MAX_WRITE_LENGTH; i++)
+                {
+                    this._Buffer[this._WriteBufferIndex + i] = data.Handle[offset + i];
+                }
+                this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH, this.EndWrite, null);
             }
         }
 
@@ -241,6 +251,7 @@ namespace Trader.Server.Ssl
                     this._Stream.EndWrite(ar);
                     if (this._LastWriteBuffer == null)
                     {
+                        this._CurrentPacket.Dispose();
                         Write();
                         return;
                     }
@@ -250,6 +261,7 @@ namespace Trader.Server.Ssl
                     {
                         this._LastWriteBuffer = null;
                         this._LastWriteIndex = 0;
+                        this._CurrentPacket.Dispose();
                         Write();
                         return;
                     }
@@ -275,7 +287,7 @@ namespace Trader.Server.Ssl
             this._Stream.Close();
             this._IsClosed = true;
             AgentController.Default.EnqueueDisconnectSession(this._Session);
-            BufferManager.Default.FreeBuffer(this.BufferIndex);
+            BufferManager.Default.Enqueue(this._Buffer);
         }
 
 

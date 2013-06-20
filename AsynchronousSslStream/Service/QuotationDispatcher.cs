@@ -61,7 +61,7 @@ namespace Trader.Server.Service
                     break;
                 }
                 Thread.Sleep(_ProcessPeriodMilliseconds);
-                var qotation = QuotationPool.Default.Pop();
+                var qotation = new QuotationCommand();
                 lock (this._Lock)
                 {
                     if (this._QuotationQueue.Count == 0)
