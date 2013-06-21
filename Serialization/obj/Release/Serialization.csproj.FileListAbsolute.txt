@@ -7,3 +7,4 @@ D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\o
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Release\Ionic.Zip.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Release\Trader.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Release\Trader.Common.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Release\log4net.dll

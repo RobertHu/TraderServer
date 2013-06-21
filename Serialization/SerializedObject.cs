@@ -10,31 +10,14 @@ namespace Serialization
 {
     public class SerializedObject
     {
-
-        public SerializedObject(byte[] price) : this(true, SessionMapping.INVALID_VALUE, price, string.Empty) { }
-        public SerializedObject(bool isPrice, byte[] price) : this(isPrice, SessionMapping.INVALID_VALUE, price, string.Empty) { }
-
-        public SerializedObject(bool isPrice,long session,byte[] price,string clientInvokeID)
+        public SerializedObject(long session, string clientInvokeId, XElement content)
         {
-            this.IsPrice = isPrice;
             this.Session = session;
-            this.Price = price;
-            this.ClientInvokeID = clientInvokeID;
-        }
-
-        public SerializedObject(XElement content, string clientInvokeId) : this(clientInvokeId: clientInvokeId, content: content, session: SessionMapping.INVALID_VALUE) { }
-        public SerializedObject(byte[] contentInBytes, string clientInvokeId) : this(contentInBytes: contentInBytes, clientInvokeId: clientInvokeId, session: SessionMapping.INVALID_VALUE) { }
-
-
-        public SerializedObject(byte[] contentInBytes = null, string clientInvokeId = "", long session = SessionMapping.INVALID_VALUE, XElement content = null, bool isPrice = false)
-        {
-            this.ContentInByte = contentInBytes;
             this.ClientInvokeID = clientInvokeId;
-            this.Session = session;
             this.Content = content;
-            this.IsPrice = isPrice;
         }
-        protected SerializedObject() { }
+        private SerializedObject() { }
+
         public static SerializedObject Create(long session, bool isKeepAlive, byte[] keepAlivePacket)
         {
             SerializedObject target = new SerializedObject();
@@ -43,10 +26,7 @@ namespace Serialization
             target.Session = session;
             return target;
         }
-        public bool IsPrice { get; set; }
-        public byte[] Price { get; set; }
         public XElement Content { get;  set; }
-        public byte[] ContentInByte { get; set; }
         public UnmanagedMemory  ContentInPointer { get; set; }
         public string ClientInvokeID { get; private set; }
         public long CurrentSession { get; set; }

@@ -16,10 +16,12 @@ using Trader.Server._4BitCompress;
 using Trader.Server.Service;
 using Serialization;
 using Wintellect.Threading.AsyncProgModel;
+using log4net;
 namespace Trader.Server.Bll
 {
     public class InitDataService
     {
+        private static ILog _Logger = LogManager.GetLogger(typeof(InitDataService));
         public static IEnumerator<int> GetInitData(SerializedObject request, DataSet initData, AsyncEnumerator ae)
         {
             long session = request.Session;
@@ -29,7 +31,15 @@ namespace Trader.Server.Bll
                 Application.Default.StateServer.BeginGetInitData(token, null, ae.End(), null);
                 yield return 1;
                 int sequence;
-                initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
+                try
+                {
+                    initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
+                }
+                catch (Exception ex)
+                {
+                    SendErrorResult(request, ex);
+                    yield break;
+                }
             }
             try
             {
@@ -39,9 +49,15 @@ namespace Trader.Server.Bll
             }
             catch (Exception ex)
             {
-                request.Content = XmlResultHelper.NewErrorResult(ex.ToString());
-                SendCenter.Default.Send(request);
+                SendErrorResult(request,ex);
             }
+        }
+
+        private static void SendErrorResult(SerializedObject request,Exception ex)
+        {
+            _Logger.Error(ex);
+            request.Content = XmlResultHelper.ErrorResult;
+            SendCenter.Default.Send(request);
         }
 
 

@@ -37,7 +37,7 @@ namespace Trader.Common
                 {
                     return _dict[session];
                 }
-                return 0;
+                return INVALID_VALUE;
             }
             finally
             {

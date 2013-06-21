@@ -44,7 +44,16 @@ namespace Trader.Server.Bll
             string message = string.Empty;
             Application.Default.ParticipantService.BeginLogin(loginID, password, ae.End(), null);
             yield return 1;
-            loginParameter.UserID = Application.Default.ParticipantService.EndLogin(ae.DequeueAsyncResult());
+            try
+            {
+                loginParameter.UserID = Application.Default.ParticipantService.EndLogin(ae.DequeueAsyncResult());
+            }
+            catch (Exception ex)
+            {
+                _Logger.Error(ex);
+                SendErrorResult(request);
+                yield break;
+            }
             if (loginParameter.UserID == Guid.Empty)
             {
                 _Logger.ErrorFormat("{0} is not a valid user", loginID);
@@ -55,7 +64,17 @@ namespace Trader.Server.Bll
                 Guid permissionID = new Guid(SettingManager.Default.GetLoginSetting("Run"));
                 Application.Default.SecurityService.BeginCheckPermission(loginParameter.UserID, programID, permissionID, "", "", loginParameter.UserID, ae.End(), null);
                 yield return 1;
-                bool isAuthrized = Application.Default.SecurityService.EndCheckPermission(ae.DequeueAsyncResult(), out message);
+                bool isAuthrized=false;
+                try
+                {
+                    isAuthrized = Application.Default.SecurityService.EndCheckPermission(ae.DequeueAsyncResult(), out message);
+                }
+                catch (Exception ex)
+                {
+                    _Logger.Error(ex);
+                    SendErrorResult(request);
+                    yield break;
+                }
                 if (!isAuthrized)
                 {
                     _Logger.ErrorFormat("{0} doesn't have the right to login trader", loginID);
@@ -69,7 +88,17 @@ namespace Trader.Server.Bll
                     SessionManager.Default.AddToken(session, token);
                     Application.Default.StateServer.BeginLogin(token, ae.End(), null);
                     yield return 1;
-                    bool isStateServerLogined = Application.Default.StateServer.EndLogin(ae.DequeueAsyncResult());
+                    bool isStateServerLogined=false;
+                    try
+                    {
+                        isStateServerLogined = Application.Default.StateServer.EndLogin(ae.DequeueAsyncResult());
+                    }
+                    catch (Exception ex)
+                    {
+                        _Logger.Error(ex);
+                        SendErrorResult(request);
+                        yield break;
+                    }
                     SetLoginParameter(loginParameter, session, password, version, appType, isStateServerLogined, token);
                 }
             }

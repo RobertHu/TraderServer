@@ -8,39 +8,48 @@ using System.Xml.Linq;
 using Trader.Common;
 namespace Serialization
 {
-    public class PacketBuilder
+    public static class PacketBuilder
     {
-        private const int PRICE_LIMIT_LENGTH = 512;
-        public  static UnmanagedMemory Build(SerializedObject target)
+        public  static UnmanagedMemory Build(SerializedObject response)
         {
-            byte priceByte = 0;
-            if (target.IsKeepAlive)
+            if (response.IsKeepAlive)
             {
-                target.KeepAlivePacket[0] = target.IsKeepAliveSuccess ? FirstHeadByteBitConstants.IsKeepAliveAndSuccessValue : FirstHeadByteBitConstants.IsKeepAliveAndFailedValue;
-                UnmanagedMemory keepAlivePacket = new UnmanagedMemory(target.KeepAlivePacket);
-                return keepAlivePacket;
+                return BuildForKeepAlive(response);
             }
+            if (response.ContentInPointer != null)
+            {
+                return BuildForPointer(response.ContentInPointer, response.ClientInvokeID); 
+            }
+            return BuildForGeneral(response);
+        }
 
-            if (target.ContentInPointer != null)
+        private static UnmanagedMemory BuildForGeneral(SerializedObject response)
+        {
+            if (!string.IsNullOrEmpty(response.ClientInvokeID))
             {
-                return BuildForPointer(target.ContentInPointer, target.ClientInvokeID); 
+                AppendClientInvokeIdToContentNode(response.Content, response.ClientInvokeID);
             }
-
-            if (!string.IsNullOrEmpty(target.ClientInvokeID))
-            {
-                AppendClientInvokeIdToContentNode(target.Content, target.ClientInvokeID);
-            }
-            byte[] contentBytes = GetContentBytes(target.Content.ToString());
-            byte[] sessionBytes = GetSessionBytes(target.Session.ToString());
+            byte[] contentBytes = GetContentBytes(response.Content.ToString());
+            byte[] sessionBytes = GetSessionBytes(response.Session.ToString());
             byte sessionLengthByte = (byte)sessionBytes.Length;
             byte[] contentLengthBytes = contentBytes.Length.ToCustomerBytes();
             int packetLength = Constants.HeadCount + sessionLengthByte + contentBytes.Length;
             UnmanagedMemory packet = new UnmanagedMemory(packetLength);
+            byte priceByte = 0;
             AddHeaderToPacket(packet, priceByte, sessionLengthByte, contentLengthBytes);
             AddSessionToPacket(packet, sessionBytes, Constants.HeadCount);
             AddContentToPacket(packet, contentBytes, Constants.HeadCount + sessionLengthByte);
             return packet;
         }
+
+
+        private static UnmanagedMemory BuildForKeepAlive(SerializedObject response)
+        {
+            response.KeepAlivePacket[0] = response.IsKeepAliveSuccess ? FirstHeadByteBitConstants.IsKeepAliveAndSuccessValue : FirstHeadByteBitConstants.IsKeepAliveAndFailedValue;
+            UnmanagedMemory packet = new UnmanagedMemory(response.KeepAlivePacket);
+            return packet;
+        }
+
 
         private unsafe static UnmanagedMemory BuildForPointer(UnmanagedMemory content, string invokeID)
         {
