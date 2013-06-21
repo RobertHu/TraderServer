@@ -216,27 +216,34 @@ namespace Trader.Server.Ssl
 
         private unsafe void BeginWrite(UnmanagedMemory data, int offset, int len)
         {
-            if (data.Data != null) // keep alive data
+            try
             {
-                this._Stream.BeginWrite(data.Data, 0, data.Data.Length, this.EndWrite, null);
-                return;
-            }
-            if (len <= MAX_WRITE_LENGTH)
-            {
-                for (int i = 0; i < len; i++)
+                if (data.Data != null) // keep alive data
                 {
-                    this._Buffer[this._WriteBufferIndex + i] = data.Handle[offset + i];
+                    this._Stream.BeginWrite(data.Data, 0, data.Data.Length, this.EndWrite, null);
+                    return;
                 }
-                this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, len, this.EndWrite, null);
-            }
-            else
-            {
-                this._LastWriteBuffer = data;
-                for (int i = 0; i < MAX_WRITE_LENGTH; i++)
+                if (len <= MAX_WRITE_LENGTH)
                 {
-                    this._Buffer[this._WriteBufferIndex + i] = data.Handle[offset + i];
+                    for (int i = 0; i < len; i++)
+                    {
+                        this._Buffer[this._WriteBufferIndex + i] = data.Handle[offset + i];
+                    }
+                    this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, len, this.EndWrite, null);
                 }
-                this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH, this.EndWrite, null);
+                else
+                {
+                    this._LastWriteBuffer = data;
+                    for (int i = 0; i < MAX_WRITE_LENGTH; i++)
+                    {
+                        this._Buffer[this._WriteBufferIndex + i] = data.Handle[offset + i];
+                    }
+                    this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH, this.EndWrite, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                _Logger.Error("client closed",ex);
             }
         }
 
@@ -270,7 +277,7 @@ namespace Trader.Server.Ssl
                 }
                 catch (Exception ex)
                 {
-                    _Logger.Error(ex);
+                    _Logger.Error("client closed",ex);
                     this.Close();
                 }
             });

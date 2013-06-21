@@ -50,6 +50,7 @@ namespace Trader.Server._4BitCompress
             {
                 return quotation;
             }
+            _Dict.TryGetValue(filterSign, out quotation);
             return quotation;
         }
 
