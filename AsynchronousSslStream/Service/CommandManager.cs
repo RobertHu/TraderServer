@@ -28,7 +28,6 @@ namespace Trader.Server.Service
         private ConcurrentQueue<Command> _Queue = new ConcurrentQueue<Command>();
         private volatile bool _IsStop = false;
         private volatile bool _IsStart = false;
-        private Command _Current;
 
         private CommandManager()
         {
@@ -69,32 +68,29 @@ namespace Trader.Server.Service
                     break;
                 }
                 this._Event.WaitOne();
-                while (this._Queue.TryDequeue(out this._Current))
+                Command command;
+                while (this._Queue.TryDequeue(out command))
                 {
-                    QuotationCommand quotation = this._Current as QuotationCommand;
+                    QuotationCommand quotation = command as QuotationCommand;
                     if (quotation != null)
                     {
                         QuotationDispatcher.Default.Add(quotation);
                     }
                     else
                     {
-                        CompositeCommand compositeCommand = this._Current as CompositeCommand;
+                        CompositeCommand compositeCommand = command as CompositeCommand;
                         if (compositeCommand != null)
                         {
                             foreach (var cmd in compositeCommand.Commands)
                             {
                                 this._Commands.Add(cmd);
-                                var target = CommandWithQuotationPool.Default.Pop();
-                                target.Initialize(null, cmd, false);
-                                AgentController.Default.AddQuotation(target);
+                                AgentController.Default.SendCommand(command:cmd);
                             }
                         }
                         else
                         {
-                            this._Commands.Add(this._Current);
-                            var target = CommandWithQuotationPool.Default.Pop();
-                            target.Initialize(null, this._Current, false);
-                            AgentController.Default.AddQuotation(target);
+                            this._Commands.Add(command);
+                            AgentController.Default.SendCommand(command:command);
                         }
                     }
                 }
@@ -120,9 +116,7 @@ namespace Trader.Server.Service
         public void AddQuotation(QuotationCommand quotation)
         {
             this._Commands.Add(quotation);
-            var target = CommandWithQuotationPool.Default.Pop();
-            target.Initialize(quotation, null, true);
-            AgentController.Default.AddQuotation(target);
+            AgentController.Default.SendCommand(quotation);
         }
 
 
@@ -238,22 +232,5 @@ namespace Trader.Server.Service
         }
 
         
-    }
-
-    public class CommandWithQuotation
-    {
-        private QuotationCommand _QuotationCommand;
-        public QuotationCommand QuotationCommand { get { return this._QuotationCommand; } }
-        private Command _Command;
-        public Command Command { get { return this._Command; } }
-        private bool _isQuotation;
-        public bool IsQuotation { get { return this._isQuotation; } }
-        public void Initialize(QuotationCommand quotation, Command command, bool isQuotation)
-        {
-            this._QuotationCommand = quotation;
-            this._Command = command;
-            this._isQuotation = isQuotation;
-        }
-
     }
 }

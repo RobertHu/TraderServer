@@ -7,3 +7,4 @@ D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\o
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\obj\Debug\Serialization.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Debug\Trader.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Debug\Trader.Common.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\Serialization\bin\Debug\log4net.dll

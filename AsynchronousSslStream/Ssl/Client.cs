@@ -9,16 +9,21 @@ using System.Collections.Concurrent;
 using Trader.Helper;
 using System.Threading.Tasks;
 using log4net;
+using Trader.Server._4BitCompress;
+using iExchange.Common;
+using Trader.Server.Session;
+using Serialization;
 namespace Trader.Server.Ssl
 {
     public class Client
     {
+        private const int CAPACITY = 1000;
         private static ILog _Logger = LogManager.GetLogger(typeof(Client));
         private SslStream _Stream;
         private volatile bool _IsClosed = false;
-        private ConcurrentQueue<UnmanagedMemory> _Queue = new ConcurrentQueue<UnmanagedMemory>();
+        private Queue<CommandForClient> _Queue = new Queue<CommandForClient>(CAPACITY);
+        private object _QueueLock = new object();
         private bool _IsSendingData = false;
-        private object _Lock = new object();
         private bool _HasPartialPacket = false;
         private int _PartialReadedLenth = 0;
         private long _Session;
@@ -27,44 +32,29 @@ namespace Trader.Server.Ssl
         private UnmanagedMemory _LastWriteBuffer;
         private byte[] _Buffer;
         private int _WriteBufferIndex;
+        private CommandForClient _CurrentCommand;
         private UnmanagedMemory _CurrentPacket;
-        public Client() { }
-        public Client(SslStream stream, long session)
+        private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>(20);
+
+        public Client(SslStream stream, long session,byte[] buffer)
         {
             this._Stream = stream;
             this._Session = session;
-            Read();
-        }
-
-        public void SetBuffer(byte[] buffer)
-        {
             this._Buffer = buffer;
             this._WriteBufferIndex = BufferManager.TwoPartLength;
-        }
-
-        public void Start(SslStream stream, long session)
-        {
-            this._IsClosed = false;
-            this._Stream = stream;
-            this._Session = session;
-            UnmanagedMemory packet;
-            while (this._Queue.TryDequeue(out packet)) { }
-            this._IsSendingData = false;
-            this._HasPartialPacket = false;
-            this._PartialReadedLenth = 0;
             Read();
         }
 
 
-        public void Send(UnmanagedMemory packet)
+        public void Send(CommandForClient command)
         {
             if (this._IsClosed)
             {
                 return;
             }
-            this._Queue.Enqueue(packet);
-            lock (this._Lock)
+            lock (this._QueueLock)
             {
+                this._Queue.Enqueue(command);
                 if (!_IsSendingData)
                 {
                     this._IsSendingData = true;
@@ -195,13 +185,26 @@ namespace Trader.Server.Ssl
         {
             try
             {
-                if (this._Queue.TryDequeue(out this._CurrentPacket))
+                lock (this._QueueLock)
                 {
-                    BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
-                }
-                else
-                {
-                    lock (this._Lock)
+                    if (this._Queue.Count > 0)
+                    {
+                        this._CurrentCommand = this._Queue.Dequeue();
+                        if (this._CurrentCommand.CommandType == DataType.Command)
+                        {
+                            WriteForCommand();
+                        }
+                        else if (this._CurrentCommand.CommandType == DataType.Response)
+                        {
+                            this._CurrentPacket = this._CurrentCommand.Data;
+                            this.BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
+                        }
+                        else
+                        {
+                            WriteForQuotation();
+                        }
+                    }
+                    else
                     {
                         this._IsSendingData = false;
                     }
@@ -213,6 +216,69 @@ namespace Trader.Server.Ssl
                 this.Close();
             }
         }
+
+        private void WriteForQuotation()
+        {
+            Token token;
+            TraderState state = SessionManager.Default.GetTokenAndState(this._Session, out token);
+            if (state == null || token == null)
+            {
+                Write();
+                return;
+            }
+            this._QuotationQueue.Clear();
+            this._QuotationQueue.Add(this._CurrentCommand.Quotation.QuotationCommand);
+            while (this._Queue.Count > 0)
+            {
+                CommandForClient item = this._Queue.Peek();
+                if (item.CommandType != DataType.Quotation)
+                {
+                    break;
+                }
+                item = this._Queue.Dequeue();
+                this._QuotationQueue.Add(item.Quotation.QuotationCommand);
+            }
+            byte[] data;
+            if (this._QuotationQueue.Count == 1)
+            {
+                data = this._CurrentCommand.Quotation.GetPriceInBytes(token, state);
+            }
+            else
+            {
+                QuotationCommand command = new QuotationCommand();
+                command.Merge(this._QuotationQueue);
+                data = Quotation4Bit.GetPriceInBytes(token, state, command, this._QuotationQueue[0].Sequence, this._QuotationQueue[this._QuotationQueue.Count - 1].Sequence);
+            }
+            if (data == null)
+            {
+                Write();
+                return;
+            }
+            this._CurrentPacket = SerializeManager.Default.SerializePrice(data);
+            this.BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
+
+        }
+
+        private void WriteForCommand()
+        {
+            Token token;
+            TraderState state = SessionManager.Default.GetTokenAndState(this._Session, out token);
+            if (state == null || token == null)
+            {
+                Write();
+                return;
+            }
+            byte[] data = Quotation4Bit.GetDataForCommand(token, state, this._CurrentCommand.Command);
+            if (data == null)
+            {
+                Write();
+                return;
+            }
+            this._CurrentPacket = SerializeManager.Default.SerializeCommand(data);
+            this.BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
+        }
+
+        
 
         private unsafe void BeginWrite(UnmanagedMemory data, int offset, int len)
         {

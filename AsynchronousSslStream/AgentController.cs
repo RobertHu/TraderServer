@@ -18,6 +18,51 @@ using Trader.Server._4BitCompress;
 using Trader.Server.Service;
 namespace Trader.Server
 {
+    public enum DataType
+    {
+        Quotation,
+        Command,
+        Response
+    }
+
+    public struct CommandForClient
+    {
+        private Quotation4Bit _Quotation;
+        private Command _Command;
+        private DataType _CommandType;
+        private UnmanagedMemory _Data;
+        public CommandForClient(UnmanagedMemory data=null,QuotationCommand quotationCommand=null, Command command = null)
+        {
+            if (command != null)
+            {
+                this._Command = command;
+                this._Quotation = null;
+                this._Data=null;
+                this._CommandType = DataType.Command;
+            }
+            else if (quotationCommand != null)
+            {
+                this._Quotation = new Quotation4Bit(quotationCommand);
+                this._Command = null;
+                this._Data = null;
+                this._CommandType = DataType.Quotation;
+            }
+            else
+            {
+                this._Data = data;
+                this._Command = null;
+                this._Quotation = null;
+                this._CommandType = DataType.Response;
+            }
+        }
+
+        public Quotation4Bit Quotation { get { return this._Quotation; } }
+        public Command Command { get { return this._Command; } }
+        public DataType CommandType { get { return this._CommandType; } }
+        public UnmanagedMemory Data { get { return this._Data; } }
+    }
+
+
     public class AgentController
     {
         public static readonly AgentController Default = new AgentController();
@@ -26,11 +71,10 @@ namespace Trader.Server
         private AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
         private AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
         private ConcurrentQueue<long> _DisconnectQueue = new ConcurrentQueue<long>();
-        private ConcurrentQueue<CommandWithQuotation> _Quotations = new ConcurrentQueue<CommandWithQuotation>();
+        private ConcurrentQueue<CommandForClient> _Quotations = new ConcurrentQueue<CommandForClient>();
         private volatile bool _Started = false;
         private volatile bool _Stopped = false;
-        private CommandWithQuotation _Current;
-        private TraderState _UpdateCommandState = new TraderState(string.Empty);
+        private CommandForClient _Current;
         private AgentController()
         {
         }
@@ -48,10 +92,7 @@ namespace Trader.Server
         private void RemoveHelper(long session)
         {
             ClientRelation relation;
-            if (this._Container.TryRemove(session, out relation))
-            {
-                //ClientPool.Default.Push(relation);
-            }
+            this._Container.TryRemove(session, out relation);
         }
 
         public bool RecoverConnection(long originSession, long currentSession)
@@ -106,7 +147,7 @@ namespace Trader.Server
                 thread.IsBackground = true;
                 thread.Start();
 
-                Thread quotationThread = new Thread(this.SendQuotation);
+                Thread quotationThread = new Thread(this.Dispatch);
                 quotationThread.IsBackground = true;
                 quotationThread.Start();
 
@@ -154,17 +195,18 @@ namespace Trader.Server
             }
         }
 
-        public void AddQuotation(CommandWithQuotation quotation)
+        public void SendCommand(QuotationCommand quotationCommand=null,Command command =null)
         {
             if (this._Container.Count == 0)
             {
                 return;
             }
-            this._Quotations.Enqueue(quotation);
+            CommandForClient target = new CommandForClient(quotationCommand:quotationCommand,command:command);
+            this._Quotations.Enqueue(target);
             this._SendQuotationEvent.Set();
         }
 
-        private void SendQuotation()
+        private void Dispatch()
         {
             while (true)
             {
@@ -175,64 +217,19 @@ namespace Trader.Server
                 this._SendQuotationEvent.WaitOne();
                 while (this._Quotations.TryDequeue(out this._Current))
                 {
-                    if (this._Current.IsQuotation)
-                    {
-                        Quotation.Default.Clear();
-                        Quotation4Bit.Clear();
-                        Parallel.ForEach(this._Container, SendQuotationHandler);
-                    }
-                    else
-                    {
-                        Parallel.ForEach(this._Container, this.SendCommandHandler);
-                    }
+                    Parallel.ForEach(this._Container, this.SendCommandHandler);
                 }
             }
 
         }
 
 
-        public void SenderClosedEventHandle(object sender, Trader.Helper.Common.SenderClosedEventArgs e)
-        {
-            this.EnqueueDisconnectSession(e.Session);
-        }
-
-
-
         private void SendCommandHandler(KeyValuePair<long, ClientRelation> p)
         {
-            Token token;
-            TraderState state = SessionManager.Default.GetTokenAndState(p.Key, out token);
-            if (token == null || state == null)
-            {
-                return;
-            }
-            byte[] content = Quotation.Default.ToBytesForGeneral(token, state, this._Current.Command);
-            if (content == null)
-            {
-                return;
-            }
-            UnmanagedMemory packet = SerializeManager.Default.SerializeCommand(content);
-            p.Value.Sender.Send(packet);
+            p.Value.Sender.Send(this._Current);
         }
 
 
-
-        private void SendQuotationHandler(KeyValuePair<long, ClientRelation> p)
-        {
-            Token token;
-            TraderState state = SessionManager.Default.GetTokenAndState(p.Key, out token);
-            if (token == null || state == null || string.IsNullOrEmpty(state.QuotationFilterSign))
-            {
-                return;
-            }
-            byte[] quotation = Quotation.Default.ToBytesForQuotation(token, state, this._Current.QuotationCommand);
-            if (quotation == null)
-            {
-                return;
-            }
-            UnmanagedMemory packet = SerializeManager.Default.SerializePrice(quotation);
-            p.Value.Sender.Send(packet);
-        }
 
     }
 

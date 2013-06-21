@@ -85,11 +85,10 @@ namespace Trader.Server
             try
             {
                 SslInfo sslInfo = args.SecureInfo;
-                long sessionMappingID = SessionMapping.Get();
-                ClientRelation relation = new ClientRelation(new Client(), new ReceiveAgent());
-                relation.Sender.SetBuffer(sslInfo.NetworkStream.BufferInUsed);
-                relation.Sender.Start(sslInfo.SslStream, sessionMappingID);
-                AgentController.Default.Add(sessionMappingID, relation.Receiver, relation.Sender);
+                long session = SessionMapping.Get();
+                Client client = new Client(sslInfo.SslStream, session, sslInfo.NetworkStream.BufferInUsed);
+                ClientRelation relation = new ClientRelation(client, new ReceiveAgent());
+                AgentController.Default.Add(session, relation.Receiver, relation.Sender);
             }
             catch (Exception ex)
             {

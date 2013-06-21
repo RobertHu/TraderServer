@@ -78,7 +78,7 @@ namespace Trader.Server
                     var client = AgentController.Default.GetSender(workItem.Session);
                     if (client != null)
                     {
-                        client.Send(packet);
+                        client.Send(new CommandForClient(data:packet));
                     }
                 }
             }
