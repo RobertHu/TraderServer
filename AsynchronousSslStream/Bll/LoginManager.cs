@@ -38,7 +38,7 @@ namespace Trader.Server.Bll
             {
                 AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
                 Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
-                SendErrorResult(request);
+                SendErrorResult(request,appType);
                 yield break;
             }
             string message = string.Empty;
@@ -51,7 +51,7 @@ namespace Trader.Server.Bll
             catch (Exception ex)
             {
                 _Logger.Error(ex);
-                SendErrorResult(request);
+                SendErrorResult(request,appType);
                 yield break;
             }
             if (loginParameter.UserID == Guid.Empty)
@@ -72,7 +72,7 @@ namespace Trader.Server.Bll
                 catch (Exception ex)
                 {
                     _Logger.Error(ex);
-                    SendErrorResult(request);
+                    SendErrorResult(request,appType);
                     yield break;
                 }
                 if (!isAuthrized)
@@ -96,7 +96,7 @@ namespace Trader.Server.Bll
                     catch (Exception ex)
                     {
                         _Logger.Error(ex);
-                        SendErrorResult(request);
+                        SendErrorResult(request,appType);
                         yield break;
                     }
                     SetLoginParameter(loginParameter, session, password, version, appType, isStateServerLogined, token);
@@ -106,7 +106,7 @@ namespace Trader.Server.Bll
             {
                 AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
                 Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
-                SendErrorResult(request);
+                SendErrorResult(request,appType);
             }
             else
             {
@@ -123,7 +123,7 @@ namespace Trader.Server.Bll
                     }
                     catch (Exception ex)
                     {
-                        SendErrorResult(request);
+                        SendErrorResult(request,appType);
                         yield break;
                     }
                 }
@@ -133,12 +133,16 @@ namespace Trader.Server.Bll
                    DataSet ds = InitDataService.Init(session, initData);
                    SetLoginDataToInitData(initData, loginData);
                    request.ContentInPointer = ds.ToPointer();
-                   SendCenter.Default.Send(request);
                }
                else
                {
-                   SendErrorResult(request);
+                   request.Content = XmlResultHelper.ErrorResult;
                }
+               if (appType != (int)AppType.Mobile)
+               {
+                   SendCenter.Default.Send(request);
+               }
+             
             }
         }
 
@@ -157,10 +161,13 @@ namespace Trader.Server.Bll
         }
 
 
-        private void SendErrorResult(SerializedObject request)
+        private void SendErrorResult(SerializedObject request,int appTYpe)
         {
-            request.Content = XmlResultHelper.ErrorResult;
-            SendCenter.Default.Send(request);
+            if (appTYpe != (int)AppType.Mobile)
+            {
+                request.Content = XmlResultHelper.ErrorResult;
+                SendCenter.Default.Send(request);
+            }
         }
 
 
