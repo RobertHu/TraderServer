@@ -111,6 +111,7 @@ namespace Trader.Server.Bll
             else
             {
                 DataSet initData=null;
+                var loginData = SetResult(request, loginParameter, session, loginID, password, version, appType, connectionString);
                 if (appType == (int)AppType.TradingConsole)
                 {
                     Token token = SessionManager.Default.GetToken(session);
@@ -127,11 +128,10 @@ namespace Trader.Server.Bll
                         yield break;
                     }
                 }
-               var loginData = SetResult(request, loginParameter, session, loginID, password, version, appType, connectionString);
                if (initData != null && loginData != null)
                {
                    DataSet ds = InitDataService.Init(session, initData);
-                   SetLoginDataToInitData(initData, loginData);
+                   SetLoginDataToInitData(ds, loginData);
                    request.ContentInPointer = ds.ToPointer();
                }
                else
