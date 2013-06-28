@@ -43,6 +43,16 @@ namespace Trader.Common
             return mem;
         }
 
+        public byte[] ToArray()
+        {
+            byte[] target = new byte[this.Length];
+            for (int i = 0; i < this.Length; i++)
+            {
+                target[i] = this.Handle[i];
+            }
+            return target;
+        }
+
 
         public void Dispose()
         {

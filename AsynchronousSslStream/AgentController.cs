@@ -71,7 +71,7 @@ namespace Trader.Server
         private AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
         private AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
         private ConcurrentQueue<long> _DisconnectQueue = new ConcurrentQueue<long>();
-        private ConcurrentQueue<CommandForClient> _Quotations = new ConcurrentQueue<CommandForClient>();
+        private ConcurrentQueue<CommandForClient> _Commands = new ConcurrentQueue<CommandForClient>();
         private volatile bool _Started = false;
         private volatile bool _Stopped = false;
         private CommandForClient _Current;
@@ -87,17 +87,14 @@ namespace Trader.Server
 
         public void Remove(long session)
         {
-            RemoveHelper(session);
-        }
-        private void RemoveHelper(long session)
-        {
             ClientRelation relation;
             this._Container.TryRemove(session, out relation);
         }
 
         public bool RecoverConnection(long originSession, long currentSession)
         {
-            RemoveHelper(originSession);
+            ClientRelation relation;
+            this._Container.TryRemove(originSession, out relation);
             ClientRelation currentRelation;
             if (this._Container.TryRemove(currentSession, out currentRelation))
             {
@@ -105,10 +102,7 @@ namespace Trader.Server
                 currentRelation.Sender.UpdateSession(originSession);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public Client GetSender(long session)
@@ -202,7 +196,7 @@ namespace Trader.Server
                 return;
             }
             CommandForClient target = new CommandForClient(quotationCommand:quotationCommand,command:command);
-            this._Quotations.Enqueue(target);
+            this._Commands.Enqueue(target);
             this._SendQuotationEvent.Set();
         }
 
@@ -215,7 +209,7 @@ namespace Trader.Server
                     break;
                 }
                 this._SendQuotationEvent.WaitOne();
-                while (this._Quotations.TryDequeue(out this._Current))
+                while (this._Commands.TryDequeue(out this._Current))
                 {
                     Parallel.ForEach(this._Container, this.SendCommandHandler);
                 }

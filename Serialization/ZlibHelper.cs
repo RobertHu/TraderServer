@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using Ionic.Zlib;
 using System.IO;
+using Trader.Common;
 namespace Serialization
 {
     public static class ZlibHelper
     {
-        public static byte[] ZibCompress(byte[] input)
+        public static UnmanagedMemory ZibCompress(byte[] input)
         {
-            using (var ms = new System.IO.MemoryStream())
+            using (var ms = new TraderMemoryStream(500 * 1024))
             {
                 using (var zs = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression, true))
                 {
                     zs.Write(input, 0, input.Length);
                 }
-                return ms.ToArray();
+                return ms.Buffer;
             }
         }
 

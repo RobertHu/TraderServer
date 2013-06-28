@@ -110,9 +110,52 @@ namespace Trader.Server.Bll
             }
             else
             {
-                SetResult(request, loginParameter, session, loginID, password, version, appType, connectionString);
+                DataSet initData=null;
+                if (appType == (int)AppType.TradingConsole)
+                {
+                    Token token = SessionManager.Default.GetToken(session);
+                    Application.Default.StateServer.BeginGetInitData(token, null, ae.End(), null);
+                    yield return 1;
+                    int sequence;
+                    try
+                    {
+                       initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
+                    }
+                    catch (Exception ex)
+                    {
+                        SendErrorResult(request);
+                        yield break;
+                    }
+                }
+               var loginData = SetResult(request, loginParameter, session, loginID, password, version, appType, connectionString);
+               if (initData != null && loginData != null)
+               {
+                   DataSet ds = InitDataService.Init(session, initData);
+                   SetLoginDataToInitData(initData, loginData);
+                   request.ContentInPointer = ds.ToPointer();
+                   SendCenter.Default.Send(request);
+               }
+               else
+               {
+                   SendErrorResult(request);
+               }
             }
         }
+
+        private void SetLoginDataToInitData(DataSet initData,XElement loginData)
+        {
+            DataTable table = new DataTable("LoginTable");
+            DataColumn column = new DataColumn("LoginColumn");
+            column.DataType = typeof(string);
+            column.AutoIncrement = false;
+            table.Columns.Add(column);
+            DataRow dr = table.NewRow();
+            string loginString = loginData.ToString();
+            dr["LoginColumn"] = loginString;
+            table.Rows.Add(dr);
+            initData.Tables.Add(table);
+        }
+
 
         private void SendErrorResult(SerializedObject request)
         {
@@ -136,7 +179,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        private void SetResult(SerializedObject request, LoginParameter loginParameter, long session, string loginID, string password, string version, int appType, string connectionString)
+        private XElement SetResult(SerializedObject request, LoginParameter loginParameter, long session, string loginID, string password, string version, int appType, string connectionString)
         {
             XElement result;
             Token token = SessionManager.Default.GetToken(session);
@@ -182,8 +225,11 @@ namespace Trader.Server.Bll
             }
             if (token.AppType != AppType.Mobile)
             {
-                request.Content = result;
-                SendCenter.Default.Send(request);
+                return result;
+            }
+            else
+            {
+                return null;
             }
         }
 

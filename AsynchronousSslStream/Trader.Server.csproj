@@ -154,7 +154,6 @@
     <Compile Include="Bll\NewsService.cs" />
     <Compile Include="Bll\PasswordService.cs" />
     <Compile Include="Bll\PaymentService.cs" />
-    <Compile Include="Bll\Quotation.cs" />
     <Compile Include="Bll\RecoverService.cs" />
     <Compile Include="Bll\Service.cs" />
     <Compile Include="Bll\TickService.cs" />
@@ -192,7 +191,6 @@
     <Compile Include="Ssl\SecureConnectionResults.cs" />
     <Compile Include="Ssl\SecureTcpServer.cs" />
     <Compile Include="Ssl\TaskQueue.cs" />
-    <Compile Include="Ssl\TraderMemoryStream.cs" />
     <Compile Include="Ssl\TraderNetworkStream.cs" />
     <Compile Include="TraderServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

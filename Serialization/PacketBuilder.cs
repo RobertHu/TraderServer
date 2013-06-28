@@ -51,8 +51,10 @@ namespace Serialization
         }
 
 
-        private unsafe static UnmanagedMemory BuildForPointer(UnmanagedMemory content, string invokeID)
+        private unsafe static UnmanagedMemory BuildForPointer(UnmanagedMemory source, string invokeID)
         {
+            UnmanagedMemory content = ZlibHelper.ZibCompress(source.ToArray());
+            source.Dispose();
             int contentLength = Constants.INVOKE_ID_LENGTH + content.Length;
             int packetLength=Constants.HeadCount + contentLength;
             UnmanagedMemory packet = new UnmanagedMemory(packetLength);
@@ -96,6 +98,7 @@ namespace Serialization
             int packetLength = Constants.HeadCount + data.Length;
             UnmanagedMemory packet =new UnmanagedMemory(packetLength);
             byte[] contentLengthBytes = CustomerIntCache.Get(data.Length);
+            packet.Handle[0] = 0;
             if (isPrice)
             {
                 byte priceByte = FirstHeadByteBitConstants.IsPricevValue;
