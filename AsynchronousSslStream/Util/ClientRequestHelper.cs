@@ -8,8 +8,6 @@ using System.Xml;
 using Trader.Server.Bll;
 using Trader.Server.Service;
 using Trader.Server.TypeExtension;
-
-using Trader.Helper;
 using Mobile = iExchange3Promotion.Mobile;
 using System.Xml.Linq;
 

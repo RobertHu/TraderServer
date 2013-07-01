@@ -13,7 +13,6 @@ using System.Data;
 using Trader.Server.Bll;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
-using Trader.Helper;
 using Trader.Common;
 using log4net;
 using System.Xml.Linq;

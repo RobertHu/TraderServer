@@ -5,7 +5,6 @@ using System.Text;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml;
-using Trader.Helper;
 using log4net;
 using Trader.Common;
 using System.Xml.Linq;

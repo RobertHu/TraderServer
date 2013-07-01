@@ -8,7 +8,6 @@ using iExchange.Common;
 using System.Threading;
 using System.Configuration;
 using Trader.Server.Setting;
-using Trader.Helper;
 using Trader.Server.Service;
 using Trader.Server.Ssl;
 namespace Trader.Server.Bll

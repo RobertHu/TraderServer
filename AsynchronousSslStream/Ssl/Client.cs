@@ -6,7 +6,6 @@ using System.Net.Security;
 using Trader.Common;
 using System.Threading;
 using System.Collections.Concurrent;
-using Trader.Helper;
 using System.Threading.Tasks;
 using log4net;
 using Trader.Server._4BitCompress;

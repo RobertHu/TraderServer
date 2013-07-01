@@ -14,7 +14,6 @@ using System.Diagnostics;
 using System.Xml.Linq;
 using Trader.Server.TypeExtension;
 using Trader.Server.Util;
-using Trader.Helper;
 using Wintellect.Threading;
 using Wintellect.Threading.AsyncProgModel;
 using Serialization;
@@ -148,22 +147,22 @@ namespace Trader.Server.Bll
 
         private void SetLoginDataToInitData(DataSet initData,XElement loginData)
         {
-            DataTable table = new DataTable("LoginTable");
-            DataColumn column = new DataColumn("LoginColumn");
+            DataTable table = new DataTable(LoginConstants.LOGIN_TABAL_NAME);
+            DataColumn column = new DataColumn(LoginConstants.LOGIN_COLUMN_NAME);
             column.DataType = typeof(string);
             column.AutoIncrement = false;
             table.Columns.Add(column);
             DataRow dr = table.NewRow();
             string loginString = loginData.ToString();
-            dr["LoginColumn"] = loginString;
+            dr[LoginConstants.LOGIN_COLUMN_NAME] = loginString;
             table.Rows.Add(dr);
             initData.Tables.Add(table);
         }
 
 
-        private void SendErrorResult(SerializedObject request,int appTYpe)
+        private void SendErrorResult(SerializedObject request,int appType)
         {
-            if (appTYpe != (int)AppType.Mobile)
+            if (appType != (int)AppType.Mobile)
             {
                 request.Content = XmlResultHelper.ErrorResult;
                 SendCenter.Default.Send(request);

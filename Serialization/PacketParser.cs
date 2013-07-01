@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Trader.Common;
 using log4net;
+using System.IO;
 namespace Serialization
 {
     public static class PacketParser
@@ -44,11 +45,16 @@ namespace Serialization
             string sessionStr = Constants.SessionEncoding.GetString(packet, Constants.HeadCount, sessionLength);
             long session = SessionMapping.Get(sessionStr);
             string content = Constants.ContentEncoding.GetString(contentBytes);
-            string processContent = GetRidOfUnprintablesAndUnicode(content);
-            XElement contentNode = XElement.Parse(processContent, LoadOptions.None);
-            XElement clientInvokeNode = FetchClientInvokeNode(contentNode);
-            string clientInvokeId = clientInvokeNode == null ? string.Empty : clientInvokeNode.Value;
-            return new SerializedObject(session, clientInvokeId, contentNode);
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(content);
+            using (var nodeReader = new XmlNodeReader(doc))
+            {
+                nodeReader.MoveToContent();
+                XElement contentNode = XDocument.Load(nodeReader).Root;
+                XElement clientInvokeNode = FetchClientInvokeNode(contentNode);
+                string clientInvokeId = clientInvokeNode == null ? string.Empty : clientInvokeNode.Value;
+                return new SerializedObject(session, clientInvokeId, contentNode);
+            }
         }
 
 

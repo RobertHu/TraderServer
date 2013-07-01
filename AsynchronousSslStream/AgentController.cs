@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using log4net;
-using Trader.Helper;
 using Trader.Server.Bll;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
@@ -13,7 +12,6 @@ using iExchange.Common;
 using Trader.Common;
 using Serialization;
 using Trader.Server.Ssl;
-using CommunicationAgent = Trader.Helper.Common.ICommunicationAgent;
 using Trader.Server._4BitCompress;
 using Trader.Server.Service;
 namespace Trader.Server

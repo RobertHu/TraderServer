@@ -7,14 +7,12 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using log4net;
 using System.Configuration;
-using Trader.Helper;
 using Trader.Server.Service;
 using Trader.Server.Setting;
 using Trader.Server.Bll;
 using Trader.Server.Util;
 using Trader.Common;
 using Trader.Server.Ssl;
-using CommunicationAgent = Trader.Helper.Common.ICommunicationAgent;
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Trader.Server
 {

@@ -5,7 +5,6 @@ using System.Text;
 using log4net;
 using Trader.Common;
 using System.Threading;
-using Trader.Helper;
 using System.Collections.Concurrent;
 using Serialization;
 namespace Trader.Server

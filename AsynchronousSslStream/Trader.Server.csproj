@@ -233,10 +233,6 @@
       <Project>{6D04B66A-FA81-46BE-8779-C8C5CB92BAF4}</Project>
       <Name>Trader.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TraderHelper\Trader.Helper.fsproj">
-      <Project>{62A4C027-31B8-4FFB-98BD-23A7741895DA}</Project>
-      <Name>Trader.Helper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
