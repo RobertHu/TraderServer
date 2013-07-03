@@ -108,8 +108,7 @@ namespace Trader.Server
             this._ReadWriteLock.EnterReadLock();
             try
             {
-                DateTime value;
-                return this.dict.TryGetValue(session, out value);
+                return this.dict.ContainsKey(session);
             }
             finally
             {

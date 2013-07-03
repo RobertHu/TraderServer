@@ -13,6 +13,7 @@ using Trader.Server.Bll;
 using Trader.Server.Util;
 using Trader.Common;
 using Trader.Server.Ssl;
+using Trader.Server.ValueObjects;
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Trader.Server
 {

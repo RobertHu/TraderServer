@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml;
 using Trader.Server.TypeExtension;
-using Serialization;
 using Trader.Common;
 namespace Trader.Server.Util
 {
@@ -18,6 +17,8 @@ namespace Trader.Server.Util
                 return NewErrorResult();
             }
         }
+
+
         public static XElement CreateRootElement()
         {
             return new XElement(ResponseConstants.RootNodeName);

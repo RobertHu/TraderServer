@@ -14,9 +14,9 @@ using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using Trader.Server._4BitCompress;
 using Trader.Server.Service;
-using Serialization;
 using Wintellect.Threading.AsyncProgModel;
 using log4net;
+using Trader.Server.Serialization;
 namespace Trader.Server.Bll
 {
     public class InitDataService

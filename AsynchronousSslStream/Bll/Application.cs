@@ -15,6 +15,7 @@ namespace Trader.Server.Bll
     public class Application
     {
         private bool _IsRegistered = true;
+        private TradeDayChecker _TradeDayChecker;
 
         private Application()
         {
@@ -31,6 +32,7 @@ namespace Trader.Server.Bll
             this.AsyncResultManager = new AsyncResultManager(TimeSpan.FromMinutes(30));
             this.AssistantOfCreateChartData2 = new AssistantOfCreateChartData2();
             this.SessionMonitor = new SessionMonitor(SettingManager.Default.SessionExpiredTimeSpan);
+            this._TradeDayChecker = new TradeDayChecker(SettingManager.Default.ConnectionString);
             //todo: store/build mobile settings in somewhere
             Dictionary<string, string> mobileSettings = new Dictionary<string, string>();
             mobileSettings.Add("ConnectionString", SettingManager.Default.ConnectionString);
@@ -48,6 +50,7 @@ namespace Trader.Server.Bll
             CommandManager.Default.Start();
             TaskQueue.Default.Start();
             QuotationDispatcher.Default.Initialize(SettingManager.Default.PriceSendPeriodInMilisecond);
+            this._TradeDayChecker.Start();
         }
 
         public void Stop()
@@ -59,9 +62,8 @@ namespace Trader.Server.Bll
             CommandManager.Default.Stop();
             TaskQueue.Default.Stop();
             QuotationDispatcher.Default.Stop();
+            this._TradeDayChecker.Stop();
         }
-
-
 
         public bool IsRegistered
         {
@@ -79,7 +81,6 @@ namespace Trader.Server.Bll
         public MarketDepthManager MarketDepthManager { get; set; }
         public AsyncResultManager AsyncResultManager { get; set; }
         public AssistantOfCreateChartData2 AssistantOfCreateChartData2 { get; set; }
-
         public SessionMonitor  SessionMonitor { get; private set; }
 
         private void StateServerReadyCheck(StateServerService stateServer)

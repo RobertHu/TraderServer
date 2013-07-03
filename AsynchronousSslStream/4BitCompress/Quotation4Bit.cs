@@ -14,6 +14,7 @@ namespace Trader.Server._4BitCompress
     public class Quotation4Bit
     {
         private ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>> _Dict = new ConcurrentDictionary<AppType, ConcurrentDictionary<long, byte[]>>();
+        private readonly static DateTime OrginTime = new DateTime(2011, 4, 1, 0, 0, 0);
         private const int CAPACITY = 512;
         private QuotationCommand _QuotationCommand;
         private const char _InnerSeparator = ':';
@@ -107,7 +108,7 @@ namespace Trader.Server._4BitCompress
                     stringBuilder.Append(_InnerSeparator);
                     stringBuilder.Append(string.Empty);
                     stringBuilder.Append(_InnerSeparator);
-                    stringBuilder.Append((long)(overridedQuotation.Timestamp - QuotationBase.OrginTime).TotalSeconds);
+                    stringBuilder.Append((long)(overridedQuotation.Timestamp - OrginTime).TotalSeconds);
                     stringBuilder.Append(_InnerSeparator);
                     stringBuilder.Append(overridedQuotation.Volume);
                     stringBuilder.Append(_InnerSeparator);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Serialization;
 using iExchange.Common;
 using Trader.Server.Util;
 using Trader.Server.Service;
@@ -14,6 +13,7 @@ using System.Xml.Linq;
 using Trader.Common;
 using Wintellect.Threading.AsyncProgModel;
 using Trader.Server.Session;
+using Trader.Server.Serialization;
 namespace Trader.Server.Bll
 {
     public class RequestTable
@@ -270,7 +270,7 @@ namespace Trader.Server.Bll
             //test:
             if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"] == "true")
             {
-                Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[] { });
+                //Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[] { });
             }
             return result;
         }
@@ -321,7 +321,27 @@ namespace Trader.Server.Bll
                     //InstrumentManager.Default.UpdateInstrumentSetting(request.Session, quotePolicyIds);
                     //XElement e= Mobile.Manager.GetChanges(request.Session, true);
 
-                    Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[] { });
+                    //Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[] { });
+
+                    //placing limit/stop
+                    string xml = "<PlacingInstruction AccountId=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentId=\"864AC5D7-B872-45A6-887E-7189463BEB12\" PlacingType=\"OneCancelOther\" EndTime=\"2013-06-26 15:58:09.777\" PendingOrderExpireType=\"GoodTillDate\" ExpireDate=\"2013-06-16 15:58:09.777\" PriceIsQuote=\"false\" PriceTimestamp=\"2013-06-06 15:58:09.777\">"
+                                  + "<PlacingOrders>"
+                                    + "<PlacingOrder Id=\"00000012-2954-45a1-8277-86606f99ed64\" Lot=\"1\" IsOpen=\"true\" IsBuy=\"true\" SetPrice=\"1.6516\" TradeOption=\"Better\" />"
+                                   + " <PlacingOrder Id=\"00000012-7041-40ea-ac43-fd8af4e40216\" Lot=\"1\" IsOpen=\"true\" IsBuy=\"true\" SetPrice=\"1.6516\" TradeOption=\"Stop\" />"
+                                  + "</PlacingOrders>"
+                                + "</PlacingInstruction>";
+
+                    ICollection<Mobile.Server.Transaction> transactions = Mobile.Manager.ConvertPlacingRequest(token, xml.ToXmlNode());
+                    XElement element = new XElement("Result");
+                    foreach (Mobile.Server.Transaction transaction in transactions)
+                    {
+                        ICollection<XElement> errorCodes = this.GetPlaceResultForMobile(transaction, token);
+                        foreach (XElement orderErrorElement in errorCodes)
+                        {
+                            element.Add(orderErrorElement);
+                        }
+                    }
+                    
 
                 }
             }
@@ -545,6 +565,8 @@ namespace Trader.Server.Bll
                         element.Add(orderErrorElement);
                     }
                 }
+                XElement changes = Mobile.Manager.GetChanges(request.Session.ToString(), false);
+                element.Add(changes);
                 return element;
             }
             else
@@ -580,6 +602,9 @@ namespace Trader.Server.Bll
                 {
                     element.Add(orderErrorElement);
                 }
+
+                XElement changes = Mobile.Manager.GetChanges(request.Session.ToString(), false);
+                element.Add(changes);
                 return element;
             }
             else
@@ -639,6 +664,8 @@ namespace Trader.Server.Bll
                     orderErrorElement.SetAttributeValue("ErrorCode", error.ToString());
                     elements.Add(orderErrorElement);
                 }
+
+                Mobile.Manager.UpdateWorkingOrder(token, transaction.Id, error);
                 return elements;
             }
             else

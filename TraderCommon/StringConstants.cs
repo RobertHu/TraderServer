@@ -20,4 +20,10 @@ namespace Trader.Common
         public const string COMMAND_SEQUENCE_TABLE_NAME = "CommandSequence";
         public const string COMMAND_SEQUENCE_COLUMN_NAME = "CommandSequenceCol";
     }
+
+    public class LoginConstants
+    {
+        public const string LOGIN_TABAL_NAME = "LoginTable";
+        public const string LOGIN_COLUMN_NAME = "LoginColumn";
+    }
 }

@@ -6,7 +6,7 @@ using Trader.Common;
 using System.Collections.Concurrent;
 using System.Threading;
 using Trader.Server.Util;
-using Serialization;
+using Trader.Server.Serialization;
 
 namespace Trader.Server.Ssl
 {
@@ -61,6 +61,7 @@ namespace Trader.Server.Ssl
             {
                 request.CurrentSession = this._Current.Session;
             }
+            request.Sender = AgentController.Default.GetSender(request.Session);
             ClientRequestHelper.Process(request);
             ProcessData();
         }

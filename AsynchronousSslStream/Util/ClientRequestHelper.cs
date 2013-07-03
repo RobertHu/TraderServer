@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Trader.Common;
-using Serialization;
 using System.Xml;
 using Trader.Server.Bll;
 using Trader.Server.Service;
 using Trader.Server.TypeExtension;
 using Mobile = iExchange3Promotion.Mobile;
 using System.Xml.Linq;
+using Trader.Server.Serialization;
 
 namespace Trader.Server.Util
 {

@@ -21,6 +21,13 @@ namespace Trader.Server.Service
 
         public void KickoutPredecessor(Guid userId)
         {
+            var session = SessionManager.Default.GetSession(userId);
+            var sender = AgentController.Default.GetSender(session);
+            if (sender != null)
+            {
+                sender.Send(new ValueObjects.CommandForClient(data: NamedCommands.GetKickoutPacket()));
+            }
+            Application.Default.SessionMonitor.Remove(session);
         }
     }
 }

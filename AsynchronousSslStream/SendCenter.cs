@@ -6,7 +6,9 @@ using log4net;
 using Trader.Common;
 using System.Threading;
 using System.Collections.Concurrent;
-using Serialization;
+using Trader.Server.ValueObjects;
+using Trader.Server.Serialization;
+using Trader.Server.Serializationn;
 namespace Trader.Server
 {
     public class SendCenter
@@ -74,10 +76,9 @@ namespace Trader.Server
                     {
                         continue;
                     }
-                    var client = AgentController.Default.GetSender(workItem.Session);
-                    if (client != null)
+                    if (workItem.Sender != null)
                     {
-                        client.Send(new CommandForClient(data:packet));
+                        workItem.Sender.Send(new CommandForClient(data:packet));
                     }
                 }
             }

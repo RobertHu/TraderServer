@@ -11,7 +11,8 @@ using log4net;
 using Trader.Server._4BitCompress;
 using iExchange.Common;
 using Trader.Server.Session;
-using Serialization;
+using Trader.Server.ValueObjects;
+using Trader.Server.Serializationn;
 namespace Trader.Server.Ssl
 {
     public class Client

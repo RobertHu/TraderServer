@@ -8,7 +8,7 @@ using System.Collections.Concurrent;
 using Trader.Common;
 namespace Trader.Server
 {
-    public class ReceiveCenter:IReceiveCenter
+    public class ReceiveCenter
     {
         public static readonly ReceiveCenter Default = new ReceiveCenter();
         private ConcurrentQueue<ReceiveData> _Queue = new ConcurrentQueue<ReceiveData>();

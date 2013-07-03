@@ -102,6 +102,10 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>Lib\Interop.VSREPORTLib.DLL</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\log4net.dll</HintPath>
@@ -134,10 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="4BitCompress\GuidMapping.cs" />
-    <Compile Include="4BitCompress\OriginQuotation.cs" />
-    <Compile Include="4BitCompress\OverridedQuotation.cs" />
     <Compile Include="4BitCompress\Quotation4Bit.cs" />
-    <Compile Include="4BitCompress\QuotationBase.cs" />
     <Compile Include="4BitCompress\Quotation4BitEncoder.cs" />
     <Compile Include="4BitCompress\QuotationFilterSignMapping.cs" />
     <Compile Include="AgentController.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Bll\Service.cs" />
     <Compile Include="Bll\TickService.cs" />
     <Compile Include="Bll\TimeService.cs" />
+    <Compile Include="Bll\TradeDayChecker.cs" />
     <Compile Include="Bll\TradingConsoleServer.cs" />
     <Compile Include="Bll\Application.cs" />
     <Compile Include="Bll\TransactionService.cs" />
@@ -182,12 +184,20 @@
     <Compile Include="SChart\TickByTickHistoryDataArgument.cs" />
     <Compile Include="SChart\TickByTickHistoryDataArgument2.cs" />
     <Compile Include="SendCenter.cs" />
+    <Compile Include="Serialization\CustomerIntCache.cs" />
+    <Compile Include="Serialization\PacketBuilder.cs" />
+    <Compile Include="Serialization\PacketParser.cs" />
+    <Compile Include="Serialization\PriceEncoding.cs" />
+    <Compile Include="Serialization\SerializedObject.cs" />
+    <Compile Include="Serialization\SerializeManager.cs" />
+    <Compile Include="Serialization\ZlibHelper.cs" />
     <Compile Include="Service\CommandWithQuotationPool.cs" />
+    <Compile Include="Service\NamedCommands.cs" />
     <Compile Include="Service\Quotation4BitPool.cs" />
     <Compile Include="Service\QuotationPool.cs" />
+    <Compile Include="Session\TraderState.cs" />
     <Compile Include="Ssl\Client.cs" />
     <Compile Include="Ssl\ReceiveAgent.cs" />
-    <Compile Include="Ssl\ReceiveAgentPool.cs" />
     <Compile Include="Ssl\SecureConnectionResults.cs" />
     <Compile Include="Ssl\SecureTcpServer.cs" />
     <Compile Include="Ssl\TaskQueue.cs" />
@@ -204,7 +214,6 @@
     <Compile Include="Service\ICommandCollectService.cs" />
     <Compile Include="SessionMonitor.cs" />
     <Compile Include="Session\SessionManager.cs" />
-    <Compile Include="Session\TraderState.cs" />
     <Compile Include="SettingManager.cs" />
     <Compile Include="Bll\StatementService.cs" />
     <Compile Include="TypeExtension\BoolExtension.cs" />
@@ -217,6 +226,8 @@
     <Compile Include="Util\XmlRequestCommandHelper.cs" />
     <Compile Include="Util\XmlResultHelper.cs" />
     <Compile Include="Util\XmlSerializeHelper.cs" />
+    <Compile Include="ValueObjects\ClientRelation.cs" />
+    <Compile Include="ValueObjects\CommandForClient.cs" />
     <Compile Include="WebService\ParticipantService.cs" />
     <Compile Include="WebService\SecurityServices.cs" />
   </ItemGroup>
@@ -224,10 +235,6 @@
     <ProjectReference Include="..\Mobile\Mobile.csproj">
       <Project>{9C271502-FB2A-406D-AC52-43273D53A2CB}</Project>
       <Name>Mobile</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Serialization\Serialization.csproj">
-      <Project>{04D34874-848C-4D8D-B7D9-F0DC3A9355C3}</Project>
-      <Name>Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TraderCommon\Trader.Common.csproj">
       <Project>{6D04B66A-FA81-46BE-8779-C8C5CB92BAF4}</Project>
@@ -252,10 +259,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\ADODB.dll" />
+    <Content Include="Lib\CommonUtil.dll" />
     <Content Include="Lib\EasyTools.dll" />
     <Content Include="Lib\iExchange.Common.dll" />
     <Content Include="Lib\ImageQuantization.dll" />
     <Content Include="Lib\Interop.VSREPORTLib.DLL" />
+    <Content Include="Lib\Ionic.Zip.dll" />
     <Content Include="Lib\log4net.dll" />
     <Content Include="Lib\lua51.dll" />
     <Content Include="Lib\LuaInterface.dll" />
@@ -276,6 +285,7 @@
     <Content Include="SChart\Plugins\Scan_fml.dll" />
     <Content Include="SChart\Plugins\Test_fml.dll" />
     <Content Include="SChart\Plugins\Trading_fml.dll" />
+    <Content Include="Serialization\note.txt" />
     <Content Include="Setting\MHL\CHS\Document\Document.htm" />
     <Content Include="Setting\MHL\CHS\Help\account.html" />
     <Content Include="Setting\MHL\CHS\Help\dqorder.html" />

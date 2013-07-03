@@ -10,57 +10,13 @@ using System.Threading.Tasks;
 using Trader.Server.Session;
 using iExchange.Common;
 using Trader.Common;
-using Serialization;
 using Trader.Server.Ssl;
 using Trader.Server._4BitCompress;
 using Trader.Server.Service;
+using Trader.Server.ValueObjects;
 namespace Trader.Server
 {
-    public enum DataType
-    {
-        Quotation,
-        Command,
-        Response
-    }
-
-    public struct CommandForClient
-    {
-        private Quotation4Bit _Quotation;
-        private Command _Command;
-        private DataType _CommandType;
-        private UnmanagedMemory _Data;
-        public CommandForClient(UnmanagedMemory data=null,QuotationCommand quotationCommand=null, Command command = null)
-        {
-            if (command != null)
-            {
-                this._Command = command;
-                this._Quotation = null;
-                this._Data=null;
-                this._CommandType = DataType.Command;
-            }
-            else if (quotationCommand != null)
-            {
-                this._Quotation = new Quotation4Bit(quotationCommand);
-                this._Command = null;
-                this._Data = null;
-                this._CommandType = DataType.Quotation;
-            }
-            else
-            {
-                this._Data = data;
-                this._Command = null;
-                this._Quotation = null;
-                this._CommandType = DataType.Response;
-            }
-        }
-
-        public Quotation4Bit Quotation { get { return this._Quotation; } }
-        public Command Command { get { return this._Command; } }
-        public DataType CommandType { get { return this._CommandType; } }
-        public UnmanagedMemory Data { get { return this._Data; } }
-    }
-
-
+   
     public class AgentController
     {
         public static readonly AgentController Default = new AgentController();
@@ -221,20 +177,14 @@ namespace Trader.Server
             p.Value.Sender.Send(this._Current);
         }
 
-
-
-    }
-
-    public struct ClientRelation
-    {
-        private ReceiveAgent _Receiver;
-        private Client _Sender;
-        public ClientRelation(Client sender, ReceiveAgent receiver)
+        public void KickoutAllClient()
         {
-            this._Receiver = receiver;
-            this._Sender = sender;
+            Parallel.ForEach(this._Container, p =>
+            {
+                p.Value.Sender.Send(new ValueObjects.CommandForClient(data: NamedCommands.GetKickoutPacket()));
+                Application.Default.SessionMonitor.Remove(p.Key);
+            });
         }
-        public ReceiveAgent Receiver { get { return this._Receiver; } }
-        public Client Sender { get { return this._Sender; } }
     }
+
 }

@@ -16,8 +16,8 @@ using Trader.Server.TypeExtension;
 using Trader.Server.Util;
 using Wintellect.Threading;
 using Wintellect.Threading.AsyncProgModel;
-using Serialization;
 using Trader.Common;
+using Trader.Server.Serialization;
 namespace Trader.Server.Bll
 {
     public class LoginManager
@@ -123,6 +123,7 @@ namespace Trader.Server.Bll
                     }
                     catch (Exception ex)
                     {
+                        _Logger.Error(ex);
                         SendErrorResult(request,appType);
                         yield break;
                     }

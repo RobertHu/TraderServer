@@ -82,7 +82,7 @@ namespace Trader.Server.Bll
         //Use in TickByTick Chart
         public DataSet GetTickByTickHistoryDatas2(Guid instrumentId, Guid quotePolicyId, DateTime from, DateTime to)
         {
-            string commandTimeOutStr = System.Configuration.ConfigurationSettings.AppSettings["iExchange.TradingConsole.CommandTimeout"];
+            string commandTimeOutStr =ConfigurationManager.AppSettings["iExchange.TradingConsole.CommandTimeout"];
             TimeSpan commandTimeOut = TimeSpan.Parse(String.IsNullOrEmpty(commandTimeOutStr) ? "00:00:30" : commandTimeOutStr);
 
             string sql = String.Format("EXEC P_GetChartData2 '{0}', '{1}', '{2}', '{3:yyyy-MM-dd HH:mm:ss.fff}', '{4:yyyy-MM-dd HH:mm:ss.fff}'", instrumentId, quotePolicyId, "1 Sec", from, to);
@@ -96,7 +96,7 @@ namespace Trader.Server.Bll
 
         public DataSet GetChartData2(Guid instrumentId, Guid quotePolicyId, string dataCycle, DateTime from, DateTime to)
         {
-            string commandTimeOutStr = System.Configuration.ConfigurationSettings.AppSettings["iExchange.TradingConsole.CommandTimeout"];
+            string commandTimeOutStr = ConfigurationManager.AppSettings["iExchange.TradingConsole.CommandTimeout"];
             TimeSpan commandTimeOut = TimeSpan.Parse(String.IsNullOrEmpty(commandTimeOutStr) ? "00:00:30" : commandTimeOutStr);
 
             if (dataCycle.EndsWith(_FixLastPeriodFlag))
@@ -753,6 +753,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -1293,7 +1294,7 @@ namespace Trader.Server.Bll
             if (this.extends.ContainsKey(token.SessionID)) return;
 
             Hashtable extend = new Hashtable();
-            string usedExtendXml = System.Configuration.ConfigurationSettings.AppSettings["UsedExtendXml"];
+            string usedExtendXml = ConfigurationManager.AppSettings["UsedExtendXml"];
 
             //Get xml
             try
@@ -1509,7 +1510,7 @@ namespace Trader.Server.Bll
         {
             this.GetExtend(token, physicalPath);
 
-            string usedExtendXml = System.Configuration.ConfigurationSettings.AppSettings["UsedExtendXml"];
+            string usedExtendXml = ConfigurationManager.AppSettings["UsedExtendXml"];
             if (usedExtendXml == "Extend2.xml")
             {
                 this.NotifyCustomerExecuteOrder2(token, stateServer, parameters);
@@ -1909,7 +1910,7 @@ namespace Trader.Server.Bll
             string initialNewsCount = null;
             try
             {
-                initialNewsCount = ConfigurationSettings.AppSettings.Get("InitialNewsCount");
+                initialNewsCount =ConfigurationManager.AppSettings["InitialNewsCount"];
             }
             catch (System.Exception exception)
             {
@@ -2214,10 +2215,10 @@ namespace Trader.Server.Bll
             string fax, string fillName1, string ICNo1, string fillName2, string ICNo2, string fillName3, string ICNo3, out string reference)
         {
             Guid submitPerson = token.UserID;
-            string remark = ConfigurationSettings.AppSettings["FillName1"] + fillName1 + "," + ConfigurationSettings.AppSettings["ICNo1"] + ICNo1 + ";"
-                + ConfigurationSettings.AppSettings["FillName2"] + fillName2 + "," + ConfigurationSettings.AppSettings["ICNo2"] + ICNo2 + ";"
-                + ConfigurationSettings.AppSettings["FillName3"] + fillName3 + "," + ConfigurationSettings.AppSettings["ICNo3"] + ICNo3 + ";"
-                + ConfigurationSettings.AppSettings["From"] + customerName;
+            string remark = ConfigurationManager.AppSettings["FillName1"] + fillName1 + "," + ConfigurationManager.AppSettings["ICNo1"] + ICNo1 + ";"
+                + ConfigurationManager.AppSettings["FillName2"] + fillName2 + "," + ConfigurationManager.AppSettings["ICNo2"] + ICNo2 + ";"
+                + ConfigurationManager.AppSettings["FillName3"] + fillName3 + "," + ConfigurationManager.AppSettings["ICNo3"] + ICNo3 + ";"
+                + ConfigurationManager.AppSettings["From"] + customerName;
 
             return this.AddMargin("OwnerRegistration", DateTime.Parse(reportDate), accountCode, email, null, null, null, organizationName, correspondingAddress,
                 registratedEmailAddress, tel, mobile, fax, null, null, null, null, remark, submitPerson, out reference);
@@ -2237,8 +2238,8 @@ namespace Trader.Server.Bll
 
             errorMessage = "";
             Guid submitPerson = token.UserID;
-            string remark = ConfigurationSettings.AppSettings["PreviousAgentCode"] + previousAgentCode
-                + ConfigurationSettings.AppSettings["PreviousAgentName"] + previousAgentName;
+            string remark = ConfigurationManager.AppSettings["PreviousAgentCode"] + previousAgentCode
+                + ConfigurationManager.AppSettings["PreviousAgentName"] + previousAgentName;
             return this.AddMargin("AgentRegistration", DateTime.Parse(reportDate), accountCode, email, null, null, newAgentCode, newAgentName, null,
                 null, null, null, null, null, null, newAgentICNo, DateTime.Parse(dateReply), remark, submitPerson, out reference);
         }
@@ -2251,22 +2252,22 @@ namespace Trader.Server.Bll
             try
             {
                 string body = "<HTML><BODY>";
-                body += ConfigurationSettings.AppSettings["To"] + organizationName + "<BR>";
-                body += ConfigurationSettings.AppSettings["From"] + customerName + "(" + email + ")<BR>";
-                body += ConfigurationSettings.AppSettings["Subject"] + ConfigurationSettings.AppSettings["FundTransfer"] + "<BR>";
+                body += ConfigurationManager.AppSettings["To"] + organizationName + "<BR>";
+                body += ConfigurationManager.AppSettings["From"] + customerName + "(" + email + ")<BR>";
+                body += ConfigurationManager.AppSettings["Subject"] + ConfigurationManager.AppSettings["FundTransfer"] + "<BR>";
                 body += "<BR>";
-                body += ConfigurationSettings.AppSettings["Account"] + accountCode + "<BR>";
-                body += ConfigurationSettings.AppSettings["Currency"] + currency + "<BR>";
-                body += ConfigurationSettings.AppSettings["Amount"] + currencyValue + "<BR>";
-                body += ConfigurationSettings.AppSettings["BankAccount"] + bankAccount + "<BR>";
-                body += ConfigurationSettings.AppSettings["BeneficiaryName"] + beneficiaryName + "<BR>";
-                body += ConfigurationSettings.AppSettings["ReplyDate"] + replyDate + "<BR>";
-                body += ConfigurationSettings.AppSettings["From"] + customerName + "<BR>";
+                body += ConfigurationManager.AppSettings["Account"] + accountCode + "<BR>";
+                body += ConfigurationManager.AppSettings["Currency"] + currency + "<BR>";
+                body += ConfigurationManager.AppSettings["Amount"] + currencyValue + "<BR>";
+                body += ConfigurationManager.AppSettings["BankAccount"] + bankAccount + "<BR>";
+                body += ConfigurationManager.AppSettings["BeneficiaryName"] + beneficiaryName + "<BR>";
+                body += ConfigurationManager.AppSettings["ReplyDate"] + replyDate + "<BR>";
+                body += ConfigurationManager.AppSettings["From"] + customerName + "<BR>";
                 body += "</BODY>";
                 body += "</HTML>";
 
                 Guid transactionID = Guid.Empty;
-                string subject = (string)ConfigurationSettings.AppSettings["FundTransfer"];
+                string subject = (string)ConfigurationManager.AppSettings["FundTransfer"];
                 //stateServer.Email(token, "FundTransfer", transactionID, email, receive, subject, body);
                 isSucceed = this.SendEmail(email, receive, subject, body);
             }
