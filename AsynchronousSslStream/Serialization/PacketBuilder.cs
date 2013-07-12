@@ -6,10 +6,13 @@ using System.Xml;
 using CommonUtil;
 using System.Xml.Linq;
 using Trader.Common;
+using System.Runtime.InteropServices;
 namespace Trader.Server.Serialization
 {
     public static class PacketBuilder
     {
+        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
+        public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
         public  static UnmanagedMemory Build(SerializedObject response)
         {
             if (response.IsKeepAlive)
@@ -61,21 +64,13 @@ namespace Trader.Server.Serialization
             byte[] contentLengthBytes = contentLength.ToCustomerBytes();
             packet.Handle[0] = FirstHeadByteBitConstants.IsPlainString;
             packet.Handle[1] = 0;
+            int offset = Constants.ContentLengthIndex;
+            Marshal.Copy(contentLengthBytes, 0, (IntPtr)(packet.Handle + offset), contentLengthBytes.Length);
+            offset = Constants.HeadCount;
             byte[] invokeIDBytes = Constants.ClientInvokeIDEncoding.GetBytes(invokeID);
-            for (int i = 0; i < contentLengthBytes.Length; i++)
-            {
-                packet.Handle[Constants.ContentLengthIndex + i] = contentLengthBytes[i];
-            }
-            int index = Constants.HeadCount;
-            for (int i = 0; i < invokeIDBytes.Length; i++)
-            {
-                packet.Handle[index + i] = invokeIDBytes[i];
-            }
-            index += invokeIDBytes.Length;
-            for (int i = 0; i < content.Length; i++)
-            {
-                packet.Handle[index + i] = content.Handle[i];
-            }
+            Marshal.Copy(invokeIDBytes, 0, (IntPtr)(packet.Handle + offset), invokeIDBytes.Length);
+            offset += invokeIDBytes.Length;
+            CopyMemory((IntPtr)(packet.Handle + offset),(IntPtr)content.Handle, (uint)content.Length);
             content.Dispose();
             return packet;
         }
@@ -105,14 +100,10 @@ namespace Trader.Server.Serialization
                 packet.Handle[0] = priceByte;
             }
             packet.Handle[1] = 0;
-            for (int i = 0; i < contentLengthBytes.Length; i++)
-            {
-                packet.Handle[Constants.ContentLengthIndex + i] = contentLengthBytes[i];
-            }
-            for (int i = 0; i < data.Length; i++)
-            {
-                packet.Handle[Constants.HeadCount + i] = data[i];
-            }
+            int offset = Constants.ContentLengthIndex;
+            Marshal.Copy(contentLengthBytes, 0, (IntPtr)(packet.Handle + offset), contentLengthBytes.Length);
+            offset = Constants.HeadCount;
+            Marshal.Copy(data, 0, (IntPtr)(packet.Handle + offset), data.Length);
             return packet;
         }
 
@@ -127,19 +118,13 @@ namespace Trader.Server.Serialization
         {
             if (sessionBytes != null)
             {
-                for (int i = 0; i < sessionBytes.Length; i++)
-                {
-                    packet.Handle[index + i] = sessionBytes[i];
-                }
+                Marshal.Copy(sessionBytes, 0, (IntPtr)(packet.Handle + index), sessionBytes.Length);
             }
         }
 
         private unsafe static void AddContentToPacket(UnmanagedMemory packet, byte[] contentBytes,int index)
         {
-            for (int i = 0; i < contentBytes.Length; i++)
-            {
-                packet.Handle[index + i] = contentBytes[i];
-            }
+            Marshal.Copy(contentBytes, 0, (IntPtr)(packet.Handle + index), contentBytes.Length);
         }
 
         private unsafe static void AddHeaderToPacket(UnmanagedMemory packet, byte isPrice, byte sessionLength, byte[] contentLengthBytes)
@@ -147,10 +132,7 @@ namespace Trader.Server.Serialization
             packet.Handle[0] = isPrice;
             packet.Handle[1] = sessionLength;
             int startIndex = Constants.ContentLengthIndex;
-            for (int i = 0; i < contentLengthBytes.Length; i++)
-            {
-                packet.Handle[startIndex + i] = contentLengthBytes[i];
-            }
+            Marshal.Copy(contentLengthBytes, 0, (IntPtr)(packet.Handle + startIndex), contentLengthBytes.Length);
         }
 
         private static byte[] GetSessionBytes(string sessionID)
@@ -169,5 +151,6 @@ namespace Trader.Server.Serialization
             byte[] bytes = Constants.ContentEncoding.GetBytes(xml);
             return bytes;
         }
+      
     }
 }

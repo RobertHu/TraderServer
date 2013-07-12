@@ -10,6 +10,8 @@ using System.Configuration;
 using Trader.Server.Setting;
 using Trader.Server.Service;
 using Trader.Server.Ssl;
+using Mobile = iExchange3Promotion.Mobile;
+
 namespace Trader.Server.Bll
 {
     public class Application
@@ -36,7 +38,7 @@ namespace Trader.Server.Bll
             //todo: store/build mobile settings in somewhere
             Dictionary<string, string> mobileSettings = new Dictionary<string, string>();
             mobileSettings.Add("ConnectionString", SettingManager.Default.ConnectionString);
-            iExchange3Promotion.Mobile.Manager.Initialize(this.StateServer, mobileSettings);
+            Mobile.Manager.Initialize(this.StateServer, mobileSettings, this.MobileSendingCallback);
         }
 
         public static readonly Application Default = new Application();
@@ -106,6 +108,13 @@ namespace Trader.Server.Bll
             }
         }
 
+        public void MobileSendingCallback(object sender, EventArgs args)
+        {
+            Mobile.SendCommandEventArg eventArg = args as Mobile.SendCommandEventArg;
 
+            Trader.Server.Ssl.Client client = AgentController.Default.GetSender(long.Parse(eventArg.SessionId));
+           /* client.Send(Serialization.SerializeManager.Default.Serialize(new Serialization.SerializedObject(eventArg.SessionId,eventArg.XElement, null)));*/
+
+        }
     }
 }

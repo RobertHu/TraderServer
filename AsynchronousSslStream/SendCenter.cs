@@ -8,7 +8,6 @@ using System.Threading;
 using System.Collections.Concurrent;
 using Trader.Server.ValueObjects;
 using Trader.Server.Serialization;
-using Trader.Server.Serializationn;
 namespace Trader.Server
 {
     public class SendCenter

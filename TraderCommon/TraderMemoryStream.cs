@@ -232,10 +232,7 @@ namespace Trader.Common
             }
             unsafe
             {
-                for (int i = 0; i < count; i++)
-                {
-                    this._buffer.Handle[i + this._position] = buffer[offset + i];
-                }
+                Marshal.Copy(buffer, offset, (IntPtr)(this._buffer.Handle + this._position), count);
             }
             this._position = num;
         }
@@ -330,7 +327,7 @@ namespace Trader.Common
                     {
                         if (this._length > 0)
                         {
-                           this._buffer=this._buffer.Expand(value, this._length);
+                           this._buffer.Expand(value);
                         }
                     }
                     else

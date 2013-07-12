@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Trader.Common;
-using Trader.Server.Serialization;
-namespace Trader.Server.Serializationn
+namespace Trader.Server.Serialization
 {
     public class SerializeManager
     {

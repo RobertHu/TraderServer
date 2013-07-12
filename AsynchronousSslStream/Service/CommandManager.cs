@@ -24,6 +24,8 @@ namespace Trader.Server.Service
         private CommandQueue _Commands;
         private ILog _Logger = LogManager.GetLogger(typeof(CommandManager));
         private AutoResetEvent _Event = new AutoResetEvent(false);
+        private AutoResetEvent _StopEvent = new AutoResetEvent(false);
+        private AutoResetEvent[] _Events;
         private ConcurrentQueue<Command> _Queue = new ConcurrentQueue<Command>();
         private volatile bool _IsStop = false;
         private volatile bool _IsStart = false;
@@ -31,6 +33,7 @@ namespace Trader.Server.Service
         private CommandManager()
         {
             this._Commands= new CommandQueue(new TimeSpan(0, 20, 0));
+            this._Events = new AutoResetEvent[] { this._Event,this._StopEvent};
           
         }
         public static readonly CommandManager Default = new CommandManager();
@@ -50,6 +53,7 @@ namespace Trader.Server.Service
         public void Stop()
         {
             this._IsStop = true;
+            this._StopEvent.Set();
         }
 
         public void Send(Command command)
@@ -66,7 +70,7 @@ namespace Trader.Server.Service
                 {
                     break;
                 }
-                this._Event.WaitOne();
+                WaitHandle.WaitAny(this._Events);
                 Command command;
                 while (this._Queue.TryDequeue(out command))
                 {

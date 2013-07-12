@@ -6,12 +6,13 @@ using System.Runtime.InteropServices;
 
 namespace Trader.Common
 {
-    public unsafe class UnmanagedMemory : IDisposable
+    public unsafe class UnmanagedMemory
     {
         public int Count { get; private set; }
         public int Length { get; set; }
         public byte* Handle{get;private set;}
         private bool _Disposed = false;
+        public byte[] Data { get; private set; }
 
         public UnmanagedMemory(byte[] keepAliveData)
         {
@@ -25,22 +26,19 @@ namespace Trader.Common
             this.Length = count;
         }
 
-        public byte[] Data
+        public void Reset()
         {
-            get;
-            private set;
+            this.Count = 0;
+            this.Length = 0;
+            this.Handle = null;
+            this._Disposed = false;
+            this.Data = null;
         }
 
 
-        public UnmanagedMemory Expand(int count,int length)
+        public void Expand(int count)
         {
-            UnmanagedMemory mem = new UnmanagedMemory(count);
-            for (int i = 0; i < length; i++)
-            {
-                mem.Handle[i] = this.Handle[i];
-            }
-            this.Dispose();
-            return mem;
+            this.Handle = (byte*)Marshal.ReAllocHGlobal((IntPtr)this.Handle, (IntPtr)count);
         }
 
         public byte[] ToArray()
@@ -55,30 +53,16 @@ namespace Trader.Common
 
         public void Dispose()
         {
-            this.Dispose(true);
-            GC.SuppressFinalize(true);
-        }
-
-
-        private void Dispose(bool isDisposing)
-        {
             if (this._Disposed)
             {
                 return;
             }
-            if (isDisposing)
+            if (this.Handle != null)
             {
-                if (this.Handle != null)
-                {
-                    System.Runtime.InteropServices.Marshal.FreeHGlobal((IntPtr)this.Handle);
-                }
+                System.Runtime.InteropServices.Marshal.FreeHGlobal((IntPtr)this.Handle);
             }
             this._Disposed = true;
         }
 
-        ~UnmanagedMemory()
-        {
-            Dispose(false);
-        }
     }
 }

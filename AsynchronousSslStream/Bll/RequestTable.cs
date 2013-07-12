@@ -285,6 +285,7 @@ namespace Trader.Server.Bll
                 Guid selectedAccountId = (argList != null && argList.Count > 0 ? new Guid(argList[0]) : Guid.Empty);
                 InitDataService.Init(request.Session, initData);
                 result = Mobile.Manager.Initialize(token, initData, selectedAccountId);
+
                 //test:
                 if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"] == "true")
                 {
@@ -324,12 +325,41 @@ namespace Trader.Server.Bll
                     //Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[] { });
 
                     //placing limit/stop
-                    string xml = "<PlacingInstruction AccountId=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentId=\"864AC5D7-B872-45A6-887E-7189463BEB12\" PlacingType=\"OneCancelOther\" EndTime=\"2013-06-26 15:58:09.777\" PendingOrderExpireType=\"GoodTillDate\" ExpireDate=\"2013-06-16 15:58:09.777\" PriceIsQuote=\"false\" PriceTimestamp=\"2013-06-06 15:58:09.777\">"
-                                  + "<PlacingOrders>"
-                                    + "<PlacingOrder Id=\"00000012-2954-45a1-8277-86606f99ed64\" Lot=\"1\" IsOpen=\"true\" IsBuy=\"true\" SetPrice=\"1.6516\" TradeOption=\"Better\" />"
-                                   + " <PlacingOrder Id=\"00000012-7041-40ea-ac43-fd8af4e40216\" Lot=\"1\" IsOpen=\"true\" IsBuy=\"true\" SetPrice=\"1.6516\" TradeOption=\"Stop\" />"
-                                  + "</PlacingOrders>"
-                                + "</PlacingInstruction>";
+//                    string xml = "<PlacingInstruction AccountId=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentId=\"babf7daa-af0f-4396-85f2-67e2c97952b7\" PlacingType=\"Pair\" PriceIsQuote=\"false\">"
+//  +" <PlacingOrders>"
+//  +"   <PlacingOrder Id=\"00000001-276d-4ad6-9782-254a1fb75fe7\" Lot=\"2.1\" IsOpen=\"false\" IsBuy=\"false\" SetPrice=\"1585\" />"
+//+"     <PlacingOrder Id=\"00000002-889f-4f91-a681-0381f3abecd7\" Lot=\"2.1\" IsOpen=\"false\" IsBuy=\"true\" SetPrice=\"1595\" />"
+//+"     <PlacingOrder Id=\"00000003-05c1-4199-b35e-67d6f73a2663\" Lot=\"2.1\" IsOpen=\"false\" IsBuy=\"true\" SetPrice=\"1595\" />"
+//+"   </PlacingOrders>"
+//+"   <OrderRelations>"
+//+"     <OpenCloseRelation OpenOrderId=\"bc4966f9-669e-4c3f-9181-ea48b8d8c9fe\" CloseOrderId=\"00000001-276d-4ad6-9782-254a1fb75fe7\" Lot=\"2.1\" />"
+//+"     <OpenCloseRelation OpenOrderId=\"99512920-2523-4df9-ad05-ad6bc26b7a81\" CloseOrderId=\"00000002-889f-4f91-a681-0381f3abecd7\" Lot=\"2.1\" />"
+//+ "     <OpenCloseRelation OpenOrderId=\"2d713010-87f3-4be6-b796-36ba18edc172\" CloseOrderId=\"00000003-05c1-4199-b35e-67d6f73a2663\" Lot=\"2.1\" />"
+//+"   </OrderRelations>"
+//+" </PlacingInstruction>";
+
+//                    ICollection<Mobile.Server.Transaction> transactions = Mobile.Manager.ConvertPlacingRequest(token, xml.ToXmlNode());
+//                    XElement element = new XElement("Result");
+//                    foreach (Mobile.Server.Transaction transaction in transactions)
+//                    {
+//                        ICollection<XElement> errorCodes = this.GetPlaceResultForMobile(transaction, token);
+//                        foreach (XElement orderErrorElement in errorCodes)
+//                        {
+//                            element.Add(orderErrorElement);
+//                        }
+//                    }
+
+                    //placing DQOrder
+                    string xml = "<PlacingInstruction AccountId=\"6f2aac40-259e-44e2-9d1a-c0d3d6647a6a\" InstrumentId=\"282fa038-1330-43a6-aa87-9d7d01c1a594\" PlacingType=\"LimitStop\" EndTime=\"2013-07-03 16:14:21.404\" PendingOrderExpireType=\"GoodTillDate\" PriceIsQuote=\"false\" PriceTimestamp=\"2013-07-03 16:14:21.404\">"
+  +"<PlacingOrders>"
+  +"  <PlacingOrder Id=\"00000001-183d-4b5a-8cc2-8073d6cff299\" Lot=\"2\" IsOpen=\"false\" IsBuy=\"false\" SetPrice=\"1.9822\" TradeOption=\"Better\" />"
+  + " <PlacingOrder Id=\"00000001-236b-4c5d-a32f-34b6350b5279\" Lot=\"2\" IsOpen=\"false\" IsBuy=\"false\" SetPrice=\"1.9802\" TradeOption=\"Stop\" />"
+  +"</PlacingOrders>"
+  +"<OrderRelations>"
++ "    <OpenCloseRelation OpenOrderId=\"65f709b2-62fe-4196-9b83-7ff6b2612f0f\" CloseOrderId=\"00000001-183d-4b5a-8cc2-8073d6cff299\" Lot=\"2\" />"
+    + "<OpenCloseRelation OpenOrderId=\"65f709b2-62fe-4196-9b83-7ff6b2612f0f\" CloseOrderId=\"00000001-236b-4c5d-a32f-34b6350b5279\" Lot=\"2\" />"
++"  </OrderRelations>"
++"</PlacingInstruction>";
 
                     ICollection<Mobile.Server.Transaction> transactions = Mobile.Manager.ConvertPlacingRequest(token, xml.ToXmlNode());
                     XElement element = new XElement("Result");
@@ -341,7 +371,29 @@ namespace Trader.Server.Bll
                             element.Add(orderErrorElement);
                         }
                     }
-                    
+
+
+                    //switch accounts
+                    //initData = Mobile.Manager.GetInitData(token);                                        
+                    //InitDataService.Init(request.Session, initData);
+                    //result = Mobile.Manager.Initialize(token, initData, new Guid("cbcdb06f-141a-415f-bdda-a676bd5759b7"));
+
+                    //initData = Mobile.Manager.GetInitData(token);
+                    //InitDataService.Init(request.Session, initData);
+                    //result = Mobile.Manager.Initialize(token, initData, new Guid("ca586171-a79d-4ddc-9dfd-71b90ddb393a"));
+
+                    //initData = Mobile.Manager.GetInitData(token);
+                    //InitDataService.Init(request.Session, initData);
+                    //result = Mobile.Manager.Initialize(token, initData, new Guid("cbcdb06f-141a-415f-bdda-a676bd5759b7"));
+
+                    //update instruments
+                    //Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[]{});
+                    //XElement e = Mobile.Manager.GetChanges(request.Session.ToString(), true);
+
+                    //string[] instrumentIds = new string[] { "a4446d4f-cc72-4c59-a642-c31e65522b8a", "c2abf1c2-f573-4f31-9d41-f682bb3e2bdb", "65f4d401-626a-42c4-a99a-9b728cb49346" };
+                    //quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, instrumentIds);
+                    //e = Mobile.Manager.GetChanges(request.Session.ToString(), true);
+                    //InstrumentManager.Default.UpdateInstrumentSetting(request.Session, quotePolicyIds);                    
 
                 }
             }
@@ -557,12 +609,15 @@ namespace Trader.Server.Bll
             {
                 ICollection<Mobile.Server.Transaction> transactions = Mobile.Manager.ConvertPlacingRequest(token, args[0].ToXmlNode());
                 XElement element = new XElement("Result");
-                foreach (Mobile.Server.Transaction transaction in transactions)
+                if (transactions != null)
                 {
-                    ICollection<XElement> errorCodes = this.GetPlaceResultForMobile(transaction, token);
-                    foreach (XElement orderErrorElement in errorCodes)
+                    foreach (Mobile.Server.Transaction transaction in transactions)
                     {
-                        element.Add(orderErrorElement);
+                        ICollection<XElement> errorCodes = this.GetPlaceResultForMobile(transaction, token);
+                        foreach (XElement orderErrorElement in errorCodes)
+                        {
+                            element.Add(orderErrorElement);
+                        }
                     }
                 }
                 XElement changes = Mobile.Manager.GetChanges(request.Session.ToString(), false);
@@ -640,9 +695,17 @@ namespace Trader.Server.Bll
             return RecoverService.Recover(request.Session, request.ClientID);
         }
 
-        private XElement LogoutAction(SerializedObject request, Token token)
-        {
-            return LoginManager.Default.Logout(request.Session);
+        private XElement  LogoutAction(SerializedObject request, Token token)
+        {            
+            XElement result = LoginManager.Default.Logout(request.Session);
+            if (token.AppType == AppType.Mobile)
+            {
+                return Mobile.Manager.Logout(token);                
+            }
+            else
+            {
+                return result;
+            }
         }
 
         private ICollection<XElement> GetPlaceResultForMobile(Mobile.Server.Transaction transaction, Token token)
@@ -650,8 +713,9 @@ namespace Trader.Server.Bll
             ICollection<XElement> elements = new List<XElement>();
             if (token != null && token.AppType == iExchange.Common.AppType.Mobile)
             {
+                Token placeToken = new Token(token.UserID, token.UserType, AppType.TradingConsole);
                 string tranCode;
-                TransactionError error = Application.Default.TradingConsoleServer.Place(token, Application.Default.StateServer, transaction.ToXmlNode(), out tranCode);
+                TransactionError error = Application.Default.TradingConsoleServer.Place(placeToken, Application.Default.StateServer, transaction.ToXmlNode(), out tranCode);
                 if (error == TransactionError.Action_ShouldAutoFill)
                 {
                     error = TransactionError.OK;
@@ -673,5 +737,6 @@ namespace Trader.Server.Bll
                 return null;
             }
         }
+
     }
 }

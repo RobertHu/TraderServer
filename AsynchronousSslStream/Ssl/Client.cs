@@ -12,7 +12,8 @@ using Trader.Server._4BitCompress;
 using iExchange.Common;
 using Trader.Server.Session;
 using Trader.Server.ValueObjects;
-using Trader.Server.Serializationn;
+using Trader.Server.Serialization;
+using System.Runtime.InteropServices;
 namespace Trader.Server.Ssl
 {
     public class Client
@@ -290,19 +291,13 @@ namespace Trader.Server.Ssl
                 }
                 if (len <= MAX_WRITE_LENGTH)
                 {
-                    for (int i = 0; i < len; i++)
-                    {
-                        this._Buffer[this._WriteBufferIndex + i] = data.Handle[offset + i];
-                    }
+                    Marshal.Copy((IntPtr)(data.Handle + offset), this._Buffer, this._WriteBufferIndex, len);
                     this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, len, this.EndWrite, null);
                 }
                 else
                 {
                     this._LastWriteBuffer = data;
-                    for (int i = 0; i < MAX_WRITE_LENGTH; i++)
-                    {
-                        this._Buffer[this._WriteBufferIndex + i] = data.Handle[offset + i];
-                    }
+                    Marshal.Copy((IntPtr)(data.Handle + offset), this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH);
                     this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH, this.EndWrite, null);
                 }
             }

@@ -8,7 +8,7 @@ using System.Collections.Concurrent;
 using Trader.Server.Service;
 using System.Xml;
 using Trader.Common;
-
+using System.Runtime.InteropServices;
 namespace Trader.Server._4BitCompress
 {
     public class Quotation4Bit

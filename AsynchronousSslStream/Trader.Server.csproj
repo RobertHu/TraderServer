@@ -191,10 +191,7 @@
     <Compile Include="Serialization\SerializedObject.cs" />
     <Compile Include="Serialization\SerializeManager.cs" />
     <Compile Include="Serialization\ZlibHelper.cs" />
-    <Compile Include="Service\CommandWithQuotationPool.cs" />
     <Compile Include="Service\NamedCommands.cs" />
-    <Compile Include="Service\Quotation4BitPool.cs" />
-    <Compile Include="Service\QuotationPool.cs" />
     <Compile Include="Session\TraderState.cs" />
     <Compile Include="Ssl\Client.cs" />
     <Compile Include="Ssl\ReceiveAgent.cs" />

@@ -15,7 +15,7 @@ namespace Trader.Server.TypeExtension
     public static class DataSetExtension
     {
         private static ILog _Logger = LogManager.GetLogger(typeof(DataSetExtension));
-        private const int CAPACITY = 500 * 1024;
+        private const int CAPACITY = 10 * 1024;
         public static string ToXml(this DataSet dataset)
         {
             if (dataset == null)
