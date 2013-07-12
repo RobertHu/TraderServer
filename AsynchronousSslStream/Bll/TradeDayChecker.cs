@@ -13,18 +13,15 @@ namespace Trader.Server.Bll
         private volatile bool _IsStoped = false;
         private const int WHEN_RIJIE_SLEEPTIME = 3600 * 1000;
         private const int GENERAL_SLEEPTIME = 10 * 60 * 1000;
-        public TradeDayChecker(string connStr)
-        {
-            string tradeDayTimeInString = DataAccess.ExecuteScalar("select TradeDayBeginTime from dbo.SystemParameter", connStr).ToString();
-            this._TradeDayBeginTime = DateTime.Parse(tradeDayTimeInString);
-        }
 
-        public void Start()
+        public void Start(string connStr)
         {
             if (this._IsStarted)
             {
                 return;
             }
+            string tradeDayTimeInString = DataAccess.ExecuteScalar("select TradeDayBeginTime from dbo.SystemParameter", connStr).ToString();
+            this._TradeDayBeginTime = DateTime.Parse(tradeDayTimeInString);
             Thread checkThread = new Thread(this.CheckHandle);
             checkThread.IsBackground = true;
             checkThread.Start();

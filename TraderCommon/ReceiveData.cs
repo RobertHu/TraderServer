@@ -7,21 +7,20 @@ namespace Trader.Common
 {
     public struct ReceiveData
     {
-
-        private long _Session;
+        private long _ClientID;
         private byte[] _Data;
-        public long Session
+        public long ClientID
         {
-            get { return _Session; }
+            get { return _ClientID; }
         }
         public byte[] Data
         {
             get { return _Data; }
         }
-        public ReceiveData(long session, byte[] data)
+        public ReceiveData(long clientId, byte[] data)
         {
-            this._Session = session;
-             this._Data= data;
+            this._ClientID = clientId;
+            this._Data = data;
         }
     }
 }

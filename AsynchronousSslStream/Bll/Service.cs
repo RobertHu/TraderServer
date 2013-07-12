@@ -500,7 +500,7 @@ namespace Trader.Server.Bll
             {
                 Token token = SessionManager.Default.GetToken(session);
                 bool result= Application.Default.TradingConsoleServer.DeleteMessage(token, id);
-                return XmlResultHelper.NewResult(result.ToXmlResult());
+                return XmlResultHelper.NewResult(result.ToPlainBitString());
             }
             catch (System.Exception exception)
             {
@@ -914,7 +914,7 @@ namespace Trader.Server.Bll
                         }
 
                         bool approved = (bool)sqlCommand.Parameters["@approved"].Value;
-                        return XmlResultHelper.NewResult(approved.ToXmlResult());
+                        return XmlResultHelper.NewResult(approved.ToPlainBitString());
                     }
                 }
             }

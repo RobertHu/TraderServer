@@ -5,3 +5,4 @@ D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bi
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Release\Trader.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Release\Trader.Common.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\log4net.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Release\iExchange.Common.dll

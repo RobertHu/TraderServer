@@ -30,7 +30,7 @@ namespace Trader.Server.Serialization
         public XElement Content { get;  set; }
         public UnmanagedMemory  ContentInPointer { get; set; }
         public string ClientInvokeID { get; private set; }
-        public long CurrentSession { get; set; }
+        public long ClientID { get; set; }
         public bool IsKeepAlive { get; private set; }
         public bool IsKeepAliveSuccess { get;set; }
         public byte[] KeepAlivePacket { get; private set; }

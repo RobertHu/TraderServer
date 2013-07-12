@@ -26,7 +26,7 @@ namespace Trader.Server.Ssl
         private bool _IsSendingData = false;
         private bool _HasPartialPacket = false;
         private int _PartialReadedLenth = 0;
-        private long _Session;
+        private long _ID;
         private const int MAX_WRITE_LENGTH = 10240;
         private int _LastWriteIndex = 0;
         private UnmanagedMemory _LastWriteBuffer;
@@ -37,24 +37,20 @@ namespace Trader.Server.Ssl
         private UnmanagedMemory _CurrentPacket;
         private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>(20);
 
-        public Client(SslStream stream, long session,byte[] buffer)
+        public Client(SslStream stream, long id,byte[] buffer)
         {
             this._Stream = stream;
-            this._Session = session;
+            this._ID = id;
             this._Buffer = buffer;
             this._WriteBufferIndex = BufferManager.TwoPartLength;
             this._PartialReadIndex = BufferManager.ThreePartLength;
             Read();
         }
 
-
         private int GetCurrentPartialReadIndex()
         {
             return this._PartialReadIndex + this._PartialReadedLenth;
         }
-
-
-
 
         public void Send(CommandForClient command)
         {
@@ -93,11 +89,9 @@ namespace Trader.Server.Ssl
         {
             byte[] packet = new byte[len];
             Buffer.BlockCopy(data, offset, packet, 0, len);
-            ReceiveData receiveData = new ReceiveData(this._Session, packet);
+            ReceiveData receiveData = new ReceiveData(this._ID, packet);
             ReceiveCenter.Default.Send(receiveData);
         }
-
-
 
         private void EndRead(IAsyncResult ar)
         {
@@ -183,9 +177,9 @@ namespace Trader.Server.Ssl
 
         }
 
-        public void UpdateSession(long session)
+        public void UpdateClientID(long clientID)
         {
-            this._Session = session;
+            this._ID = clientID;
         }
 
         private void Write()
@@ -227,7 +221,7 @@ namespace Trader.Server.Ssl
         private void WriteForQuotation()
         {
             Token token;
-            TraderState state = SessionManager.Default.GetTokenAndState(this._Session, out token);
+            TraderState state = SessionManager.Default.GetTokenAndState(this._ID, out token);
             if (state == null || token == null)
             {
                 Write();
@@ -269,7 +263,7 @@ namespace Trader.Server.Ssl
         private void WriteForCommand()
         {
             Token token;
-            TraderState state = SessionManager.Default.GetTokenAndState(this._Session, out token);
+            TraderState state = SessionManager.Default.GetTokenAndState(this._ID, out token);
             if (state == null || token == null)
             {
                 Write();
@@ -284,8 +278,6 @@ namespace Trader.Server.Ssl
             this._CurrentPacket = SerializeManager.Default.SerializeCommand(data);
             this.BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
         }
-
-        
 
         private unsafe void BeginWrite(UnmanagedMemory data, int offset, int len)
         {
@@ -314,13 +306,11 @@ namespace Trader.Server.Ssl
                     this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH, this.EndWrite, null);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                _Logger.Error("client closed",ex);
+                _Logger.Error("begin write client closed");
             }
         }
-
-
 
         private void EndWrite(IAsyncResult ar)
         {
@@ -348,9 +338,9 @@ namespace Trader.Server.Ssl
                     int lenToBeWrite = len >= MAX_WRITE_LENGTH ? MAX_WRITE_LENGTH : len;
                     this.BeginWrite(this._LastWriteBuffer, this._LastWriteIndex, lenToBeWrite);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    _Logger.Error("client closed",ex);
+                    _Logger.Error("end write client closed");
                     this.Close();
                 }
             });
@@ -366,10 +356,8 @@ namespace Trader.Server.Ssl
             }
             this._Stream.Close();
             this._IsClosed = true;
-            AgentController.Default.EnqueueDisconnectSession(this._Session);
+            AgentController.Default.EnqueueDisconnectSession(this._ID);
             BufferManager.Default.Enqueue(this._Buffer);
         }
-
-
     }
 }

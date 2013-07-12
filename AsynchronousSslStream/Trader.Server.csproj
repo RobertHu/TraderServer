@@ -145,6 +145,7 @@
     <Compile Include="Bll\AccountManager.cs" />
     <Compile Include="Bll\AsyncResultManager.cs" />
     <Compile Include="Bll\ClientService.cs" />
+    <Compile Include="Bll\DBLogService.cs" />
     <Compile Include="Bll\InstrumentManager.cs" />
     <Compile Include="Bll\InterestRateService.cs" />
     <Compile Include="Bll\LoginManager.cs" />
@@ -187,7 +188,6 @@
     <Compile Include="Serialization\CustomerIntCache.cs" />
     <Compile Include="Serialization\PacketBuilder.cs" />
     <Compile Include="Serialization\PacketParser.cs" />
-    <Compile Include="Serialization\PriceEncoding.cs" />
     <Compile Include="Serialization\SerializedObject.cs" />
     <Compile Include="Serialization\SerializeManager.cs" />
     <Compile Include="Serialization\ZlibHelper.cs" />
@@ -219,7 +219,6 @@
     <Compile Include="TypeExtension\BoolExtension.cs" />
     <Compile Include="TypeExtension\DataSetExtension.cs" />
     <Compile Include="TypeExtension\GuidExtension.cs" />
-    <Compile Include="TypeExtension\LuaTableExtension.cs" />
     <Compile Include="TypeExtension\StringExtension.cs" />
     <Compile Include="TypeExtension\XElementExtension.cs" />
     <Compile Include="Util\ClientRequestHelper.cs" />

@@ -32,7 +32,7 @@ namespace Trader.Server.Bll
             this.AsyncResultManager = new AsyncResultManager(TimeSpan.FromMinutes(30));
             this.AssistantOfCreateChartData2 = new AssistantOfCreateChartData2();
             this.SessionMonitor = new SessionMonitor(SettingManager.Default.SessionExpiredTimeSpan);
-            this._TradeDayChecker = new TradeDayChecker(SettingManager.Default.ConnectionString);
+            this._TradeDayChecker = new TradeDayChecker();
             //todo: store/build mobile settings in somewhere
             Dictionary<string, string> mobileSettings = new Dictionary<string, string>();
             mobileSettings.Add("ConnectionString", SettingManager.Default.ConnectionString);
@@ -50,7 +50,10 @@ namespace Trader.Server.Bll
             CommandManager.Default.Start();
             TaskQueue.Default.Start();
             QuotationDispatcher.Default.Initialize(SettingManager.Default.PriceSendPeriodInMilisecond);
-            this._TradeDayChecker.Start();
+            if (!SettingManager.Default.IsTest)
+            {
+                this._TradeDayChecker.Start(SettingManager.Default.ConnectionString);
+            }
         }
 
         public void Stop()

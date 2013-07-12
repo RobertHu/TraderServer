@@ -79,24 +79,5 @@ namespace Trader.Server.Serialization
             }
             return result;
         }
-
-
-
-        private static string GetRidOfUnprintablesAndUnicode(string inpString)
-        {
-            string outputs = String.Empty;
-            for (int jj = 0; jj < inpString.Length; jj++)
-            {
-                char ch = inpString[jj];
-                if (((int)(byte)ch) >= 32 & ((int)(byte)ch) <= 128)
-                {
-                    outputs += ch;
-                }
-            }
-            return outputs;
-        } 
-
-       
-
     }
 }

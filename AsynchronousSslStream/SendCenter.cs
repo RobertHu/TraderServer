@@ -17,9 +17,14 @@ namespace Trader.Server
         private ILog _Logger = LogManager.GetLogger(typeof(SendCenter));
         private ConcurrentQueue<SerializedObject> _Queue = new ConcurrentQueue<SerializedObject>();
         private AutoResetEvent _Event = new AutoResetEvent(false);
+        private AutoResetEvent _StopEvent = new AutoResetEvent(false);
+        private AutoResetEvent[] _Events;
         private volatile bool _IsStarted=false;
         private volatile bool _IsStopped=false;
-        private SendCenter() { }
+        private SendCenter() 
+        {
+            this._Events = new AutoResetEvent[] { this._Event,this._StopEvent};
+        }
 
         public void Start()
         {
@@ -43,6 +48,7 @@ namespace Trader.Server
         public void Stop()
         {
             this._IsStopped = true;
+            this._StopEvent.Set();
         }
 
         public void Send(SerializedObject item)
@@ -63,7 +69,7 @@ namespace Trader.Server
                 {
                     break;
                 }
-                this._Event.WaitOne();
+                WaitHandle.WaitAny(this._Events);
                 SerializedObject workItem = null;
                 while (this._Queue.TryDequeue(out workItem))
                 {

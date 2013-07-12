@@ -136,7 +136,7 @@ namespace Trader.Server.Bll
             {
                 Token token = SessionManager.Default.GetToken(session);
                 result= Application.Default.TradingConsoleServer.UpdateAccountSetting(token.UserID, accountIds);
-                return XmlResultHelper.NewResult(result.ToXmlResult());
+                return XmlResultHelper.NewResult(result.ToPlainBitString());
             }
             catch (System.Exception exception)
             {

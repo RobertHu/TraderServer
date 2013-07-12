@@ -16,14 +16,6 @@ namespace Trader.Server.Ssl
         private volatile  bool _IsStoped = true;
         private ReceiveData _Current;
 
-        public void Reset()
-        {
-            this._IsStoped = true;
-            ReceiveData data;
-            while (this._Queue.TryDequeue(out data)) { }
-        }
-
-
         public void Send(ReceiveData data)
         {
             this._Queue.Enqueue(data);
@@ -49,20 +41,19 @@ namespace Trader.Server.Ssl
         private void ProcessCallback(object state)
         {
             SerializedObject request = PacketParser.Parse(this._Current.Data);
-            if (request == null)
+            if (request != null)
             {
-                return;
+                if (request.Session == SessionMapping.INVALID_VALUE)
+                {
+                    request.Session = this._Current.ClientID;
+                }
+                else
+                {
+                    request.ClientID = this._Current.ClientID;
+                }
+                request.Sender = AgentController.Default.GetSender(this._Current.ClientID);
+                ClientRequestHelper.Process(request);
             }
-            if (request.Session == SessionMapping.INVALID_VALUE)
-            {
-                request.Session = this._Current.Session;
-            }
-            else
-            {
-                request.CurrentSession = this._Current.Session;
-            }
-            request.Sender = AgentController.Default.GetSender(request.Session);
-            ClientRequestHelper.Process(request);
             ProcessData();
         }
 	}

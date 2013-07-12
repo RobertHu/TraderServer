@@ -30,7 +30,7 @@ namespace Trader.Server
                 {
                     return;
                 }
-                Thread thread = new Thread(MotitorHandle);
+                Thread thread = new Thread(MonitorHandle);
                 thread.IsBackground = true;
                 thread.Start();
                 this._IsStarted = true;
@@ -116,7 +116,7 @@ namespace Trader.Server
             }
         }
 
-        private void MotitorHandle()
+        private void MonitorHandle()
         {
             while (true)
             {

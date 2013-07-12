@@ -15,9 +15,14 @@ namespace Trader.Server
         private volatile bool _IsStarted = false;
         private volatile bool _IsStopped = false;
         private AutoResetEvent _Event = new AutoResetEvent(false);
+        private AutoResetEvent _StopEvent = new AutoResetEvent(false);
+        private AutoResetEvent[] _Events;
         private ILog _Logger = LogManager.GetLogger(typeof(ReceiveCenter));
         private ReceiveData _Current;
-        private ReceiveCenter() { }
+        private ReceiveCenter()
+        {
+            this._Events = new AutoResetEvent[] { this._Event,this._StopEvent};
+        }
 
         public void Start()
         {
@@ -41,6 +46,7 @@ namespace Trader.Server
         public void Stop()
         {
             this._IsStopped = true;
+            this._StopEvent.Set();
         }
 
 
@@ -59,17 +65,17 @@ namespace Trader.Server
                 {
                     break;
                 }
-                this._Event.WaitOne();
+                WaitHandle.WaitAny(this._Events);
                 while (this._Queue.TryDequeue(out this._Current))
                 {
-                    var receiveAgent = AgentController.Default.GetReceiver(this._Current.Session);
+                    var receiveAgent = AgentController.Default.GetReceiver(this._Current.ClientID);
                     if (receiveAgent != null)
                     {
                         receiveAgent.Send(this._Current);
                     }
                     else
                     {
-                        this._Logger.InfoFormat("can't find a receive agent with session {0}",this._Current.Session);
+                        this._Logger.InfoFormat("can't find a receive agent with session {0}",this._Current.ClientID);
                     }
                 }
             }

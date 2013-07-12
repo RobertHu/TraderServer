@@ -53,14 +53,14 @@ namespace Trader.Common
             return target;
         }
 
-
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(true);
         }
 
 
-        protected virtual void Dispose(bool isDisposing)
+        private void Dispose(bool isDisposing)
         {
             if (this._Disposed)
             {
@@ -75,6 +75,10 @@ namespace Trader.Common
             }
             this._Disposed = true;
         }
-        
+
+        ~UnmanagedMemory()
+        {
+            Dispose(false);
+        }
     }
 }

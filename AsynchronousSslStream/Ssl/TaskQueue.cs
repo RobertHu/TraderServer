@@ -11,11 +11,16 @@ namespace Trader.Server.Ssl
 {
     public class TaskQueue
     {
-        private TaskQueue() { }
+        private TaskQueue() 
+        {
+            this._Events = new AutoResetEvent[] { this._Event,this._StopEvent};
+        }
         private ILog _Logger = LogManager.GetLogger(typeof(TaskQueue));
         public static readonly TaskQueue Default = new TaskQueue();
         private ConcurrentQueue<Task> _Queue = new ConcurrentQueue<Task>();
         private AutoResetEvent _Event = new AutoResetEvent(false);
+        private AutoResetEvent _StopEvent = new AutoResetEvent(false);
+        private AutoResetEvent[] _Events;
         private volatile bool _IsStarted = false;
         private volatile bool _IsStopped = false;
         public void Enqueue(Task task)
@@ -32,7 +37,7 @@ namespace Trader.Server.Ssl
                 {
                     break;
                 }
-                this._Event.WaitOne();
+                WaitHandle.WaitAny(this._Events);
                 Task task;
                 while (this._Queue.TryDequeue(out task))
                 {
@@ -70,6 +75,7 @@ namespace Trader.Server.Ssl
         public void Stop()
         {
             this._IsStopped = true;
+            this._StopEvent.Set();
         }
 
 

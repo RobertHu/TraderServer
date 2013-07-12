@@ -24,6 +24,9 @@ namespace Trader.Server
         private ConcurrentDictionary<long, ClientRelation> _Container = new ConcurrentDictionary<long, ClientRelation>();
         private AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
         private AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
+        private AutoResetEvent _StopEvent = new AutoResetEvent(false);
+        private AutoResetEvent[] _DisconnectStopEvents;
+        private AutoResetEvent[] _QuotationStopEvents;
         private ConcurrentQueue<long> _DisconnectQueue = new ConcurrentQueue<long>();
         private ConcurrentQueue<CommandForClient> _Commands = new ConcurrentQueue<CommandForClient>();
         private volatile bool _Started = false;
@@ -31,6 +34,8 @@ namespace Trader.Server
         private CommandForClient _Current;
         private AgentController()
         {
+            this._DisconnectStopEvents= new AutoResetEvent[]{this._DisconnectEvent,this._StopEvent};
+            this._QuotationStopEvents = new AutoResetEvent[] {this._SendQuotationEvent,this._StopEvent };
         }
 
         public void Add(long session, ReceiveAgent receiver, Client sender)
@@ -53,7 +58,7 @@ namespace Trader.Server
             if (this._Container.TryRemove(currentSession, out currentRelation))
             {
                 this._Container.TryAdd(originSession, currentRelation);
-                currentRelation.Sender.UpdateSession(originSession);
+                currentRelation.Sender.UpdateClientID(originSession);
                 return true;
             }
             return false;
@@ -110,6 +115,7 @@ namespace Trader.Server
         public void Stop()
         {
             this._Stopped = true;
+            this._StopEvent.Set();
         }
 
         public void EnqueueDisconnectSession(long session)
@@ -127,7 +133,7 @@ namespace Trader.Server
                 {
                     break;
                 }
-                this._DisconnectEvent.WaitOne();
+                WaitHandle.WaitAny(this._DisconnectStopEvents);
                 while (this._DisconnectQueue.Count != 0)
                 {
                     if (this._Stopped)
@@ -162,7 +168,7 @@ namespace Trader.Server
                 {
                     break;
                 }
-                this._SendQuotationEvent.WaitOne();
+                WaitHandle.WaitAny(this._QuotationStopEvents);
                 while (this._Commands.TryDequeue(out this._Current))
                 {
                     Parallel.ForEach(this._Container, this.SendCommandHandler);

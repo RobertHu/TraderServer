@@ -41,7 +41,7 @@ namespace Trader.Server.Bll
             try
             {
                 var result= Application.Default.TradingConsoleServer.ChangeMarginPin(accountId, oldPassword, newPassword);
-                return XmlResultHelper.NewResult(result.ToXmlResult());
+                return XmlResultHelper.NewResult(result.ToPlainBitString());
             }
             catch (Exception exception)
             {
@@ -55,7 +55,7 @@ namespace Trader.Server.Bll
             try
             {
                 bool result=Application.Default.TradingConsoleServer.VerifyMarginPin(accountId, password);
-                return XmlResultHelper.NewResult(result.ToXmlResult());
+                return XmlResultHelper.NewResult(result.ToPlainBitString());
             }
             catch (Exception exception)
             {
@@ -100,7 +100,7 @@ namespace Trader.Server.Bll
             {
                 AppDebug.LogEvent("TradingConsole.ModifyTelephoneIdentificationCode", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
             }
-            return XmlResultHelper.NewResult(lastResult.ToXmlResult());
+            return XmlResultHelper.NewResult(lastResult.ToPlainBitString());
         }
 
 
@@ -183,7 +183,7 @@ namespace Trader.Server.Bll
                     bool isEmployee = state == null ? false : state.IsEmployee;
                     Application.Default.TradingConsoleServer.SaveChangePasswordLog(token, isEmployee, "");
                 }
-                Dictionary<string, string> dict = new Dictionary<string, string>() { { "message", message }, { "isSucceed", isSucceed.ToXmlResult() } };
+                Dictionary<string, string> dict = new Dictionary<string, string>() { { "message", message }, { "isSucceed", isSucceed.ToPlainBitString() } };
                 return XmlResultHelper.NewResult(dict);
             }
             catch (System.Exception exception)

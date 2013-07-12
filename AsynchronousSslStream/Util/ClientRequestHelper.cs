@@ -73,9 +73,9 @@ namespace Trader.Server.Util
 
         private static void WhenSessionNotExistRecoverSessionToCurrentSession(SerializedObject request)
         {
-            if (request.CurrentSession != SessionMapping.INVALID_VALUE)
+            if (request.ClientID != SessionMapping.INVALID_VALUE)
             {
-                request.Session = request.CurrentSession;
+                request.Session = request.ClientID;
             }
         }
 

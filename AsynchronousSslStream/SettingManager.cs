@@ -26,6 +26,7 @@ namespace Trader.Server.Setting
                 this.SecurityServiceUrl = GetSettingFromAppSettingConfig("SecurityServiceUrl");
                 this.StateServerUrl = GetSettingFromAppSettingConfig("iExchange.StateServer.Service");
                 this.PriceSendPeriodInMilisecond = int.Parse(GetSettingFromAppSettingConfig("PriceSendPeriodInMilisecond"));
+                this.IsTest = GetSettingFromAppSettingConfig("IsTest") == "1" ? true : false;
             }
             catch (Exception ex)
             {
@@ -53,6 +54,7 @@ namespace Trader.Server.Setting
         public string SecurityServiceUrl { get; private set; }
         public string ParticipantServiceUrl { get; private set; }
         public string StateServerUrl { get; private set; }
+        public bool IsTest { get; private set; }
 
         public string GetLoginSetting(string key)
         {

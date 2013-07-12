@@ -107,7 +107,7 @@ namespace Trader.Server.Bll
                     FixBug.Fix(reportDate), FixBug.Fix(currency), FixBug.Fix(currencyValue),
                     FixBug.Fix(accountCode), FixBug.Fix(bankAccount), FixBug.Fix(beneficiaryName),
                     FixBug.Fix(replyDate));
-                return XmlResultHelper.NewResult(isSucceed.ToXmlResult());
+                return XmlResultHelper.NewResult(isSucceed.ToPlainBitString());
             }
             catch (System.Exception exception)
             {
@@ -217,7 +217,7 @@ namespace Trader.Server.Bll
                 decimal necessary;
                 Token token = SessionManager.Default.GetToken(session);
                 bool isSucceed = Application.Default.TradingConsoleServer.ChangeLeverage(token, Application.Default.StateServer, accountId, leverage, out necessary);
-                var dict = new Dictionary<string, string> { { "necessary", necessary.ToString() }, { "successed",isSucceed.ToXmlResult() } };
+                var dict = new Dictionary<string, string> { { "necessary", necessary.ToString() }, { "successed",isSucceed.ToPlainBitString() } };
                 return XmlResultHelper.NewResult(dict);
             }
             catch (System.Exception exception)

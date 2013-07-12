@@ -283,7 +283,7 @@ namespace Trader.Server.Bll
                 if (isStateServerLogined)
                 {
                     SessionManager.Default.AddSession(loginParameter.UserID, session);
-                    Application.Default.TradingConsoleServer.SaveLogonLog(token, GetLocalIP(), environmentInfo);
+                    DBLogService.SaveLog(token,environmentInfo);
                 }
                 else
                 {

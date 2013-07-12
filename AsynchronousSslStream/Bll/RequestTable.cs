@@ -637,7 +637,7 @@ namespace Trader.Server.Bll
 
         private XElement RecoverAction(SerializedObject request, Token token)
         {
-            return RecoverService.Recover(request.Session, request.CurrentSession);
+            return RecoverService.Recover(request.Session, request.ClientID);
         }
 
         private XElement LogoutAction(SerializedObject request, Token token)

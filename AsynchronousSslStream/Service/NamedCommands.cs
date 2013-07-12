@@ -11,8 +11,12 @@ namespace Trader.Server.Service
         private const string KickoutContent = "<KickoutCommand/>";
         private static object _Lock = new object();
         private static UnmanagedMemory _KickoutPacket;
-        public static UnmanagedMemory  GetKickoutPacket()
+        public static UnmanagedMemory GetKickoutPacket()
         {
+            if (_KickoutPacket != null)
+            {
+                return _KickoutPacket;
+            }
             lock (_Lock)
             {
                 if (_KickoutPacket != null)
@@ -27,6 +31,7 @@ namespace Trader.Server.Service
                 _KickoutPacket = new UnmanagedMemory(packet);
                 return _KickoutPacket;
             }
+
         }
     }
 }

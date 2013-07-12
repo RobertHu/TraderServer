@@ -7,6 +7,7 @@ using log4net;
 using Trader.Server.Bll;
 using iExchange.Common;
 using Trader.Server.Session;
+using Trader.Server.Setting;
 
 namespace Trader.Server.Service
 {
@@ -21,13 +22,16 @@ namespace Trader.Server.Service
 
         public void KickoutPredecessor(Guid userId)
         {
-            var session = SessionManager.Default.GetSession(userId);
-            var sender = AgentController.Default.GetSender(session);
-            if (sender != null)
+            if (!SettingManager.Default.IsTest)
             {
-                sender.Send(new ValueObjects.CommandForClient(data: NamedCommands.GetKickoutPacket()));
+                var session = SessionManager.Default.GetSession(userId);
+                var sender = AgentController.Default.GetSender(session);
+                if (sender != null)
+                {
+                    sender.Send(new ValueObjects.CommandForClient(data: NamedCommands.GetKickoutPacket()));
+                }
+                Application.Default.SessionMonitor.Remove(session);
             }
-            Application.Default.SessionMonitor.Remove(session);
         }
     }
 }
