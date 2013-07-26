@@ -18,7 +18,7 @@ namespace Trader.Server.Serialization
         {
             try
             {
-                bool isKeepAlive = (packet[0] & FirstHeadByteBitConstants.IsKeepAliveMask) == FirstHeadByteBitConstants.IsKeepAliveMask;
+                bool isKeepAlive = (packet[Constants.IsPriceIndex] & FirstHeadByteBitConstants.IsKeepAliveMask) == FirstHeadByteBitConstants.IsKeepAliveMask;
                 if (isKeepAlive)
                 {
                     return ParseForKeepAlive(packet);
@@ -35,9 +35,9 @@ namespace Trader.Server.Serialization
 
         private static SerializedObject ParseForNormal(byte[] packet)
         {
-            byte sessionLength = packet[1];
+            byte sessionLength = packet[Constants.SessionLengthIndex];
             byte[] contentLengthBytes = new byte[Constants.ContentHeaderLength];
-            Array.Copy(packet, 2, contentLengthBytes, 0, Constants.ContentHeaderLength);
+            Array.Copy(packet, Constants.ContentLengthIndex, contentLengthBytes, 0, Constants.ContentHeaderLength);
             int contentLength = contentLengthBytes.ToCustomerInt();
             byte[] contentBytes = new byte[contentLength];
             int contentIndex = Constants.HeadCount + sessionLength;
@@ -60,7 +60,7 @@ namespace Trader.Server.Serialization
 
         private static SerializedObject ParseForKeepAlive(byte[] packet)
         {
-            byte sessionLength = packet[1];
+            byte sessionLength = packet[Constants.SessionLengthIndex];
             string sessionStr = Constants.SessionEncoding.GetString(packet, Constants.HeadCount, sessionLength);
             long session = SessionMapping.Get(sessionStr);
             return SerializedObject.Create(session, true, packet);

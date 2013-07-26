@@ -1,4 +1,3 @@
-D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\ResolveAssemblyReference.cache
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\RdlCompile.cache
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\RdlCompile.compiled
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Release\Setting\Script\setting.lua
@@ -25,3 +24,4 @@ D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSsl
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Release\Framework.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\Trader.Server.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\Trader.Server.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Release\Trader.Server.csprojResolveAssemblyReference.cache

@@ -91,7 +91,7 @@ namespace Trader.Server.Ssl
             byte[] packet = new byte[len];
             Buffer.BlockCopy(data, offset, packet, 0, len);
             ReceiveData receiveData = new ReceiveData(this._ID, packet);
-            ReceiveCenter.Default.Send(receiveData);
+            ReceiveCenter.Default.Add(receiveData);
         }
 
         private void EndRead(IAsyncResult ar)

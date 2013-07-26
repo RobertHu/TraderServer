@@ -78,6 +78,10 @@ namespace Trader.Server.Service
                     if (quotation != null)
                     {
                         QuotationDispatcher.Default.Add(quotation);
+#if TEST
+                        QuotationTester.Default.Add();
+#else
+#endif
                     }
                     else
                     {

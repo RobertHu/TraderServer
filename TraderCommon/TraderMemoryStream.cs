@@ -177,10 +177,7 @@ namespace Trader.Common
             byte[] dst = new byte[count];
             unsafe
             {
-                for (int i = 0; i < count; i++)
-                {
-                    dst[i] = this._buffer.Handle[this._origin + i];
-                }
+                Marshal.Copy((IntPtr)(this._buffer.Handle + this._origin), dst, 0, (int)count); 
             }
             return dst;
         }

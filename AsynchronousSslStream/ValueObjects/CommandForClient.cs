@@ -15,7 +15,7 @@ namespace Trader.Server.ValueObjects
         Response
     }
 
-    public struct CommandForClient
+    public class CommandForClient
     {
         private Quotation4Bit _Quotation;
         private Command _Command;

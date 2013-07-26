@@ -26,7 +26,8 @@ namespace Trader.Server.Setting
                 this.SecurityServiceUrl = GetSettingFromAppSettingConfig("SecurityServiceUrl");
                 this.StateServerUrl = GetSettingFromAppSettingConfig("iExchange.StateServer.Service");
                 this.PriceSendPeriodInMilisecond = int.Parse(GetSettingFromAppSettingConfig("PriceSendPeriodInMilisecond"));
-                this.IsTest = GetSettingFromAppSettingConfig("IsTest") == "1" ? true : false;
+                this.IsTest = ConvertBitZeroOrOneToBoolean("IsTest");
+                this.IsSendPriceImmediately = ConvertBitZeroOrOneToBoolean("IsSendPriceImmediately");
             }
             catch (Exception ex)
             {
@@ -35,6 +36,12 @@ namespace Trader.Server.Setting
 
             }
         }
+
+        private bool ConvertBitZeroOrOneToBoolean(string configItemName)
+        {
+            return GetSettingFromAppSettingConfig(configItemName) == "1" ? true : false;
+        }
+
         public static readonly SettingManager Default = new SettingManager();
 
         public int ServerPort { get; private set; }
@@ -55,6 +62,7 @@ namespace Trader.Server.Setting
         public string ParticipantServiceUrl { get; private set; }
         public string StateServerUrl { get; private set; }
         public bool IsTest { get; private set; }
+        public bool IsSendPriceImmediately { get; private set; }
 
         public string GetLoginSetting(string key)
         {

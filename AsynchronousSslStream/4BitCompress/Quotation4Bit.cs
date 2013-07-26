@@ -65,28 +65,27 @@ namespace Trader.Server._4BitCompress
             return price;
         }
 
-        private static byte[] GetDataForJavaTrader(TraderState state,QuotationCommand command,int? beginSequence=null,int? endSequence=null)
+        private  static byte[] GetDataForJavaTrader(TraderState state,QuotationCommand command,int? beginSequence=null,int? endSequence=null)
         {
             StringBuilder stringBuilder = new StringBuilder(CAPACITY);
             string seqenceStr = string.Format("{0}{1}{2}", (beginSequence ?? command.Sequence).ToString(), _SequenceSeparator.ToString(), (endSequence ?? command.Sequence).ToString());
             stringBuilder.Append(seqenceStr);
             stringBuilder.Append(_StartSeparator);
             OverridedQuotation[] overridedQuotations = command.OverridedQs;
-
             if (overridedQuotations != null && overridedQuotations.Length > 0)
             {
                 bool addSeprator = false;
-                foreach (OverridedQuotation overridedQuotation in overridedQuotations)
+                for (int i=0;i<overridedQuotations.Length;i++)
                 {
-                    if (!state.Instruments.ContainsKey(overridedQuotation.InstrumentID))
+                    OverridedQuotation overridedQuotation = overridedQuotations[i];
+                    if (!state.InstrumentsEx.ContainsKey(overridedQuotation.InstrumentID))
                     {
                         continue;
                     }
-                    if (overridedQuotation.QuotePolicyID != (Guid)state.Instruments[overridedQuotation.InstrumentID])
+                    if (overridedQuotation.QuotePolicyID != (Guid)state.InstrumentsEx[overridedQuotation.InstrumentID])
                     {
                         continue;
                     }
-
                     if (addSeprator)
                     {
                         stringBuilder.Append(_OutterSeparator);
@@ -95,7 +94,6 @@ namespace Trader.Server._4BitCompress
                     {
                         addSeprator = true;
                     }
-
                     stringBuilder.Append(GuidMapping.Get(overridedQuotation.InstrumentID));
                     stringBuilder.Append(_InnerSeparator);
                     stringBuilder.Append(overridedQuotation.Ask);

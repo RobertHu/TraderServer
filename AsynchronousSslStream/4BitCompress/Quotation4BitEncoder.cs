@@ -12,8 +12,6 @@ namespace Trader.Server._4BitCompress
         public static byte[] Encode(string quotation)
         {
             byte[] buffer = new byte[(int)Math.Ceiling((double)quotation.Length / 2)];
-            Array.Clear(buffer, 0, buffer.Length);
-
             int indexInBuffer = 0;
             for (int index = 0; index < quotation.Length; index++)
             {
@@ -22,7 +20,6 @@ namespace Trader.Server._4BitCompress
                 buffer[indexInBuffer] |= bits;
                 indexInBuffer += index % 2;
             }
-
             return buffer;
         }
 

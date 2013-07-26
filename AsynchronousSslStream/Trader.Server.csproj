@@ -50,7 +50,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;TEST</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -192,6 +192,7 @@
     <Compile Include="Serialization\SerializeManager.cs" />
     <Compile Include="Serialization\ZlibHelper.cs" />
     <Compile Include="Service\NamedCommands.cs" />
+    <Compile Include="Service\QuotationTester.cs" />
     <Compile Include="Session\TraderState.cs" />
     <Compile Include="Ssl\Client.cs" />
     <Compile Include="Ssl\ReceiveAgent.cs" />

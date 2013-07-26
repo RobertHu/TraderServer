@@ -12,19 +12,26 @@ namespace Trader.Server.Service
 {
     public class QuotationDispatcher
     {
-        private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>(20);
-        public static readonly QuotationDispatcher Default = new QuotationDispatcher();
+        private ConcurrentQueue<QuotationCommand> _Queue = new ConcurrentQueue<QuotationCommand>();
+        private AutoResetEvent _WaitEvent = new AutoResetEvent(false);
+        private AutoResetEvent _StopEvent = new AutoResetEvent(false);
+        private AutoResetEvent[] _Events;
+        private bool _IsSendPriceImmediately = false;
+         private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>(20);
+         private  int _ProcessPeriodMilliseconds;
+         private object _Lock = new object();
         private volatile bool _IsStoped = false;
-        private  int _ProcessPeriodMilliseconds;
-        private object _Lock = new object();
         private ILog _Logger = LogManager.GetLogger(typeof(QuotationDispatcher));
         private QuotationDispatcher()
-        {
-            
+        {      
+            this._Events = new AutoResetEvent[] { this._WaitEvent,this._StopEvent};
         }
 
-        public void Initialize(int priceProcessPeriod)
+        public static readonly QuotationDispatcher Default = new QuotationDispatcher();
+
+        public void Initialize(int priceProcessPeriod, bool isSendPriceImmediately= false)
         {
+            this._IsSendPriceImmediately = isSendPriceImmediately;
             this._ProcessPeriodMilliseconds = priceProcessPeriod;
             try
             {
@@ -42,13 +49,25 @@ namespace Trader.Server.Service
         public void Stop()
         {
             this._IsStoped = true;
+            if (this._IsSendPriceImmediately)
+            {
+                this._StopEvent.Set();
+            }
         }
 
         public void Add(QuotationCommand quotation)
         {
-            lock (this._Lock)
+            if (this._IsSendPriceImmediately)
             {
-                this._QuotationQueue.Add(quotation);
+                this._Queue.Enqueue(quotation);
+                this._WaitEvent.Set();
+            }
+            else
+            {
+                lock (this._Lock)
+                {
+                    this._QuotationQueue.Add(quotation);
+                }
             }
         }
 
@@ -60,22 +79,34 @@ namespace Trader.Server.Service
                 {
                     break;
                 }
-                Thread.Sleep(_ProcessPeriodMilliseconds);
-                var qotation = new QuotationCommand();
-                lock (this._Lock)
+                if (this._IsSendPriceImmediately)
                 {
-                    if (this._QuotationQueue.Count == 0)
+                    WaitHandle.WaitAny(this._Events);
+                    QuotationCommand quotation;
+                    while (this._Queue.TryDequeue(out quotation))
+                    {
+                        CommandManager.Default.AddQuotation(quotation);
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(_ProcessPeriodMilliseconds);
+                    var qotation = new QuotationCommand();
+                    lock (this._Lock)
+                    {
+                        if (this._QuotationQueue.Count == 0)
+                        {
+                            continue;
+                        }
+                        qotation.Merge(this._QuotationQueue);
+                        this._QuotationQueue.Clear();
+                    }
+                    if (qotation.OverridedQs == null || qotation.OverridedQs.Length == 0)
                     {
                         continue;
                     }
-                    qotation.Merge(this._QuotationQueue);
-                    this._QuotationQueue.Clear();
+                    CommandManager.Default.AddQuotation(qotation);
                 }
-                if (qotation.OverridedQs == null || qotation.OverridedQs.Length==0)
-                {
-                    continue;
-                }
-                CommandManager.Default.AddQuotation(qotation);
             }
         }
 

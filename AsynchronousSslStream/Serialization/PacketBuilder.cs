@@ -48,7 +48,7 @@ namespace Trader.Server.Serialization
 
         private static UnmanagedMemory BuildForKeepAlive(SerializedObject response)
         {
-            response.KeepAlivePacket[0] = response.IsKeepAliveSuccess ? FirstHeadByteBitConstants.IsKeepAliveAndSuccessValue : FirstHeadByteBitConstants.IsKeepAliveAndFailedValue;
+            response.KeepAlivePacket[Constants.IsPriceIndex] = response.IsKeepAliveSuccess ? FirstHeadByteBitConstants.IsKeepAliveAndSuccessValue : FirstHeadByteBitConstants.IsKeepAliveAndFailedValue;
             UnmanagedMemory packet = new UnmanagedMemory(response.KeepAlivePacket);
             return packet;
         }
@@ -62,8 +62,8 @@ namespace Trader.Server.Serialization
             int packetLength=Constants.HeadCount + contentLength;
             UnmanagedMemory packet = new UnmanagedMemory(packetLength);
             byte[] contentLengthBytes = contentLength.ToCustomerBytes();
-            packet.Handle[0] = FirstHeadByteBitConstants.IsPlainString;
-            packet.Handle[1] = 0;
+            packet.Handle[Constants.IsPriceIndex] = FirstHeadByteBitConstants.IsPlainString;
+            packet.Handle[Constants.SessionLengthIndex] = 0;
             int offset = Constants.ContentLengthIndex;
             Marshal.Copy(contentLengthBytes, 0, (IntPtr)(packet.Handle + offset), contentLengthBytes.Length);
             offset = Constants.HeadCount;
@@ -93,13 +93,13 @@ namespace Trader.Server.Serialization
             int packetLength = Constants.HeadCount + data.Length;
             UnmanagedMemory packet =new UnmanagedMemory(packetLength);
             byte[] contentLengthBytes = CustomerIntCache.Get(data.Length);
-            packet.Handle[0] = 0;
+            packet.Handle[Constants.IsPriceIndex] = 0;
             if (isPrice)
             {
                 byte priceByte = FirstHeadByteBitConstants.IsPricevValue;
-                packet.Handle[0] = priceByte;
+                packet.Handle[Constants.IsPriceIndex] = priceByte;
             }
-            packet.Handle[1] = 0;
+            packet.Handle[Constants.SessionLengthIndex] = 0;
             int offset = Constants.ContentLengthIndex;
             Marshal.Copy(contentLengthBytes, 0, (IntPtr)(packet.Handle + offset), contentLengthBytes.Length);
             offset = Constants.HeadCount;
@@ -129,8 +129,8 @@ namespace Trader.Server.Serialization
 
         private unsafe static void AddHeaderToPacket(UnmanagedMemory packet, byte isPrice, byte sessionLength, byte[] contentLengthBytes)
         {
-            packet.Handle[0] = isPrice;
-            packet.Handle[1] = sessionLength;
+            packet.Handle[Constants.IsPriceIndex] = isPrice;
+            packet.Handle[Constants.SessionLengthIndex] = sessionLength;
             int startIndex = Constants.ContentLengthIndex;
             Marshal.Copy(contentLengthBytes, 0, (IntPtr)(packet.Handle + startIndex), contentLengthBytes.Length);
         }

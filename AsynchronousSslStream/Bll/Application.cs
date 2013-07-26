@@ -51,7 +51,7 @@ namespace Trader.Server.Bll
             AgentController.Default.Start();
             CommandManager.Default.Start();
             TaskQueue.Default.Start();
-            QuotationDispatcher.Default.Initialize(SettingManager.Default.PriceSendPeriodInMilisecond);
+            QuotationDispatcher.Default.Initialize(SettingManager.Default.PriceSendPeriodInMilisecond,SettingManager.Default.IsSendPriceImmediately);
             if (!SettingManager.Default.IsTest)
             {
                 this._TradeDayChecker.Start(SettingManager.Default.ConnectionString);

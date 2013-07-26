@@ -44,10 +44,7 @@ namespace Trader.Common
         public byte[] ToArray()
         {
             byte[] target = new byte[this.Length];
-            for (int i = 0; i < this.Length; i++)
-            {
-                target[i] = this.Handle[i];
-            }
+            Marshal.Copy((IntPtr)this.Handle, target, 0, this.Length);
             return target;
         }
 

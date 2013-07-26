@@ -10,6 +10,8 @@ namespace Trader.Server.Session
 {
     public class TraderState:TradingConsoleState
     {
+        private Dictionary<Guid, Guid> _InstrumentsEx = new Dictionary<Guid, Guid>();
+
         public TraderState(string sessionId) : base(sessionId) { }
         public TraderState(TradingConsoleState state)
             : base(state.SessionId)
@@ -19,8 +21,23 @@ namespace Trader.Server.Session
                 Copy(state.AccountGroups, this.AccountGroups);
                 Copy(state.Accounts, this.Accounts);
                 Copy(state.Instruments, this.Instruments);
+                foreach(DictionaryEntry item in state.Instruments)
+                {
+                    _InstrumentsEx.Add((Guid)item.Key, (Guid)item.Value);
+                }
                 this.Language = state.Language;
                 this.IsEmployee = state.IsEmployee;
+            }
+        }
+
+        public Dictionary<Guid, Guid> InstrumentsEx { get { return this._InstrumentsEx; } }
+
+        public void AddInstrumentIDToQuotePolicyMapping(Guid instrumentID,Guid quotePolicyID)
+        {
+            if (!this._InstrumentsEx.ContainsKey(instrumentID))
+            {
+                this._InstrumentsEx.Add(instrumentID, quotePolicyID);
+                this.Instruments.Add(instrumentID, quotePolicyID);
             }
         }
 

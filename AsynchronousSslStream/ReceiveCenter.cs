@@ -50,7 +50,7 @@ namespace Trader.Server
         }
 
 
-        public void Send(ReceiveData data)
+        public void Add(ReceiveData data)
         {
             this._Queue.Enqueue(data);
             this._Event.Set();

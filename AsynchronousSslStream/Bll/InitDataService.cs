@@ -75,22 +75,16 @@ namespace Trader.Server.Bll
             List<Guid> instrumentsFromBursa = new List<Guid>();
             foreach (DataRow instrumentRow in rows)
             {
-                if (!state.Instruments.ContainsKey(instrumentRow["ID"]))
-                {
-                    state.Instruments.Add(instrumentRow["ID"], instrumentRow["QuotePolicyID"]);
-                }
+                state.AddInstrumentIDToQuotePolicyMapping((Guid)instrumentRow["ID"], (Guid)instrumentRow["QuotePolicyID"]);
                 if (quotePolicyInfo.Length > 0) quotePolicyInfo.Append(";");
                 quotePolicyInfo.Append(instrumentRow["ID"]);
                 quotePolicyInfo.Append("=");
                 quotePolicyInfo.Append(instrumentRow["QuotePolicyID"]);
-
                 if (IsFromBursa(instrumentRow))
                 {
                     instrumentsFromBursa.Add((Guid)instrumentRow["ID"]);
                 }
             }
-            //AppDebug.LogEvent("[TradingConsole.GetInitData]QuotePolicy", quotePolicyInfo.ToString() + Environment.NewLine + Environment.StackTrace, EventLogEntryType.Information);
-
             //Account			
             rows = initData.Tables["Account"].Rows;
             Guid[] accountIDs = new Guid[rows.Count];
@@ -104,7 +98,6 @@ namespace Trader.Server.Bll
                 }
                 accountIDs[i++] = (Guid)accountRow["ID"];
             }
-
             SessionManager.Default.AddTradingConsoleState(session, state);
             int commandSequence = CommandManager.Default.LastSequence;
             SessionManager.Default.AddNextSequence(session, commandSequence);
@@ -112,16 +105,12 @@ namespace Trader.Server.Bll
             state.IsEmployee = (bool)customerTable.Rows[0]["IsEmployee"];
             Token token = SessionManager.Default.GetToken(session);
             DataSet ds = Merge(token, initData, accountIDs);
-
             bool supportBursa = Convert.ToBoolean(ConfigurationManager.AppSettings["SupportBursa"]);
             if (supportBursa)
             {
-                //DataTable dataTable = ds.Tables["TradeDay"];
-                //DateTime tradeDay = (DateTime)dataTable.Rows[0]["TradeDay"];
                 DateTime tradeDay = DateTime.Now.Date;
                 AddDefaultTimeTableForBursa(ds, tradeDay);
             }
-
             AddBestLimitsForBursa(ds, instrumentsFromBursa);
             ds.SetInstrumentGuidMapping();
             ds.SetCommandSequence(commandSequence);
