@@ -78,3 +78,173 @@
    at Trader.Server.Bll.Application..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 36
    --- End of inner exception stack trace ---
    at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 39
+2013-07-29 07:59:22,758 [1] ERROR Trader.Server.ServerProgram - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.MissingMethodException: Method not found: 'Void iExchange3Promotion.Mobile.Manager.Initialize(iExchange.Common.Client.StateServerService, System.Collections.Generic.Dictionary`2<System.String,System.String>)'.
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 36
+   --- End of inner exception stack trace ---
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 39
+2013-08-01 08:05:24,114 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-01 08:05:29,395 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-05 07:59:51,103 [1] ERROR Trader.Server.ServerProgram - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.MissingMethodException: Method not found: 'Void iExchange3Promotion.Mobile.Manager.Initialize(iExchange.Common.Client.StateServerService, System.Collections.Generic.Dictionary`2<System.String,System.String>)'.
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 36
+   --- End of inner exception stack trace ---
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 39
+2013-08-06 08:05:38,367 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-06 08:05:38,944 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-07 08:04:09,743 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-07 08:04:10,320 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-08 07:56:48,713 [1] ERROR Trader.Server.ServerProgram - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.MissingMethodException: Method not found: 'Void iExchange3Promotion.Mobile.Manager.Initialize(iExchange.Common.Client.StateServerService, System.Collections.Generic.Dictionary`2<System.String,System.String>)'.
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 36
+   --- End of inner exception stack trace ---
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 39
+2013-08-09 08:03:23,217 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-09 08:03:26,821 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-12 08:02:42,441 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-12 08:02:47,683 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-13 08:12:25,593 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-13 08:12:30,133 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-15 08:00:03,719 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-16 08:03:17,870 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-16 08:03:18,448 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-20 08:00:50,632 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-20 08:00:51,209 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-21 08:07:19,644 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-21 08:07:22,078 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-22 07:57:28,353 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-22 07:57:28,946 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-23 07:49:37,417 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-23 07:49:38,462 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-27 07:54:32,276 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-27 07:54:32,854 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-08-30 08:06:19,928 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-08-30 08:06:20,505 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-09-03 08:01:11,334 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-09-03 08:01:11,895 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-09-04 08:10:59,738 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-09-04 08:11:00,315 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-09-05 08:04:46,744 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-09-05 08:04:47,306 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-09-06 08:04:23,620 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-09-06 08:04:24,166 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-09-09 07:58:47,931 [1] ERROR Trader.Server.ServerProgram - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at AsyncSslServer.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsyncSslServer\SecureTcpServer.cs:line 91
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 37
+2013-09-09 07:58:48,493 [1] ERROR Trader.Server.Service.CommandCollectorHost - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Trader.Server.Service.CommandCollectorHost.Stop() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandCollectorHost.cs:line 33
+2013-09-12 07:59:42,342 [1] ERROR Trader.Server.ServerProgram - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.MissingMethodException: Method not found: 'Void iExchange3Promotion.Mobile.Manager.Initialize(iExchange.Common.Client.StateServerService, System.Collections.Generic.Dictionary`2<System.String,System.String>)'.
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 36
+   --- End of inner exception stack trace ---
+   at Trader.Server.ServerProgram.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\ServerProgram.cs:line 39

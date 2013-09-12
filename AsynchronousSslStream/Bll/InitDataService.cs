@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using iExchange.Common;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using Trader.Server.Bll;
 using System.Diagnostics;
 using System.Xml;
@@ -17,6 +17,7 @@ using Trader.Server.Service;
 using Wintellect.Threading.AsyncProgModel;
 using log4net;
 using Trader.Server.Serialization;
+using Trader.Common;
 namespace Trader.Server.Bll
 {
     public class InitDataService
@@ -24,7 +25,7 @@ namespace Trader.Server.Bll
         private static ILog _Logger = LogManager.GetLogger(typeof(InitDataService));
         public static IEnumerator<int> GetInitData(SerializedObject request, DataSet initData, AsyncEnumerator ae)
         {
-            long session = request.Session;
+            Session session = request.Session;
             Token token = SessionManager.Default.GetToken(session);
             if (initData == null)
             {
@@ -61,7 +62,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static DataSet Init(long session, DataSet initData)
+        public static DataSet Init(Session session, DataSet initData)
         {
             DataRowCollection rows;
             TraderState state = SessionManager.Default.GetTradingConsoleState(session);
@@ -143,6 +144,8 @@ namespace Trader.Server.Bll
             {
                 DataTable accountTable = initData.Tables["Account"];
                 accountTable.Columns.Add("Balance", typeof(decimal));
+                accountTable.Columns.Add("ValueAsMargin", typeof(decimal));
+                accountTable.Columns.Add("FrozenFund", typeof(decimal));
                 accountTable.Columns.Add("Necessary", typeof(decimal));
                 accountTable.Columns.Add("InterestPLNotValued", typeof(decimal));
                 accountTable.Columns.Add("StoragePLNotValued", typeof(decimal));
@@ -157,6 +160,8 @@ namespace Trader.Server.Bll
                 DataTable accountCurrencyTable = initData.Tables["AccountCurrency"];
                 accountCurrencyTable.Columns.Add("Balance", typeof(decimal));
                 accountCurrencyTable.Columns.Add("Necessary", typeof(decimal));
+                accountCurrencyTable.Columns.Add("ValueAsMargin", typeof(decimal));
+                accountCurrencyTable.Columns.Add("FrozenFund", typeof(decimal));
                 accountCurrencyTable.Columns.Add("InterestPLNotValued", typeof(decimal));
                 accountCurrencyTable.Columns.Add("StoragePLNotValued", typeof(decimal));
                 accountCurrencyTable.Columns.Add("TradePLNotValued", typeof(decimal));
@@ -171,6 +176,7 @@ namespace Trader.Server.Bll
                 orderTable.Columns.Add("StoragePLFloat", typeof(decimal));
                 orderTable.Columns.Add("TradePLFloat", typeof(decimal));
                 orderTable.Columns.Add("Necessary", typeof(decimal));
+                orderTable.Columns.Add("ValueAsMargin", typeof(decimal));
                 orderTable.Columns.Add("LivePrice", typeof(string));
                 orderTable.Columns.Add("AutoLimitPriceString", typeof(string));
                 orderTable.Columns.Add("AutoStopPriceString", typeof(string));
@@ -185,6 +191,8 @@ namespace Trader.Server.Bll
                         DataRow accountRow = accountRows.Find(accountID);
                         accountRow["Balance"] = XmlConvert.ToDecimal(account.Attributes["Balance"].Value);
                         accountRow["Necessary"] = XmlConvert.ToDecimal(account.Attributes["Necessary"].Value);
+                        accountRow["FrozenFund"] = XmlConvert.ToDecimal(account.Attributes["FrozenFund"].Value);
+                        accountRow["ValueAsMargin"] = XmlConvert.ToDecimal(account.Attributes["ValueAsMargin"].Value);
                         accountRow["InterestPLNotValued"] = XmlConvert.ToDecimal(account.Attributes["InterestPLNotValued"].Value);
                         accountRow["StoragePLNotValued"] = XmlConvert.ToDecimal(account.Attributes["StoragePLNotValued"].Value);
                         accountRow["TradePLNotValued"] = XmlConvert.ToDecimal(account.Attributes["TradePLNotValued"].Value);
@@ -209,6 +217,8 @@ namespace Trader.Server.Bll
                                     accountCurrencyRows.Add(accountCurrencyRow);
                                 }
                                 accountCurrencyRow["Balance"] = XmlConvert.ToDecimal(accountCurrency.Attributes["Balance"].Value);
+                                accountCurrencyRow["FrozenFund"] = XmlConvert.ToDecimal(accountCurrency.Attributes["FrozenFund"].Value);
+                                accountCurrencyRow["ValueAsMargin"] = XmlConvert.ToDecimal(accountCurrency.Attributes["ValueAsMargin"].Value);
                                 accountCurrencyRow["Necessary"] = XmlConvert.ToDecimal(accountCurrency.Attributes["Necessary"].Value);
                                 accountCurrencyRow["InterestPLNotValued"] = XmlConvert.ToDecimal(accountCurrency.Attributes["InterestPLNotValued"].Value);
                                 accountCurrencyRow["StoragePLNotValued"] = XmlConvert.ToDecimal(accountCurrency.Attributes["StoragePLNotValued"].Value);
@@ -229,6 +239,7 @@ namespace Trader.Server.Bll
                                         orderRow["StoragePLFloat"] = XmlConvert.ToDecimal(order.Attributes["StoragePLFloat"].Value);
                                         orderRow["TradePLFloat"] = XmlConvert.ToDecimal(order.Attributes["TradePLFloat"].Value);
                                         orderRow["Necessary"] = XmlConvert.ToDecimal(order.Attributes["Necessary"].Value);
+                                        orderRow["ValueAsMargin"] = XmlConvert.ToDecimal(order.Attributes["ValueAsMargin"].Value);
                                         orderRow["LivePrice"] = order.Attributes["LivePrice"].Value;
                                         orderRow["AutoLimitPriceString"] = order.Attributes["AutoLimitPrice"].Value;
                                         orderRow["AutoStopPriceString"] = order.Attributes["AutoStopPrice"].Value;

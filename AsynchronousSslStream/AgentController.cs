@@ -7,7 +7,7 @@ using log4net;
 using Trader.Server.Bll;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using iExchange.Common;
 using Trader.Common;
 using Trader.Server.Ssl;
@@ -21,13 +21,13 @@ namespace Trader.Server
     {
         public static readonly AgentController Default = new AgentController();
         private ILog _Logger = LogManager.GetLogger(typeof(AgentController));
-        private ConcurrentDictionary<long, ClientRelation> _Container = new ConcurrentDictionary<long, ClientRelation>();
+        private ConcurrentDictionary<Session, ClientRelation> _Container = new ConcurrentDictionary<Session, ClientRelation>();
         private AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
         private AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
         private AutoResetEvent _StopEvent = new AutoResetEvent(false);
         private AutoResetEvent[] _DisconnectStopEvents;
         private AutoResetEvent[] _QuotationStopEvents;
-        private ConcurrentQueue<long> _DisconnectQueue = new ConcurrentQueue<long>();
+        private ConcurrentQueue<Session> _DisconnectQueue = new ConcurrentQueue<Session>();
         private ConcurrentQueue<CommandForClient> _Commands = new ConcurrentQueue<CommandForClient>();
         private volatile bool _Started = false;
         private volatile bool _Stopped = false;
@@ -38,19 +38,19 @@ namespace Trader.Server
             this._QuotationStopEvents = new AutoResetEvent[] {this._SendQuotationEvent,this._StopEvent };
         }
 
-        public void Add(long session, ReceiveAgent receiver, Client sender)
+        public void Add(Session session, ReceiveAgent receiver, Client sender)
         {
             this._Container.TryAdd(session, new ClientRelation(sender, receiver));
         }
 
 
-        public void Remove(long session)
+        public void Remove(Session session)
         {
             ClientRelation relation;
             this._Container.TryRemove(session, out relation);
         }
 
-        public bool RecoverConnection(long originSession, long currentSession)
+        public bool RecoverConnection(Session originSession, Session currentSession)
         {
             ClientRelation relation;
             this._Container.TryRemove(originSession, out relation);
@@ -64,7 +64,7 @@ namespace Trader.Server
             return false;
         }
 
-        public Client GetSender(long session)
+        public Client GetSender(Session session)
         {
             Client result = null;
             ClientRelation relation;
@@ -76,7 +76,7 @@ namespace Trader.Server
         }
 
 
-        public ReceiveAgent GetReceiver(long session)
+        public ReceiveAgent GetReceiver(Session session)
         {
             ReceiveAgent result = null;
             ClientRelation relation;
@@ -118,7 +118,7 @@ namespace Trader.Server
             this._StopEvent.Set();
         }
 
-        public void EnqueueDisconnectSession(long session)
+        public void EnqueueDisconnectSession(Session session)
         {
             this._DisconnectQueue.Enqueue(session);
             this._DisconnectEvent.Set();
@@ -140,7 +140,7 @@ namespace Trader.Server
                     {
                         break;
                     }
-                    long session;
+                    Session session;
                     if (this._DisconnectQueue.TryDequeue(out session))
                     {
                         this.Remove(session);
@@ -178,7 +178,7 @@ namespace Trader.Server
         }
 
 
-        private void SendCommandHandler(KeyValuePair<long, ClientRelation> p)
+        private void SendCommandHandler(KeyValuePair<Session, ClientRelation> p)
         {
             p.Value.Sender.Send(this._Current);
         }

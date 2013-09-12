@@ -3,6 +3,7 @@ using System.Data;
 using System.Configuration;
 using System.Web;
 using iExchange.Common;
+using Trader.Common;
 
 public class ChartDataArgument2 : HttpContextHolder
 {
@@ -14,7 +15,7 @@ public class ChartDataArgument2 : HttpContextHolder
     private AsyncResult _asyncResult;
 
     public ChartDataArgument2(Guid instrumentId, String dataCycle, DateTime from, DateTime to,
-            AsyncResult asyncResult, long session)
+            AsyncResult asyncResult, Session session)
         : base(session)
     {
         this._instrumentId = instrumentId;

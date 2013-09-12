@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using log4net;
 using System.Collections.Concurrent;
+using Trader.Server.SessionNamespace;
+using Trader.Common;
 namespace Trader.Server
 {
     public class SessionMonitor
@@ -15,8 +17,8 @@ namespace Trader.Server
         private volatile bool _IsStarted = false;
         private volatile bool _IsStoped = false;
         private ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
-        private Dictionary<long, DateTime> dict = new Dictionary<long, DateTime>();
-        private List<long> _RemovedSessoinList = new List<long>(512);
+        private Dictionary<Session, DateTime> dict = new Dictionary<Session, DateTime>();
+        private List<Session> _RemovedSessoinList = new List<Session>(512);
         public SessionMonitor(TimeSpan timeout)
         {
             this._ExpiredTimeout = timeout;
@@ -47,7 +49,7 @@ namespace Trader.Server
         }
 
 
-        public void Add(long session)
+        public void Add(Session session)
         {
             this._ReadWriteLock.EnterWriteLock();
             try
@@ -65,7 +67,7 @@ namespace Trader.Server
             }
         }
 
-        public void Update(long? session)
+        public void Update(Session? session)
         {
             this._ReadWriteLock.EnterWriteLock();
             try
@@ -86,7 +88,7 @@ namespace Trader.Server
             }
         }
 
-        public void Remove(long session)
+        public void Remove(Session session)
         {
             this._ReadWriteLock.EnterWriteLock();
             try
@@ -103,7 +105,7 @@ namespace Trader.Server
             }
         }
 
-        public bool Exist(long session)
+        public bool Exist(Session session)
         {
             this._ReadWriteLock.EnterReadLock();
             try
@@ -149,7 +151,7 @@ namespace Trader.Server
             }
         }
 
-        private void RemoveHelper(long session)
+        private void RemoveHelper(Session session)
         {
             this.dict.Remove(session);
             ResouceManager.Default.ReleaseResource(session);

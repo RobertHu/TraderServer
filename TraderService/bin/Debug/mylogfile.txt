@@ -1,0 +1,134 @@
+2013-09-12 09:37:55,989 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-12 09:37:56,051 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-12 13:53:09,924 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-12 13:53:10,030 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-12 13:53:39,342 [11] ERROR Trader.Server.TraderServer - Client connection failed System.NotSupportedException: The server mode SSL must use a certificate with the associated private key.
+   at System.Net.Security.SslState.EndProcessAuthentication(IAsyncResult result)
+   at Trader.Server.Ssl.SecureTcpServer.OnAuthenticateAsServer(IAsyncResult result) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\SecureTcpServer.cs:line 160
+2013-09-12 13:57:27,595 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-12 13:57:27,685 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-12 13:57:42,361 [3] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-09-12 14:02:47,653 [42] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 14:05:54,999 [44] INFO Trader.Server.SessionMonitor - ClientCount=2
+2013-09-12 14:18:01,676 [48] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 14:19:18,496 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-12 14:19:18,586 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-12 14:19:38,357 [9] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-09-12 14:20:08,685 [20] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 14:20:24,330 [21] INFO Trader.Server.SessionMonitor - ClientCount=2
+2013-09-12 14:23:33,785 [26] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 14:24:19,710 [31] INFO Trader.Server.SessionMonitor - ClientCount=3
+2013-09-12 14:24:43,616 [35] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 14:25:16,299 [39] INFO Trader.Server.SessionMonitor - ClientCount=4
+2013-09-12 14:40:18,747 [12] INFO Trader.Server.SessionMonitor - remove session:1
+2013-09-12 14:40:18,835 [12] INFO Trader.Server.SessionMonitor - ClientCount=3
+2013-09-12 14:43:18,850 [12] INFO Trader.Server.SessionMonitor - remove session:2
+2013-09-12 14:43:18,852 [12] INFO Trader.Server.SessionMonitor - ClientCount=2
+2013-09-12 14:45:18,862 [12] INFO Trader.Server.SessionMonitor - remove session:3
+2013-09-12 14:45:18,863 [12] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-09-12 14:48:53,908 [35] INFO Trader.Server.SessionMonitor - ClientCount=0
+2013-09-12 14:48:59,408 [25] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-09-12 15:13:29,273 [94] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 15:13:29,574 [92] INFO Trader.Server.SessionMonitor - ClientCount=2
+2013-09-12 15:15:39,521 [84] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 15:16:30,784 [81] INFO Trader.Server.SessionMonitor - ClientCount=3
+2013-09-12 15:25:35,154 [87] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 15:25:44,711 [86] INFO Trader.Server.SessionMonitor - ClientCount=4
+2013-09-12 15:25:49,532 [83] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 15:26:03,488 [3] INFO Trader.Server.SessionMonitor - ClientCount=5
+2013-09-12 15:26:32,097 [83] INFO Trader.Server.SessionMonitor - ClientCount=4
+2013-09-12 15:26:36,862 [91] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 15:27:05,930 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-12 15:27:06,007 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-12 15:27:21,019 [3] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-09-12 15:31:00,141 [28] INFO Trader.Server.SessionMonitor - ClientCount=2
+2013-09-12 15:41:30,437 [30] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 15:41:36,962 [32] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-09-12 16:02:06,301 [12] INFO Trader.Server.SessionMonitor - remove session:1
+2013-09-12 16:02:06,352 [12] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-09-12 16:02:06,353 [12] INFO Trader.Server.SessionMonitor - remove session:2
+2013-09-12 16:02:06,357 [12] INFO Trader.Server.SessionMonitor - ClientCount=0

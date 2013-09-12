@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using System.Threading;
 using System.Data;
 using Trader.Server.Setting;
@@ -16,6 +16,7 @@ using System.IO;
 using Trader.Server.Service;
 using Trader.Server.Report;
 using System.Xml.Linq;
+using Trader.Common;
 namespace Trader.Server.Bll
 {
     public class StatementService
@@ -23,7 +24,7 @@ namespace Trader.Server.Bll
         private static TimeSpan _StatementReportTimeout = TimeSpan.MinValue;
         private static TimeSpan _LedgerReportTimeout = TimeSpan.MinValue;
 
-        public static XElement LedgerForJava2(long session, string dateFrom, string dateTo, string IDs, string rdlc)
+        public static XElement LedgerForJava2(Session session, string dateFrom, string dateTo, string IDs, string rdlc)
         {
             Guid result = Guid.Empty;
             try
@@ -84,7 +85,7 @@ namespace Trader.Server.Bll
 
 
 
-        public static XElement  StatementForJava2(long session, int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc)
+        public static XElement  StatementForJava2(Session session, int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc)
         {
             Guid result = Guid.Empty;
             try
@@ -193,14 +194,14 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement AccountSummaryForJava2(long session, string tradeDay, string accountIds, string rdlc)
+        public static XElement AccountSummaryForJava2(Session session, string fromDay, string toDay, string accountIds, string rdlc)
         {
             Guid result = Guid.Empty;
             try
             {
                 AsyncResult asyncResult = new AsyncResult("AccountSummaryForJava2", session.ToString());
                 Token token = SessionManager.Default.GetToken(session);
-                if (ThreadPool.QueueUserWorkItem(CreateAccountSummary, new AccountSummaryArgument(tradeDay, accountIds, rdlc, asyncResult, session)))
+                if (ThreadPool.QueueUserWorkItem(CreateAccountSummary, new AccountSummaryArgument(fromDay,toDay, accountIds, rdlc, asyncResult, session)))
                 {
                     result = asyncResult.Id;
                 }
@@ -223,8 +224,8 @@ namespace Trader.Server.Bll
         {
             AccountSummaryArgument accountSummaryArgument = (AccountSummaryArgument)state;
             Token token = accountSummaryArgument.Token;
-            string sql = "EXEC P_RptAccountSummary @xmlAccounts=\'" + XmlTransform.Transform(accountSummaryArgument.AccountIds, ',', "Accounts", "Account", "ID") + "\',@tradeDay=\'"
-                + accountSummaryArgument.TradeDay + "\',@language=\'" + accountSummaryArgument.Version + "\',@userID=\'" + accountSummaryArgument.Token.UserID.ToString() + "\', @skipNoTransactionAccount=0";
+            string sql = "EXEC P_RptAccountSummary @xmlAccounts=\'" + XmlTransform.Transform(accountSummaryArgument.AccountIds, ',', "Accounts", "Account", "ID") + "\',@tradeDayFrom=\'"
+               + accountSummaryArgument.FromDay + "\',@tradeDayTo=\'" + accountSummaryArgument.ToDay + "\',@language=\'" + accountSummaryArgument.Version + "\',@userID=\'" + accountSummaryArgument.Token.UserID.ToString() + "\', @skipNoTransactionAccount=0";
             try
             {
                 DataSet dataSet = DataAccess.GetData(sql, SettingManager.Default.ConnectionString, LedgerReportTimeout);

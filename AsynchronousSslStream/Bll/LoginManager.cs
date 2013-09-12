@@ -8,7 +8,7 @@ using Trader.Server.Setting;
 using log4net;
 using System.Data;
 using System.IO;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using System.Collections;
 using System.Diagnostics;
 using System.Xml.Linq;
@@ -28,7 +28,7 @@ namespace Trader.Server.Bll
 
         public IEnumerator<int> Login(SerializedObject request, string loginID, string password, string version, int appType, AsyncEnumerator ae)
         {
-            long session = request.Session;
+            Session session = request.Session;
             string connectionString = SettingManager.Default.ConnectionString;
             IsFailedCountExceed(loginID, password, connectionString);
             LoginParameter loginParameter = new LoginParameter();
@@ -186,7 +186,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        private XElement SetResult(SerializedObject request, LoginParameter loginParameter, long session, string loginID, string password, string version, int appType, string connectionString)
+        private XElement SetResult(SerializedObject request, LoginParameter loginParameter, Session session, string loginID, string password, string version, int appType, string connectionString)
         {
             XElement result;
             Token token = SessionManager.Default.GetToken(session);
@@ -251,7 +251,7 @@ namespace Trader.Server.Bll
         }
 
 
-        private void SetLoginParameter(LoginParameter loginParameter, long session, string password, string environmentInfo, int appType, bool isStateServerLogined, Token token)
+        private void SetLoginParameter(LoginParameter loginParameter, Session session, string password, string environmentInfo, int appType, bool isStateServerLogined, Token token)
         {
             bool isPathPassed = false;
             DataSet dataSet = Application.Default.TradingConsoleServer.GetLoginParameters(loginParameter.UserID, loginParameter.CompanyName);
@@ -348,7 +348,7 @@ namespace Trader.Server.Bll
             return null;
         }
 
-        private XmlNode GetParameterForJava(long session, string companyCode, string version)
+        private XmlNode GetParameterForJava(Session session, string companyCode, string version)
         {
             SessionManager.Default.AddVersion(session, version);
             string physicalPath = Path.Combine(GetOrginazationDir(companyCode), version);
@@ -431,7 +431,7 @@ namespace Trader.Server.Bll
             return Path.Combine(SettingManager.Default.PhysicPath, companyCode);
         }
 
-        public XElement Logout(long session)
+        public XElement Logout(Session session)
         {
             try
             {

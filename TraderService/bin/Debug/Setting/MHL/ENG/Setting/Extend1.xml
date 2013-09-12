@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Extend>
+	<SmtpMail1CharSet>utf-8</SmtpMail1CharSet>
+	<SmtpAccount>omnicare@netcomputer</SmtpAccount>
+	<SmtpPassword>omn159</SmtpPassword>
+	<SmtpServer>netcomputer.com.hk</SmtpServer>
+	<subject1>Trade confirmation of</subject1>
+	<subject2>for account</subject2>
+	<body>
+Customer : <STRONG> CustomerName </STRONG><br></br> 
+Account No. : <STRONG> AccountCode</STRONG><br></br>
+E-Mail Address : <STRONG> CustomerEmail</STRONG><br></br>
+					<p>Dear Sir, </p>
+<p></p>
+							<p align="justify">This is a Contract Note sent to you from OrganizationAlias pursuant to the terms and conditions of the signed Customer Agreement for currency transaction OrganizationAlias has executed for you and your account. We confirm the following transaction details <br></br>
+									<br></br>
+										<em>This Contract Note shall form part of the Customer Agreement and the words and expressions used in this Contract Note which are defined in this Customer Agreement but are not defined or construed in this Contract Note shall have the same meanings assigned to them in this Customer Agreement and reference to "Clauses" are to be construed as clauses of the Customer Agreement. </em>
+										<br></br>
+											<br></br>
+</p>
+							<TABLE id="Table2" height="236" cellSpacing="1" cellPadding="1" width="793" border="1">
+			<TR>
+				<TD>
+					<DIV align="center">
+						<TABLE id="Table1" height="226" cellSpacing="1" cellPadding="1" width="784" align="center"
+							border="0">
+							<TR>
+								<TD width="361" bgColor="#000000">
+									<FONT color="#ffffff">Customer : </FONT>
+								</TD>
+								<TD bgColor="#000000">
+									<P align="left">
+										<FONT color="#ffffff">CustomerName</FONT>
+									</P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Account No. : </TD>
+								<TD>
+									<P align="left">AccountCode</P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Contract Currency(you bought from OrganizationAlias) : </TD>
+								<TD>
+									<P align="left">ContractCurrencyCode</P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Contract Amount : </TD>
+								<TD>
+									<P align="left">ContractAmount</P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Base Currency(you sold to OrganizationAlias) : </TD>
+								<TD>
+									<P align="left">BaseCurrency</P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Contract Value : </TD>
+								<TD>
+									<P align="left">ContractValue</P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Exchange Rate : </TD>
+								<TD>
+									<P align="left">ExecutePrice</P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Trade Day : </TD>
+								<TD>
+									<P align="left">TradeDay</P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Delivery Day(in the case of physical delivery) : </TD>
+								<TD>
+									<P align="left">DeliveryDay trade days from the Trade Day above </P>
+								</TD>
+							</TR>
+							<TR>
+								<TD width="361">Designated Bank : </TD>
+								<TD>
+									<P align="left">
+										<FONT face="Times New Roman">As may be directed by OrganizationAlias in the Delivery Notice</FONT>
+									</P>
+								</TD>
+							</TR>
+						</TABLE>
+					</DIV>
+				</TD>
+			</TR>
+		</TABLE>
+							<p>
+			<u>
+				<b>IMPORTANT NOTES OVERLEAF</b>
+				<br></br>
+			</u>
+		</p>
+							<div align="justify">
+			<em>Notes<br></br>
+										<ol>
+					<li>Under the terms of this Contract and pursuant to the provisions of the Customer Agreement, you are required to give instruction to OrganizationAlias for the delivery of the Base Currency specified above before 10:00 AM Tokyo Time on the Business Day immediately following the Trade Day. The relevant Delivery Notice providing the particulars of the Designated Bank for effecting payment and delivery will be sent to you upon your instruction to delivery is received from you. Your instruction for delivery shall be irrevocable. </li>
+					<br></br>
+					<br></br>
+					<li>In the case where you do not wish to make or take physical delivery of currencies. you may opt for Deferred Delivery in which case OrganizationAlias, subject to sufficient funds are kept as Margins in the Account, will enter your position under this Contract as a Deferred Delivery and start charging and accumulating the relevant Carrying Cost from the Value Date (which will be the same as the Delivery Day specified above).The Carry Cost and its daily rates shall be posted and displayed on the online Trading system and shall be accumulated until the contract position is Off-set: <br></br>
+															<br></br>
+																<ul>
+							<li>by a payment of the Contract Price in the Base Currency (payable by you to OrganizationAlias) against receipt of the contract Amount in the Contract Currency (payable by OrganizationAlias to you); or </li>
+							<li> by Netting. </li>
+						</ul>
+																<br></br>
+</li>
+					<li>By maintaining the position of the Contract, you are required to maintain at all times a sufficient level of funds in the Account required as Margin. </li>
+					<br></br>
+					<br></br>
+					<li>If there are error or discrepancies manifested in this Contract Note and/or in the subsequent Account Statements in relation to this Contract, you are advised to notify OrganizationAlias immediately and in any case, within three Business Days from the date of this Contract Note, notify and seek OrganizationAlias for making the necessary amendments for record. failing to do so, the terms specified in this Contract Note and the subsequent Account Statements shall be conclusive, final and binding on the parties. </li>
+				</ol>
+</em>
+		</div>
+							<p></p>
+							<p>Regards</p>
+							<p>From<br></br>
+The Trading Desk.<br></br>
+OrganizationName</p>
+	</body>
+	<RelationLot>Lot</RelationLot>
+	<BuyPrompt>Buy</BuyPrompt>
+	<SellPrompt>Sell</SellPrompt>
+	<ClosePrompt>Close</ClosePrompt>
+	<NewPrompt>New</NewPrompt>
+</Extend>

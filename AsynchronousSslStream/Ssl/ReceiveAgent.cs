@@ -43,7 +43,7 @@ namespace Trader.Server.Ssl
             SerializedObject request = PacketParser.Parse(this._Current.Data);
             if (request != null)
             {
-                if (request.Session == SessionMapping.INVALID_VALUE)
+                if (request.Session == Session.INVALID_VALUE)
                 {
                     request.Session = this._Current.ClientID;
                 }

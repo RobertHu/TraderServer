@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using iExchange.Common;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using Trader.Server.Setting;
 using System.Xml;
 using System.Diagnostics;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
+using Trader.Common;
 
 namespace Trader.Server.Bll
 {
@@ -18,7 +19,7 @@ namespace Trader.Server.Bll
     {
         private AccountManager() { }
         public static readonly AccountManager Default = new AccountManager();
-        public XElement  GetAccountsForTradingConsole(long  session)
+        public XElement  GetAccountsForTradingConsole(Session  session)
         {
             try
             {
@@ -71,7 +72,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode  GetAccountForCut(long  session,ref DateTime lastAlertTime, Guid accountId, bool includeTransactions)
+        public XmlNode  GetAccountForCut(Session  session,ref DateTime lastAlertTime, Guid accountId, bool includeTransactions)
         {
             try
             {
@@ -105,7 +106,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode  GetAccountsForCut(long  session,Guid[] accountIDs, bool includeTransactions)
+        public XmlNode  GetAccountsForCut(Session  session,Guid[] accountIDs, bool includeTransactions)
         {
             try
             {
@@ -129,7 +130,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XElement  UpdateAccountSetting(long  session,Guid[] accountIds)
+        public XElement  UpdateAccountSetting(Session  session,Guid[] accountIds)
         {
             bool result = false;
             try
@@ -146,7 +147,7 @@ namespace Trader.Server.Bll
 
         }
 
-        public void UpdateAccount(long session, Guid accountID, Guid groupID, bool isDelete, bool isDeleteGroup)
+        public void UpdateAccount(Session session, Guid accountID, Guid groupID, bool isDelete, bool isDeleteGroup)
         {
             try
             {
@@ -160,7 +161,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XmlNode  GetAccounts(long  session, Guid[] accountIDs, bool includeTransactions)
+        public XmlNode  GetAccounts(Session  session, Guid[] accountIDs, bool includeTransactions)
         {
             try
             {

@@ -353,7 +353,7 @@ namespace Trader.Common
         {
             get
             {
-                this._buffer.Length = (int)this.Length;
+                this._buffer.SetLength((int)this.Length);
                 return this._buffer;
             }
         }

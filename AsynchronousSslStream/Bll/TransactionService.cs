@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using iExchange.Common;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
+using Trader.Common;
 
 namespace Trader.Server.Bll
 {
     public class TransactionService
     {
 
-        public static XElement Place(long  session, XmlNode tran)
+        public static XElement Place(Session  session, XmlNode tran)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement VerifyTransaction(long  session, Guid[] transactionIDs)
+        public static XElement VerifyTransaction(Session  session, Guid[] transactionIDs)
         {
             try
             {
@@ -74,7 +75,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement MultipleClose(long  session, Guid[] orderIds)
+        public static XElement MultipleClose(Session  session, Guid[] orderIds)
         {
             XmlNode xmlTran;
             XmlNode xmlAccount;

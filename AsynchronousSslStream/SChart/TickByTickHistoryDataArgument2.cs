@@ -3,6 +3,7 @@ using System.Data;
 using System.Configuration;
 using System.Web;
 using iExchange.Common;
+using Trader.Common;
 
 public class TickByTickHistoryDataArgument2 : HttpContextHolder
 {
@@ -13,7 +14,7 @@ public class TickByTickHistoryDataArgument2 : HttpContextHolder
     private AsyncResult _asyncResult;
 
     public TickByTickHistoryDataArgument2(Guid instrumentId, DateTime from, DateTime to,
-        AsyncResult asyncResult, long session)
+        AsyncResult asyncResult, Session session)
         : base(session)
     {
         this._instrumentId = instrumentId;

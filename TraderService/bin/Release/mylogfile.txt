@@ -1,0 +1,944 @@
+2013-07-16 15:29:16,656 [6] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-16 15:29:16,693 [6] INFO Trader.Server.TraderServer - Server Start
+2013-07-16 15:29:18,064 [17] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Service.QuotationTester' threw an exception. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:6666
+   at System.Net.Sockets.TcpClient..ctor(String hostname, Int32 port)
+   at Trader.Server.Service.QuotationTester..ctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\QuotationTester.cs:line 16
+   at Trader.Server.Service.QuotationTester..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\QuotationTester.cs:line 24
+   --- End of inner exception stack trace ---
+   at Trader.Server.Service.CommandManager.ProcessCommand() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandManager.cs:line 69
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean ignoreSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()
+2013-07-16 15:32:54,841 [6] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-16 15:32:54,877 [6] INFO Trader.Server.TraderServer - Server Start
+2013-07-16 15:32:56,147 [17] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Service.QuotationTester' threw an exception. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:6666
+   at System.Net.Sockets.TcpClient..ctor(String hostname, Int32 port)
+   at Trader.Server.Service.QuotationTester..ctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\QuotationTester.cs:line 16
+   at Trader.Server.Service.QuotationTester..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\QuotationTester.cs:line 24
+   --- End of inner exception stack trace ---
+   at Trader.Server.Service.CommandManager.ProcessCommand() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Service\CommandManager.cs:line 69
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean ignoreSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()
+2013-07-16 15:34:00,301 [6] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-16 15:34:00,331 [6] INFO Trader.Server.TraderServer - Server Start
+2013-07-16 15:50:08,130 [6] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-16 15:50:08,166 [6] INFO Trader.Server.TraderServer - Server Start
+2013-07-18 07:57:22,393 [6] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-18 07:57:22,580 [6] INFO Trader.Server.TraderServer - Server Start
+2013-07-18 07:57:22,705 [6] ERROR Trader.Server.TraderServer - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at Trader.Server.Ssl.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\SecureTcpServer.cs:line 92
+   at Trader.Server.TraderServer.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\TraderServer.cs:line 35
+2013-07-18 17:41:29,269 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-18 17:41:29,908 [5] INFO Trader.Server.TraderServer - Server Start
+2013-07-25 07:53:49,694 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-25 07:53:49,804 [5] INFO Trader.Server.TraderServer - Server Start
+2013-07-26 08:02:00,319 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-26 08:02:00,521 [5] INFO Trader.Server.TraderServer - Server Start
+2013-07-29 08:00:36,454 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-29 08:00:36,532 [5] INFO Trader.Server.TraderServer - Server Start
+2013-07-29 08:00:42,428 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-07-30 07:59:48,913 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-07-30 07:59:49,568 [5] INFO Trader.Server.TraderServer - Server Start
+2013-07-30 08:00:11,377 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-08-01 08:05:10,636 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-01 08:05:11,650 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-06 08:05:08,898 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-06 08:05:09,522 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-06 08:05:17,884 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-08-07 08:03:40,181 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-07 08:03:40,805 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-07 08:03:47,934 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-08-08 07:57:16,466 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-08 07:57:16,606 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-08 08:20:05,377 [16] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Service.QuotationTester' threw an exception. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:6666
+   at System.Net.Sockets.TcpClient..ctor(String hostname, Int32 port)
+   at Trader.Server.Service.QuotationTester..ctor()
+   at Trader.Server.Service.QuotationTester..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.Service.CommandManager.ProcessCommand()
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()
+2013-08-09 08:03:12,082 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-09 08:03:13,283 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-09 08:17:25,500 [18] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Service.QuotationTester' threw an exception. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:6666
+   at System.Net.Sockets.TcpClient..ctor(String hostname, Int32 port)
+   at Trader.Server.Service.QuotationTester..ctor()
+   at Trader.Server.Service.QuotationTester..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.Service.CommandManager.ProcessCommand()
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()
+2013-08-12 08:02:01,694 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-12 08:02:02,614 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-13 08:11:33,285 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-13 08:11:34,174 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-13 08:55:05,099 [18] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Service.QuotationTester' threw an exception. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:6666
+   at System.Net.Sockets.TcpClient..ctor(String hostname, Int32 port)
+   at Trader.Server.Service.QuotationTester..ctor()
+   at Trader.Server.Service.QuotationTester..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.Service.CommandManager.ProcessCommand()
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()
+2013-08-15 07:59:47,230 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-15 07:59:48,462 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-16 08:02:59,930 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-16 08:03:00,055 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-20 08:00:09,214 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-20 08:00:09,806 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-20 08:00:17,918 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-08-21 08:06:19,070 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-21 08:06:21,270 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-22 07:57:20,444 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-22 07:57:20,865 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-23 07:49:31,957 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-23 07:49:32,440 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-23 14:43:05,134 [5] ERROR Trader.Server.TraderServer - Client connection failed System.NotSupportedException: The server mode SSL must use a certificate with the associated private key.
+   at System.Net.Security.SslState.InternalEndProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslState.EndProcessAuthentication(IAsyncResult result)
+   at System.Net.Security.SslStream.EndAuthenticateAsServer(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.SecureTcpServer.OnAuthenticateAsServer(IAsyncResult result)
+2013-08-23 14:43:05,134 [4] ERROR Trader.Server.TraderServer - Client connection failed System.NotSupportedException: The server mode SSL must use a certificate with the associated private key.
+   at System.Net.Security.SslState.InternalEndProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslState.EndProcessAuthentication(IAsyncResult result)
+   at System.Net.Security.SslStream.EndAuthenticateAsServer(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.SecureTcpServer.OnAuthenticateAsServer(IAsyncResult result)
+2013-08-23 14:43:05,134 [51] ERROR Trader.Server.TraderServer - Client connection failed System.NotSupportedException: The server mode SSL must use a certificate with the associated private key.
+   at System.Net.Security.SslState.InternalEndProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslState.EndProcessAuthentication(IAsyncResult result)
+   at System.Net.Security.SslStream.EndAuthenticateAsServer(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.SecureTcpServer.OnAuthenticateAsServer(IAsyncResult result)
+2013-08-23 14:43:05,134 [52] ERROR Trader.Server.TraderServer - Client connection failed System.NotSupportedException: The server mode SSL must use a certificate with the associated private key.
+   at System.Net.Security.SslState.InternalEndProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslState.EndProcessAuthentication(IAsyncResult result)
+   at System.Net.Security.SslStream.EndAuthenticateAsServer(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.SecureTcpServer.OnAuthenticateAsServer(IAsyncResult result)
+2013-08-23 14:43:05,220 [5] ERROR Trader.Server.TraderServer - Client connection failed System.NotSupportedException: The server mode SSL must use a certificate with the associated private key.
+   at System.Net.Security.SslState.InternalEndProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslState.EndProcessAuthentication(IAsyncResult result)
+   at System.Net.Security.SslStream.EndAuthenticateAsServer(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.SecureTcpServer.OnAuthenticateAsServer(IAsyncResult result)
+2013-08-23 14:43:07,993 [5] ERROR Trader.Server.TraderServer - Client connection failed System.NotSupportedException: The server mode SSL must use a certificate with the associated private key.
+   at System.Net.Security.SslState.InternalEndProcessAuthentication(LazyAsyncResult lazyResult)
+   at System.Net.Security.SslState.EndProcessAuthentication(IAsyncResult result)
+   at System.Net.Security.SslStream.EndAuthenticateAsServer(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.SecureTcpServer.OnAuthenticateAsServer(IAsyncResult result)
+2013-08-27 07:54:02,870 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-27 07:54:03,494 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-27 07:54:10,889 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-08-30 08:05:37,933 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-08-30 08:05:38,510 [5] INFO Trader.Server.TraderServer - Server Start
+2013-08-30 08:05:45,967 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-09-03 08:00:29,104 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-03 08:00:29,728 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-03 08:00:36,982 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-09-04 08:10:18,600 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-04 08:10:18,944 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-04 08:10:27,555 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-09-05 08:04:17,167 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-05 08:04:17,728 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-05 08:04:25,185 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-09-06 08:03:54,494 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-06 08:03:55,087 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-06 08:04:02,996 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-09-09 07:58:16,950 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-09 07:58:17,511 [5] INFO Trader.Server.TraderServer - Server Start
+2013-09-09 07:58:28,166 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.InvalidOperationException: Client found response content type of 'text/html; charset=utf-8', but expected 'text/xml'.
+The request failed with the error message:
+--
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Lucida Console";font-size: .9em}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/iExchange/StateServer' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="Off"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the "defaultRedirect" attribute of the application's <customErrors> configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+<!-- Web.Config Configuration File -->
+
+<configuration>
+    <system.web>
+        <customErrors mode="RemoteOnly" defaultRedirect="mycustompage.htm"/>
+    </system.web>
+</configuration></pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
+
+--.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer)
+   at Trader.Server.Bll.Application..ctor()
+   at Trader.Server.Bll.Application..cctor()
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start()
+2013-09-12 08:01:32,213 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-09-12 08:01:32,322 [5] INFO Trader.Server.TraderServer - Server Start

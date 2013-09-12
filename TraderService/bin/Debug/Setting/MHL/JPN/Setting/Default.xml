@@ -1,0 +1,676 @@
+<?xml version="1.0"  ?>
+<Languages>
+	<Language>
+    <LanguageVersion>JPN</LanguageVersion>
+		<ConfirmSendEmail>Are you sure to send email?</ConfirmSendEmail>
+		<OrderLMTlblSetPriceA2>ストップ</OrderLMTlblSetPriceA2>
+		<OrderLMTlblSetPriceA3>リミット</OrderLMTlblSetPriceA3>
+		<RejectCancelLmtOrder>指値/逆指値の注門が通りませんでした。もう一度お試しください。</RejectCancelLmtOrder>
+		<TradeConsoleCancelLMTOrderAlert1>現在の市場のレートがお客様のキャンセルされたいリミット・ストップオーダープライスに近すぎます。　現在はこれらのオーダーを取り消すことはできません。</TradeConsoleCancelLMTOrderAlert1>
+		<LoginFailedPrompt>Another instance is running, initialization failed!</LoginFailedPrompt>
+		<CloseWindow>閉じる</CloseWindow>
+		<NoNews>ニュースがありません</NoNews>
+		<AccountExpire>お取引口座番号</AccountExpire>
+		<AccountWillExpire>まだに切れます.</AccountWillExpire>
+		<AccountExpired>時間切れにつき取引出来ません</AccountExpired>
+		<btnDocument>about physical delivery</btnDocument>
+
+		<AccountMarginNotify1>可能証拠金</AccountMarginNotify1>
+		<AccountMarginNotify2>注意</AccountMarginNotify2>
+		<InstrumentSelectOverRange>以上選択できません</InstrumentSelectOverRange>
+
+		<EntranceForInput>入力された取引数は、</EntranceForInput>
+		<EntranceForInput2>お客様の取引限度数を超えています。正しい取引数を再度入力して下さい。</EntranceForInput2>
+
+		<MenuimgOption>選択</MenuimgOption>
+		<MenuimgNews>ニュース</MenuimgNews>
+		<SetLMTStopCaption>指値/逆指値</SetLMTStopCaption>
+		<GoodTillMonthDayOrder>市場取引</GoodTillMonthDayOrder>
+
+		<GoodTillMonthGTM>GTM</GoodTillMonthGTM>
+		<GoodTillMonthGTF>GTF</GoodTillMonthGTF>
+		<GoodTillDate>Date</GoodTillDate>
+		<PLCaption>この新規注文の損・益を設定ですます</PLCaption>
+		<ExistsMessage>メッセージをお読みください。</ExistsMessage>
+
+		<btnGetValueFromGridCaption>Get width</btnGetValueFromGridCaption>
+		<lblFontGridCaption>セレクション</lblFontGridCaption>
+		<lblFontNameCaption>フォント</lblFontNameCaption>
+		<lblFontSizeCaption>サイズ</lblFontSizeCaption>
+		<lblFomtColKeyCaption>カッコ</lblFomtColKeyCaption>
+		<lblFontColWidthCaption>Col Width</lblFontColWidthCaption>
+		<lblFontColHiddenCaption>表示なし</lblFontColHiddenCaption>
+		<lblIsCalculateFloatCaption>リアルタイム未決済差損益</lblIsCalculateFloatCaption>
+		<lblLayoutCaption>カレントレイアウトを保存します</lblLayoutCaption>
+		<lblRowHeightCaption>最高値</lblRowHeightCaption>
+
+		<SettingAccountGrid>口座情報</SettingAccountGrid>
+		<SettingInstrumentGrid>取引パネル</SettingInstrumentGrid>
+		<SettingOpenOrderGrid>オープン・オーダーリスト</SettingOpenOrderGrid>
+		<SettingOrderGrid>ワーキング注文リスト</SettingOrderGrid>
+		<btnOKCaption>OK</btnOKCaption>
+		<btnCancelCaption>閉じる</btnCancelCaption>
+
+		<DisallowTradePrompt>取引できません。カスタマーサポートデスクに連絡ください</DisallowTradePrompt>
+
+		<ChartMINUTE1>１分</ChartMINUTE1>
+		<ChartMINUTE5>５分</ChartMINUTE5>
+		<ChartHOUR1>時間足</ChartHOUR1>
+		<ChartDAY1>日足</ChartDAY1>
+		<ChartWEEK1>週足</ChartWEEK1>
+		<ChartMONTH1>月足</ChartMONTH1>
+
+		<ChartBlackBlue>濃い青</ChartBlackBlue>
+		<ChartGreenRed>オリーブ</ChartGreenRed>
+		<ChartBlackWhite>灰色</ChartBlackWhite>
+		<ChartGreenWhite>薄い緑</ChartGreenWhite>
+		<ChartCyanGreen>濃い緑</ChartCyanGreen>
+		<ChartOceanBlue>スカイブルー</ChartOceanBlue>
+		<ChartRedBlack>濃い赤</ChartRedBlack>
+		<ChartRedWhite>ピンク</ChartRedWhite>
+		<ChartWhite>しろ</ChartWhite>
+
+		<ChartCandle>ろうそく</ChartCandle>
+		<ChartLine>ライン</ChartLine>
+		<ChartCloseHiLo>Close HiLo</ChartCloseHiLo>
+		<ChartOpenCloseHiLo>Open Close HiLo</ChartOpenCloseHiLo>
+
+		<ChartGetFormula>メイン</ChartGetFormula>
+		<ChartOverlay>Overlay</ChartOverlay>
+		<ChartGo>Go</ChartGo>
+
+		<ChartFormulaRemove>移動</ChartFormulaRemove>
+		<ChartFormulaGo>OK</ChartFormulaGo>
+		<ChartFormulaRefresh>消去</ChartFormulaRefresh>
+		<ChartFormulaParameter>Parameter</ChartFormulaParameter>
+		<ChartFormulaParameterName>名前</ChartFormulaParameterName>
+		<ChartFormulaParameterValue>Value</ChartFormulaParameterValue>
+
+		<OperateSingleDQOrderMethodTitle0>If you choose to</OperateSingleDQOrderMethodTitle0>
+		<OperateSingleDQOrderMethodTitle1>注文詳細:</OperateSingleDQOrderMethodTitle1>
+		<OperateSingleDQOrderMethodTitle2>で</OperateSingleDQOrderMethodTitle2>
+		<OperateSingleDQOrderMethodTitle3>決済</OperateSingleDQOrderMethodTitle3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert4>The total quantity is more than the quantity of the DQ order </OrderOperateOrderOperateAccountGrid_ValidateEditAlert4>
+		<OrderMultiDQbtnDeal>取引</OrderMultiDQbtnDeal>
+		<OperateOrderMethod1PageSubmitAlert0>ロット数を入力してください</OperateOrderMethod1PageSubmitAlert0>
+		<OperateOrderMethod1PageSubmitAlert1>お待ちください!</OperateOrderMethod1PageSubmitAlert1>
+		<OperateOrderMethod1PageSubmitAlert2>確認ボタンを押してください</OperateOrderMethod1PageSubmitAlert2>
+		<MenuimgChatRoom>Chat Room</MenuimgChatRoom>
+
+		<ChangePasswordlblChangePasswordPromptTitle>ユーザーのパスワード変更</ChangePasswordlblChangePasswordPromptTitle>
+		<ChangePasswordlblCurrentPassword>現在のパスワード</ChangePasswordlblCurrentPassword>
+		<ChangePasswordlblNewPassword>新しいパスワード</ChangePasswordlblNewPassword>
+		<ChangePasswordlblConfirmPassword>新しいパスワードの再入力</ChangePasswordlblConfirmPassword>
+		<ChangePasswordlblPrompt>新しいパスワードは8～16桁の文字もしくは数字で入力して下さい。</ChangePasswordlblPrompt>
+		<ChatArrivePrompt>メッセージが届きましたので、チェックしてください。</ChatArrivePrompt>
+		<QuoteDelayTimeout>時間切れ</QuoteDelayTimeout>
+		<AdditionalClientPrompt>所有者登録</AdditionalClientPrompt>
+		<AgentPrompt>Agent Registration</AgentPrompt>
+		<CallMarginExtensionPrompt>新規注文は両建のみ</CallMarginExtensionPrompt>
+		<PaymentInstructionPrompt>取引指示</PaymentInstructionPrompt>
+		<FundTransferPrompt>Fund Transfer</FundTransferPrompt>
+		<MarginPageOnloadDocument>Document</MarginPageOnloadDocument>
+		<MarginPageOnloadAccount>Account</MarginPageOnloadAccount>
+		<MarginPageOnloadNext>Next</MarginPageOnloadNext>
+		<MarginPageBtnNextPrompt>Please select a account!</MarginPageBtnNextPrompt>
+
+		<WebServiceAdditionalClientMessage0>Sent failed, please try again.</WebServiceAdditionalClientMessage0>
+		<WebServiceAdditionalClientMessage1>Succed to submit your application.</WebServiceAdditionalClientMessage1>
+		<AdditionalClientPageSubmitAlert0>Sent failed, please try again.</AdditionalClientPageSubmitAlert0>
+		<WebServiceAgentMessage0>Sent failed, please try again.</WebServiceAgentMessage0>
+		<WebServiceAgentMessage1>Succed to submit your application.</WebServiceAgentMessage1>
+		<AgentPageSubmitAlert0>Sent failed, please try again.</AgentPageSubmitAlert0>
+
+		<CallMarginExtensionPageSubmitAlert0>Sent failed, please try again.</CallMarginExtensionPageSubmitAlert0>
+		<WebServiceCallMarginExtensionMessage0>Failed to call margin extension.</WebServiceCallMarginExtensionMessage0>
+		<WebServiceCallMarginExtensionMessage1>Application has been submitted successfully.</WebServiceCallMarginExtensionMessage1>
+		<WebServiceCallMarginExtensionAlert0>An error occurred when calling margin extension.</WebServiceCallMarginExtensionAlert0>
+		<FundTransferPageSubmitAlert0>Sent failed, please try again.</FundTransferPageSubmitAlert0>
+		<WebServiceFundTransferMessage0>Failed to Fund Transfer.</WebServiceFundTransferMessage0>
+		<WebServiceFundTransferMessage1>Application has been submitted successfully.</WebServiceFundTransferMessage1>
+		<WebServiceFundTransferAlert0>An error occurred when Fund Transfer.</WebServiceFundTransferAlert0>
+		<PaymentInstructionPageSubmitAlert0>Sent failed, please try again.</PaymentInstructionPageSubmitAlert0>
+		<WebServicePaymentInstructionMessage0>Failed to Payment Instruction.</WebServicePaymentInstructionMessage0>
+		<WebServicePaymentInstructionMessage1>Succed to Payment Instruction.</WebServicePaymentInstructionMessage1>
+		<WebServicePaymentInstructionAlert0>An error occurred when Payment Instruction.</WebServicePaymentInstructionAlert0>
+		<MenupageMarginAlert0>初期化の時にミスが現れたら、もう一度やってみてください</MenupageMarginAlert0>
+		<RealTimeAsk>-買い</RealTimeAsk>
+		<RealTimeBid>--売り</RealTimeBid>
+		<AccountStatusPrompt>口座情報</AccountStatusPrompt>
+		<SingleDQBuyPrompt>買い</SingleDQBuyPrompt>
+		<SingleDQSellPrompt>売り</SingleDQSellPrompt>
+		<ReportTypeStatement>明細書</ReportTypeStatement>
+		<ReportTypeLedger>明細通帳</ReportTypeLedger>
+		<Reports>報告書</Reports>
+		<ReportType>報告表のタイプ</ReportType>
+		<ReportAccountCode>取引口座</ReportAccountCode>
+		<ReportDate1InnerTextForLedger>いつから</ReportDate1InnerTextForLedger>
+		<ReportDate2InnerTextForLedger>いつまで</ReportDate2InnerTextForLedger>
+		<ReportDate1InnerTextForStatement>日付</ReportDate1InnerTextForStatement>
+		<GettingQuotesPrompt>価格の検索を行っている、しばらくお待ちください</GettingQuotesPrompt>
+		<QuotePriceArrivedPrompt>報告を更新したので、お続きください</QuotePriceArrivedPrompt>
+		<Buy>買い</Buy>
+		<Sell>売り</Sell>
+		<LongBuy>買い</LongBuy>
+		<LongSell>売り</LongSell>
+		<Open>新規</Open>
+		<Close>決済単</Close>
+		<TimeRemainPrompt>余剩の時間</TimeRemainPrompt>
+		<DQQuoteLotPrompt>ロット数</DQQuoteLotPrompt>
+		<DQPrompt>DQ</DQPrompt>
+		<LMTPrompt>LMT</LMTPrompt>
+		<MKTPrompt>MKT</MKTPrompt>
+		<MOOPrompt>MOO</MOOPrompt>
+		<MOCPrompt>MOC</MOCPrompt>
+		<OCOPrompt>OCO</OCOPrompt>
+		<SYSPrompt>SYS</SYSPrompt>
+		<TradeOptionPromptStop>逆指値</TradeOptionPromptStop>
+		<TradeOptionPromptBetter>BETTER</TradeOptionPromptBetter>
+		<PhasePlacedPlacingPrompt>処理の中</PhasePlacedPlacingPrompt>
+		<PhasePlacedUnconfirmedPrompt>確認中</PhasePlacedUnconfirmedPrompt>
+		<PhaseCancelledPromptForRejectDQByDealer>Price change cx</PhaseCancelledPromptForRejectDQByDealer>
+		<PhaseCancelledPrompt>キャンセル</PhaseCancelledPrompt>
+		<PhaseExecutedPrompt>成立注文</PhaseExecutedPrompt>
+		<PhaseCompletedPrompt>完成した</PhaseCompletedPrompt>
+		<PhaseDeletedPrompt>消した</PhaseDeletedPrompt>
+		<InstructionPrompt>指示</InstructionPrompt>
+		<ExpireOrderPrompt>制限時間</ExpireOrderPrompt>
+		<AccountNodeFontBold>true</AccountNodeFontBold>
+		<AccountNodeFontName>System</AccountNodeFontName>
+		<AccountNodeFontSize>10</AccountNodeFontSize>
+		<NewOrderAcceptedHedging>新規注文は両建のみ.</NewOrderAcceptedHedging>
+		<NewOrderAcceptedHedging2>MOO/MOC注文は決済のみ.</NewOrderAcceptedHedging2>
+		<AlertLevelPrompt0></AlertLevelPrompt0>
+		<AlertLevelPrompt1>口座の証拠金はかつて不足の状況が現れたことがあったので、十分に注意して下さい</AlertLevelPrompt1>
+		<AlertLevelPrompt2>口座は現在危險な状態に置かれている、十分に注意して下さい</AlertLevelPrompt2>
+		<AlertLevelPrompt3>証拠金が不足だったが、もしすでに処理を行ったのならば、この警告文を見落としてください</AlertLevelPrompt3>
+		<RiskMonitorDelete>契約はすでにシステムから削除された、もしご質問があれば、取引先のサ-ビス係りと連絡して下さい</RiskMonitorDelete>
+		<AccountResetFailed>システムは取引できる期日の設定を誤りが発生したため、取引先のサ-ビス係りと連絡して下さい</AccountResetFailed>
+		<DealerCanceled>指令は取引室から取り消された</DealerCanceled>
+		<RejectDQByDealer>Price time out, please try again!</RejectDQByDealer>
+		<NecessaryIsNotWithinThreshold>取引の数量はこのアカウントの許した総括的な数量を超えると、取引は取り消される</NecessaryIsNotWithinThreshold>
+		<MarginIsNotEnough>証拠金が足りなくて、取引がキャンセルされた</MarginIsNotEnough>
+		<AccountIsNotTrading>取引の口座を提供できていない、もしいかなる問題があるならば、取引先のサ-ビス係りと連絡して下さい</AccountIsNotTrading>
+		<InstrumentIsNotAccepting>関連している取引通貨は取引できる状態ではないため、取引先と連絡ください。</InstrumentIsNotAccepting>
+		<TimingIsNotAcceptable>取引が規定の時間を越えたので、取引をキャンセルしました。</TimingIsNotAcceptable>
+		<OrderTypeIsNotAcceptable>選んだ関連しているオーダ－のタイプは取引通貨に一致しないため、取引は無効だ。</OrderTypeIsNotAcceptable>
+		<HasNoAccountsLocked>代理アカウントはいかなる口座を操作する權限をまだ得ていないので、設置の後で、もう一度やってみてください</HasNoAccountsLocked>
+		<IsLockedByAgent>関連している口座はすでに代理人に占用されたので、少し待ってから再度試して下さい。</IsLockedByAgent>
+		<IsNotLockedByAgent>この口座は決して置かれている状態を代行されていないものです。</IsNotLockedByAgent>
+		<InvalidPrice>価格のフォ-マットはシステムに受け入れなかった、もう一度試して下さい</InvalidPrice>
+		<LossExecutedOrderInOco>OCO指示の向こうがないものです。</LossExecutedOrderInOco>
+		<ExceedOpenLotBalance>決済の数は建玉の数より大きい、操作が失敗する。</ExceedOpenLotBalance>
+		<OneCancelOtherPrompt>これはキャンセルしたOCOオ-タ-だ</OneCancelOtherPrompt>
+		<HasUnassignedOvernightOrders>代理人の口座から指定された口座にオーダ－を割り当てて下さい。</HasUnassignedOvernightOrders>
+		<DbOperationFailed>口座情報を探す時に異常なミスが発生する</DbOperationFailed>
+		<TransactionAlreadyExists>売買の指示を探す時に異常なミスが発生する</TransactionAlreadyExists>
+		<HasNoOrders>この取引は存在しないものです。</HasNoOrders>
+		<InvalidRelation>ポジションを搜索する時、異常なミスが発生する</InvalidRelation>
+		<InvalidLotBalance>契約に誤りが発生しました。</InvalidLotBalance>
+		<ExceedAssigningLotBalance>契約の数量は決濟の数量より大きいものです。</ExceedAssigningLotBalance>
+		<OrderLotExceedMaxLot>指示の数量は限られた口座の交易数量を超えた。</OrderLotExceedMaxLot>
+		<OpenOrderNotExists>指示の契約は存在しない、指示を取り消された。</OpenOrderNotExists>
+		<AssigningOrderNotExists>指定した代行の契約は存在しない</AssigningOrderNotExists>
+		<TransactionNotExists>異常なミスが現れた。</TransactionNotExists>
+		<TransactionCannotBeCanceled>買い売りのキャンセルができないです。　　　</TransactionCannotBeCanceled>
+		<TransactionCannotBeExecuted>異常なミスが現れたので、命令は取り消す</TransactionCannotBeExecuted>
+		<OrderCannotBeDeleted>買い売りのキャンセルができないです。　　　</OrderCannotBeDeleted>
+		<IsNotAccountOwner>ユ－ザ－はまだこの口座の取引の利権を得ていない</IsNotAccountOwner>
+		<InvalidOrderRelation>新規指定オーダ－がミスを発生したため、システムはこの取引の指令を受け入れない。</InvalidOrderRelation>
+		<TradePolicyIsNotActive>通帳口座による取引が禁止されているため、取引先のサ-ビス係りと連絡して下さい</TradePolicyIsNotActive>
+		<SetPriceTooCloseToMarket>限定価格があまりにも市場価格に接近するため、指示が断られた。</SetPriceTooCloseToMarket>
+		<HasNoQuotationExists>There is no price available for the execution, please try again</HasNoQuotationExists>
+		<AccountIsInAlerting>資金不足の為、注文を拒絶されました</AccountIsInAlerting>
+		<CustomerCanceled>取引がユーザーにより取り消されました。</CustomerCanceled>
+		<StopAddPositionNotAllowed>The stop order was rejected as it was not placed to minimize the position exposure.</StopAddPositionNotAllowed>
+		<LmtMooMocNewPositionNotAllowed>決済のみ</LmtMooMocNewPositionNotAllowed>
+		<TransactionCannotBeBooked>Transaction Can not Be Booked!</TransactionCannotBeBooked>
+		<OnlySptMktIsAllowedForPreCheck>Only Spt Mkt Is Allowed For PreCheck</OnlySptMktIsAllowedForPreCheck>
+		<InvalidTransactionPhase>取引は無効です</InvalidTransactionPhase>
+		<ExecuteTimeMustBeInTradingTime>Order's executing time must be in the trading time.</ExecuteTimeMustBeInTradingTime>
+		<DatabaseDataIntegralityViolated>The data of the datebase is not integral.</DatabaseDataIntegralityViolated>
+		<TransactionExpired>注文期限切.</TransactionExpired>
+		<FillOnMarketCloseNotAllowed>取引時間外発注できません.</FillOnMarketCloseNotAllowed>
+		<FailedToCancel>選択した取引指令を取り消せないため、もう一度やってみて下さい。</FailedToCancel>
+		<InstrumentSelectlblSelectInstrument>通貨を選択</InstrumentSelectlblSelectInstrument>
+		<InstrumentSelectbtnUp>上に移動</InstrumentSelectbtnUp>
+		<InstrumentSelectbtnDown>下に移動</InstrumentSelectbtnDown>
+		<InstrumentSelectbtnSynchronize>同時選択</InstrumentSelectbtnSynchronize>
+		<InstrumentSelectbtnOk>OK（F8）</InstrumentSelectbtnOk>
+		<InstrumentSelectbtnExit>閉じる</InstrumentSelectbtnExit>
+		<LockAccountlblLockAccountPrompt>代理人の必要な口座を選択する</LockAccountlblLockAccountPrompt>
+		<LockAccountbtnSelectAll>すべてを選択</LockAccountbtnSelectAll>
+		<LockAccountbtnClearAll>すべてを消す。</LockAccountbtnClearAll>
+		<LockAccountbtnSubmit>注文(F8)</LockAccountbtnSubmit>
+		<MenuimgInstrumentSelect>取引通貨を選択する</MenuimgInstrumentSelect>
+		<MenuimgOpenChangePassword>パスワード変更</MenuimgOpenChangePassword>
+		<MenuimgShowAnalyticChart>チャートアナリスト</MenuimgShowAnalyticChart>
+		<MenuimgOpenChat>情報</MenuimgOpenChat>
+		<MenuimgOpenReportSelect>報告書</MenuimgOpenReportSelect>
+		<MenuimgLockAccount>ヘッジング</MenuimgLockAccount>
+		<MenuimgMargin>証拠金</MenuimgMargin>
+		<MenuimgClearAll>全てのキャンセルオーダーを消去</MenuimgClearAll>
+		<MenuimgDownload>Document to download</MenuimgDownload>
+		<MenuimgHelp>ヘルプ</MenuimgHelp>
+		<MenuimgReset>更新</MenuimgReset>
+		<MenuimgOpenLogOut>閉じる</MenuimgOpenLogOut>
+		<OpenContractlblQuantityA>数量</OpenContractlblQuantityA>
+		<OpenContractbtnLiquidation>決済</OpenContractbtnLiquidation>
+		<OpenContractlblExecutePriceA>建値</OpenContractlblExecutePriceA>
+		<OpenContractlblAccountCodeA>口座</OpenContractlblAccountCodeA>
+		<OpenContractlblContractSizeA>契約サイズ</OpenContractlblContractSizeA>
+		<OpenContractlblExecutedTimeA>成立日時</OpenContractlblExecutedTimeA>
+		<OpenContractlblCurrencyA>通貨</OpenContractlblCurrencyA>
+		<OpenContractlblReferencePriceA>決済レート</OpenContractlblReferencePriceA>
+		<OpenContractlblTradePLFloatA>グロス損益</OpenContractlblTradePLFloatA>
+		<OpenContractlblInterestPLFloatA>利息</OpenContractlblInterestPLFloatA>
+		<OpenContractlblStoragePLFloatA>Float Storage</OpenContractlblStoragePLFloatA>
+		<OpenContractbtnAssignOrder>分配</OpenContractbtnAssignOrder>
+		<OpenContractlblIsBuyA>売/買</OpenContractlblIsBuyA>
+		<OpenContractbtnExit>閉じる</OpenContractbtnExit>
+		<OpenContractlblOrderContract>保有ポジション</OpenContractlblOrderContract>
+		<OrderAssignlblOrderCodeA>契約の通し番号</OrderAssignlblOrderCodeA>
+		<OrderAssignlblExecuteTimeA>成立日時</OrderAssignlblExecuteTimeA>
+		<OrderAssignlblIsBuyA>売/買</OrderAssignlblIsBuyA>
+		<OrderAssignlblPriceA>価格</OrderAssignlblPriceA>
+		<OrderAssignlblLotBalanceA>枚数</OrderAssignlblLotBalanceA>
+		<OrderAssignlblBalanceA>残高</OrderAssignlblBalanceA>
+		<OrderAssignlblEquityA>純資産</OrderAssignlblEquityA>
+		<OrderAssignlblACTotalLotsA>合計数量</OrderAssignlblACTotalLotsA>
+		<OrderAssignlblLiqLotsA>決済の数</OrderAssignlblLiqLotsA>
+		<OrderAssignbtnReset>訂正</OrderAssignbtnReset>
+		<OrderAssignbtnSubmit>注文(F8)</OrderAssignbtnSubmit>
+		<OrderAssignbtnExit>閉じる</OrderAssignbtnExit>
+		<OrderLiquidationlblPriceA>価格</OrderLiquidationlblPriceA>
+		<OrderLiquidationlblAccountCodeA>口座</OrderLiquidationlblAccountCodeA>
+		<OrderLiquidationlblBalanceA>残高</OrderLiquidationlblBalanceA>
+		<OrderLiquidationlblEquityA>純資産</OrderLiquidationlblEquityA>
+		<OrderLiquidationlblACTotalLotsA>値段をオファ一の数量</OrderLiquidationlblACTotalLotsA>
+		<OrderLiquidationbtnSubmit>注文(F8)</OrderLiquidationbtnSubmit>
+		<OrderLiquidationbtnExit>閉じる</OrderLiquidationbtnExit>
+		<OrderLMTlblOrderTypeA>指示</OrderLMTlblOrderTypeA>
+		<OrderLMTlblAccountCodeA>口座</OrderLMTlblAccountCodeA>
+		<OrderLMTlblIsBuyA>売/買</OrderLMTlblIsBuyA>
+		<OrderLMTlblSetPriceA>価格</OrderLMTlblSetPriceA>
+		<OrderLMTlblLot>数量</OrderLMTlblLot>
+		<OrderLMTlblBalanceA>残高</OrderLMTlblBalanceA>
+		<OrderLMTlblEquityA>純資産</OrderLMTlblEquityA>
+		<OrderLMTbtnSetOCO>O C O</OrderLMTbtnSetOCO>
+		<OrderLMTbtnReset>訂正</OrderLMTbtnReset>
+		<OrderLMTbtnSubmit>注文(F8)</OrderLMTbtnSubmit>
+		<OrderLMTbtnExit>閉じる</OrderLMTbtnExit>
+		<OrderMultiDQlblPriceA>価格</OrderMultiDQlblPriceA>
+		<OrderMultiDQlblAccountCodeA>口座</OrderMultiDQlblAccountCodeA>
+		<OrderMultiDQlblBalanceA>残高</OrderMultiDQlblBalanceA>
+		<OrderMultiDQlblEquityA>純資産</OrderMultiDQlblEquityA>
+		<OrderMultiDQlblACTotalLotsA>合計数量</OrderMultiDQlblACTotalLotsA>
+		<OrderMultiDQlblDQQuoteLotA>問い合わせの数量</OrderMultiDQlblDQQuoteLotA>
+		<OrderMultiDQbtnReset>訂正</OrderMultiDQbtnReset>
+		<OrderMultiDQbtnSubmit>注文(F8)</OrderMultiDQbtnSubmit>
+		<OrderMultiDQbtnExit>閉じる</OrderMultiDQbtnExit>
+		<OrderPlacementbtnConfirm>確認（F8）</OrderPlacementbtnConfirm>
+		<OrderPlacementbtnCancel>キャンセル</OrderPlacementbtnCancel>
+		<OrderPlacementlblOpenOrderA>新規</OrderPlacementlblOpenOrderA>
+		<OrderSingleDQlblAccountCodeA>口座</OrderSingleDQlblAccountCodeA>
+		<OrderSingleDQlblLot>数量</OrderSingleDQlblLot>
+		<OrderSingleDQlblDQMaxMove>Slide Pips</OrderSingleDQlblDQMaxMove>
+		<OrderSingleDQbtnBuy>買い</OrderSingleDQbtnBuy>
+		<OrderSingleDQbtnSell>売り</OrderSingleDQbtnSell>
+		<OrderSingleDQbtnReset>訂正</OrderSingleDQbtnReset>
+		<OrderSingleDQbtnExit>閉じる</OrderSingleDQbtnExit>
+		<UnconfirmedInstructionlblUnconfirmedInstruction>確認していない命令</UnconfirmedInstructionlblUnconfirmedInstruction>
+		<UnconfirmedInstructionlblExecutePriceA>建値</UnconfirmedInstructionlblExecutePriceA>
+		<UnconfirmedInstructionlblIsBuyA>売買</UnconfirmedInstructionlblIsBuyA>
+		<UnconfirmedInstructionlblQuantityA>数量</UnconfirmedInstructionlblQuantityA>
+		<UnconfirmedInstructionlblAccountCodeA>口座</UnconfirmedInstructionlblAccountCodeA>
+		<UnconfirmedInstructionlblOrderTypeA>注文タイプ</UnconfirmedInstructionlblOrderTypeA>
+		<UnconfirmedInstructionlblTradeOptionA>選択</UnconfirmedInstructionlblTradeOptionA>
+		<UnconfirmedInstructionlblSubmitTimeA>送信時間</UnconfirmedInstructionlblSubmitTimeA>
+		<UnconfirmedInstructionlblEndTimeA>制限時間</UnconfirmedInstructionlblEndTimeA>
+		<UnconfirmedInstructionlblEndTimeA2>成約時間</UnconfirmedInstructionlblEndTimeA2>
+		<UnconfirmedInstructionlblCommissionSumA>手数料</UnconfirmedInstructionlblCommissionSumA>
+		<UnconfirmedInstructionlblLevySumA>徴収</UnconfirmedInstructionlblLevySumA>
+		<UnconfirmedInstructionlblTradePLA>損益</UnconfirmedInstructionlblTradePLA>
+		<UnconfirmedInstructionlblInterestPLA>利子</UnconfirmedInstructionlblInterestPLA>
+		<UnconfirmedInstructionlblStoragePLA>保管</UnconfirmedInstructionlblStoragePLA>
+		<UnconfirmedInstructionlblPeerOrderCodesA>未決済のポジション</UnconfirmedInstructionlblPeerOrderCodesA>
+		<UnconfirmedInstructionlblMessageA>メモ</UnconfirmedInstructionlblMessageA>
+		<UnconfirmedInstructionbtnCancellation>キャンセル</UnconfirmedInstructionbtnCancellation>
+		<UnconfirmedInstructionbtnClearFromList>表を消す。</UnconfirmedInstructionbtnClearFromList>
+		<UnconfirmedInstructionbtnExit>閉じる</UnconfirmedInstructionbtnExit>
+		<MenuPageLockAccountAlert0>代理権利はまだ取れていない。</MenuPageLockAccountAlert0>
+		<MenuPageLockAccountAlert1>選んだアカウントは操作のできないものです。</MenuPageLockAccountAlert1>
+		<MenupageOpenReportSelectAlert0>口座番号の初期化登録は失敗したため、再度試みて下さい。</MenupageOpenReportSelectAlert0>
+		<MenupageInstrumentSelectAlert0>選んだ取引プロジｪクトを使用し始める時失敗</MenupageInstrumentSelectAlert0>
+		<OrderAssignPageFillAccount0>この口座番号は存在しないです。</OrderAssignPageFillAccount0>
+		<OrderLiquidationPageFillAccountAlert0>この口座番号は存在しないです。</OrderLiquidationPageFillAccountAlert0>
+		<OrderLMTPagetextLot_OnblurAlert0>最大の取引の範囲を超えた</OrderLMTPagetextLot_OnblurAlert0>
+		<OrderLMTPagetextLot_OnblurAlert1>記入したすべての決済数量が処理される予定。</OrderLMTPagetextLot_OnblurAlert1>
+		<OrderLMTPageorderValidAlert0>１つのタイプあるいはアカウントを選んで下さい</OrderLMTPageorderValidAlert0>
+		<OrderLMTPageorderValidAlert1>取引の価格が記入する必要がある。</OrderLMTPageorderValidAlert1>
+		<OrderLMTPageorderValidAlert2>設定した価格と市場価格があまりにちがすぎるため、もう一度設定して提出してください</OrderLMTPageorderValidAlert2>
+		<OrderLMTPageorderValidAlert22>points away from the market!</OrderLMTPageorderValidAlert22>
+		<OrderLMTPageorderValidAlert3>設定した価格と市場価格があまりにちがすぎるため、もう一度設定して提出してください</OrderLMTPageorderValidAlert3>
+		<OrderLMTPageorderValidAlert4>STOP命令は決済やヘッジングの時だけに使われ,入力のロット数或いは指定したプライスを調べてください。</OrderLMTPageorderValidAlert4>
+		<OrderLMTPageorderValidAlert5>逆指値命令は決済やヘッジングの時だけに使われ,入力のロット数或いは指定したプライスを調べてください。</OrderLMTPageorderValidAlert5>
+		<OrderLMTPageorderValidAlert6>数量が0より大きいものです。</OrderLMTPageorderValidAlert6>
+		<OrderLMTPageorderValidAlert7>ロット数は必ず決濟のロット数に等しくなければならない</OrderLMTPageorderValidAlert7>
+		<OrderLMTPageorderValidAlert8>発注できません。もう一度試してください</OrderLMTPageorderValidAlert8>
+		<OrderLMTPageorderValidAlertBetter>Limit Order for new position is accepted for hedging only.</OrderLMTPageorderValidAlertBetter>
+		<OrderLMTPagebuttonSubmit_OnclickAlert0>この口座番号は存在しないです。</OrderLMTPagebuttonSubmit_OnclickAlert0>
+		<OrderMultiDQPageFillAccountAlert0>この口座番号は存在しないです。</OrderMultiDQPageFillAccountAlert0>
+		<OrderOCOPageorderValidAlert3>取引の選択通貨がシステムに受けられない</OrderOCOPageorderValidAlert3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert0>入力の数量は口座の制限より大きいことができない</OrderOperateOrderOperateAccountGrid_ValidateEditAlert0>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert2>数量の合計は代理人ｵーﾀﾞーの数量を越えるものでありえません</OrderOperateOrderOperateAccountGrid_ValidateEditAlert2>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert3>記入したすべての決済数量が処理される予定。</OrderOperateOrderOperateAccountGrid_ValidateEditAlert3>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert5>The range should not greater than</OrderOperateOrderOperateAccountGrid_ValidateEditAlert5>
+		<OrderOperateOrderOperateAccountGrid_ValidateEditAlert6>pips</OrderOperateOrderOperateAccountGrid_ValidateEditAlert6>
+		<OrderOperateOrderValidAlert0>数量の合計は取り引きに許された数量を越えるものでありえません</OrderOperateOrderValidAlert0>
+		<OrderOperateOrderValidAlert1>口座の中にいかなる売買した契約がない</OrderOperateOrderValidAlert1>
+		<OrderOperateOutstandingOrderGridValidateEditPrompt0>記入した数量が適切ではない。</OrderOperateOutstandingOrderGridValidateEditPrompt0>
+		<OrderOperateOutstandingOrderGridValidateEditPrompt1>決済単の総計は指令した取引数量より大きいことができない</OrderOperateOutstandingOrderGridValidateEditPrompt1>
+		<OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert0>記入した数量が適切ではない。</OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert0>
+		<OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert1>数量の合計は取り引きに許された数量を越えるものでありえません</OrderOperateOrderOperateLiquidationGrid_ValidateEditAlert1>
+		<TradeConsoleCancelLMTOrderAlert0>取引時間帯が無効です。</TradeConsoleCancelLMTOrderAlert0>
+		<TradeConsoleInitializeGridAlert0>ネットワ-クの設置は誤りを発生、取引先のサ-ビス係りと連絡して下さい</TradeConsoleInitializeGridAlert0>
+		<TradeConsolePromptIsMustAssignOrderAlert0>代理人アカウントの成立契約を割り当てしなければならない。</TradeConsolePromptIsMustAssignOrderAlert0>
+		<TradeConsoleAnswerAlert0>システムを通して価格を聞くミスがあった時、取引先のサ-ビス係りと連絡して下さい</TradeConsoleAnswerAlert0>
+		<TradeConsoleGetUpdateAccountLockResultAlert0>アカウントは更新することに成功する</TradeConsoleGetUpdateAccountLockResultAlert0>
+		<TradeConsoleGetUpdateAccountLockResultAlert1>口座番号を更新する時にミスが現れたら、少し立てから、もう一度やってみてください。</TradeConsoleGetUpdateAccountLockResultAlert1>
+		<TradeConsoleCancelAlert0>取引指令を取り消す時に問題が発生、もしもう一度やっても、問題がまだあったら、取引先のサ-ビス係りと連絡して下さ</TradeConsoleCancelAlert0>
+		<TradeConsoleOrderLiquidationOperateAlert0>時間のフォーマツトは正しくない</TradeConsoleOrderLiquidationOperateAlert0>
+		<TradeConsoleUpdateAlert0>資料更新にミスがあった。もう一度やってみてください。</TradeConsoleUpdateAlert0>
+		<TradeConsoleIsValidOperateOrderTimePrompt0>買売プロジェクトはすでに時間を超えたため、取引請求ができないものです。</TradeConsoleIsValidOperateOrderTimePrompt0>
+		<TradeConsoleIsValidOperateOrderTimePrompt1>売買の指令が最後の取引時間を超えたため、その請求が失敗。</TradeConsoleIsValidOperateOrderTimePrompt1>
+		<TradeConsoleIsValidOperateOrderTimePrompt2>届く時間を越えたので、Moo/Mocの請求ができないものです。</TradeConsoleIsValidOperateOrderTimePrompt2>
+		<TradeConsoleIsValidOperateOrderTimePrompt3>届く時間を越えたので、Moo/Mocの請求ができないものです。</TradeConsoleIsValidOperateOrderTimePrompt3>
+		<TradeConsoleIsValidOperateOrderTimePrompt4>取引プロジェクトはすでに取引時間を超えたので、請求ができないものです。</TradeConsoleIsValidOperateOrderTimePrompt4>
+		<TradeConsoleIsValidOperateOrderTimePrompt5>取引プロジェクトはすでに取引時間を超えたので、請求ができないものです。</TradeConsoleIsValidOperateOrderTimePrompt5>
+		<TradeConsoleGetOperateHtmlPageAlert2>取引するための適切なアカウントがない</TradeConsoleGetOperateHtmlPageAlert2>
+		<TradeConsoleGetOperateHtmlPageAlert3>証劵のタイプはー致しないあるいは商売プシェクトの取引する時間を超える</TradeConsoleGetOperateHtmlPageAlert3>
+		<OperatingDQOrderPrompt>あなたはDQ単にの操作を行っている</OperatingDQOrderPrompt>
+		<OperateDQOrderPrompt>同時に複数の売買の設置ができないものです。</OperateDQOrderPrompt>
+		<AccountLockButtonSubmit_OnclickAlert0>取引口座番号を選択</AccountLockButtonSubmit_OnclickAlert0>
+		<OrderPlacementbuttonConfirm_OnclickAlert0>操作時間が価格の有効時間を超えました。</OrderPlacementbuttonConfirm_OnclickAlert0>
+		<OrderPlacementbuttonConfirm_OnclickAlert2>プロｼﾞｪクトを取引してすでに非取引プロジェクトを設けてあるいはすでに超えた時間を取引するべきです。</OrderPlacementbuttonConfirm_OnclickAlert2>
+		<OrderSingleDQPageFillAccountAlert0>この口座は存在しない、もう一度選択してください</OrderSingleDQPageFillAccountAlert0>
+		<OrderSingleDQPageorderValidAlert0>取引の価格が記入する必要がある。</OrderSingleDQPageorderValidAlert0>
+		<OrderSingleDQPageorderValidAlert1>数量が0より大きいものです。</OrderSingleDQPageorderValidAlert1>
+		<OrderSingleDQPagetextLot_OnblurAlert0>入力の数量は受け取る範囲を超えたので、もう一度入力してください</OrderSingleDQPagetextLot_OnblurAlert0>
+		<OrderSingleDQPagetextLot_OnblurAlert2>入力の数量は制限の数量を上回る、もう一度入力してください</OrderSingleDQPagetextLot_OnblurAlert2>
+		<OrderSingleDQPagetextLot_OnblurAlert3>記入したすべての決済数量が処理される予定。</OrderSingleDQPagetextLot_OnblurAlert3>
+		<ReportContainerpageOnlloadAlert0>報告にミスが現れたらもう一度ためしにやってみてください</ReportContainerpageOnlloadAlert0>
+		<ReportPagebtnPrint_OnclickAlert0>この口座番号は存在しないです。</ReportPagebtnPrint_OnclickAlert0>
+		<ReportPagebtnPrint_OnclickAlert1>１つのアカウントあるいは期日を選んで下さい</ReportPagebtnPrint_OnclickAlert1>
+		<ReportPagebtnPrint_OnclickAlert3>この口座番号は存在しないです。</ReportPagebtnPrint_OnclickAlert3>
+		<ReportPagebtnPrint_OnclickAlert4>１つのアカウントあるいは期日を選んで下さい</ReportPagebtnPrint_OnclickAlert4>
+		<UnconfirmedInstructionPageBtnCancellation_OnclickAlert0>取引の命令を取り消すことがすでに受けられている。</UnconfirmedInstructionPageBtnCancellation_OnclickAlert0>
+		<UnconfirmedInstructionPageBtnCancellation_OnclickAlert1>選択した取引指令を取り消せないため、もう一度やってみて下さい。</UnconfirmedInstructionPageBtnCancellation_OnclickAlert1>
+		<WebServiceGetInitDataAlert0>接続中断　</WebServiceGetInitDataAlert0>
+		<WebServiceQuoteAlert0>価格を査問する時にミスが現れたら、少し立てから、もう一度やってみてください</WebServiceQuoteAlert0>
+		<WebServiceCancelLMTOrderAlert0>取引指令を取り消す時に問題が発生、もしもう一度やっても、問題がまだあったら、取引先のサ-ビス係りと連絡して下さ</WebServiceCancelLMTOrderAlert0>
+		<WebServiceUpdateAccountLockAlert0>口座番号を更新する時にミスが現れたら、少し立てから、もう一度やってみてください。</WebServiceUpdateAccountLockAlert0>
+		<WebServiceGetInstrumentForSettingAlert0>取引データを読み取る時に誤りが発生したため、少し待ってから再度試してください</WebServiceGetInstrumentForSettingAlert0>
+		<WebServiceGetInstrumentForSettingAlert1>取引のプロジｪクトを選ぷことができていない、もしいかなる問題があるならば、取引先のサ-ビス係りと連絡して下さい</WebServiceGetInstrumentForSettingAlert1>
+		<WebServiceUpdateInstrumentSettingAlert0>取引プロジェクトを更新する時にミスが現れたら少し立てから、もう一度やってみてください</WebServiceUpdateInstrumentSettingAlert0>
+		<WebServiceGetAccountsAlert0>アカウントの資料を得る時にミスが現れたら、もう一度やってみてください。</WebServiceGetAccountsAlert0>
+		<WebServiceGetInstrumentAlert0>データをダウンロ－ドした時に誤りが発生したため、少し待ってから再度試みて下さい。</WebServiceGetInstrumentAlert0>
+		<WebServiceDeleteMessageAlert0>選んだ情報を削除する時誤りが発生する、少し立てから、もう一度やってみてください</WebServiceDeleteMessageAlert0>
+		<WebServiceGetCurrencyRateByAccountIDAlert0>価格の情報を得る時に誤りが発生したため、もう一度やってみてください。</WebServiceGetCurrencyRateByAccountIDAlert0>
+		<WebServicePlaceMessage0>取引先に取引指令を伝える時誤りが発生した場合、取引先のサ-ビス係りと連絡して下さい</WebServicePlaceMessage0>
+		<WebServiceAssignMessage0>売買して担当が割り当てる時誤りが発生したので、少し立てから、もう一度やってみてください</WebServiceAssignMessage0>
+		<WebServiceCancelLMTOrderMessage0>取引指令を取り消す時に問題が発生、もしもう一度やっても、問題がまだあったら、取引先のサ-ビス係りと連絡して下さ</WebServiceCancelLMTOrderMessage0>
+		<WebServiceUpdateAccountLockMessage0>口座番号を更新する時にミスが現れたら、少し立てから、もう一度やってみてください。</WebServiceUpdateAccountLockMessage0>
+		<WebServiceCancelLMTOrderMessage1>システムの返事を待ち</WebServiceCancelLMTOrderMessage1>
+		<WebServiceGetMessagesAlert0>システムからメッセ－ジをダウロードする時、誤りが発生したため、少し待ってから再度試みる</WebServiceGetMessagesAlert0>
+		<WebServiceGetCommandsAlert0>接続システムはすでに中斷した為．．．</WebServiceGetCommandsAlert0>
+		<WebServiceGetCommandsAlert1>貴方の口座はすでに別のコンピュ－タの上で登録したのかもしれない。</WebServiceGetCommandsAlert1>
+		<WebServiceGetCommandsAlert2>サ－バ-は資料を更新する時にユ－ザ-との接続コ－ドはミスが現れたので、もう一度お登録ください</WebServiceGetCommandsAlert2>
+		<DefaultPagePrompt0>格式を取り付けている</DefaultPagePrompt0>
+		<DefaultPagePrompt1>資料をダウンロードしている</DefaultPagePrompt1>
+		<DefaultPagePrompt2>ようこそ</DefaultPagePrompt2>
+		<DefaultPagePrompt3>システムは初期化している</DefaultPagePrompt3>
+
+	</Language>
+	<AccountLockLanguage>
+		<ID></ID>
+		<Select>選択</Select>
+		<Code>コード番号</Code>
+		<AgentID></AgentID>
+		<PreviousLockedStatus></PreviousLockedStatus>
+	</AccountLockLanguage>
+	<AccountLanguage>
+		<ID></ID>
+		<Select>*</Select>
+		<AccountCurrencyID></AccountCurrencyID>
+		<CurrencyAccountID></CurrencyAccountID>
+		<Code>口座情報</Code>
+		<CurrencyCode></CurrencyCode>
+		<Balance></Balance>
+		<Necessary></Necessary>
+		<Equity></Equity>
+		<UnclearAmount></UnclearAmount>
+		<CreditAmount></CreditAmount>
+		<Ratio></Ratio>
+		<AlertLevel></AlertLevel>
+	</AccountLanguage>
+	<AccountSingleLanguage>
+		<ID></ID>
+		<Code>コード番号</Code>
+		<CurrencyCode>通貨</CurrencyCode>
+		<Balance>預託証拠金残高</Balance>
+		<Necessary>必要証拠金額</Necessary>
+		<TradePLFloat>未決済差損益金</TradePLFloat>
+		<Equity>有効証拠金額</Equity>
+		<UnclearAmount>未確認の入金</UnclearAmount>
+		<CreditAmount>Credit Amount</CreditAmount>
+		<Ratio>Ratio</Ratio>
+		<AlertLevel>メモ</AlertLevel>
+	</AccountSingleLanguage>
+	<InstrumentLanguage>
+		<ID></ID>
+		<Select>*</Select>
+		<Sequence></Sequence>
+		<Description>通貨</Description>
+		<Bid>売り</Bid>
+		<Ask>買い</Ask>
+		<Timestamp>時間</Timestamp>
+		<Last>最後</Last>
+		<High>高値</High>
+		<Low>安値</Low>
+		<Open>始値</Open>
+		<PrevClose>終値</PrevClose>
+		<Change>値動き</Change>
+	</InstrumentLanguage>
+	<OrderLanguage>
+		<ID></ID>
+		<AccountID></AccountID>
+		<Phase>状態</Phase>
+		<SubmitTime>時間</SubmitTime>
+		<AccountCode>口座</AccountCode>
+		<InstrumentID></InstrumentID>
+		<InstrumentCode>通貨</InstrumentCode>
+		<Lot>枚数</Lot>
+		<IsOpen>新規</IsOpen>
+		<IsBuy>売/買</IsBuy>
+		<SetPrice>価格</SetPrice>
+		<OrderType>注文タイプ</OrderType>
+		<PeerOrderCodes></PeerOrderCodes>
+		<Message></Message>
+		<EndTime></EndTime>
+		<ContractSize></ContractSize>
+		<CommissionSum>手数料</CommissionSum>
+		<LevySum>徴収</LevySum>
+	</OrderLanguage>
+	<OpenOrderLanguage>
+		<ID></ID>
+		<IsOpen>決済</IsOpen>
+		<AccountID></AccountID>
+		<AccountCode>口座</AccountCode>
+		<InstrumentID></InstrumentID>
+		<InstrumentCode>通貨</InstrumentCode>
+		<ExecuteTime>時間</ExecuteTime>
+		<LotBalance>枚数</LotBalance>
+		<IsBuy>売/買</IsBuy>
+		<ExecutePrice>建値</ExecutePrice>
+		<ContractSize></ContractSize>
+		<CurrencyCode></CurrencyCode>
+		<LivePrice>決済レート</LivePrice>
+		<TradePLFloat>グロス損益</TradePLFloat>
+		<InterestPLFloat>利子</InterestPLFloat>
+		<StoragePLFloat>Storage</StoragePLFloat>
+		<Commission>Comm</Commission>
+	</OpenOrderLanguage>
+	<OutstandingOrderLanguage>
+		<ID></ID>
+		<Code></Code>
+		<OpenOrder>新規</OpenOrder>
+		<IsBuy></IsBuy>
+		<TradeCode></TradeCode>
+		<ExecutePrice></ExecutePrice>
+		<LotBalance></LotBalance>
+		<LiqLot>決済枚数</LiqLot>
+	</OutstandingOrderLanguage>
+	<OrderPlacementForSingleDQLanguage>
+		<AccountCode>口座</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>枚数</Lot>
+		<IsBuy>売/買</IsBuy>
+		<IsOpen>新規/決濟</IsOpen>
+		<SetPrice>価格</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForSingleDQLanguage>
+	<OrderPlacementForMultiDQLanguage>
+		<AccountCode>口座</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>枚数</Lot>
+		<IsBuy>売/買</IsBuy>
+		<IsOpen>新規/決濟</IsOpen>
+		<SetPrice>価格</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForMultiDQLanguage>
+	<OrderPlacementForLMTLanguage>
+		<AccountCode>口座</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>枚数</Lot>
+		<IsBuy>売/買</IsBuy>
+		<IsOpen>新規/決濟</IsOpen>
+		<SetPrice>価格</SetPrice>
+		<TradeOption>選択</TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForLMTLanguage>
+	<OrderPlacementForDirectLiqLanguage>
+		<AccountCode>口座</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>枚数</Lot>
+		<IsBuy>売/買</IsBuy>
+		<IsOpen>新規/決濟</IsOpen>
+		<SetPrice>価格</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForDirectLiqLanguage>
+	<OrderPlacementForAssignLanguage>
+		<AccountCode>口座</AccountCode>
+		<ID></ID>
+		<InstrumentCode></InstrumentCode>
+		<Lot>枚数</Lot>
+		<IsBuy>売/買</IsBuy>
+		<IsOpen>新規/決濟</IsOpen>
+		<SetPrice>価格</SetPrice>
+		<TradeOption></TradeOption>
+		<PeerOrderCodes> </PeerOrderCodes>
+	</OrderPlacementForAssignLanguage>
+	<OrderOperateAccountGridForMultiDQLanguage>
+		<ID></ID>
+		<Code>口座</Code>
+		<IsBuy>売/買</IsBuy>
+		<SetPrice>価格</SetPrice>
+		<Lot>枚数</Lot>
+		<IsOpen></IsOpen>
+		<LiqLot></LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerOrderCodes></PeerOrderCodes>
+		<PeerCount></PeerCount>
+		<IsBuyPrevious></IsBuyPrevious>
+		<DQMaxMove>Slide Pips</DQMaxMove>
+	</OrderOperateAccountGridForMultiDQLanguage>
+	<OrderOperateLiquidationLanguage>
+		<ID></ID>
+		<Code>コ－ド</Code>
+		<PeerOrderCodes>未決濟のオ-ダ－</PeerOrderCodes>
+		<OrderID></OrderID>
+		<OrderCode></OrderCode>
+		<CurrencyCode></CurrencyCode>
+		<Balance></Balance>
+		<Equity></Equity>
+		<IsBuy>売/買</IsBuy>
+		<SetPrice>価格</SetPrice>
+		<ExecutePrice></ExecutePrice>
+		<LotBalance></LotBalance>
+		<LiqLot>枚数</LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerCount></PeerCount>
+		<IsSplitLot></IsSplitLot>
+		<IsAutoClose></IsAutoClose>
+		<TransactionType></TransactionType>
+		<PairedOrderID></PairedOrderID>
+	</OrderOperateLiquidationLanguage>
+	<MessageLanguage>
+		<NoMessage>No Message</NoMessage>
+		<DelMesasge>Delete</DelMesasge>
+	</MessageLanguage>
+	<OrderOperateAccountGridForAssignLanguage>
+		<ID></ID>
+		<Code>口座</Code>
+		<IsBuy>売/買</IsBuy>
+		<SetPrice>価格</SetPrice>
+		<Lot>枚数</Lot>
+		<IsOpen></IsOpen>
+		<LiqLot></LiqLot>
+		<PeerOrderIDs></PeerOrderIDs>
+		<PeerOrderCodes></PeerOrderCodes>
+		<PeerCount></PeerCount>
+		<IsBuyPrevious></IsBuyPrevious>
+		<DQMaxMove></DQMaxMove>
+	</OrderOperateAccountGridForAssignLanguage>
+	<InstrumentSelectLanguage>
+		<ID></ID>
+		<Select>選択</Select>
+		<Code></Code>
+		<Description>内容</Description>
+		<Sequence></Sequence>
+	</InstrumentSelectLanguage>
+  <LogLanguage>
+    <Id></Id>
+    <Timestamp></Timestamp>
+    <LogCodeName>Log</LogCodeName>
+    <TimestampString>Time</TimestampString>
+    <Action>Action</Action>
+
+    <Placing>placing</Placing>
+    <Placed></Placed>
+    <Executed>was confirmed</Executed>
+    <Cancelled>status updated.</Cancelled>
+    <Deleted>was deleted,</Deleted>
+    <RemoveByRisk>was removed by the System</RemoveByRisk>
+    <RequestCancelLMTOrder>requests to cancel</RequestCancelLMTOrder>
+    <ExecutedAt></ExecutedAt>
+    <Set></Set>
+    <Message></Message>
+    <Message2></Message2>
+    <OrderTo>Acknowledge placement of</OrderTo>
+    <At>at</At>
+    <For>for</For>
+    <Lot></Lot>
+    <RefrenceCode>, ref code:</RefrenceCode>
+    <Send></Send>
+    <Risk>System confirmed</Risk>
+    <RefrenceCode2>, Order Code:</RefrenceCode2>
+  </LogLanguage>
+</Languages>

@@ -3,6 +3,7 @@ using System.Data;
 using System.Configuration;
 using System.Web;
 using iExchange.Common;
+using Trader.Common;
 
 public class StatementArg : HttpContextHolder
 {
@@ -13,7 +14,7 @@ public class StatementArg : HttpContextHolder
     private string _Rdlc;    
     private AsyncResult _AsyncResult;
 
-    public StatementArg(int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc, AsyncResult asyncResult, long session)
+    public StatementArg(int statementReportType, string dayBegin, string dayTo, string IDs, string rdlc, AsyncResult asyncResult, Session session)
         : base(session)
     {
         this._StatementReportType = statementReportType;

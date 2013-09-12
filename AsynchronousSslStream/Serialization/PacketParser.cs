@@ -43,7 +43,7 @@ namespace Trader.Server.Serialization
             int contentIndex = Constants.HeadCount + sessionLength;
             Array.Copy(packet, contentIndex, contentBytes, 0, contentLength);
             string sessionStr = Constants.SessionEncoding.GetString(packet, Constants.HeadCount, sessionLength);
-            long session = SessionMapping.Get(sessionStr);
+            Session session = SessionMapping.Get(sessionStr);
             string content = Constants.ContentEncoding.GetString(contentBytes);
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
@@ -62,7 +62,7 @@ namespace Trader.Server.Serialization
         {
             byte sessionLength = packet[Constants.SessionLengthIndex];
             string sessionStr = Constants.SessionEncoding.GetString(packet, Constants.HeadCount, sessionLength);
-            long session = SessionMapping.Get(sessionStr);
+            Session session = SessionMapping.Get(sessionStr);
             return SerializedObject.Create(session, true, packet);
         }
 

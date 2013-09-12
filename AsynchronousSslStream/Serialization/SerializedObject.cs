@@ -6,12 +6,13 @@ using System.Xml;
 using System.Xml.Linq;
 using Trader.Common;
 using Trader.Server.Ssl;
+using Trader.Server.SessionNamespace;
 
 namespace Trader.Server.Serialization
 {
     public class SerializedObject
     {
-        public SerializedObject(long session, string clientInvokeId, XElement content)
+        public SerializedObject(Session session, string clientInvokeId, XElement content)
         {
             this.Session = session;
             this.ClientInvokeID = clientInvokeId;
@@ -19,7 +20,7 @@ namespace Trader.Server.Serialization
         }
         private SerializedObject() { }
 
-        public static SerializedObject Create(long session, bool isKeepAlive, byte[] keepAlivePacket)
+        public static SerializedObject Create(Session session, bool isKeepAlive, byte[] keepAlivePacket)
         {
             SerializedObject target = new SerializedObject();
             target.IsKeepAlive = isKeepAlive;
@@ -30,11 +31,11 @@ namespace Trader.Server.Serialization
         public XElement Content { get;  set; }
         public UnmanagedMemory  ContentInPointer { get; set; }
         public string ClientInvokeID { get; private set; }
-        public long ClientID { get; set; }
+        public Session ClientID { get; set; }
         public bool IsKeepAlive { get; private set; }
         public bool IsKeepAliveSuccess { get;set; }
         public byte[] KeepAlivePacket { get; private set; }
-        public long Session { get; set; }
+        public Session Session { get; set; }
 
         public Client Sender { get; set; }
 

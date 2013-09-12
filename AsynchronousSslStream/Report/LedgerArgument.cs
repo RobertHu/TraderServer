@@ -3,6 +3,7 @@ using System.Data;
 using System.Configuration;
 using System.Web;
 using iExchange.Common;
+using Trader.Common;
 
 /// <summary>
 /// Summary description for LedgerArgument
@@ -15,7 +16,7 @@ public class LedgerArgument : HttpContextHolder
     private string _Rdlc;    
     private AsyncResult _AsyncResult;
 
-    public LedgerArgument(string dateFrom, string dateTo, string IDs, string rdlc, AsyncResult asyncResult, long session)
+    public LedgerArgument(string dateFrom, string dateTo, string IDs, string rdlc, AsyncResult asyncResult, Session session)
         : base(session)
     {
         this._DateFrom = dateFrom;

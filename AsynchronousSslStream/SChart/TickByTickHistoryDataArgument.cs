@@ -5,8 +5,9 @@ using System.Web;
 using iExchange.Common;
 using System.Net;
 using Trader.Server.Bll;
-using Trader.Server.Session;
 using Trader.Server.Service;
+using Trader.Common;
+using Trader.Server.SessionNamespace;
 
 public class TickByTickHistoryDataArgument : HttpContextHolder
 {
@@ -14,7 +15,7 @@ public class TickByTickHistoryDataArgument : HttpContextHolder
     
     private AsyncResult _asyncResult;
 
-    public TickByTickHistoryDataArgument(Guid instrumentId, AsyncResult asyncResult,long session)
+    public TickByTickHistoryDataArgument(Guid instrumentId, AsyncResult asyncResult,Session session)
         :base(session)
     {
         this._instrumentId = instrumentId;        
@@ -42,7 +43,7 @@ public class HttpContextHolder
     private Token _Token;
     private TradingConsoleState _TradingConsoleState;
 
-    public HttpContextHolder(long session)
+    public HttpContextHolder(Session session)
     {
         string version = SessionManager.Default.GetVersion(session);
         this._Version = version == null ? "ENG" : version;

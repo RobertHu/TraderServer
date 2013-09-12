@@ -9,7 +9,7 @@ namespace Trader.Common
     public unsafe class UnmanagedMemory
     {
         public int Count { get; private set; }
-        public int Length { get; set; }
+        public int Length { get; private set; }
         public byte* Handle{get;private set;}
         private bool _Disposed = false;
         public byte[] Data { get; private set; }
@@ -26,19 +26,15 @@ namespace Trader.Common
             this.Length = count;
         }
 
-        public void Reset()
-        {
-            this.Count = 0;
-            this.Length = 0;
-            this.Handle = null;
-            this._Disposed = false;
-            this.Data = null;
-        }
-
 
         public void Expand(int count)
         {
             this.Handle = (byte*)Marshal.ReAllocHGlobal((IntPtr)this.Handle, (IntPtr)count);
+        }
+
+        public void SetLength(int length)
+        {
+            this.Length = length;
         }
 
         public byte[] ToArray()

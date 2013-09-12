@@ -7,9 +7,9 @@ namespace Trader.Common
 {
     public struct ReceiveData
     {
-        private long _ClientID;
+        private Session _ClientID;
         private byte[] _Data;
-        public long ClientID
+        public Session ClientID
         {
             get { return _ClientID; }
         }
@@ -17,7 +17,7 @@ namespace Trader.Common
         {
             get { return _Data; }
         }
-        public ReceiveData(long clientId, byte[] data)
+        public ReceiveData(Session clientId, byte[] data)
         {
             this._ClientID = clientId;
             this._Data = data;

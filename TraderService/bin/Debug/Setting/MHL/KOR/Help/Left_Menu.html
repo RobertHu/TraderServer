@@ -1,0 +1,171 @@
+<HTML>
+	<HEAD>
+		<title>Left_Menu</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio 7.0">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link href="../CSS/OmnicareCSS.css" rel="stylesheet" type="text/css">
+		<style> .red{color:green}
+		</style>
+		<script language="JavaScript">
+			function Check_td(Temp_Value)
+			{
+				if(Temp_Value==1)
+				{	
+					td1.style.display="";
+					td2.style.display="none";	
+					td3.style.display="none";	
+				}
+				else if(Temp_Value==2)
+				{
+					td1.style.display="none";		
+					td2.style.display="";
+					td3.style.display="none";					
+				}
+				else if(Temp_Value==3)
+				{
+					td1.style.display="none";		
+					td2.style.display="none";
+					td3.style.display="";				
+				}
+			}
+		</script>
+	</HEAD>
+	<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" scroll="no">
+		<table width="100%" height="100%" border="1" cellpadding="0" cellspacing="0" bordercolorlight="#000000"
+			bordercolordark="#ffffff" bgcolor="#ffffff">
+			<tr valign="top">
+				<td height="20" class="tdTitle2"><table width="100%" height="20" border="1" cellpadding="0" cellspacing="0" bgcolor="#4a5d84">
+						<tr>
+							<td valign="bottom">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td height="20"><table width="100%" height="100%" cellpadding="0" cellspacing="0" ID="Table1">
+						<tr>
+							<td height="17" align="center" class="tdTitle" style="CURSOR:hand" onClick="Check_td('1')"
+								bgcolor="#3399cc"><font size="2" face="System"><b>개요</b></font></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr valign="top" id="td1">
+				<td bgcolor="#ffffff"><table width="100%" border="0" cellspacing="0" cellpadding="0" ID="Table2">
+						<tr>
+							<td align="center">&nbsp;</td>
+						</tr>
+						<tr>
+							<td align="center"><a href="overview.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>개요</a></LI></td>
+						</tr>
+						<tr>
+							<td align="center">&nbsp;</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td height="20"><table width="100%" height="100%" cellpadding="0" cellspacing="0">
+						<tr>
+							<td height="17" align="center" class="tdTitle" style="CURSOR:hand" onClick="Check_td('2')"
+								bgcolor="#3399cc"><font size="2" face="System"><b>요구사항</b></font></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr valign="top" id="td2" style="DISPLAY:none">
+				<td bgcolor="#ffffff"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td align="center">&nbsp;</td>
+						</tr>
+						<tr>
+							<td align="center"><a href="requirement.html" target="Display_win" onmousemove="this.className='red'"
+									onmouseout="this.className=';'" style="TEXT-DECORATION: none"><li>기자재 요구사항</a></LI></td>
+						</tr>
+						<tr>
+							<td align="center"><a href="osrequire.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>운영 시스템</a><FONT face="굴림">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT></LI></td>
+						</tr>
+						<tr>
+							<td align="center">&nbsp;</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td height="20"><table width="100%" height="100%" cellpadding="0" cellspacing="0">
+						<tr>
+							<td align="center" style="CURSOR:hand" class="tdTitle" onClick="Check_td('3')" bgcolor="#3399cc"><font size="2" face="System"><b>시작</b></font></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr valign="top" id="td3" style="DISPLAY:none">
+				<td bgcolor="#ffffff">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td align="center">&nbsp;</td>
+						</tr>
+						<tr>
+							<td><a href="Signingin.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>시스템에 사인 인하기</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="main.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>주 스크린</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="instrument.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>거래을 위한 기구/계기 선택하기</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="dqorder.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>현물/현품 주문 방법</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="otheroda.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>다른 유형의 주문하기</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="odacancel.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>미확인된 지시사항 취소하기</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="password.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>사용자 암호 바꾸기</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="vchart.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>차트</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="report.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>리포트</a></LI></td>
+						</tr>
+						<tr>
+							<td><a href="message.html" target="Display_win" onmousemove="this.className='red'" onmouseout="this.className=';'"
+									style="TEXT-DECORATION: none"><li>메시지</a></LI></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td height="22" class="tdTitle2"><table width="100%" height="20" border="1" cellpadding="0" cellspacing="0" bgcolor="#4a5d84">
+						<tr>
+							<td valign="bottom" class="CoolFont"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</HTML>

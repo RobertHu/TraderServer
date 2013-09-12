@@ -20,8 +20,8 @@ D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSsl
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Chart.Common.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Easychart.Finance.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\bin\Debug\Framework.pdb
-D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\ResolveAssemblyReference.cache
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\RdlCompile.cache
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\RdlCompile.compiled
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\Trader.Server.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\Trader.Server.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\obj\x86\Debug\Trader.Server.csprojResolveAssemblyReference.cache

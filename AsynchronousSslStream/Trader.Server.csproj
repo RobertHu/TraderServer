@@ -137,13 +137,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="4BitCompress\CommandTranslator.cs" />
     <Compile Include="4BitCompress\GuidMapping.cs" />
-    <Compile Include="4BitCompress\Quotation4Bit.cs" />
+    <Compile Include="4BitCompress\QuotationTranslator.cs" />
     <Compile Include="4BitCompress\Quotation4BitEncoder.cs" />
     <Compile Include="4BitCompress\QuotationFilterSignMapping.cs" />
     <Compile Include="AgentController.cs" />
     <Compile Include="Bll\AccountManager.cs" />
     <Compile Include="Bll\AsyncResultManager.cs" />
+    <Compile Include="Bll\ChartQuotationCollection.cs" />
     <Compile Include="Bll\ClientService.cs" />
     <Compile Include="Bll\DBLogService.cs" />
     <Compile Include="Bll\InstrumentManager.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Bll\Application.cs" />
     <Compile Include="Bll\TransactionService.cs" />
     <Compile Include="Bll\PDFHelper.cs" />
+    <Compile Include="Delivery\Service.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -193,7 +196,7 @@
     <Compile Include="Serialization\ZlibHelper.cs" />
     <Compile Include="Service\NamedCommands.cs" />
     <Compile Include="Service\QuotationTester.cs" />
-    <Compile Include="Session\TraderState.cs" />
+    <Compile Include="SessionNamespace\TraderState.cs" />
     <Compile Include="Ssl\Client.cs" />
     <Compile Include="Ssl\ReceiveAgent.cs" />
     <Compile Include="Ssl\SecureConnectionResults.cs" />
@@ -211,7 +214,7 @@
     <Compile Include="Bll\InitDataService.cs" />
     <Compile Include="Service\ICommandCollectService.cs" />
     <Compile Include="SessionMonitor.cs" />
-    <Compile Include="Session\SessionManager.cs" />
+    <Compile Include="SessionNamespace\SessionManager.cs" />
     <Compile Include="SettingManager.cs" />
     <Compile Include="Bll\StatementService.cs" />
     <Compile Include="TypeExtension\BoolExtension.cs" />

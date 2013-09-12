@@ -8,18 +8,18 @@ namespace Trader.Common
 {
     public static  class SessionMapping
     {
-        public const long INVALID_VALUE = 0;
         private static long _NextSequence = 0;
         private static ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
-        private static Dictionary<string, long> _dict = new Dictionary<string, long>();
-        public static long Get()
+        private static Dictionary<string, Session> _dict = new Dictionary<string, Session>();
+        public static Session Get()
         {
             _ReadWriteLock.EnterWriteLock();
             try
             {
                 _NextSequence++;
-                _dict.Add(_NextSequence.ToString(), _NextSequence);
-                return _NextSequence;
+                Session session = new Session(_NextSequence);
+                _dict.Add(_NextSequence.ToString(), session);
+                return session;
             }
             finally
             {
@@ -28,7 +28,7 @@ namespace Trader.Common
                
         }
 
-        public static long Get(string session)
+        public static Session Get(string session)
         {
             _ReadWriteLock.EnterReadLock();
             try
@@ -37,7 +37,7 @@ namespace Trader.Common
                 {
                     return _dict[session];
                 }
-                return INVALID_VALUE;
+                return Session.INVALID_VALUE;
             }
             finally
             {

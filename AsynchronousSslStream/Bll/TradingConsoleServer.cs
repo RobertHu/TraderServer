@@ -1189,6 +1189,16 @@ namespace Trader.Server.Bll
 
                     eventCode = eventCode.Substring(0, debugInfoIndex);
                 }
+
+                int accountIdIndex = eventCode.IndexOf("[AccountId]=");
+                if (accountIdIndex > 0)
+                {
+                    string accountId = eventCode.Substring(accountIdIndex + "[AccountId]=".Length);
+                    sqlParameter = sqlCommand.Parameters.Add("@AccountID", SqlDbType.UniqueIdentifier);
+                    sqlParameter.Value = new Guid(accountId);
+                    eventCode = eventCode.Substring(0, accountIdIndex);
+                }
+
                 sqlParameter = sqlCommand.Parameters.Add("@Event", SqlDbType.NVarChar, 4000);
                 sqlParameter.Value = eventCode;
 
@@ -2277,6 +2287,59 @@ namespace Trader.Server.Bll
                 throw e;
             }
             return isSucceed;
+        }
+
+
+        public string[] GetDeliveryAddress(Guid deliveryPointGroupId, string language)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(this.connectionString))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand("dbo.P_GetDeliveryAddress", sqlConnection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    SqlParameter sqlParameter = sqlCommand.Parameters.Add("@deliveryPointGroupId", SqlDbType.UniqueIdentifier);
+                    sqlParameter.Value = deliveryPointGroupId;
+
+                    sqlParameter = sqlCommand.Parameters.Add("@language", SqlDbType.NVarChar);
+                    sqlParameter.Value = language;
+
+                    sqlConnection.Open();
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        List<string> deliveryAddresses = new List<string>();
+                        while (reader.Read())
+                        {
+                            string bank = reader["Id"].ToString();
+                            bank += "|";
+                            object address = reader["Address"];
+                            bank += (address == null || address == DBNull.Value) ? "" : (string)address;
+                            deliveryAddresses.Add(bank);
+                        }
+                        return deliveryAddresses.ToArray();
+                    }
+                }
+            }
+        }
+
+        public DataSet GetOrderInstalment(Guid orderId)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(this.connectionString))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand("dbo.P_GetOrderInstalment", sqlConnection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlConnection.Open();
+                    SqlCommandBuilder.DeriveParameters(sqlCommand);
+                    sqlCommand.Parameters["@orderId"].Value = orderId;
+                    DataSet dataSet = new DataSet();
+                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                    sqlDataAdapter.Fill(dataSet);
+                    sqlCommand.Dispose();
+                    sqlConnection.Close();
+
+                    return dataSet;
+                }
+            }
         }
 
 

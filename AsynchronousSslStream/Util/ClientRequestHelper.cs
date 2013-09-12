@@ -10,6 +10,8 @@ using Trader.Server.TypeExtension;
 using Mobile = iExchange3Promotion.Mobile;
 using System.Xml.Linq;
 using Trader.Server.Serialization;
+using Trader.Server.SessionNamespace;
+using iExchange.Common;
 
 namespace Trader.Server.Util
 {
@@ -22,8 +24,7 @@ namespace Trader.Server.Util
             {
                 if (!request.IsKeepAlive)
                 {
-                     content = ProcessHelper(request);
-                   
+                    content = ProcessForNormal(request);
                 }
                 else
                 {
@@ -35,11 +36,14 @@ namespace Trader.Server.Util
                 Console.WriteLine(ex);
                 content = XmlResultHelper.NewErrorResult(ex.ToString());
             }
-            Application.Default.SessionMonitor.Update(request.Session);
-            if (content != null)
+            finally
             {
-                request.Content = content;
-                SendCenter.Default.Send(request);
+                Application.Default.SessionMonitor.Update(request.Session);
+                if (content != null)
+                {
+                    request.Content = content;
+                    SendCenter.Default.Send(request);
+                }
             }
         }
 
@@ -56,7 +60,7 @@ namespace Trader.Server.Util
             SendCenter.Default.Send(request);
         }
 
-        private static XElement  ProcessHelper(SerializedObject request)
+        private static XElement  ProcessForNormal(SerializedObject request)
         {
             XElement  result = XmlResultHelper.ErrorResult;
             XElement  content = request.Content;
@@ -71,32 +75,37 @@ namespace Trader.Server.Util
             return result;
         }
 
-        private static void WhenSessionNotExistRecoverSessionToCurrentSession(SerializedObject request)
-        {
-            if (request.ClientID != SessionMapping.INVALID_VALUE)
-            {
-                request.Session = request.ClientID;
-            }
-        }
-
         private static XElement ProcessMethodReqeust(SerializedObject request,string methodName)
         {
-            iExchange.Common.Token token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session);
-            XElement  result = XmlResultHelper.ErrorResult;
-            XElement  content = request.Content;
+           Token token = SessionManager.Default.GetToken(request.Session);
+           XElement result;
             if (!Application.Default.SessionMonitor.Exist(request.Session))
             {
-                if (methodName == "Login")
-                {
-                    result = RequestTable.Default.Execute(methodName, request, token);
-                }
-                WhenSessionNotExistRecoverSessionToCurrentSession(request);
+                ExecuteRequestWhenSessionNotExist(methodName, request, token, out result);
             }
             else
             {
                 result = RequestTable.Default.Execute(methodName, request, token);
             }
             return result;
+        }
+
+        private static void ExecuteRequestWhenSessionNotExist(string methodName, SerializedObject request, Token token,out XElement result)
+        {
+            result = XmlResultHelper.ErrorResult;
+            if (methodName == "Login")
+            {
+                result = RequestTable.Default.Execute(methodName, request, token);
+            }
+            WhenSessionNotExistRecoveSessionToCurrentSession(request);
+        }
+
+        private static void WhenSessionNotExistRecoveSessionToCurrentSession(SerializedObject request)
+        {
+            if (request.ClientID != Session.INVALID_VALUE)
+            {
+                request.Session = request.ClientID;
+            }
         }
     }
 }

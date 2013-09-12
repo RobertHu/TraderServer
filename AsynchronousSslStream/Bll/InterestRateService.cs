@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using iExchange.Common;
-using Trader.Server.Session;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
+using Trader.Common;
+using Trader.Server.SessionNamespace;
 namespace Trader.Server.Bll
 {
     public class InterestRateService
@@ -28,7 +29,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public static XElement GetInterestRate2(long session, Guid interestRateId)
+        public static XElement GetInterestRate2(Session session, Guid interestRateId)
         {
             try
             {

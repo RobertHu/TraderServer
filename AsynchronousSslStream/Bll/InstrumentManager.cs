@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using iExchange.Common;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
+using Trader.Common;
 
 namespace Trader.Server.Bll
 {
@@ -17,7 +18,7 @@ namespace Trader.Server.Bll
         private InstrumentManager() { }
         public static readonly InstrumentManager Default = new InstrumentManager();
 
-        public XElement GetInstrumentForSetting(long session)
+        public XElement GetInstrumentForSetting(Session session)
         {
             try
             {
@@ -33,7 +34,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public XElement UpdateInstrumentSetting(long session, string[] instrumentIDs)
+        public XElement UpdateInstrumentSetting(Session session, string[] instrumentIDs)
         {
             try
             {
@@ -49,7 +50,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        private DataSet UpdateInstrumentSetting(long session, Token token, string[] instrumentIDs)
+        private DataSet UpdateInstrumentSetting(Session session, Token token, string[] instrumentIDs)
         {
             DataSet dataSet = null;
             dataSet = Application.Default.TradingConsoleServer.GetUpdateInstrumentSetting(token, Application.Default.StateServer, instrumentIDs);
@@ -61,7 +62,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public void UpdateInstrumentSetting(long session, Dictionary<Guid, Guid> quotePolicyIds)
+        public void UpdateInstrumentSetting(Session session, Dictionary<Guid, Guid> quotePolicyIds)
         {
             var state = SessionManager.Default.GetTradingConsoleState(session);
             if (state != null)

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
+using Trader.Common;
 namespace Trader.Server.Bll
 {
     public class ClientService
     {
-        public static XElement  AdditionalClient(long session, string email, string receive, string organizationName, string customerName, string reportDate, string accountCode,
+        public static XElement  AdditionalClient(Session session, string email, string receive, string organizationName, string customerName, string reportDate, string accountCode,
           string correspondingAddress, string registratedEmailAddress, string tel, string mobile, string fax, string fillName1, string ICNo1,
           string fillName2, string ICNo2, string fillName3, string ICNo3)
         {
@@ -42,7 +43,7 @@ namespace Trader.Server.Bll
 
 
 
-        public static XElement  Agent(long session, string email, string receive, string organizationName, string customerName, string reportDate, string accountCode, string previousAgentCode,
+        public static XElement  Agent(Session session, string email, string receive, string organizationName, string customerName, string reportDate, string accountCode, string previousAgentCode,
             string previousAgentName, string newAgentCode, string newAgentName, string newAgentICNo, string dateReply)
         {
             try
@@ -73,7 +74,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement  CallMarginExtension(long session, string email, string receive, string organizationName, string customerName, string reportDate, string accountCode, string currency,
+        public static XElement  CallMarginExtension(Session session, string email, string receive, string organizationName, string customerName, string reportDate, string accountCode, string currency,
             string currencyValue, string dueDate)
         {
             try
@@ -96,7 +97,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement  FundTransfer(long session, string email, string receive, string organizationName, string customerName, string reportDate, string currency, string currencyValue, string accountCode, string bankAccount, string beneficiaryName, string replyDate)
+        public static XElement  FundTransfer(Session session, string email, string receive, string organizationName, string customerName, string reportDate, string currency, string currencyValue, string accountCode, string bankAccount, string beneficiaryName, string replyDate)
         {
             try
             {
@@ -117,7 +118,7 @@ namespace Trader.Server.Bll
            
         }
 
-        public static XElement  PaymentInstruction(long session, string email, string receive, string organizationName, string customerName, string reportDate, string accountCode, string currency,
+        public static XElement  PaymentInstruction(Session session, string email, string receive, string organizationName, string customerName, string reportDate, string accountCode, string currency,
             string currencyValue, string beneficiaryName, string bankAccount, string bankerName, string bankerAddress, string swiftCode, string remarks, string thisisClient)
         {
             try
@@ -141,7 +142,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public static XElement  PaymentInstructionInternal(long session, string email, string organizationName, string customerName, string reportDate, string accountCode,
+        public static XElement  PaymentInstructionInternal(Session session, string email, string organizationName, string customerName, string reportDate, string accountCode,
             string currency, string amount, string beneficiaryAccount, string beneficiaryAccountOwner, string email2)
         {
             try
@@ -164,7 +165,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        public static XElement  PaymentInstructionCash(long session, string email, string organizationName, string customerName, string reportDate,
+        public static XElement  PaymentInstructionCash(Session session, string email, string organizationName, string customerName, string reportDate,
             string accountCode, string currency, string amount, string beneficiaryName, string beneficiaryAddress)
         {
             try
@@ -187,7 +188,7 @@ namespace Trader.Server.Bll
             
         }
 
-        public static XElement  Assign(long session)
+        public static XElement  Assign(Session session)
         {
             try
             {
@@ -210,7 +211,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public static XElement  ChangeLeverage(long session, Guid accountId, int leverage)
+        public static XElement  ChangeLeverage(Session session, Guid accountId, int leverage)
         {
             try
             {

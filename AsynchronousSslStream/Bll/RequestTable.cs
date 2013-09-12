@@ -12,7 +12,7 @@ using log4net;
 using System.Xml.Linq;
 using Trader.Common;
 using Wintellect.Threading.AsyncProgModel;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using Trader.Server.Serialization;
 namespace Trader.Server.Bll
 {
@@ -22,10 +22,12 @@ namespace Trader.Server.Bll
         private ILog _Logger = LogManager.GetLogger(typeof(RequestTable));
         public static readonly RequestTable Default = new RequestTable();
         private Service _Service = new Service();
+        private Trader.Server.Delivery.Service _DeliveryService = new Delivery.Service();
         private RequestTable()
         {
             table.Add("Login", LoginAction);
             table.Add("GetInitData", GetInitDataAction);
+            table.Add("AsyncGetChartData2ForMobile", AsyncGetChartData2ForMobileAction);
             table.Add("GetTimeInfo", GetTimeInfoAction);
             table.Add("GetNewsList2", GetNewsList2Action);
             table.Add("GetMessages", GetMessagesAction);
@@ -78,6 +80,9 @@ namespace Trader.Server.Bll
             table.Add("UpdateQuotePolicyDetail", UpdateQuotePolicyDetailAction);
             table.Add("GetQuotePolicyDetailsAndRefreshInstrumentsState", GetQuotePolicyDetailsAndRefreshInstrumentsStateAction);
             table.Add("GetNewsContents", GetNewsContentsAction);
+            table.Add("GetOrderInstalment", GetOrderInstalmentAction);
+            table.Add("ApplyDelivery", ApplyDeliveryAction);
+            table.Add("GetDeliveryAddress", GetDeliveryAddressAction);
 
         }
 
@@ -113,7 +118,7 @@ namespace Trader.Server.Bll
         private XElement AccountSummaryForJava2Action(SerializedObject request, Token token)
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
-            return StatementService.AccountSummaryForJava2(request.Session, args[0], args[1], args[2]);
+            return StatementService.AccountSummaryForJava2(request.Session, args[0], args[1], args[2],args[3]);
         }
         private XElement GetInterestRateByOrderIdAction(SerializedObject request, Token token)
         {
@@ -125,6 +130,23 @@ namespace Trader.Server.Bll
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
             return InterestRateService.GetInterestRate2(request.Session, args[0].ToGuid());
+        }
+        private XElement GetOrderInstalmentAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return _DeliveryService.GetOrderInstalment(args[0].ToGuid());
+        }
+
+        private XElement ApplyDeliveryAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return _DeliveryService.ApplyDelivery(request.Session, args[0].ToXmlNode());
+        }
+
+        private XElement GetDeliveryAddressAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return _DeliveryService.GetDeliveryAddress(request.Session, args[0].ToGuid());
         }
 
         private XElement CancelLMTOrderAction(SerializedObject request, Token token)
@@ -262,7 +284,7 @@ namespace Trader.Server.Bll
             if ((int)AppType.Mobile == appType)
             {
                 ae.EndExecute(asyncResult);
-                token = Trader.Server.Session.SessionManager.Default.GetToken(request.Session);
+                token =SessionManager.Default.GetToken(request.Session);
                 result = iExchange3Promotion.Mobile.Manager.Login(token);
             }
 
@@ -350,28 +372,29 @@ namespace Trader.Server.Bll
 //                    }
 
                     //placing DQOrder
-                    string xml = "<PlacingInstruction AccountId=\"6f2aac40-259e-44e2-9d1a-c0d3d6647a6a\" InstrumentId=\"282fa038-1330-43a6-aa87-9d7d01c1a594\" PlacingType=\"LimitStop\" EndTime=\"2013-07-03 16:14:21.404\" PendingOrderExpireType=\"GoodTillDate\" PriceIsQuote=\"false\" PriceTimestamp=\"2013-07-03 16:14:21.404\">"
-  +"<PlacingOrders>"
-  +"  <PlacingOrder Id=\"00000001-183d-4b5a-8cc2-8073d6cff299\" Lot=\"2\" IsOpen=\"false\" IsBuy=\"false\" SetPrice=\"1.9822\" TradeOption=\"Better\" />"
-  + " <PlacingOrder Id=\"00000001-236b-4c5d-a32f-34b6350b5279\" Lot=\"2\" IsOpen=\"false\" IsBuy=\"false\" SetPrice=\"1.9802\" TradeOption=\"Stop\" />"
-  +"</PlacingOrders>"
-  +"<OrderRelations>"
-+ "    <OpenCloseRelation OpenOrderId=\"65f709b2-62fe-4196-9b83-7ff6b2612f0f\" CloseOrderId=\"00000001-183d-4b5a-8cc2-8073d6cff299\" Lot=\"2\" />"
-    + "<OpenCloseRelation OpenOrderId=\"65f709b2-62fe-4196-9b83-7ff6b2612f0f\" CloseOrderId=\"00000001-236b-4c5d-a32f-34b6350b5279\" Lot=\"2\" />"
-+"  </OrderRelations>"
-+"</PlacingInstruction>";
+//                    string xml = "<PlacingInstruction AccountId=\"cbcdb06f-141a-415f-bdda-a676bd5759b7\" InstrumentId=\"babf7daa-af0f-4396-85f2-67e2c97952b7\" PlacingType=\"SpotTrade\" EndTime=\"2013-07-05 16:14:21.404\" PriceTimestamp=\"2013-07-03 16:14:21.404\">"
+//  +"<PlacingOrders>"
+//  + "  <PlacingOrder Id=\"00000003-0000-4b5a-8cc2-8073d6cff299\" Lot=\"2\" IsOpen=\"true\" IsBuy=\"true\" SetPrice=\"1585\" TradeOption=\"Invalid\" />"
+//  +"</PlacingOrders>"
+//+"</PlacingInstruction>";
 
-                    ICollection<Mobile.Server.Transaction> transactions = Mobile.Manager.ConvertPlacingRequest(token, xml.ToXmlNode());
+//                    ICollection<Mobile.Server.Transaction> transactions = Mobile.Manager.ConvertPlacingRequest(token, xml.ToXmlNode());
+//                    XElement element = new XElement("Result");
+//                    foreach (Mobile.Server.Transaction transaction in transactions)
+//                    {
+//                        ICollection<XElement> errorCodes = this.GetPlaceResultForMobile(transaction, token);
+//                        foreach (XElement orderErrorElement in errorCodes)
+//                        {
+//                            element.Add(orderErrorElement);
+//                        }
+//                    }
+
+                    //------------- modify price
+                    Mobile.Server.Transaction transaction = Mobile.Manager.ConvertModifyRequest(token, new Guid("69B80BC0-90FA-46E3-AF08-1B6E67FFF506"), "1596", null, null, null, null, null, null, false);
                     XElement element = new XElement("Result");
-                    foreach (Mobile.Server.Transaction transaction in transactions)
-                    {
-                        ICollection<XElement> errorCodes = this.GetPlaceResultForMobile(transaction, token);
-                        foreach (XElement orderErrorElement in errorCodes)
-                        {
-                            element.Add(orderErrorElement);
-                        }
-                    }
 
+                    ICollection<XElement> errorCodes = this.GetPlaceResultForMobile(transaction, token);
+                    //--------------
 
                     //switch accounts
                     //initData = Mobile.Manager.GetInitData(token);                                        
@@ -404,7 +427,6 @@ namespace Trader.Server.Bll
             }
             return result;
         }
-
         private XElement GetTimeInfoAction(SerializedObject request, Token token)
         {
             return TimeService.GetTimeInfo();
@@ -595,6 +617,12 @@ namespace Trader.Server.Bll
             return TickService.GetChartData(Guid.Parse(args[0]));
         }
 
+        private XElement AsyncGetChartData2ForMobileAction(SerializedObject request, Token token)
+        {
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            return TickService.AsyncGetChartData2ForMobile(request.Session, Guid.Parse(args[0]), DateTime.Parse(args[1]), DateTime.Parse(args[2]), args[3]);
+        }
+
         private XElement VerifyTransactionAction(SerializedObject request, Token token)
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
@@ -647,7 +675,7 @@ namespace Trader.Server.Bll
                 string order1DoneStopPrice = args[5];
                 string order2DoneLimitPrice = args[6];
                 string order2DoneStopPrice = args[7];
-                bool isOco = bool.Parse(order1DoneLimitPrice = args[8]);
+                bool isOco = bool.Parse(args[8]);
 
                 Mobile.Server.Transaction transaction = Mobile.Manager.ConvertModifyRequest(token, orderId, price, orderId2, price2, order1DoneLimitPrice, order1DoneStopPrice, order2DoneLimitPrice, order2DoneStopPrice, isOco);
                 XElement element = new XElement("Result");
@@ -695,17 +723,14 @@ namespace Trader.Server.Bll
             return RecoverService.Recover(request.Session, request.ClientID);
         }
 
-        private XElement  LogoutAction(SerializedObject request, Token token)
-        {            
+        private XElement LogoutAction(SerializedObject request, Token token)
+        {
             XElement result = LoginManager.Default.Logout(request.Session);
             if (token.AppType == AppType.Mobile)
             {
-                return Mobile.Manager.Logout(token);                
+                Mobile.Manager.Logout(token);
             }
-            else
-            {
-                return result;
-            }
+            return result;
         }
 
         private ICollection<XElement> GetPlaceResultForMobile(Mobile.Server.Transaction transaction, Token token)

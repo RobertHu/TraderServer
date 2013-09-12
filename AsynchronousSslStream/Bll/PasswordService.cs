@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using System.Diagnostics;
 using System.Xml;
 using Trader.Server.Util;
@@ -17,7 +17,7 @@ namespace Trader.Server.Bll
 {
     public class PasswordService
     {
-        public static XElement  RecoverPasswordDatas(long session, string[][] recoverPasswordDatas)
+        public static XElement  RecoverPasswordDatas(Session session, string[][] recoverPasswordDatas)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Trader.Server.Bll
 
 
 
-        public static XElement  ModifyTelephoneIdentificationCode(long session, Guid accountId, string oldCode, string newCode)
+        public static XElement  ModifyTelephoneIdentificationCode(Session session, Guid accountId, string oldCode, string newCode)
         {
             bool lastResult = false;
             try
@@ -78,7 +78,6 @@ namespace Trader.Server.Bll
                     SqlCommand sqlCommand = sqlconnection.CreateCommand();
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.CommandText = "Account_UpdateDescription";
-                    sqlconnection.Open();
                     SqlCommandBuilder.DeriveParameters(sqlCommand);
                     sqlCommand.Parameters["@id"].Value = accountId;
                     sqlCommand.Parameters["@oldDescription"].Value = oldCode;
@@ -94,6 +93,22 @@ namespace Trader.Server.Bll
                         sqlCommand.ExecuteNonQuery();
                         lastResult = true;
                     }
+                    else
+                    {
+                        //maybe the accountId is an employee id
+                        sqlCommand = sqlconnection.CreateCommand();
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlCommand.CommandText = "Employee_UpdateTelephonePin";
+                        sqlconnection.Open();
+                        SqlCommandBuilder.DeriveParameters(sqlCommand);
+                        sqlCommand.Parameters["@id"].Value = accountId;
+                        sqlCommand.Parameters["@oldPin"].Value = oldCode;
+                        sqlCommand.Parameters["@newPin"].Value = newCode;
+
+                        sqlCommand.ExecuteNonQuery();
+                        result = (int)sqlCommand.Parameters["@RETURN_VALUE"].Value;
+                        lastResult = (result == 0);
+                    }
                 }
             }
             catch (System.Exception ex)
@@ -105,7 +120,7 @@ namespace Trader.Server.Bll
 
 
 
-        private static bool UpdatePassword3(long session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
+        private static bool UpdatePassword3(Session session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
         {
             message = "";
             try
@@ -144,7 +159,7 @@ namespace Trader.Server.Bll
         }
 
         //Activate
-        public static bool UpdatePassword2(long session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
+        public static bool UpdatePassword2(Session session, string loginID, string oldPassword, string newPassword, string[][] recoverPasswordDatas, out string message)
         {
             message = "";
             try
@@ -168,7 +183,7 @@ namespace Trader.Server.Bll
         }
 
         //Change Password
-        public static XElement  UpdatePassword(long session, string loginID, string oldPassword, string newPassword)
+        public static XElement  UpdatePassword(Session session, string loginID, string oldPassword, string newPassword)
         {
             string message = "";
             bool isSucceed = false;

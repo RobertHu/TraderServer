@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<IntegralitySettings>
+	<PaymentInstruction>
+		<Email AllowNull ="false"/>
+		<Amount AllowNull ="false"/>
+		<BeneficiaryName AllowNull ="false"/>
+		<BankAccountNo AllowNull ="false"/>
+		<BankName AllowNull ="false"/>
+		<BankAddress AllowNull ="false"/>
+	</PaymentInstruction>
+</IntegralitySettings>

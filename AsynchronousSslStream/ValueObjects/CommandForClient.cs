@@ -17,7 +17,7 @@ namespace Trader.Server.ValueObjects
 
     public class CommandForClient
     {
-        private Quotation4Bit _Quotation;
+        private QuotationTranslator _Quotation;
         private Command _Command;
         private DataType _CommandType;
         private UnmanagedMemory _Data;
@@ -32,7 +32,7 @@ namespace Trader.Server.ValueObjects
             }
             else if (quotationCommand != null)
             {
-                this._Quotation = new Quotation4Bit(quotationCommand);
+                this._Quotation = new QuotationTranslator(quotationCommand);
                 this._Command = null;
                 this._Data = null;
                 this._CommandType = DataType.Quotation;
@@ -46,7 +46,7 @@ namespace Trader.Server.ValueObjects
             }
         }
 
-        public Quotation4Bit Quotation { get { return this._Quotation; } }
+        public QuotationTranslator Quotation { get { return this._Quotation; } }
         public Command Command { get { return this._Command; } }
         public DataType CommandType { get { return this._CommandType; } }
         public UnmanagedMemory Data { get { return this._Data; } }

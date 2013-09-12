@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using iExchange.Common;
 using Trader.Server.Util;
 using System.Xml.Linq;
 using Trader.Server.TypeExtension;
 using System.Xml;
+using Trader.Common;
 namespace Trader.Server.Bll
 {
     public static class MessageService
     {
-        public static XElement GetMessages(long session)
+        public static XElement GetMessages(Session session)
         {
             try
             {

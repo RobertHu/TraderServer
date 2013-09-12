@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using log4net;
 using Trader.Server._4BitCompress;
 using iExchange.Common;
-using Trader.Server.Session;
+using Trader.Server.SessionNamespace;
 using Trader.Server.ValueObjects;
 using Trader.Server.Serialization;
 using System.Runtime.InteropServices;
@@ -27,7 +27,7 @@ namespace Trader.Server.Ssl
         private bool _IsSendingData = false;
         private bool _HasPartialPacket = false;
         private int _PartialReadedLenth = 0;
-        private long _ID;
+        private Session _ID;
         private const int MAX_WRITE_LENGTH = 10240;
         private int _LastWriteIndex = 0;
         private UnmanagedMemory _LastWriteBuffer;
@@ -38,7 +38,7 @@ namespace Trader.Server.Ssl
         private UnmanagedMemory _CurrentPacket;
         private List<QuotationCommand> _QuotationQueue = new List<QuotationCommand>(20);
 
-        public Client(SslStream stream, long id,byte[] buffer)
+        public Client(SslStream stream, Session id,byte[] buffer)
         {
             this._Stream = stream;
             this._ID = id;
@@ -82,6 +82,7 @@ namespace Trader.Server.Ssl
             }
             catch (Exception ex)
             {
+                _Logger.Error("Begin Read", ex);
                 this.Close();
             }
         }
@@ -170,6 +171,7 @@ namespace Trader.Server.Ssl
                 }
                 catch (Exception ex)
                 {
+                    _Logger.Error("End read", ex);
                     this.Close();
                 }
             });
@@ -178,7 +180,7 @@ namespace Trader.Server.Ssl
 
         }
 
-        public void UpdateClientID(long clientID)
+        public void UpdateClientID(Session clientID)
         {
             this._ID = clientID;
         }
@@ -189,32 +191,35 @@ namespace Trader.Server.Ssl
             {
                 lock (this._QueueLock)
                 {
-                    if (this._Queue.Count > 0)
+                    if (this._Queue.Count == 0)
                     {
-                        this._CurrentCommand = this._Queue.Dequeue();
-                        if (this._CurrentCommand.CommandType == DataType.Command)
-                        {
-                            WriteForCommand();
-                        }
-                        else if (this._CurrentCommand.CommandType == DataType.Response)
-                        {
-                            this._CurrentPacket = this._CurrentCommand.Data;
-                            this.BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
-                        }
-                        else
-                        {
-                            WriteForQuotation();
-                        }
+                        this._IsSendingData = false;
+                        return;
+                    }
+                    this._CurrentCommand = this._Queue.Dequeue();
+                    if (this._CurrentCommand.CommandType == DataType.Command)
+                    {
+                        WriteForCommand();
+                    }
+                    else if (this._CurrentCommand.CommandType == DataType.Response)
+                    {
+                        this._CurrentPacket = this._CurrentCommand.Data;
+                        this.BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
+                    }
+                    else if (this._CurrentCommand.CommandType == DataType.Quotation)
+                    {
+                        WriteForQuotation();
                     }
                     else
                     {
-                        this._IsSendingData = false;
+                        throw new ArgumentException(string.Format("Unrecognize DataType:{0}", this._CurrentCommand.CommandType));
                     }
+
                 }
             }
             catch (Exception ex)
             {
-                _Logger.Error(ex);
+                _Logger.Error("Write",ex);
                 this.Close();
             }
         }
@@ -240,23 +245,23 @@ namespace Trader.Server.Ssl
                 item = this._Queue.Dequeue();
                 this._QuotationQueue.Add(item.Quotation.QuotationCommand);
             }
-            byte[] data;
+            byte[] content;
             if (this._QuotationQueue.Count == 1)
             {
-                data = this._CurrentCommand.Quotation.GetPriceInBytes(token, state);
+                content = this._CurrentCommand.Quotation.GetPriceInBytes(token, state);
             }
             else
             {
                 QuotationCommand command = new QuotationCommand();
                 command.Merge(this._QuotationQueue);
-                data = Quotation4Bit.GetPriceInBytes(token, state, command, this._QuotationQueue[0].Sequence, this._QuotationQueue[this._QuotationQueue.Count - 1].Sequence);
+                content = QuotationTranslator.GetPriceInBytes(token, state, command, this._QuotationQueue[0].Sequence, this._QuotationQueue[this._QuotationQueue.Count - 1].Sequence);
             }
-            if (data == null)
+            if (content == null)
             {
                 Write();
                 return;
             }
-            this._CurrentPacket = SerializeManager.Default.SerializePrice(data);
+            this._CurrentPacket = SerializeManager.Default.SerializePrice(content);
             this.BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
 
         }
@@ -270,7 +275,7 @@ namespace Trader.Server.Ssl
                 Write();
                 return;
             }
-            byte[] data = Quotation4Bit.GetDataForCommand(token, state, this._CurrentCommand.Command);
+            byte[] data = CommandTranslator.GetDataForCommand(token, state, this._CurrentCommand.Command);
             if (data == null)
             {
                 Write();
@@ -280,30 +285,31 @@ namespace Trader.Server.Ssl
             this.BeginWrite(this._CurrentPacket, 0, this._CurrentPacket.Length);
         }
 
-        private unsafe void BeginWrite(UnmanagedMemory data, int offset, int len)
+        private unsafe void BeginWrite(UnmanagedMemory mem, int offset, int len)
         {
             try
             {
-                if (data.Data != null) // keep alive data
+                if (mem.Data != null) // keep alive data or kickout packet
                 {
-                    this._Stream.BeginWrite(data.Data, 0, data.Data.Length, this.EndWrite, null);
+                    this._Stream.BeginWrite(mem.Data, 0, mem.Data.Length, this.EndWrite, null);
                     return;
                 }
                 if (len <= MAX_WRITE_LENGTH)
                 {
-                    Marshal.Copy((IntPtr)(data.Handle + offset), this._Buffer, this._WriteBufferIndex, len);
+                    Marshal.Copy((IntPtr)(mem.Handle + offset), this._Buffer, this._WriteBufferIndex, len);
                     this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, len, this.EndWrite, null);
                 }
                 else
                 {
-                    this._LastWriteBuffer = data;
-                    Marshal.Copy((IntPtr)(data.Handle + offset), this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH);
+                    this._LastWriteBuffer = mem;
+                    Marshal.Copy((IntPtr)(mem.Handle + offset), this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH);
                     this._Stream.BeginWrite(this._Buffer, this._WriteBufferIndex, MAX_WRITE_LENGTH, this.EndWrite, null);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                _Logger.Error("begin write client closed");
+                _Logger.Error("Begin Write", ex);
+                this.Close();
             }
         }
 
@@ -333,9 +339,9 @@ namespace Trader.Server.Ssl
                     int lenToBeWrite = len >= MAX_WRITE_LENGTH ? MAX_WRITE_LENGTH : len;
                     this.BeginWrite(this._LastWriteBuffer, this._LastWriteIndex, lenToBeWrite);
                 }
-                catch
+                catch(Exception ex)
                 {
-                    _Logger.Error("end write client closed");
+                    _Logger.Error("End write", ex);
                     this.Close();
                 }
             });

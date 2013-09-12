@@ -77,7 +77,7 @@ namespace Trader.Server
                     {
                         continue;
                     }
-                    if (workItem.Session == SessionMapping.INVALID_VALUE)
+                    if (workItem.Session == Session.INVALID_VALUE)
                     {
                         continue;
                     }

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
-using Trader.Server.Session;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
+using Trader.Server.SessionNamespace;
+using Trader.Common;
 namespace Trader.Server.Bll
 {
     public class LogService
     {
-        public static XElement SaveLog(long  session, string logCode, DateTime timestamp, string action, Guid transactionId)
+        public static XElement SaveLog(Session  session, string logCode, DateTime timestamp, string action, Guid transactionId)
         {
             try
             {

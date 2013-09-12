@@ -11,6 +11,7 @@ using Trader.Server.Setting;
 using Trader.Server.Service;
 using Trader.Server.Ssl;
 using Mobile = iExchange3Promotion.Mobile;
+using Trader.Common;
 
 namespace Trader.Server.Bll
 {
@@ -111,10 +112,15 @@ namespace Trader.Server.Bll
         public void MobileSendingCallback(object sender, EventArgs args)
         {
             Mobile.SendCommandEventArg eventArg = args as Mobile.SendCommandEventArg;
-
-            Trader.Server.Ssl.Client client = AgentController.Default.GetSender(long.Parse(eventArg.SessionId));
-           /* client.Send(Serialization.SerializeManager.Default.Serialize(new Serialization.SerializedObject(eventArg.SessionId,eventArg.XElement, null)));*/
-
+            Session sessionId;
+            if (!Session.TryParse(eventArg.SessionId,out sessionId))
+            {
+                return;
+            }
+            Trader.Server.Ssl.Client client = AgentController.Default.GetSender(sessionId);
+            UnmanagedMemory mem = Serialization.SerializeManager.Default.Serialize(new Serialization.SerializedObject(sessionId, null, eventArg.XElement));
+            ValueObjects.CommandForClient commandForClient = new ValueObjects.CommandForClient(mem, null, null);
+            client.Send(commandForClient);
         }
     }
 }

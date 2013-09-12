@@ -1,8 +1,8 @@
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\CommonUtil.dll
-D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Debug\ResolveAssemblyReference.cache
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\Trader.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\Trader.Common.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Debug\Trader.Common.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Debug\Trader.Common.pdb
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\log4net.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\bin\Debug\iExchange.Common.dll
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderCommon\obj\Debug\Trader.Common.csprojResolveAssemblyReference.cache

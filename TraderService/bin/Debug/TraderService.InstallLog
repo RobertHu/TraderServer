@@ -1,0 +1,145 @@
+﻿Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+Installing service iExchange.TraderService...
+Service iExchange.TraderService has been successfully installed.
+Creating EventLog source iExchange.TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+Removing EventLog source iExchange.TraderService.
+Service iExchange.TraderService is being removed from the system...
+Service iExchange.TraderService was successfully removed from the system.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+Installing service iExchange.TraderService...
+Creating EventLog source iExchange.TraderService in log Application...
+Rolling back assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+Restoring event log to previous state for source iExchange.TraderService.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+Installing service iExchange.TraderService...
+Service iExchange.TraderService has been successfully installed.
+Creating EventLog source iExchange.TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+Removing EventLog source iExchange.TraderService.
+Service iExchange.TraderService is being removed from the system...
+Service iExchange.TraderService was successfully removed from the system.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Installing service iExchange.TraderService...
+Service iExchange.TraderService has been successfully installed.
+Creating EventLog source iExchange.TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Removing EventLog source iExchange.TraderService.
+Service iExchange.TraderService is being removed from the system...
+Service iExchange.TraderService was successfully removed from the system.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Installing service iExchange.TraderService...
+Service iExchange.TraderService has been successfully installed.
+Creating EventLog source iExchange.TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Removing EventLog source iExchange.TraderService.
+Service iExchange.TraderService is being removed from the system...
+Service iExchange.TraderService was successfully removed from the system.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Installing service iExchange.TraderService...
+Service iExchange.TraderService has been successfully installed.
+Creating EventLog source iExchange.TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   i = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Uninstalling assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+Removing EventLog source iExchange.TraderService.
+Service iExchange.TraderService is being removed from the system...
+Service iExchange.TraderService was successfully removed from the system.
+Installing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   i = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logtoconsole = 
+Installing service iExchange.TraderService...
+Service iExchange.TraderService has been successfully installed.
+Creating EventLog source iExchange.TraderService in log Application...
+Committing assembly 'D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe'.
+Affected parameters are:
+   i = 
+   logfile = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.InstallLog
+   assemblypath = D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\TraderService.exe
+   logtoconsole = 

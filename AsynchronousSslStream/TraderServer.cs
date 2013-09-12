@@ -84,7 +84,7 @@ namespace Trader.Server
             try
             {
                 SslInfo sslInfo = args.SecureInfo;
-                long session = SessionMapping.Get();
+                Session session = SessionMapping.Get();
                 Client client = new Client(sslInfo.SslStream, session, sslInfo.NetworkStream.BufferInUsed);
                 ClientRelation relation = new ClientRelation(client, new ReceiveAgent());
                 AgentController.Default.Add(session, relation.Receiver, relation.Sender);
