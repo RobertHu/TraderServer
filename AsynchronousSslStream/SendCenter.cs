@@ -13,71 +13,64 @@ namespace Trader.Server
     public class SendCenter
     {
         public static readonly SendCenter Default = new SendCenter();
-        private ILog _Logger = LogManager.GetLogger(typeof(SendCenter));
-        private ConcurrentQueue<SerializedObject> _Queue = new ConcurrentQueue<SerializedObject>();
-        private AutoResetEvent _Event = new AutoResetEvent(false);
-        private AutoResetEvent _StopEvent = new AutoResetEvent(false);
-        private AutoResetEvent[] _Events;
-        private volatile bool _IsStarted=false;
-        private volatile bool _IsStopped=false;
+        private readonly ILog _Logger = LogManager.GetLogger(typeof(SendCenter));
+        private readonly ConcurrentQueue<SerializedObject> _Queue = new ConcurrentQueue<SerializedObject>();
+        private readonly AutoResetEvent _Event = new AutoResetEvent(false);
+        private readonly AutoResetEvent _StopEvent = new AutoResetEvent(false);
+        private readonly AutoResetEvent[] _Events;
+        private volatile bool _IsStarted;
+        private volatile bool _IsStopped;
         private SendCenter() 
         {
-            this._Events = new AutoResetEvent[] { this._Event,this._StopEvent};
+            _Events = new[] { _Event,_StopEvent};
         }
 
         public void Start()
         {
             try
             {
-                if (this._IsStarted)
-                {
-                    return;
-                }
-                Thread thread = new Thread(Process);
-                thread.IsBackground = true;
+                if (_IsStarted) return;
+                Thread thread = new Thread(Process) {IsBackground = true};
                 thread.Start();
-                this._IsStarted = true;
+                _IsStarted = true;
             }
             catch (Exception ex)
             {
-                this._Logger.Error(ex);
+                _Logger.Error(ex);
             }
         }
 
         public void Stop()
         {
-            this._IsStopped = true;
-            this._StopEvent.Set();
+            _IsStopped = true;
+            _StopEvent.Set();
         }
 
         public void Send(SerializedObject item)
         {
-            if (item == null)
-            {
-                return;
-            }
-            this._Queue.Enqueue(item);
-            this._Event.Set();
+            if (item == null) return;
+            _Queue.Enqueue(item);
+            _Event.Set();
         }
 
         private void Process()
         {
             while (true)
             {
-                if (this._IsStopped)
+                if (_IsStopped)
                 {
                     break;
                 }
-                WaitHandle.WaitAny(this._Events);
+                WaitHandle.WaitAny(_Events);
                 SerializedObject workItem = null;
-                while (this._Queue.TryDequeue(out workItem))
+                while (_Queue.TryDequeue(out workItem))
                 {
                     UnmanagedMemory packet = SerializeManager.Default.Serialize(workItem);
                     if (packet == null)
                     {
                         continue;
                     }
-                    if (workItem.Session == Session.INVALID_VALUE)
+                    if (workItem.Session == Session.InvalidValue)
                     {
                         continue;
                     }

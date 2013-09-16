@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using iExchange.Common;
 using System.Xml;
-using Trader.Server.Setting;
 using log4net;
 using System.Data;
 using System.IO;
@@ -22,7 +21,7 @@ namespace Trader.Server.Bll
 {
     public class LoginManager
     {
-        private ILog _Logger = LogManager.GetLogger(typeof(LoginManager));
+        private readonly ILog _Logger = LogManager.GetLogger(typeof(LoginManager));
         private LoginManager() { }
         public readonly static LoginManager Default = new LoginManager();
 
@@ -31,16 +30,15 @@ namespace Trader.Server.Bll
             Session session = request.Session;
             string connectionString = SettingManager.Default.ConnectionString;
             IsFailedCountExceed(loginID, password, connectionString);
-            LoginParameter loginParameter = new LoginParameter();
+            var loginParameter = new LoginParameter();
             loginParameter.CompanyName = string.Empty;
             if (loginID == String.Empty)
             {
-                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
+                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, GetLocalIP());
                 Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, GetLocalIP());
                 SendErrorResult(request,appType);
                 yield break;
             }
-            string message = string.Empty;
             Application.Default.ParticipantService.BeginLogin(loginID, password, ae.End(), null);
             yield return 1;
             try
@@ -53,19 +51,20 @@ namespace Trader.Server.Bll
                 SendErrorResult(request,appType);
                 yield break;
             }
+            Guid programID = new Guid(SettingManager.Default.GetLoginSetting("TradingConsole"));
+            Guid permissionID = new Guid(SettingManager.Default.GetLoginSetting("Run"));
             if (loginParameter.UserID == Guid.Empty)
             {
                 _Logger.ErrorFormat("{0} is not a valid user", loginID);
             }
             else
             {
-                Guid programID = new Guid(SettingManager.Default.GetLoginSetting("TradingConsole"));
-                Guid permissionID = new Guid(SettingManager.Default.GetLoginSetting("Run"));
                 Application.Default.SecurityService.BeginCheckPermission(loginParameter.UserID, programID, permissionID, "", "", loginParameter.UserID, ae.End(), null);
                 yield return 1;
                 bool isAuthrized=false;
                 try
                 {
+                    string message;
                     isAuthrized = Application.Default.SecurityService.EndCheckPermission(ae.DequeueAsyncResult(), out message);
                 }
                 catch (Exception ex)
@@ -81,7 +80,7 @@ namespace Trader.Server.Bll
                 }
                 else
                 {
-                    Token token = new Token(Guid.Empty, UserType.Customer, (AppType)appType);
+                    var token = new Token(Guid.Empty, UserType.Customer, (AppType)appType);
                     token.UserID = loginParameter.UserID;
                     token.SessionID = session.ToString();
                     SessionManager.Default.AddToken(session, token);
@@ -116,10 +115,10 @@ namespace Trader.Server.Bll
                     Token token = SessionManager.Default.GetToken(session);
                     Application.Default.StateServer.BeginGetInitData(token, null, ae.End(), null);
                     yield return 1;
-                    int sequence;
                     try
                     {
-                       initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
+                        int sequence;
+                        initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
                     }
                     catch (Exception ex)
                     {
@@ -148,14 +147,14 @@ namespace Trader.Server.Bll
 
         private void SetLoginDataToInitData(DataSet initData,XElement loginData)
         {
-            DataTable table = new DataTable(LoginConstants.LOGIN_TABAL_NAME);
-            DataColumn column = new DataColumn(LoginConstants.LOGIN_COLUMN_NAME);
+            var table = new DataTable(LoginConstants.LoginTabalName);
+            var column = new DataColumn(LoginConstants.LoginColumnName);
             column.DataType = typeof(string);
             column.AutoIncrement = false;
             table.Columns.Add(column);
-            DataRow dr = table.NewRow();
+            var dr = table.NewRow();
             string loginString = loginData.ToString();
-            dr[LoginConstants.LOGIN_COLUMN_NAME] = loginString;
+            dr[LoginConstants.LoginColumnName] = loginString;
             table.Rows.Add(dr);
             initData.Tables.Add(table);
         }
@@ -173,30 +172,30 @@ namespace Trader.Server.Bll
 
         private void IsFailedCountExceed(string loginID, string password, string connectionString)
         {
-            if (LoginRetryTimeHelper.IsFailedCountExceeded(loginID, ParticipantType.Customer, connectionString))
-            {
-                string info = string.Format("{0} login failed: exceed max login retry times", loginID);
-                _Logger.Warn(info);
-                AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
-                Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, this.GetLocalIP());
-                XmlDocument document = new XmlDocument();
-                document.LoadXml("<?xml version=\"1.0\" encoding=\"gb2312\" ?><Error Code=\"ExceedMaxRetryLimit\"/>");
-                var result = document.DocumentElement;
+            if (!LoginRetryTimeHelper.IsFailedCountExceeded(loginID, ParticipantType.Customer, connectionString))
+                return;
+            string info = string.Format("{0} login failed: exceed max login retry times", loginID);
+            _Logger.Warn(info);
+            AuditHelper.AddIllegalLogin(AppType.TradingConsole, loginID, password, this.GetLocalIP());
+            Application.Default.TradingConsoleServer.SaveLoginFail(loginID, password, this.GetLocalIP());
+            var document = new XmlDocument();
+            document.LoadXml("<?xml version=\"1.0\" encoding=\"gb2312\" ?><Error Code=\"ExceedMaxRetryLimit\"/>");
+            var result = document.DocumentElement;
+            if (result != null)
                 _Logger.WarnFormat("login failed: exceed max login retry times, parameter={0}", result.OuterXml);
-            }
         }
 
         private XElement SetResult(SerializedObject request, LoginParameter loginParameter, Session session, string loginID, string password, string version, int appType, string connectionString)
         {
             XElement result;
-            Token token = SessionManager.Default.GetToken(session);
+            var token = SessionManager.Default.GetToken(session);
             if (loginParameter.UserID != Guid.Empty)
             {
                 LoginRetryTimeHelper.ClearFailedCount(loginParameter.UserID, ParticipantType.Customer, connectionString);
-                string language = string.IsNullOrEmpty(version) ? "ENG" : version.Substring(version.Length - 3);
+                var language = string.IsNullOrEmpty(version) ? "ENG" : version.Substring(version.Length - 3);
                 if (token == null)
                 {
-                    AppType tokenType = (AppType)appType;
+                    var tokenType = (AppType)appType;
                     token = new Token(loginParameter.UserID, UserType.Customer, tokenType);
                     SessionManager.Default.AddToken(session, token);
                 }
@@ -230,14 +229,7 @@ namespace Trader.Server.Bll
                 LoginRetryTimeHelper.IncreaseFailedCount(loginID, ParticipantType.Customer, connectionString);
                 result = XmlResultHelper.ErrorResult;
             }
-            if (token.AppType != AppType.Mobile)
-            {
-                return result;
-            }
-            else
-            {
-                return null;
-            }
+            return token.AppType != AppType.Mobile ? result : null;
         }
 
         private class LoginParameter
@@ -254,17 +246,17 @@ namespace Trader.Server.Bll
         private void SetLoginParameter(LoginParameter loginParameter, Session session, string password, string environmentInfo, int appType, bool isStateServerLogined, Token token)
         {
             bool isPathPassed = false;
-            DataSet dataSet = Application.Default.TradingConsoleServer.GetLoginParameters(loginParameter.UserID, loginParameter.CompanyName);
-            DataRowCollection rows = dataSet.Tables[0].Rows;
+            var dataSet = Application.Default.TradingConsoleServer.GetLoginParameters(loginParameter.UserID, loginParameter.CompanyName);
+            var rows = dataSet.Tables[0].Rows;
             foreach (DataRow row in rows)
             {
-                isPathPassed = (System.Boolean)row["IsPathPassed"];
-                loginParameter.DisallowLogin = (System.Boolean)row["DisallowLogin"];
-                loginParameter.IsActivateAccount = (System.Boolean)row["IsActivateAccount"];
-                loginParameter.IsDisableJava30 = (System.Boolean)row["IsDisableJava30"];
+                isPathPassed = (Boolean)row["IsPathPassed"];
+                loginParameter.DisallowLogin = (Boolean)row["DisallowLogin"];
+                loginParameter.IsActivateAccount = (Boolean)row["IsActivateAccount"];
+                loginParameter.IsDisableJava30 = (Boolean)row["IsDisableJava30"];
                 if (string.IsNullOrEmpty(loginParameter.CompanyName))
                 {
-                    string companyName2 = (System.String)row["Path"];
+                    var companyName2 = (String)row["Path"];
                     if (companyName2 == string.Empty) companyName2 = "MHL";
                     if (Directory.Exists(GetOrginazationDir(companyName2)))
                     {
@@ -287,7 +279,7 @@ namespace Trader.Server.Bll
                 }
                 else
                 {
-                    AppDebug.LogEvent("TradingConsole.Login2", loginParameter.UserID + " StateServer.Login failed", EventLogEntryType.Error);
+                    _Logger.Error(" StateServer.Login failed");
                     SessionManager.Default.RemoveToken(session);
                     loginParameter.UserID = Guid.Empty;
                 }
@@ -317,16 +309,16 @@ namespace Trader.Server.Bll
             {
                 string dir = GetOrginazationDir(companyCode);
                 string xmlPath = Path.Combine(dir, SettingManager.Default.GetLoginSetting("color_setting"));
-                System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+                var doc = new XmlDocument();
                 doc.Load(xmlPath);
-                System.Xml.XmlNode node = doc.GetElementsByTagName("ColorSettings")[0];
+                var node = doc.GetElementsByTagName("ColorSettings")[0];
                 return node;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.Service.GetColorSettingsForJava", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
+                return null;
             }
-            return null;
         }
 
         private XmlNode GetSettings(string companyCode)
@@ -336,16 +328,16 @@ namespace Trader.Server.Bll
             {
                 string dir = GetOrginazationDir(companyCode);
                 string xmlPath = Path.Combine(dir, SettingManager.Default.GetLoginSetting("setting"));
-                System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+                var doc = new XmlDocument();
                 doc.Load(xmlPath);
-                System.Xml.XmlNode node = doc.GetElementsByTagName("Settings")[0];
+                var node = doc.GetElementsByTagName("Settings")[0];
                 return node;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.Service.GetSettings", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
+                return null;
             }
-            return null;
         }
 
         private XmlNode GetParameterForJava(Session session, string companyCode, string version)
@@ -358,21 +350,17 @@ namespace Trader.Server.Bll
             {
                 string xmlPath = Path.Combine(physicalPath, SettingManager.Default.GetLoginSetting("parameter"));
 
-                System.Xml.XmlDocument parameterDocument = new System.Xml.XmlDocument();
+                var parameterDocument = new XmlDocument();
                 parameterDocument.Load(xmlPath);
-                System.Xml.XmlNode parameterXmlNode = parameterDocument.GetElementsByTagName("Parameter")[0];
+                XmlNode parameterXmlNode = parameterDocument.GetElementsByTagName("Parameter")[0];
 
                 xmlPath = Path.Combine(physicalPath, SettingManager.Default.GetLoginSetting("login"));
-                System.Xml.XmlDocument loginDocument = new System.Xml.XmlDocument();
+                var loginDocument = new System.Xml.XmlDocument();
                 loginDocument.Load(xmlPath);
-                System.Xml.XmlNode loginXmlNode = loginDocument.GetElementsByTagName("Login")[0];
-
+                XmlNode loginXmlNode = loginDocument.GetElementsByTagName("Login")[0];
                 string newsLanguage = loginXmlNode.SelectNodes("NewsLanguage").Item(0).InnerXml;
-                TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                if (state == null)
-                {
-                    state = new TraderState(session.ToString());
-                }
+                TraderState state = SessionManager.Default.GetTradingConsoleState(session) ??
+                                    new TraderState(session.ToString());
                 state.Language = newsLanguage.ToLower();
                 SessionManager.Default.AddTradingConsoleState(session, state);
                 XmlElement newChild = parameterDocument.CreateElement("NewsLanguage");
@@ -382,9 +370,9 @@ namespace Trader.Server.Bll
                 string agreementFileFullPath = Path.Combine(physicalPath, SettingManager.Default.GetLoginSetting("agreement"));
                 if (File.Exists(agreementFileFullPath))
                 {
-                    System.Xml.XmlDocument agreementDocument = new System.Xml.XmlDocument();
+                    var agreementDocument = new System.Xml.XmlDocument();
                     agreementDocument.Load(agreementFileFullPath);
-                    System.Xml.XmlNode agreementXmlNode = agreementDocument.GetElementsByTagName("Agreement")[0];
+                    var agreementXmlNode = agreementDocument.GetElementsByTagName("Agreement")[0];
 
                     string showAgreement = agreementXmlNode.SelectNodes("ShowAgreement").Item(0).InnerXml.Trim().ToLower();
                     if (showAgreement == "true")
@@ -400,30 +388,30 @@ namespace Trader.Server.Bll
                 string columnSettings = Path.Combine(GetOrginazationDir(companyCode), SettingManager.Default.GetLoginSetting("column_setting"));
                 if (File.Exists(columnSettings))
                 {
-                    System.Xml.XmlDocument columnSettingsDocument = new System.Xml.XmlDocument();
+                    var columnSettingsDocument = new XmlDocument();
                     columnSettingsDocument.Load(columnSettings);
-                    System.Xml.XmlNode columnSettingsXmlNode = columnSettingsDocument.GetElementsByTagName("ColumnSettings")[0];
+                    XmlNode columnSettingsXmlNode = columnSettingsDocument.GetElementsByTagName("ColumnSettings")[0];
                     columnSettingsXmlNode = parameterDocument.ImportNode(columnSettingsXmlNode, true);
                     parameterXmlNode.AppendChild(columnSettingsXmlNode);
                 }
                 string integralitySettings = Path.Combine(GetOrginazationDir(companyCode), SettingManager.Default.GetLoginSetting("integrality_settings"));
                 if (File.Exists(columnSettings))
                 {
-                    System.Xml.XmlDocument integralitySettingsDocument = new System.Xml.XmlDocument();
+                    var integralitySettingsDocument = new XmlDocument();
                     integralitySettingsDocument.Load(integralitySettings);
-                    System.Xml.XmlNode integralitySettingsXmlNode = integralitySettingsDocument.GetElementsByTagName("IntegralitySettings")[0];
+                    var integralitySettingsXmlNode = integralitySettingsDocument.GetElementsByTagName("IntegralitySettings")[0];
                     integralitySettingsXmlNode = parameterDocument.ImportNode(integralitySettingsXmlNode, true);
                     parameterXmlNode.AppendChild(integralitySettingsXmlNode);
                 }
 
-                System.Xml.XmlNode node = parameterDocument.GetElementsByTagName("Parameters")[0];
+                var node = parameterDocument.GetElementsByTagName("Parameters")[0];
                 return node;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.Service.GetParameterForJava", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
+                return null;
             }
-            return null;
         }
 
         private string GetOrginazationDir(string companyCode)
@@ -439,15 +427,15 @@ namespace Trader.Server.Bll
                 if (token != null)
                 {
                     TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                    Application.Default.TradingConsoleServer.SaveLogoutLog(token, GetLocalIP(), state == null ? false : state.IsEmployee);
+                    Application.Default.TradingConsoleServer.SaveLogoutLog(token, GetLocalIP(), state != null && state.IsEmployee);
                     Application.Default.StateServer.Logout(token);
                     Application.Default.SessionMonitor.Remove(session);
                 }
 
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.Service.Logout(log)", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
             return XmlResultHelper.NewResult("");
         }

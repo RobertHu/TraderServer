@@ -7,11 +7,11 @@ namespace Trader.Common
 {
     public struct Session
     {
-        public static Session INVALID_VALUE = new Session(0);
+        public static Session InvalidValue = new Session(0);
         private long _Id;
         public Session(long id)
         {
-            this._Id = id;
+            _Id = id;
         }
         public long ID
         {
@@ -58,7 +58,7 @@ namespace Trader.Common
             }
             else
             {
-                session = Session.INVALID_VALUE;
+                session = InvalidValue;
                 result = false;
             }
             return result;

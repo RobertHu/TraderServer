@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using iExchange.Common;
+using log4net;
 using Trader.Server.SessionNamespace;
 using System.Data;
 using Trader.Server.Util;
@@ -19,6 +20,7 @@ namespace Trader.Server.Bll
 {
     public static class TickService
     {
+        private static ILog _Logger = LogManager.GetLogger(typeof (TickService));
         public static XElement GetTickByTickHistoryData(Session session, Guid instrumentId, DateTime from, DateTime to)
         {
             TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
@@ -34,7 +36,6 @@ namespace Trader.Server.Bll
                 result = XmlResultHelper.NewResult(string.Empty);
             }
             return result;
-
         }
 
 
@@ -47,7 +48,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetChartData", exception.ToString(), EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -63,7 +64,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.AsyncGetChartData2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
             
@@ -80,7 +81,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.AsyncGetChartData2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
 
@@ -116,7 +117,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception e)
             {
-                AppDebug.LogEvent("TradingConsole.CreateChartData2", e.ToString(), EventLogEntryType.Error);
+                _Logger.Error(e);
                 CommandManager.Default.AddCommand( new AsyncCommand(0, chartDataArgument.AsyncResult, true, e));
             }
         }
@@ -155,7 +156,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception e)
             {
-                AppDebug.LogEvent("TradingConsole.CreateChartData2ForMobile", e.ToString(), EventLogEntryType.Error);
+                _Logger.Error(e);
                 CommandManager.Default.AddCommand(new AsyncCommand(0, chartDataArgument.AsyncResult, true, e));
             }
 

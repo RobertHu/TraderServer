@@ -1,17 +1,14 @@
 using System;
 using System.Drawing;
 using System.ComponentModel;
-using System.Configuration;
 using System.Xml;
-using System.Web;
-
+using System.Configuration;
 using EasyTools;
 using Easychart.Finance;
-using Trader.Server.Setting;
 
 namespace Trader.Server.SChart
 {
-	public delegate bool UpdateService (DateTime d,string Exchange);
+	public delegate bool UpdateService (DateTime d,string exchange);
 	/// <summary>
 	/// Summary description for Config.
 	/// </summary>
@@ -20,20 +17,6 @@ namespace Trader.Server.SChart
 		private Config()
 		{
 		}
-
-		//#if(!LITE)
-		//		static public UpdateService AutoUpdateSource
-		//		{
-		//			get
-		//			{
-		//				string s = Read("AutoUpdateSource");
-		//				if (string.Compare(s,"DataService")==0)
-		//					return new UpdateService(DataService.UpdateQuote);
-		//				else return new UpdateService(InternetDataToDB.UpdateQuote);
-		//			}
-		//		}
-		//#endif
-
 		static public bool EnableAutoUpdate = ReadBool("EnableAutoUpdate",false);
 		static public bool EnableYahooStreaming = ReadBool("EnableYahooStreaming",false);
 		static public bool EnableChangeToAdmin = ReadBool("EnableChangeToAdmin",false);
@@ -80,14 +63,11 @@ namespace Trader.Server.SChart
 			get
 			{
 				string s = Read("PluginsDir");
-				if (s==null || s=="")
+				if (string.IsNullOrEmpty(s))
 					return null;
 				if (!s.EndsWith("\\"))
 					s +="\\";
 				return SettingManager.Default.PhysicPath;//HttpRuntime.AppDomainAppPath+s;
-				
-				//return HttpRuntime.AppDomainAppVirtualPath+s;
-
 			}
 		}
 
@@ -143,50 +123,53 @@ namespace Trader.Server.SChart
 		static public string AutoUpdate = Read("AutoUpdate");
 		static public string AutoUpdateFormula = Read("AutoUpdateFormula");
 
-		public static int ReadInt(string Key,int Def)
+		public static int ReadInt(string key,int def)
 		{
-			return Tools.ToIntDef(Read(Key),Def);
+			return Tools.ToIntDef(Read(key),def);
 		}
 
-		static private object ReadEnum(string Key,Type T,object Def)
+		static private object ReadEnum(string key,Type T,object def)
 		{
 			try
 			{
-				return  Enum.Parse(T,Read(Key,Def.ToString()),false);
+				return  Enum.Parse(T,Read(key,def.ToString()),false);
 			}
 			catch
 			{
-				return Def;
+				return def;
 			}
 		}
 
-		public static bool ReadBool(string Key,bool Def)
+		public static bool ReadBool(string key,bool def)
 		{
-			string s = Read(Key);
-			if (s=="1")
-				return true;
-			else if (s=="0")
-				return false;
-			else return Def;
+		    string s = Read(key);
+		    switch (s)
+		    {
+		        case "1":
+		            return true;
+		        case "0":
+		            return false;
+		        default:
+		            return def;
+		    }
 		}
 
-		public static string Read(string Key,string Def) 
+	    public static string Read(string key,string def) 
 		{
-			string s = ConfigurationSettings.AppSettings[Key];
+            string s = ConfigurationManager.AppSettings[key];
 			if (s==null)
-				return Def;
+				return def;
 			return s;
 		}
 
-		public static string Read(string Key)
+		public static string Read(string key)
 		{
-			return Read(Key,"");
+			return Read(key,"");
 		}
 
-		public static void Write(string Key,string Value)
+		public static void Write(string key,string value)
 		{
 			XmlDocument xd = new XmlDocument();
-            //HttpRuntime.AppDomainAppPath
 			string s =SettingManager.Default.PhysicPath +@"\web.config";
 			xd.Load(s);
 			XmlNode xns = xd.SelectSingleNode("/configuration/appSettings");
@@ -196,8 +179,8 @@ namespace Trader.Server.SChart
 					XmlElement xe = xns.ChildNodes[i] as XmlElement;
 					if (xe.Name.ToLower() == "add") 
 					{
-						if (string.Compare(xe.GetAttribute("key").ToString(),Key,true)==0)
-							xe.SetAttribute("value",Value);
+						if (System.String.Compare(xe.GetAttribute("key"), key, System.StringComparison.OrdinalIgnoreCase)==0)
+							xe.SetAttribute("value",value);
 					}
 				}
 			Impersonate.ChangeToAdmin();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using log4net;
 using Trader.Server.SessionNamespace;
 using iExchange.Common;
 using Trader.Server.Util;
@@ -14,6 +15,7 @@ namespace Trader.Server.Bll
 {
     public static class MessageService
     {
+        private static ILog _Logger = LogManager.GetLogger(typeof (MessageService));
         public static XElement GetMessages(Session session)
         {
             try
@@ -24,7 +26,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetMessages:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }

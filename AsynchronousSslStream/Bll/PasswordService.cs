@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
+using log4net;
 using Trader.Server.SessionNamespace;
 using System.Diagnostics;
 using System.Xml;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using Trader.Common;
-using Trader.Server.Setting;
 using System.Data.SqlClient;
 using System.Data;
 using System.Xml.Linq;
@@ -17,6 +17,7 @@ namespace Trader.Server.Bll
 {
     public class PasswordService
     {
+        private static ILog _Logger = LogManager.GetLogger(typeof (PasswordService));
         public static XElement  RecoverPasswordDatas(Session session, string[][] recoverPasswordDatas)
         {
             try
@@ -25,12 +26,12 @@ namespace Trader.Server.Bll
                 {
                     Token token = SessionManager.Default.GetToken(session);
                     Application.Default.TradingConsoleServer.UpdateRecoverPasswordData(token.UserID, recoverPasswordDatas);
-                    return XmlResultHelper.NewResult(StringConstants.OK_RESULT);
+                    return XmlResultHelper.NewResult(StringConstants.OkResult);
                 }
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.RecoverPasswordDatas", exception.ToString(), EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
             return XmlResultHelper.ErrorResult;
         }
@@ -45,7 +46,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.ChangeMarginPin", exception.ToString(), EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -59,7 +60,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.VerifyMarginPin", exception.ToString(), EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -113,7 +114,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.ModifyTelephoneIdentificationCode", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
             return XmlResultHelper.NewResult(lastResult.ToPlainBitString());
         }
@@ -141,20 +142,17 @@ namespace Trader.Server.Bll
                     }
                     else
                     {
-                        AppDebug.LogEvent("TradingConsole.UpdatePassword", string.Format("UpdatePassword({0},{1},{2},{3}) Failed", token.UserID, newPassword, token.UserID, message), EventLogEntryType.Warning);
+                        _Logger.Warn(string.Format("UpdatePassword({0},{1},{2},{3}) Failed", token.UserID, newPassword,
+                            token.UserID, message));
                     }
                     return isSucceed;
                 }
-                else
-                {
-                    AppDebug.LogEvent("TradingConsole.UpdatePassword", string.Format("{0} == Login({1},{2})", userID, loginID, oldPassword), EventLogEntryType.Warning);
-                }
+                _Logger.Warn(string.Format("{0} == Login({1},{2})", userID, loginID, oldPassword));
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.UpdatePassword", exception.ToString(), EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
-
             return false;
         }
 
@@ -169,17 +167,17 @@ namespace Trader.Server.Bll
                 {
                     Token token = SessionManager.Default.GetToken(session);
                     TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                    bool isEmployee = state == null ? false : state.IsEmployee;
+                    bool isEmployee = state != null && state.IsEmployee;
                     Application.Default.TradingConsoleServer.SaveActivateLog(token, isEmployee, "");
                 }
                 return isSucceed;
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.UpdatePassword2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 message = exception.ToString();
+                return false;
             }
-            return false;
         }
 
         //Change Password
@@ -195,15 +193,15 @@ namespace Trader.Server.Bll
                 {
                     Token token = SessionManager.Default.GetToken(session);
                     TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                    bool isEmployee = state == null ? false : state.IsEmployee;
+                    bool isEmployee = state != null && state.IsEmployee;
                     Application.Default.TradingConsoleServer.SaveChangePasswordLog(token, isEmployee, "");
                 }
-                Dictionary<string, string> dict = new Dictionary<string, string>() { { "message", message }, { "isSucceed", isSucceed.ToPlainBitString() } };
+                var dict = new Dictionary<string, string>() { { "message", message }, { "isSucceed", isSucceed.ToPlainBitString() } };
                 return XmlResultHelper.NewResult(dict);
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.UpdatePassword:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
            

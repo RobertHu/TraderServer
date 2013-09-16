@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
 using iExchange.Common;
+using log4net;
 using Trader.Server.SessionNamespace;
-using Trader.Server.Setting;
 using System.Xml;
-using System.Diagnostics;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
@@ -17,8 +13,9 @@ namespace Trader.Server.Bll
 {
     public class AccountManager
     {
-        private AccountManager() { }
         public static readonly AccountManager Default = new AccountManager();
+        private readonly ILog _Logger = LogManager.GetLogger(typeof (AccountManager));
+        AccountManager() { }
         public XElement  GetAccountsForTradingConsole(Session  session)
         {
             try
@@ -29,7 +26,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetAccountsForTradingConsole:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -39,7 +36,7 @@ namespace Trader.Server.Bll
             throw new NotImplementedException("Reserved");
         }
 
-        public static XElement  GetAccountBanksApproved(Guid accountId,string language)
+        public XElement  GetAccountBanksApproved(Guid accountId,string language)
         {
             try
             {
@@ -49,7 +46,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.GetAccountBanksApproved", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -59,14 +56,13 @@ namespace Trader.Server.Bll
             try
             {
                 string sql = string.Format("dbo.P_GetAccountBankReferenceData @language='{0}'", language) + (string.IsNullOrEmpty(countryId)? "" : " , @countryId=" + countryId);
-                //AppDebug.LogEvent("TradingConsole.GetAccountBankReferenceData", sql, System.Diagnostics.EventLogEntryType.Error);
                 DataSet ds=DataAccess.GetData(sql,SettingManager.Default.ConnectionString);
                 return XmlResultHelper.NewResult(ds.ToXml());
 
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.GetAccountBankReferenceData", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -77,32 +73,24 @@ namespace Trader.Server.Bll
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-
-                AppDebug.LogEvent("[TradingConsole.GetAccountForCut]", string.Format("Token={0},AccountIDs={1}", token, accountId), EventLogEntryType.Warning);
-
+                _Logger.Warn(string.Format("Token={0},AccountIDs={1}", token, accountId));
                 DateTime maxAlertLevelTime = this.GetMaxAlertLevelTime(accountId, lastAlertTime);
                 if (maxAlertLevelTime == DateTime.MinValue)
                 {
                     return null;
                 }
-                else
+                if (maxAlertLevelTime > lastAlertTime)
                 {
-                    if (maxAlertLevelTime > lastAlertTime)
-                    {
-                        lastAlertTime = maxAlertLevelTime;
-                        return Application.Default.TradingConsoleServer.GetAccounts(token, Application.Default.StateServer, new Guid[] { accountId }, includeTransactions);
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    lastAlertTime = maxAlertLevelTime;
+                    return Application.Default.TradingConsoleServer.GetAccounts(token, Application.Default.StateServer, new Guid[] { accountId }, includeTransactions);
                 }
+                return null;
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetAccountForCut:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
 
 
@@ -111,14 +99,14 @@ namespace Trader.Server.Bll
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-                AppDebug.LogEvent("[TradingConsole.GetAccountsForCut]", string.Format("Token={0},AccountIDs={1}", token, accountIDs), EventLogEntryType.Warning);
+                _Logger.Warn(string.Format("Token={0},AccountIDs={1}", token, accountIDs));
                 return  Application.Default.TradingConsoleServer.GetAccounts(token, Application.Default.StateServer, accountIDs, includeTransactions);
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetAccountsForCut:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
 
 
@@ -132,16 +120,16 @@ namespace Trader.Server.Bll
 
         public XElement  UpdateAccountSetting(Session  session,Guid[] accountIds)
         {
-            bool result = false;
+
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-                result= Application.Default.TradingConsoleServer.UpdateAccountSetting(token.UserID, accountIds);
+                bool result = Application.Default.TradingConsoleServer.UpdateAccountSetting(token.UserID, accountIds);
                 return XmlResultHelper.NewResult(result.ToPlainBitString());
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.UpdateAccountSetting:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error((exception));
                 return XmlResultHelper.ErrorResult;
             }
 
@@ -156,7 +144,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.UpdateAccount:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error((exception));
             }
         }
 
@@ -166,18 +154,14 @@ namespace Trader.Server.Bll
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-                AppDebug.LogEvent("[TradingConsole.GetAccounts]", string.Format("Token={0},AccountIDs={1}", token, accountIDs), EventLogEntryType.Warning);
+                _Logger.Warn(string.Format("Token={0},AccountIDs={1}", token, accountIDs));
                 return Application.Default.TradingConsoleServer.GetAccounts(token, Application.Default.StateServer, accountIDs, includeTransactions);
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetAccounts:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
-
-
-
-
     }
 }

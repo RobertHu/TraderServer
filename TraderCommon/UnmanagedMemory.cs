@@ -11,7 +11,7 @@ namespace Trader.Common
         public int Count { get; private set; }
         public int Length { get; private set; }
         public byte* Handle{get;private set;}
-        private bool _Disposed = false;
+        private bool _Disposed;
         public byte[] Data { get; private set; }
 
         public UnmanagedMemory(byte[] keepAliveData)

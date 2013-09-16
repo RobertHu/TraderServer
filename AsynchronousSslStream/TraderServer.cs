@@ -8,7 +8,6 @@ using System.Threading;
 using log4net;
 using System.Configuration;
 using Trader.Server.Service;
-using Trader.Server.Setting;
 using Trader.Server.Bll;
 using Trader.Server.Util;
 using Trader.Common;

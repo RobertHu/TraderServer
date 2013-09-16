@@ -20,55 +20,51 @@ namespace Trader.Server
     public class AgentController
     {
         public static readonly AgentController Default = new AgentController();
-        private ILog _Logger = LogManager.GetLogger(typeof(AgentController));
-        private ConcurrentDictionary<Session, ClientRelation> _Container = new ConcurrentDictionary<Session, ClientRelation>();
-        private AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
-        private AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
-        private AutoResetEvent _StopEvent = new AutoResetEvent(false);
-        private AutoResetEvent[] _DisconnectStopEvents;
-        private AutoResetEvent[] _QuotationStopEvents;
-        private ConcurrentQueue<Session> _DisconnectQueue = new ConcurrentQueue<Session>();
-        private ConcurrentQueue<CommandForClient> _Commands = new ConcurrentQueue<CommandForClient>();
-        private volatile bool _Started = false;
-        private volatile bool _Stopped = false;
+        private readonly ILog _Logger = LogManager.GetLogger(typeof(AgentController));
+        private readonly ConcurrentDictionary<Session, ClientRelation> _Container = new ConcurrentDictionary<Session, ClientRelation>();
+        private readonly AutoResetEvent _DisconnectEvent = new AutoResetEvent(false);
+        private readonly AutoResetEvent _SendQuotationEvent = new AutoResetEvent(false);
+        private readonly AutoResetEvent _StopEvent = new AutoResetEvent(false);
+        private readonly AutoResetEvent[] _DisconnectStopEvents;
+        private readonly AutoResetEvent[] _QuotationStopEvents;
+        private readonly ConcurrentQueue<Session> _DisconnectQueue = new ConcurrentQueue<Session>();
+        private readonly ConcurrentQueue<CommandForClient> _Commands = new ConcurrentQueue<CommandForClient>();
+        private volatile bool _Started;
+        private volatile bool _Stopped;
         private CommandForClient _Current;
         private AgentController()
         {
-            this._DisconnectStopEvents= new AutoResetEvent[]{this._DisconnectEvent,this._StopEvent};
-            this._QuotationStopEvents = new AutoResetEvent[] {this._SendQuotationEvent,this._StopEvent };
+            _DisconnectStopEvents= new[]{_DisconnectEvent,_StopEvent};
+            _QuotationStopEvents = new[] {_SendQuotationEvent,_StopEvent };
         }
 
         public void Add(Session session, ReceiveAgent receiver, Client sender)
         {
-            this._Container.TryAdd(session, new ClientRelation(sender, receiver));
+            _Container.TryAdd(session, new ClientRelation(sender, receiver));
         }
-
 
         public void Remove(Session session)
         {
             ClientRelation relation;
-            this._Container.TryRemove(session, out relation);
+            _Container.TryRemove(session, out relation);
         }
 
         public bool RecoverConnection(Session originSession, Session currentSession)
         {
             ClientRelation relation;
-            this._Container.TryRemove(originSession, out relation);
+            _Container.TryRemove(originSession, out relation);
             ClientRelation currentRelation;
-            if (this._Container.TryRemove(currentSession, out currentRelation))
-            {
-                this._Container.TryAdd(originSession, currentRelation);
-                currentRelation.Sender.UpdateClientID(originSession);
-                return true;
-            }
-            return false;
+            if (!_Container.TryRemove(currentSession, out currentRelation)) return false;
+            _Container.TryAdd(originSession, currentRelation);
+            currentRelation.Sender.UpdateClientID(originSession);
+            return true;
         }
 
         public Client GetSender(Session session)
         {
             Client result = null;
             ClientRelation relation;
-            if (this._Container.TryGetValue(session, out relation))
+            if (_Container.TryGetValue(session, out relation))
             {
                 result = relation.Sender;
             }
@@ -80,7 +76,7 @@ namespace Trader.Server
         {
             ReceiveAgent result = null;
             ClientRelation relation;
-            if (this._Container.TryGetValue(session, out relation))
+            if (_Container.TryGetValue(session, out relation))
             {
                 result = relation.Receiver;
             }
@@ -91,37 +87,30 @@ namespace Trader.Server
         {
             try
             {
-                if (this._Started)
-                {
-                    return;
-                }
-
-                Thread thread = new Thread(this.DisconnectHandle);
-                thread.IsBackground = true;
+                if (_Started) return;
+                var thread = new Thread(DisconnectHandle) {IsBackground = true};
                 thread.Start();
 
-                Thread quotationThread = new Thread(this.Dispatch);
-                quotationThread.IsBackground = true;
+                var quotationThread = new Thread(this.Dispatch) {IsBackground = true};
                 quotationThread.Start();
-
-                this._Started = true;
+                _Started = true;
             }
             catch (Exception ex)
             {
-                this._Logger.Error(ex);
+                _Logger.Error(ex);
             }
         }
 
         public void Stop()
         {
-            this._Stopped = true;
-            this._StopEvent.Set();
+            _Stopped = true;
+            _StopEvent.Set();
         }
 
         public void EnqueueDisconnectSession(Session session)
         {
-            this._DisconnectQueue.Enqueue(session);
-            this._DisconnectEvent.Set();
+            _DisconnectQueue.Enqueue(session);
+            _DisconnectEvent.Set();
         }
 
 
@@ -129,21 +118,15 @@ namespace Trader.Server
         {
             while (true)
             {
-                if (this._Stopped)
+                if (_Stopped) break;
+                WaitHandle.WaitAny(_DisconnectStopEvents);
+                while (_DisconnectQueue.Count != 0)
                 {
-                    break;
-                }
-                WaitHandle.WaitAny(this._DisconnectStopEvents);
-                while (this._DisconnectQueue.Count != 0)
-                {
-                    if (this._Stopped)
-                    {
-                        break;
-                    }
+                    if (_Stopped) break;
                     Session session;
-                    if (this._DisconnectQueue.TryDequeue(out session))
+                    if (_DisconnectQueue.TryDequeue(out session))
                     {
-                        this.Remove(session);
+                        Remove(session);
                     }
                 }
             }
@@ -151,43 +134,35 @@ namespace Trader.Server
 
         public void SendCommand(QuotationCommand quotationCommand=null,Command command =null)
         {
-            if (this._Container.Count == 0)
-            {
-                return;
-            }
-            CommandForClient target = new CommandForClient(quotationCommand:quotationCommand,command:command);
-            this._Commands.Enqueue(target);
-            this._SendQuotationEvent.Set();
+            if (_Container.Count == 0) return;
+            var target = new CommandForClient(quotationCommand:quotationCommand,command:command);
+            _Commands.Enqueue(target);
+            _SendQuotationEvent.Set();
         }
 
         private void Dispatch()
         {
             while (true)
             {
-                if (this._Stopped)
+                if (_Stopped) break;
+                WaitHandle.WaitAny(_QuotationStopEvents);
+                while (_Commands.TryDequeue(out _Current))
                 {
-                    break;
-                }
-                WaitHandle.WaitAny(this._QuotationStopEvents);
-                while (this._Commands.TryDequeue(out this._Current))
-                {
-                    Parallel.ForEach(this._Container, this.SendCommandHandler);
+                    Parallel.ForEach(source: _Container, body: SendCommandHandler);
                 }
             }
-
         }
-
 
         private void SendCommandHandler(KeyValuePair<Session, ClientRelation> p)
         {
-            p.Value.Sender.Send(this._Current);
+            p.Value.Sender.Send(_Current);
         }
 
         public void KickoutAllClient()
         {
-            Parallel.ForEach(this._Container, p =>
+            Parallel.ForEach(_Container, p =>
             {
-                p.Value.Sender.Send(new ValueObjects.CommandForClient(data: NamedCommands.GetKickoutPacket()));
+                p.Value.Sender.Send(new CommandForClient(data: NamedCommands.GetKickoutPacket()));
                 Application.Default.SessionMonitor.Remove(p.Key);
             });
         }

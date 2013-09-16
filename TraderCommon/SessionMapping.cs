@@ -8,9 +8,9 @@ namespace Trader.Common
 {
     public static  class SessionMapping
     {
-        private static long _NextSequence = 0;
+        private static long _NextSequence;
         private static ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
-        private static Dictionary<string, Session> _dict = new Dictionary<string, Session>();
+        private static readonly Dictionary<string, Session> _Dict = new Dictionary<string, Session>();
         public static Session Get()
         {
             _ReadWriteLock.EnterWriteLock();
@@ -18,7 +18,7 @@ namespace Trader.Common
             {
                 _NextSequence++;
                 Session session = new Session(_NextSequence);
-                _dict.Add(_NextSequence.ToString(), session);
+                _Dict.Add(_NextSequence.ToString(), session);
                 return session;
             }
             finally
@@ -33,11 +33,7 @@ namespace Trader.Common
             _ReadWriteLock.EnterReadLock();
             try
             {
-                if (_dict.ContainsKey(session))
-                {
-                    return _dict[session];
-                }
-                return Session.INVALID_VALUE;
+                return _Dict.ContainsKey(session) ? _Dict[session] : Session.InvalidValue;
             }
             finally
             {
@@ -50,11 +46,11 @@ namespace Trader.Common
             _ReadWriteLock.EnterWriteLock();
             try
             {
-                if (!_dict.ContainsKey(session))
+                if (!_Dict.ContainsKey(session))
                 {
                     return;
                 }
-                _dict.Remove(session);
+                _Dict.Remove(session);
             }
             finally
             {

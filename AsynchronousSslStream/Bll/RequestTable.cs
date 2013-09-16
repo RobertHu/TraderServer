@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using iExchange.Common;
 using Trader.Server.Util;
 using Trader.Server.Service;
@@ -21,8 +18,8 @@ namespace Trader.Server.Bll
         private Dictionary<string, Func<SerializedObject, Token, XElement>> table = new Dictionary<string, Func<SerializedObject, Token, XElement>>();
         private ILog _Logger = LogManager.GetLogger(typeof(RequestTable));
         public static readonly RequestTable Default = new RequestTable();
-        private Service _Service = new Service();
-        private Trader.Server.Delivery.Service _DeliveryService = new Delivery.Service();
+        private readonly Service _Service = new Service();
+        private readonly Trader.Server.Delivery.Service _DeliveryService = new Delivery.Service();
         private RequestTable()
         {
             table.Add("Login", LoginAction);
@@ -95,19 +92,19 @@ namespace Trader.Server.Bll
             }
             else
             {
-                this._Logger.InfoFormat("the request methed {0} not exist", methodName);
+                _Logger.InfoFormat("the request methed {0} not exist", methodName);
                 return XmlResultHelper.ErrorResult;
             }
         }
         private XElement GetNewsContentsAction(SerializedObject request, Token token)
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
-            return this._Service.GetNewsContents(request.Session, args[0]);
+            return _Service.GetNewsContents(request.Session, args[0]);
         }
         private XElement GetQuotePolicyDetailsAndRefreshInstrumentsStateAction(SerializedObject request, Token token)
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
-            return this._Service.GetQuotePolicyDetailsAndRefreshInstrumentsState(request.Session, args[0].ToGuid());
+            return _Service.GetQuotePolicyDetailsAndRefreshInstrumentsState(request.Session, args[0].ToGuid());
         }
         private XElement UpdateQuotePolicyDetailAction(SerializedObject request, Token token)
         {
@@ -158,7 +155,7 @@ namespace Trader.Server.Bll
             }
             else
             {
-                return this._Service.CancelLMTOrder(request.Session, args[0]);
+                return _Service.CancelLmtOrder(request.Session, args[0]);
             }
         }
 
@@ -207,7 +204,6 @@ namespace Trader.Server.Bll
                 {
                     instrumentId = new Guid(args[0]);
                 }
-
                 int lastDays = int.Parse(args[1]);
                 int orderStatus = int.Parse(args[2]);
                 int orderType = int.Parse(args[3]);
@@ -215,16 +211,12 @@ namespace Trader.Server.Bll
                 result.Add(Mobile.Manager.QueryOrder(token, instrumentId, lastDays, orderStatus, orderType));
                 return result;
             }
-            else
-            {
-                return this._Service.OrderQuery(request.Session, args[0].ToGuid(), args[1], args[2], args[3].ToInt());
-            }
-
+            return this._Service.OrderQuery(request.Session, args[0].ToGuid(), args[1], args[2], args[3].ToInt());
         }
         private XElement ApplyAction(SerializedObject request, Token token)
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
-            return this._Service.Apply(request.Session, args[0].ToGuid(), args[1], args[2],
+            return _Service.Apply(request.Session, args[0].ToGuid(), args[1], args[2],
                 args[3], args[4], args[5], args[6],
                 args[7], args[8], args[9], args[10].ToGuid(),
                 args[11], args[12], args[13], args[14], args[15], args[16], args[17]
@@ -234,7 +226,7 @@ namespace Trader.Server.Bll
         private XElement GetAccountBanksApprovedAction(SerializedObject request, Token token)
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
-            return AccountManager.GetAccountBanksApproved(Guid.Parse(args[0]), args[1]);
+            return AccountManager.Default.GetAccountBanksApproved(Guid.Parse(args[0]), args[1]);
         }
 
         private XElement ModifyTelephoneIdentificationCodeAction(SerializedObject request, Token token)
@@ -259,13 +251,13 @@ namespace Trader.Server.Bll
         private XElement QuoteAction(SerializedObject request, Token token)
         {
             List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
-            return this._Service.Quote(request.Session, argList[0], double.Parse(argList[1]), int.Parse(argList[2]));
+            return _Service.Quote(request.Session, argList[0], double.Parse(argList[1]), int.Parse(argList[2]));
         }
 
         private XElement Quote2Action(SerializedObject request, Token token)
         {
             List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
-            return this._Service.Quote2(request.Session, argList[0], double.Parse(argList[1]), double.Parse(argList[2]), int.Parse(argList[3]));
+            return _Service.Quote2(request.Session, argList[0], double.Parse(argList[1]), double.Parse(argList[2]), int.Parse(argList[3]));
         }
 
         private XElement LedgerForJava2Action(SerializedObject request, Token token)
@@ -285,7 +277,7 @@ namespace Trader.Server.Bll
             {
                 ae.EndExecute(asyncResult);
                 token =SessionManager.Default.GetToken(request.Session);
-                result = iExchange3Promotion.Mobile.Manager.Login(token);
+                result = Mobile.Manager.Login(token);
             }
 
 
@@ -300,7 +292,7 @@ namespace Trader.Server.Bll
         private XElement GetInitDataAction(SerializedObject request, Token token)
         {
             XElement result = null;
-            if (token != null && token.AppType == iExchange.Common.AppType.Mobile)
+            if (token != null && token.AppType == AppType.Mobile)
             {
                 System.Data.DataSet initData = Mobile.Manager.GetInitData(token);
                 List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
@@ -422,8 +414,8 @@ namespace Trader.Server.Bll
             }
             else
             {
-                AsyncEnumerator ae = new AsyncEnumerator();
-                ae.BeginExecute(InitDataService.GetInitData(request, null, ae), ae.EndExecute);
+                var ae = new AsyncEnumerator();
+                ae.BeginExecute(InitDataService.GetInitData(request, ae), ae.EndExecute);
             }
             return result;
         }
@@ -469,28 +461,21 @@ namespace Trader.Server.Bll
 
         private XElement UpdateInstrumentSettingAction(SerializedObject request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            var argList = XmlRequestCommandHelper.GetArguments(request.Content);
             string[] instrumentIds = argList[0].Split(StringConstants.ArrayItemSeparator);
             if (token.AppType == AppType.Mobile)
             {
-                Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, instrumentIds);
+                var quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, instrumentIds);
                 InstrumentManager.Default.UpdateInstrumentSetting(request.Session, quotePolicyIds);
                 if (Mobile.Manager.IsTradeStateInitialized(token))
                 {
                     return Mobile.Manager.GetChanges(request.Session.ToString(), true);
                 }
-                else
-                {
-                    XElement root = new XElement("Result");
-                    root.Add(new XElement("Account"));
-                    return root;
-                }
+                var root = new XElement("Result");
+                root.Add(new XElement("Account"));
+                return root;
             }
-            else
-            {
-
-                return InstrumentManager.Default.UpdateInstrumentSetting(request.Session, instrumentIds);
-            }
+            return InstrumentManager.Default.UpdateInstrumentSetting(request.Session, instrumentIds);
         }
 
         private XElement saveLogAction(SerializedObject request, Token token)
@@ -548,7 +533,7 @@ namespace Trader.Server.Bll
 
         private XElement AgentAction(SerializedObject request, Token token)
         {
-            List<string> args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
             return ClientService.Agent(request.Session, args[0], args[1], args[2],
                 args[3], args[4], args[5], args[6], args[7], args[8],
                 args[9], args[10], args[11]);
@@ -556,14 +541,14 @@ namespace Trader.Server.Bll
 
         private XElement CallMarginExtensionAction(SerializedObject request, Token token)
         {
-            List<string> args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
             return ClientService.CallMarginExtension(request.Session, args[0], args[1],
                 args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
         }
 
         private XElement FundTransferAction(SerializedObject request, Token token)
         {
-            List<string> args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args = XmlRequestCommandHelper.GetArguments(request.Content);
             return ClientService.FundTransfer(request.Session, args[0], args[1],
                 args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]);
         }
@@ -652,16 +637,13 @@ namespace Trader.Server.Bll
                 element.Add(changes);
                 return element;
             }
-            else
-            {
-                return TransactionService.Place(request.Session, args[0].ToXmlNode());
-            }
+            return TransactionService.Place(request.Session, args[0].ToXmlNode());
         }
 
         private XElement ModifyOrderAction(SerializedObject request, Token token)
         {
             var args = XmlRequestCommandHelper.GetArguments(request.Content);
-            if (token != null && token.AppType == iExchange.Common.AppType.Mobile)
+            if (token != null && token.AppType == AppType.Mobile)
             {
                 Guid orderId = new Guid(args[0]);
                 string price = args[1];
@@ -736,7 +718,7 @@ namespace Trader.Server.Bll
         private ICollection<XElement> GetPlaceResultForMobile(Mobile.Server.Transaction transaction, Token token)
         {
             ICollection<XElement> elements = new List<XElement>();
-            if (token != null && token.AppType == iExchange.Common.AppType.Mobile)
+            if (token != null && token.AppType == AppType.Mobile)
             {
                 Token placeToken = new Token(token.UserID, token.UserType, AppType.TradingConsole);
                 string tranCode;
@@ -757,10 +739,7 @@ namespace Trader.Server.Bll
                 Mobile.Manager.UpdateWorkingOrder(token, transaction.Id, error);
                 return elements;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
     }

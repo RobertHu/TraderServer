@@ -7,7 +7,6 @@ using log4net;
 using Trader.Server.Bll;
 using iExchange.Common;
 using Trader.Server.SessionNamespace;
-using Trader.Server.Setting;
 
 namespace Trader.Server.Service
 {

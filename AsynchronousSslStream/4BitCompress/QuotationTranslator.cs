@@ -67,8 +67,8 @@ namespace Trader.Server._4BitCompress
 
         private  static byte[] GetDataIn4BitFormat(TraderState state,QuotationCommand command,int? beginSequence=null,int? endSequence=null)
         {
-            StringBuilder stringBuilder = new StringBuilder(CAPACITY);
-            string seqenceStr = string.Format("{0}{1}{2}", (beginSequence ?? command.Sequence).ToString(), _SequenceSeparator.ToString(), (endSequence ?? command.Sequence).ToString());
+            var stringBuilder = new StringBuilder(CAPACITY);
+            string seqenceStr = string.Format("{0}{1}{2}", (beginSequence ?? command.Sequence), _SequenceSeparator, (endSequence ?? command.Sequence));
             stringBuilder.Append(seqenceStr);
             stringBuilder.Append(_StartSeparator);
             OverridedQuotation[] overridedQuotations = command.OverridedQs;
@@ -82,7 +82,7 @@ namespace Trader.Server._4BitCompress
                     {
                         continue;
                     }
-                    if (overridedQuotation.QuotePolicyID != (Guid)state.InstrumentsEx[overridedQuotation.InstrumentID])
+                    if (overridedQuotation.QuotePolicyID != state.InstrumentsEx[overridedQuotation.InstrumentID])
                     {
                         continue;
                     }

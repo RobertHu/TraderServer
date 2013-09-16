@@ -60,10 +60,10 @@ namespace Trader.Server.TypeExtension
                 {
                     return;
                 }
-                DataTable table = ds.Tables[InstrumentConstants.INSTRUMENT_TABLE_NAME];
+                DataTable table = ds.Tables[InstrumentConstants.InstrumentTableName];
                 if (table == null) return;
                 DataColumn column = new DataColumn();
-                column.ColumnName = InstrumentConstants.INT_FOR_INTRUMENT_ID_COLUMN_NAME;
+                column.ColumnName = InstrumentConstants.IntForIntrumentIDColumnName;
                 column.DataType = typeof(Int32);
                 column.AutoIncrement = false;
                 table.Columns.Add(column);
@@ -71,9 +71,9 @@ namespace Trader.Server.TypeExtension
                 for (int rowIndex = 0; rowIndex < rowCol.Count; rowIndex++)
                 {
                     DataRow dr = rowCol[rowIndex];
-                    Guid id = (Guid)dr[InstrumentConstants.INSTRUMENT_ID_COLUMN_NAME];
+                    Guid id = (Guid)dr[InstrumentConstants.InstrumentIDColumnName];
                     int mappingId = GuidMapping.Add(id);
-                    dr[InstrumentConstants.INT_FOR_INTRUMENT_ID_COLUMN_NAME] = mappingId;
+                    dr[InstrumentConstants.IntForIntrumentIDColumnName] = mappingId;
                 }
             }
             catch (Exception ex)
@@ -90,13 +90,13 @@ namespace Trader.Server.TypeExtension
                 {
                     return;
                 }
-                DataTable table = new DataTable(InstrumentConstants.COMMAND_SEQUENCE_TABLE_NAME);
-                DataColumn column = new DataColumn(InstrumentConstants.COMMAND_SEQUENCE_COLUMN_NAME);
+                DataTable table = new DataTable(InstrumentConstants.CommandSequenceTableName);
+                DataColumn column = new DataColumn(InstrumentConstants.CommandSequenceColumnName);
                 column.DataType = typeof(Int32);
                 column.AutoIncrement = false;
                 table.Columns.Add(column);
                 DataRow dr = table.NewRow();
-                dr[InstrumentConstants.COMMAND_SEQUENCE_COLUMN_NAME] = commandSequence;
+                dr[InstrumentConstants.CommandSequenceColumnName] = commandSequence;
                 table.Rows.Add(dr);
                 ds.Tables.Add(table);
             }

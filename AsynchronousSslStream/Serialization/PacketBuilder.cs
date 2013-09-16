@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using CommonUtil;
 using System.Xml.Linq;
 using Trader.Common;
@@ -19,11 +15,9 @@ namespace Trader.Server.Serialization
             {
                 return BuildForKeepAlive(response);
             }
-            if (response.ContentInPointer != null)
-            {
-                return BuildForPointer(response.ContentInPointer, response.ClientInvokeID); 
-            }
-            return BuildForGeneral(response);
+            return response.ContentInPointer != null ? 
+                BuildForPointer(response.ContentInPointer, response.ClientInvokeID) :
+                BuildForGeneral(response);
         }
 
         private static UnmanagedMemory BuildForGeneral(SerializedObject response)
@@ -37,8 +31,8 @@ namespace Trader.Server.Serialization
             byte sessionLengthByte = (byte)sessionBytes.Length;
             byte[] contentLengthBytes = contentBytes.Length.ToCustomerBytes();
             int packetLength = Constants.HeadCount + sessionLengthByte + contentBytes.Length;
-            UnmanagedMemory packet = new UnmanagedMemory(packetLength);
-            byte priceByte = 0;
+            var packet = new UnmanagedMemory(packetLength);
+            const byte priceByte = 0;
             AddHeaderToPacket(packet, priceByte, sessionLengthByte, contentLengthBytes);
             AddSessionToPacket(packet, sessionBytes, Constants.HeadCount);
             AddContentToPacket(packet, contentBytes, Constants.HeadCount + sessionLengthByte);
@@ -58,7 +52,7 @@ namespace Trader.Server.Serialization
         {
             UnmanagedMemory content = ZlibHelper.ZibCompress(source.ToArray());
             source.Dispose();
-            int contentLength = Constants.INVOKE_ID_LENGTH + content.Length;
+            int contentLength = Constants.InvokeIDLength + content.Length;
             int packetLength=Constants.HeadCount + contentLength;
             UnmanagedMemory packet = new UnmanagedMemory(packetLength);
             byte[] contentLengthBytes = contentLength.ToCustomerBytes();
@@ -131,7 +125,7 @@ namespace Trader.Server.Serialization
         {
             packet.Handle[Constants.IsPriceIndex] = isPrice;
             packet.Handle[Constants.SessionLengthIndex] = sessionLength;
-            int startIndex = Constants.ContentLengthIndex;
+            const int startIndex = Constants.ContentLengthIndex;
             Marshal.Copy(contentLengthBytes, 0, (IntPtr)(packet.Handle + startIndex), contentLengthBytes.Length);
         }
 

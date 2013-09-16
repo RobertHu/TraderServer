@@ -5,7 +5,6 @@ using System.Text;
 using System.Data;
 using iExchange.Common;
 using System.Data.SqlClient;
-using Trader.Server.Setting;
 using System.Collections;
 using System.Xml;
 using System.Xml.Linq;
@@ -14,6 +13,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Configuration;
+using log4net;
 using Trader.Server.Util;
 using Trader.Common;
 namespace Trader.Server.Bll
@@ -28,13 +28,14 @@ namespace Trader.Server.Bll
         private string connectionString = "";
         private int tickDataReturnCount = 300;
         private Hashtable extends = new Hashtable();
+        private static ILog _Logger = LogManager.GetLogger(typeof (TradingConsoleServer));
         public  TradingConsoleServer() { }
         static TradingConsoleServer()
         {
             try
             {
                 string connectionString = SettingManager.Default.ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (var connection = new SqlConnection(connectionString))
                 {
                     SqlCommand sqlCommand = connection.CreateCommand();
                     sqlCommand.CommandType = CommandType.Text;
@@ -42,7 +43,7 @@ namespace Trader.Server.Bll
                     connection.Open();
                     SqlDataReader reader = sqlCommand.ExecuteReader();
                     reader.Read();
-                    TradingConsoleServer.AllowInstantPayment = (bool)reader["AllowInstantPayment"];
+                    AllowInstantPayment = (bool)reader["AllowInstantPayment"];
                     object value = reader["MaxPriceDelayForSpotOrder"];
                     if (value == DBNull.Value)
                     {
@@ -57,8 +58,8 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                TradingConsoleServer.AllowInstantPayment = false;
-                AppDebug.LogEvent("TradingConsoleServer", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                AllowInstantPayment = false;
+                _Logger.Error(exception);
             }
         }
         public TradingConsoleServer(string connectionString, int tickDataReturnCount)
@@ -99,6 +100,8 @@ namespace Trader.Server.Bll
             string commandTimeOutStr = ConfigurationManager.AppSettings["iExchange.TradingConsole.CommandTimeout"];
             TimeSpan commandTimeOut = TimeSpan.Parse(String.IsNullOrEmpty(commandTimeOutStr) ? "00:00:30" : commandTimeOutStr);
 
+            DataSet dataSet;
+            string sql;
             if (dataCycle.EndsWith(_FixLastPeriodFlag))
             {
                 lock (this._FixLastPeriodCacheLock)
@@ -113,14 +116,11 @@ namespace Trader.Server.Bll
                         {
                             return fromToDataSet.DataSet;
                         }
-                        else
-                        {
-                            this._FixLastPeriodCache.Remove(key);
-                        }
+                        this._FixLastPeriodCache.Remove(key);
                     }
 
-                    string sql = String.Format("EXEC P_GetChartData2 '{0}', '{1}', '{2}', '{3:yyyy-MM-dd HH:mm:ss.fff}', '{4:yyyy-MM-dd HH:mm:ss.fff}'", instrumentId, quotePolicyId, dataCycle, from, to);
-                    DataSet dataSet = DataAccess.GetData(sql, this.connectionString, commandTimeOut);
+                    sql = String.Format("EXEC P_GetChartData2 '{0}', '{1}', '{2}', '{3:yyyy-MM-dd HH:mm:ss.fff}', '{4:yyyy-MM-dd HH:mm:ss.fff}'", instrumentId, quotePolicyId, dataCycle, @from, to);
+                    dataSet = DataAccess.GetData(sql, this.connectionString, commandTimeOut);
                     if (dataSet != null && dataSet.Tables.Count > 0)
                     {
                         dataSet.Tables[0].TableName = "ChartDataTable";
@@ -131,16 +131,13 @@ namespace Trader.Server.Bll
                     return dataSet;
                 }
             }
-            else
+            sql = String.Format("EXEC P_GetChartData2 '{0}', '{1}', '{2}', '{3:yyyy-MM-dd HH:mm:ss.fff}', '{4:yyyy-MM-dd HH:mm:ss.fff}'", instrumentId, quotePolicyId, dataCycle, @from, to);
+            dataSet = DataAccess.GetData(sql, this.connectionString, commandTimeOut);
+            if (dataSet != null && dataSet.Tables.Count > 0)
             {
-                string sql = String.Format("EXEC P_GetChartData2 '{0}', '{1}', '{2}', '{3:yyyy-MM-dd HH:mm:ss.fff}', '{4:yyyy-MM-dd HH:mm:ss.fff}'", instrumentId, quotePolicyId, dataCycle, from, to);
-                DataSet dataSet = DataAccess.GetData(sql, this.connectionString, commandTimeOut);
-                if (dataSet != null && dataSet.Tables.Count > 0)
-                {
-                    dataSet.Tables[0].TableName = "ChartDataTable";
-                }
-                return dataSet;
+                dataSet.Tables[0].TableName = "ChartDataTable";
             }
+            return dataSet;
         }
 
         public DataSet GetTickDatas(Guid instrumentId, Guid quotePolicyId, DateTime dateTime, int minutes)
@@ -238,7 +235,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("UpdateAccountSetting", ex.ToString(), EventLogEntryType.Error);
+                _Logger.Error(ex);
                 return false;
             }
         }
@@ -269,7 +266,7 @@ namespace Trader.Server.Bll
 
         public void RefreshInstrumentsState(DataSet dataSet, ref TradingConsoleState state2, string sessionId)
         {
-            TradingConsoleState state = state2 == null ? new TradingConsoleState(sessionId) : state2;
+            TradingConsoleState state = state2 ?? new TradingConsoleState(sessionId);
             if (state.Instruments.Count > 0)
             {
                 state.Instruments.Clear();
@@ -319,7 +316,7 @@ namespace Trader.Server.Bll
 
         public void RefreshInstrumentsState2(DataSet dataSet, ref TradingConsoleState state2, string sessionId)
         {
-            TradingConsoleState state = state2 == null ? new TradingConsoleState(sessionId) : state2;
+            TradingConsoleState state = state2 ?? new TradingConsoleState(sessionId);
             if (state.Instruments.Count > 0)
             {
                 state.Instruments.Clear();
@@ -346,9 +343,9 @@ namespace Trader.Server.Bll
 
         }
 
-        public void Quote(Token token, bool isEmployee, StateServerService stateServer, string localIP, string instrumentID, double quoteLot, int BSStatus)
+        public void Quote(Token token, bool isEmployee, StateServerService stateServer, string localIP, string instrumentID, double quoteLot, int bsStatus)
         {
-            stateServer.Quote(token, new Guid(instrumentID), quoteLot, BSStatus);
+            stateServer.Quote(token, new Guid(instrumentID), quoteLot, bsStatus);
 
             SaveQuote(token, isEmployee, localIP, instrumentID);
         }
@@ -363,8 +360,6 @@ namespace Trader.Server.Bll
         public void CancelQuote(Token token, StateServerService stateServer, string localIP, string instrumentID, double buyQuoteLot, double sellQuoteLot)
         {
             stateServer.CancelQuote(token, new Guid(instrumentID), buyQuoteLot, sellQuoteLot);
-
-            //SaveCancelQuote(token, localIP, instrumentID);
         }
 
         public TransactionError CancelLMTOrder(Token token, StateServerService stateServer, string transactionID)
@@ -415,48 +410,25 @@ namespace Trader.Server.Bll
 
         public TransactionError Place(Token token, StateServerService stateServer, XmlNode tran, bool fromMobile, out string tranCode)
         {
-            try
-            {
-                return stateServer.Place(token, tran, out tranCode);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return stateServer.Place(token, tran, out tranCode);
         }
 
         public TransactionError MultipleClose(Token token, StateServerService stateServer, Guid[] orderIds, out XmlNode xmlTran, out XmlNode xmlAccount)
         {
-            try
-            {
-                return stateServer.MultipleClose(token, orderIds, out xmlTran, out xmlAccount);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return stateServer.MultipleClose(token, orderIds, out xmlTran, out xmlAccount);
         }
 
         public TransactionError Assign(Token token, StateServerService stateServer, ref XmlNode xmlTransaction, out XmlNode xmlAccount, out XmlNode xmlInstrument)
         {
-            try
-            {
-                string s = xmlTransaction.OuterXml;
-                TransactionError transactionError = stateServer.Assign(token, ref xmlTransaction, out xmlAccount, out xmlInstrument);
-
-                return transactionError;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            string s = xmlTransaction.OuterXml;
+            TransactionError transactionError = stateServer.Assign(token, ref xmlTransaction, out xmlAccount, out xmlInstrument);
+            return transactionError;
         }
 
         public XmlNode GetInstrumentForSetting(Token token, StateServerService stateServer)
         {
             DataSet dataSet = stateServer.GetInstrumentForSetting(token);
             if (dataSet == null) return null;
-
             XmlDocument doc = new XmlDocument();
             XmlNode xmlNodeTop = doc.CreateNode(XmlNodeType.Element, "Instruments", null);
             DataTable table = dataSet.Tables[0];
@@ -736,10 +708,8 @@ namespace Trader.Server.Bll
         {
             try
             {
-                AppDebug.LogEvent("TradingConsole.UpdateQuotePolicyDetail]QuotePolicy",
-                    string.Format("SessionId = {0}, InstrumentId = {1}, QuotePolicyId = {2}{3}{4}", state.SessionId, instrumentID, quotePolicyID, Environment.NewLine, Environment.StackTrace),
-                    EventLogEntryType.Information);
-
+                _Logger.Info(string.Format("SessionId = {0}, InstrumentId = {1}, QuotePolicyId = {2}{3}{4}",
+                    state.SessionId, instrumentID, quotePolicyID, Environment.NewLine, Environment.StackTrace));
                 if (state.Instruments.ContainsKey(instrumentID))
                 {
                     state.Instruments[instrumentID] = quotePolicyID;
@@ -749,37 +719,15 @@ namespace Trader.Server.Bll
                     state.Instruments.Add(instrumentID, quotePolicyID);
                 }
 
-                return XmlResultHelper.NewResult(StringConstants.OK_RESULT);
+                return XmlResultHelper.NewResult(StringConstants.OkResult);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                _Logger.Error(ex);
                 return XmlResultHelper.ErrorResult;
             }
         }
 
-        //		public bool ChangePassword(Token token,StateServerService stateServer,byte[] oldPassword,byte[] newPassword)
-        //		{
-        //			bool isSucced = stateServer.ChangePassword(token,oldPassword,newPassword);
-        //			return(isSucced);
-        //		}
-
-
-        //public bool AdditionalClient(Token token, StateServerService stateServer, string email, string receive, string organizationName, string customerName,
-        //    string reportDate, string accountCode, string correspondingAddress, string registratedEmailAddress, string tel, string mobile,
-        //    string fax, string fillName1, string ICNo1, string fillName2, string ICNo2, string fillName3, string ICNo3, out string reference)
-        //{
-        //    Guid submitPerson = token.UserID;
-        //    string remark = ConfigurationSettings.AppSettings["FillName1"] + fillName1 + "," + ConfigurationSettings.AppSettings["ICNo1"] + ICNo1 + ";"
-        //        + ConfigurationSettings.AppSettings["FillName2"] + fillName2 + "," + ConfigurationSettings.AppSettings["ICNo2"] + ICNo2 + ";"
-        //        + ConfigurationSettings.AppSettings["FillName3"] + fillName3 + "," + ConfigurationSettings.AppSettings["ICNo3"] + ICNo3 + ";"
-        //        + ConfigurationSettings.AppSettings["From"] + customerName;
-
-        //    return this.AddMargin("OwnerRegistration", DateTime.Parse(reportDate), accountCode, email, null, null, null, organizationName, correspondingAddress,
-        //        registratedEmailAddress, tel, mobile, fax, null, null, null, null, remark, submitPerson, out reference);
-        //}
-
-      
 
         public bool CallMarginExtension(Token token, StateServerService stateServer, string email, string receive, string organizationName,
             string customerName, string reportDate, string accountCode, string currency, string currencyValue, string dueDate, out string reference)
@@ -832,12 +780,12 @@ namespace Trader.Server.Bll
                     retrurnValue = int.Parse(marginElement.Attributes["ReturnValue"].Value);
                     if (retrurnValue != 1)
                     {
-                        AppDebug.LogEvent("TraderService.ApprovePaymentInstruction", string.Format("ApproveMargin failed: {0}, refernce={1}", retrurnValue, reference), System.Diagnostics.EventLogEntryType.Error);
+                        _Logger.Error(string.Format("ApproveMargin failed: {0}, refernce={1}", retrurnValue, reference));
                     }
                 }
                 else
                 {
-                    AppDebug.LogEvent("TraderService.ApprovePaymentInstruction", string.Format("MarginValidation failed: {0}, refernce={1}", retrurnValue, reference), System.Diagnostics.EventLogEntryType.Error);
+                    _Logger.Error(string.Format("MarginValidation failed: {0}, refernce={1}", retrurnValue, reference));
                     string approveUrl = string.Format("{0}/CancelMargin?reference={1}&marginType={2}", backofficeServiceUrl, reference, type);
                     webRequest = WebRequest.Create(approveUrl);
                     webResponse = webRequest.GetResponse();
@@ -845,7 +793,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TraderService.ApprovePaymentInstruction", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
         }
 
@@ -963,7 +911,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.TradingConsoleServer.SendEmail", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return false;
             }
 
@@ -1003,7 +951,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.TradingConsoleServer.AddMargin", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 throw;
             }
         }
@@ -1013,42 +961,34 @@ namespace Trader.Server.Bll
             string bankerAddress, string swift, DateTime? targetDate, string remarks, Guid submitPerson, out string reference)
         {
             reference = "";
-            try
+            MarginType marginType = MarginType.OwnerRegistration;
+            string mailTemplateContent = string.Empty;
+            switch (type)
             {
-                MarginType marginType = MarginType.OwnerRegistration;
-                string mailTemplateContent = string.Empty;
-                switch (type)
-                {
-                    case "OwnerRegistration":
-                        marginType = MarginType.OwnerRegistration;
-                        break;
-                    case "AgentRegistration":
-                        marginType = MarginType.AgentRegistration;
-                        break;
-                    case "CMExtension":
-                        marginType = MarginType.CMExtension;
-                        break;
-                    case "PI":
-                        marginType = MarginType.PI;
-                        break;
-                    case "PICash":
-                        marginType = MarginType.PICash;
-                        break;
-                    case "PIInterACTransfer":
-                        marginType = MarginType.PIInterACTransfer;
-                        break;
-                }
+                case "OwnerRegistration":
+                    marginType = MarginType.OwnerRegistration;
+                    break;
+                case "AgentRegistration":
+                    marginType = MarginType.AgentRegistration;
+                    break;
+                case "CMExtension":
+                    marginType = MarginType.CMExtension;
+                    break;
+                case "PI":
+                    marginType = MarginType.PI;
+                    break;
+                case "PICash":
+                    marginType = MarginType.PICash;
+                    break;
+                case "PIInterACTransfer":
+                    marginType = MarginType.PIInterACTransfer;
+                    break;
+            }
 
-                iExchange.Common.DataAccess.AddMargin(connectionString, marginType, date, account, email, currency, amount, targetAccount,
-                            targetName, targetAddress, targetEmail, targetTel, targetMobile, targetFax, bankerName,
-                            bankerAddress, swift, targetDate, remarks, submitPerson, TradingConsoleServer.AllowInstantPayment, out reference);
-                return true;
-            }
-            catch (Exception exception)
-            {
-                AppDebug.LogEvent("TradingConsole.TradingConsoleServer.AddMargin", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                throw;
-            }
+            iExchange.Common.DataAccess.AddMargin(connectionString, marginType, date, account, email, currency, amount, targetAccount,
+                targetName, targetAddress, targetEmail, targetTel, targetMobile, targetFax, bankerName,
+                bankerAddress, swift, targetDate, remarks, submitPerson, TradingConsoleServer.AllowInstantPayment, out reference);
+            return true;
         }
 
         #region comment
@@ -1226,7 +1166,7 @@ namespace Trader.Server.Bll
             catch (System.Exception ex)
             {
                 isSucced = false;
-                AppDebug.LogEvent("TradingConsole.TradingConsoleServer.SaveLog", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
             return (isSucced);
         }
@@ -1327,31 +1267,6 @@ namespace Trader.Server.Bll
                 AppDebug.LogEvent("TradingConsole.TradingConsoleServer.GetExtend", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
             }
         }
-
-        //for Java
-        //		private void GetExtend(Token token,XmlNode node)
-        //		{
-        //			if (this.extends.ContainsKey(token.SessionID)) return;
-        //			
-        //			Hashtable extend = new Hashtable();
-        //
-        //			//Get xml
-        //			try
-        //			{
-        //				for (int i = 0; i < node.ChildNodes.Count; i++)
-        //				{						
-        //					string nodeName = node.ChildNodes.Item(i).Name.ToString();
-        //					string text = node.ChildNodes.Item(i).InnerText.ToString();
-        //					extend[nodeName] = text;
-        //				}
-        //				this.extends.Add(token.SessionID,extend);
-        //			}
-        //			catch(System.Exception ex)
-        //			{
-        //				AppDebug.LogEvent("TradingConsole.TradingConsoleServer.GetExtend(for Java)",ex.ToString(),System.Diagnostics.EventLogEntryType.Error);
-        //			}			
-        //		}
-
 
 
         public void EmailExecuteOrders(Token token, StateServerService stateServer, string physicalPath, XmlElement xmlElement)
@@ -1504,17 +1419,9 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.EmailExecuteOrders", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
         }
-
-        //for Java
-        //		public void NotifyCustomerExecuteOrder(Token token,StateServerService stateServer,string[][] parameters,XmlNode extendXml)
-        //		{
-        //			this.GetExtend(token,extendXml);
-        //
-        //			this.NotifyCustomerExecuteOrder(token,stateServer,parameters);
-        //		}
 
         public void NotifyCustomerExecuteOrder(Token token, StateServerService stateServer, string physicalPath, string[][] parameters)
         {
@@ -1655,7 +1562,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.NotifyCustomerExecuteOrder2", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
         }
 
@@ -1763,87 +1670,9 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.NotifyCustomerExecuteOrder", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
         }
-
-        /*
-        private bool SendEmail(string subject,string sendemailaddress,string to,string body,
-            string fromEmailaddress,string smtpaccountname,string sendusername,string sendpassword,int smtpauthenticate,string smtpserver,string charset)
-        {
-            bool isSucceed = false;
-            try
-            {
-                CDO.Message oMsg = new CDO.Message();
-                oMsg.From = fromEmailaddress;
-                oMsg.To = to;
-                oMsg.Subject = subject;
-                oMsg.HTMLBody = "<html><body>" + body + "</body></html>";
-                CDO.IConfiguration iConfg = oMsg.Configuration;
-                ADODB.Fields oFields = iConfg.Fields;
-          
-                oFields["http://schemas.microsoft.com/cdo/configuration/sendusing"].Value=2;
-                oFields["http://schemas.microsoft.com/cdo/configuration/sendemailaddress"].Value=sendemailaddress; //sender mail
-                oFields["http://schemas.microsoft.com/cdo/configuration/smtpaccountname"].Value=smtpaccountname;//email account
-                oFields["http://schemas.microsoft.com/cdo/configuration/sendusername"].Value=sendusername;
-                oFields["http://schemas.microsoft.com/cdo/configuration/sendpassword"].Value=sendpassword;
-                oFields["http://schemas.microsoft.com/cdo/configuration/smtpauthenticate"].Value=smtpauthenticate;
-                //value=0 代表Anonymous验证方式（不需要验证）
-                //value=1 代表Basic验证方式（使用basic (clear-text) authentication. 
-                //The configuration sendusername/sendpassword or postusername/postpassword fields are used to specify credentials.）
-                //Value=2 代表NTLM验证方式（Secure Password Authentication in Microsoft Outlook Express）
-                //				oFields["http://schemas.microsoft.com/cdo/configuration/languagecode"].Value=0x0412;//0x0804;
-
-                oFields["http://schemas.microsoft.com/cdo/configuration/smtpserver"].Value=smtpserver;
-				
-                oFields.Update();
-                oMsg.BodyPart.Charset=charset;
-                oMsg.HTMLBodyPart.Charset=charset; 
-
-                oMsg.Send();
-                oMsg = null;
-
-                //				string mail="<HTML><HEAD></HEAD><BODY onload='window.frmEmail.submit();'>" +
-                //					"<FORM name='frmEmail' ACTION='mailto:" + to + "?subject=" + subject + "' METHOD='POST' ENCTYPE='text/plain'>" +						
-                //					"<TEXTAREA style='display=none' NAME=CONTENT COLS=40>" +
-                //					body +
-                //					"</TEXTAREA>" +
-                //					"</FORM></BODY></HTML>";
-                //				this.Context.Response.Write(mail);
-
-                isSucceed = true;
-            }
-            catch(System.Exception ex)
-            {}
-            return isSucceed;
-        }
-*/
-        /*
-        public DataSet LoadSystemParameters(Token token)
-        {
-            DataSet dataSet = new DataSet();
-            try
-            {
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                SqlCommand sqlCommand = new SqlCommand("P_GetSettings2",sqlConnection);
-                sqlCommand.CommandType=CommandType.StoredProcedure;
-                SqlParameter sqlParameter = sqlCommand.Parameters.Add("@userID",SqlDbType.UniqueIdentifier);
-                sqlParameter.Value = token.UserID;
-                sqlParameter = sqlCommand.Parameters.Add("@appType",SqlDbType.Int);
-                sqlParameter.Value = (Int32)token.AppType;
-
-                sqlConnection.Open();
-                SqlDataAdapter sqlDataAdapter=new SqlDataAdapter(sqlCommand);
-			
-                sqlDataAdapter.Fill(dataSet);
-                sqlConnection.Close();
-            }
-            catch
-            {
-            }
-            return dataSet;
-        }
-        */
 
         public bool UpdateSystemParameters(Token token, string parameters, string objectID)
         {
@@ -1857,27 +1686,6 @@ namespace Trader.Server.Bll
             }
         }
 
-        /*
-        private string GetSystemParameter(Token token)
-        {
-            string parameters = "";
-            string sql=string.Format("Exec dbo.P_GetSettings2 '{0}','{1}'",token.UserID, (Int32)token.AppType);
-            SqlCommand command=new SqlCommand(sql,new SqlConnection(connectionString));
-            try
-            { 
-                command.Connection.Open();
-                parameters = command.ExecuteScalar().ToString();
-            }
-            finally
-            {
-                if(command.Connection.State==ConnectionState.Open)
-                {
-                    command.Connection.Close();
-                }
-            }			
-            return parameters;
-        }
-        */
 
         private bool SetSystemParameter(Token token, string objectID, string parameters)
         {
@@ -2284,7 +2092,7 @@ namespace Trader.Server.Bll
             catch (Exception e)
             {
                 isSucceed = false;
-                throw e;
+                throw;
             }
             return isSucceed;
         }

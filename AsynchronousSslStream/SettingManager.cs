@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using log4net;
-using Trader.Server.TypeExtension;
 using System.Configuration;
-namespace Trader.Server.Setting
+using log4net;
+namespace Trader.Server
 {
     public class SettingManager
     {
-        private ILog _Logger = LogManager.GetLogger(typeof(SettingManager));
+        public static readonly SettingManager Default = new SettingManager();
+        private readonly ILog _Logger = LogManager.GetLogger(typeof(SettingManager));
         private SettingManager()
         {
             try
@@ -37,13 +34,6 @@ namespace Trader.Server.Setting
             }
         }
 
-        private bool ConvertBitZeroOrOneToBoolean(string configItemName)
-        {
-            return GetSettingFromAppSettingConfig(configItemName) == "1" ? true : false;
-        }
-
-        public static readonly SettingManager Default = new SettingManager();
-
         public int ServerPort { get; private set; }
 
         public string PhysicPath { get; private set; }
@@ -64,6 +54,11 @@ namespace Trader.Server.Setting
         public bool IsTest { get; private set; }
         public bool IsSendPriceImmediately { get; private set; }
 
+        private bool ConvertBitZeroOrOneToBoolean(string configItemName)
+        {
+            return GetSettingFromAppSettingConfig(configItemName) == "1";
+        }
+
         public string GetLoginSetting(string key)
         {
             try
@@ -72,7 +67,7 @@ namespace Trader.Server.Setting
             }
             catch (Exception ex)
             {
-                this._Logger.Error(ex);
+                _Logger.Error(ex);
                 return string.Empty;
             }
             

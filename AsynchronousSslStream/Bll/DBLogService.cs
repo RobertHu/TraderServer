@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using iExchange.Common;
 using System.Data.SqlClient;
-using Trader.Server.Setting;
 using System.Data;
 using log4net;
 

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using iExchange.Common;
+using iExchange.Common.External.Bursa;
+using log4net;
 using Trader.Server.SessionNamespace;
 using System.Xml;
 using Trader.Server.Util;
@@ -15,8 +17,9 @@ namespace Trader.Server.Bll
 {
     public class InstrumentManager
     {
-        private InstrumentManager() { }
         public static readonly InstrumentManager Default = new InstrumentManager();
+        private readonly ILog _Logger = LogManager.GetLogger(typeof (InstrumentManager));
+        private InstrumentManager() { }
 
         public XElement GetInstrumentForSetting(Session session)
         {
@@ -26,9 +29,9 @@ namespace Trader.Server.Bll
                 XmlNode content= Application.Default.TradingConsoleServer.GetInstrumentForSetting(token, Application.Default.StateServer);
                 return XmlResultHelper.NewResult(content.OuterXml);
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetInstrumentForSetting:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -43,17 +46,16 @@ namespace Trader.Server.Bll
                 ds.SetInstrumentGuidMapping();
                 return XmlResultHelper.NewResult(ds.ToXml());
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.UpdateInstrumentSetting:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
 
         private DataSet UpdateInstrumentSetting(Session session, Token token, string[] instrumentIDs)
         {
-            DataSet dataSet = null;
-            dataSet = Application.Default.TradingConsoleServer.GetUpdateInstrumentSetting(token, Application.Default.StateServer, instrumentIDs);
+            DataSet dataSet = Application.Default.TradingConsoleServer.GetUpdateInstrumentSetting(token, Application.Default.StateServer, instrumentIDs);
             var state = SessionManager.Default.GetTradingConsoleState(session);
             if (state == null) return null;
             Application.Default.TradingConsoleServer.UpdateInstrumentSetting(dataSet, instrumentIDs, state);
@@ -65,15 +67,13 @@ namespace Trader.Server.Bll
         public void UpdateInstrumentSetting(Session session, Dictionary<Guid, Guid> quotePolicyIds)
         {
             var state = SessionManager.Default.GetTradingConsoleState(session);
-            if (state != null)
+            if (state == null) return;
+            state.Instruments.Clear();
+            foreach (var pair in quotePolicyIds)
             {
-                state.Instruments.Clear();
-                foreach (KeyValuePair<Guid, Guid> pair in quotePolicyIds)
-                {
-                    state.Instruments.Add(pair.Key, pair.Value);
-                }
-                state.CaculateQuotationFilterSign();
+                state.Instruments.Add(pair.Key, pair.Value);
             }
+            state.CaculateQuotationFilterSign();
         }
     }
 }

@@ -6,12 +6,14 @@ using iExchange.Common;
 using System.Xml;
 using System.Xml.Linq;
 using System.Data;
+using log4net;
 using Trader.Server.TypeExtension;
 using Trader.Server.Util;
 namespace Trader.Server.Bll
 {
     public static class NewsService
     {
+        private static ILog _Logger = LogManager.GetLogger(typeof (NewsService));
         public static XElement GetNewsList2(string newsCategoryID, string language, DateTime date)
         {
             try
@@ -21,7 +23,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetNewsList2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }

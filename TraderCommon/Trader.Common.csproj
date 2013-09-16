@@ -57,8 +57,13 @@
   <ItemGroup>
     <Compile Include="BufferManager.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="FirstHeadByteBitConstants.cs" />
+    <Compile Include="InstrumentConstants.cs" />
+    <Compile Include="LoginConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceiveData.cs" />
+    <Compile Include="RequestConstants.cs" />
+    <Compile Include="ResponseConstants.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionMapping.cs" />
     <Compile Include="StringConstants.cs" />

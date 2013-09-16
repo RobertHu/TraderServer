@@ -14,58 +14,23 @@ namespace Trader.Common
         public const int SessionLengthIndex = 1;
         public const int ContentLengthIndex = 2;
         public const int HeadCount = 6;
-
-        public const int INVOKE_ID_LENGTH = 36;
-
+        public const int InvokeIDLength = 36;
         public static readonly Encoding SessionEncoding = Encoding.ASCII;
         public static readonly Encoding ContentEncoding = Encoding.UTF8;
         public static readonly Encoding ClientInvokeIDEncoding = Encoding.ASCII;
-
-
         public static int GetContentLength(byte[] source, int index)
         {
-            Byte[] bytes = new byte[Constants.ContentHeaderLength];
-            Buffer.BlockCopy(source, index, bytes, 0, Constants.ContentHeaderLength);
+            Byte[] bytes = new byte[ContentHeaderLength];
+            Buffer.BlockCopy(source, index, bytes, 0, ContentHeaderLength);
             return bytes.ToCustomerInt();
         }
 
         public static int GetPacketLength(byte[] source, int index)
         {
-            int sessionLength = source[index + Constants.SessionLengthIndex];
-            int contentLength = GetContentLength(source, index + Constants.ContentLengthIndex);
-            return Constants.HeadCount + sessionLength + contentLength;
-
+            int sessionLength = source[index + SessionLengthIndex];
+            int contentLength = GetContentLength(source, index + ContentLengthIndex);
+            return HeadCount + sessionLength + contentLength;
         }
 
     }
-
-
-    public static class RequestConstants
-    {
-        public const string RootNodeName = "Request";
-        public const string ArgumentNodeName = "Arguments";
-        public const string MethodNodeName = "Method";
-        public const string InvokeIdNodeName = "InvokeId";
-    }
-
-    public static class ResponseConstants
-    {
-        public const string RootNodeName = "Result";
-        public const string SingleResultContentNodeName = "content_result";
-        public const string ErrorResultNodeName = "error";
-        public const string CommandSequence = "C_S";
-    }
-
-    public static class FirstHeadByteBitConstants
-    {
-        public const byte IsPricevValue = 0x01;
-        public const byte IsKeepAliveMask = 0x02;
-        public const byte IsKeepAliveAndSuccessValue = 0x06;
-        public const byte IsKeepAliveAndFailedValue = 0x02;
-        public const byte IsPlainString = 0x08;
-    }
-     
-
-
-
 }

@@ -11,110 +11,98 @@ namespace Trader.Server
 {
     public class SessionMonitor
     {
-        private ILog _Logger = LogManager.GetLogger(typeof(SessionMonitor));
-        private TimeSpan _ExpiredTimeout;
-        private long _ClientCount = 0;
-        private volatile bool _IsStarted = false;
-        private volatile bool _IsStoped = false;
-        private ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
-        private Dictionary<Session, DateTime> dict = new Dictionary<Session, DateTime>();
-        private List<Session> _RemovedSessoinList = new List<Session>(512);
+        private readonly ILog _Logger = LogManager.GetLogger(typeof(SessionMonitor));
+        private readonly TimeSpan _ExpiredTimeout;
+        private long _ClientCount;
+        private volatile bool _IsStarted;
+        private volatile bool _IsStoped ;
+        private readonly ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
+        private readonly Dictionary<Session, DateTime> _Dict = new Dictionary<Session, DateTime>();
+        private readonly List<Session> _RemovedSessoinList = new List<Session>(512);
         public SessionMonitor(TimeSpan timeout)
         {
-            this._ExpiredTimeout = timeout;
+            _ExpiredTimeout = timeout;
         }
 
         public void Start()
         {
             try
             {
-                if (this._IsStarted)
-                {
-                    return;
-                }
-                Thread thread = new Thread(MonitorHandle);
-                thread.IsBackground = true;
+                if (_IsStarted) return;
+                Thread thread = new Thread(MonitorHandle) {IsBackground = true};
                 thread.Start();
-                this._IsStarted = true;
+                _IsStarted = true;
             }
             catch (Exception ex)
             {
-                this._Logger.Error(ex);
+                _Logger.Error(ex);
             }
         }
 
         public void Stop()
         {
-            this._IsStoped = true;
+            _IsStoped = true;
         }
 
 
         public void Add(Session session)
         {
-            this._ReadWriteLock.EnterWriteLock();
+            _ReadWriteLock.EnterWriteLock();
             try
             {
-                if (!this.dict.ContainsKey(session))
-                {
-                    this.dict.Add(session, DateTime.Now);
-                    this._ClientCount++;
-                    this._Logger.InfoFormat("ClientCount={0}", this._ClientCount);
-                }
+                if (_Dict.ContainsKey(session)) return;
+                _Dict.Add(session, DateTime.Now);
+                _ClientCount++;
+                _Logger.InfoFormat("ClientCount={0}", _ClientCount);
             }
             finally
             {
-                this._ReadWriteLock.ExitWriteLock();
+                _ReadWriteLock.ExitWriteLock();
             }
         }
 
         public void Update(Session? session)
         {
-            this._ReadWriteLock.EnterWriteLock();
+            _ReadWriteLock.EnterWriteLock();
             try
             {
                 if (!session.HasValue)
-                {
                     return;
-                }
                 DateTime value;
-                if (this.dict.TryGetValue(session.Value,out value))
-                {
-                    this.dict[session.Value] = DateTime.Now;
-                }
+                if (_Dict.TryGetValue(session.Value, out value))
+                    _Dict[session.Value] = DateTime.Now;
             }
             finally
             {
-                this._ReadWriteLock.ExitWriteLock();
+                _ReadWriteLock.ExitWriteLock();
             }
         }
 
         public void Remove(Session session)
         {
-            this._ReadWriteLock.EnterWriteLock();
+            _ReadWriteLock.EnterWriteLock();
             try
             {
-                if (!this.dict.ContainsKey(session))
-                {
+                if (!_Dict.ContainsKey(session))
                     return;
-                }
                 RemoveHelper(session);
             }
             finally
             {
-                this._ReadWriteLock.ExitWriteLock();
+                _ReadWriteLock.ExitWriteLock();
             }
         }
 
         public bool Exist(Session session)
         {
-            this._ReadWriteLock.EnterReadLock();
+            _ReadWriteLock.EnterReadLock();
             try
             {
-                return this.dict.ContainsKey(session);
+                return _Dict.ContainsKey(session);
             }
             finally
             {
-                this._ReadWriteLock.ExitReadLock();
+                _ReadWriteLock.ExitReadLock();
             }
         }
 
@@ -122,42 +110,37 @@ namespace Trader.Server
         {
             while (true)
             {
-                if (this._IsStoped)
-                {
+                if (_IsStoped)
                     break;
-                }
                 Thread.Sleep(60000);
-                this._ReadWriteLock.EnterWriteLock();
+                _ReadWriteLock.EnterWriteLock();
                 try
                 {
-                    foreach(var item in this.dict)
+                    foreach (var item in _Dict.Where(item => DateTime.Now - item.Value> _ExpiredTimeout))
                     {
-                        if (DateTime.Now - item.Value> this._ExpiredTimeout)
-                        {
-                            this._RemovedSessoinList.Add(item.Key);
-                        }
+                        _RemovedSessoinList.Add(item.Key);
                     }
-                    for(int i=0;i<this._RemovedSessoinList.Count;i++)
+                    foreach (Session session in _RemovedSessoinList)
                     {
-                        this._Logger.InfoFormat("remove session:{0}", this._RemovedSessoinList[i]);
-                        RemoveHelper(this._RemovedSessoinList[i]);
+                        _Logger.InfoFormat("remove session:{0}", session);
+                        RemoveHelper(session);
                     }
-                    this._RemovedSessoinList.Clear();
+                    _RemovedSessoinList.Clear();
                 }
                 finally
                 {
-                    this._ReadWriteLock.ExitWriteLock();
+                    _ReadWriteLock.ExitWriteLock();
                 }
             }
         }
 
         private void RemoveHelper(Session session)
         {
-            this.dict.Remove(session);
+            _Dict.Remove(session);
             ResouceManager.Default.ReleaseResource(session);
             AgentController.Default.EnqueueDisconnectSession(session);
-            this._ClientCount--;
-            this._Logger.InfoFormat("ClientCount={0}", this._ClientCount);
+            _ClientCount--;
+            _Logger.InfoFormat("ClientCount={0}", _ClientCount);
         }
 
     }

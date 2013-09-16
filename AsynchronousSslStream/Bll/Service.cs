@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using log4net;
 using StockChart.Common;
 using Easychart.Finance;
 using iExchange.Common;
@@ -13,9 +13,7 @@ using System.Net;
 using System.Xml;
 using Framework.Time;
 using System.Configuration;
-using Trader.Server.Setting;
 using System.Data.SqlClient;
-using Trader.Server.Report;
 using System.IO;
 using Trader.Server.Service;
 using Trader.Server.Util;
@@ -25,68 +23,13 @@ using System.Xml.Linq;
 using Trader.Server.SessionNamespace;
 namespace Trader.Server.Bll
 {
-    public class Service 
+    public class Service
     {
-        private bool _DebugGetCommands = Convert.ToBoolean(System.Configuration.ConfigurationSettings.AppSettings["IsDebugGetCommands"]);
-        private bool _RunAsTradingProxy = Convert.ToBoolean(ConfigurationSettings.AppSettings["RunAsTradingProxy"]);
-
-     
-       
-
-     
-
+        private ILog _Logger = LogManager.GetLogger(typeof (Service));
         public Service()
         {
           
-
         }
-
-       
-
-        //private Hashtable InstrumentCodes
-        //{
-        //    get
-        //    {
-        //        if (this.Session["InstrumentCodes"] == null)
-        //        {
-        //            this.SetInstrumentCodes();
-        //        }
-        //        Hashtable instrumentCodes = (Hashtable)this.Session["InstrumentCodes"];
-        //        if (instrumentCodes == null)
-        //        {
-        //            AppDebug.LogEvent("TradingConsole.Service.asmx.InstrumentCodes:", "Session['InstrumentCodes'] == null", EventLogEntryType.Error);
-        //        }
-        //        return instrumentCodes;
-        //    }
-        //}
-
-        //Use in Chart
-        private InstrumentInfo GetInstrumentInfoByID(Hashtable instrumentInfos, Guid instrumentId)
-        {
-            InstrumentInfo instrumentInfo = null;
-            foreach (string instrumentInfoKey in instrumentInfos.Keys)
-            {
-                InstrumentInfo instrumentInfo2 = (InstrumentInfo)instrumentInfos[instrumentInfoKey];
-                if (instrumentInfo2.Id.Equals(instrumentId))
-                {
-                    instrumentInfo = instrumentInfo2;
-                    break;
-                }
-            }
-            if (instrumentInfo == null)
-            {
-                AppDebug.LogEvent("TradingConsole.Service.asmx.GetInstrumentInfoByID:" + instrumentId.ToString(), "instrumentInfo == null", EventLogEntryType.Error);
-            }
-            return instrumentInfo;
-        }
-
-     
-
-     
-
-
-
-      
 
         public void Complain(Session  session,string loginName, string complaint)
         {
@@ -111,49 +54,9 @@ namespace Trader.Server.Bll
                     }
                 }
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.Complain:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-            }
-        }
-
-
-    
-
-    
-
-       
-
-   
-
-
-
-        private DataSet GetTickDatas(Session  session,Guid instrumentId, DateTime dateTime, int minutes)
-        {
-            TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
-            return this.GetTickDatas(instrumentId, dateTime, minutes, state, Application.Default.TradingConsoleServer);
-        }
-
-        private DataSet GetTickDatas(Guid instrumentId, DateTime dateTime, int minutes, TradingConsoleState state, TradingConsoleServer tradingConsoleServer)
-        {
-            try
-            {
-                if (state.Instruments.ContainsKey(instrumentId))
-                {
-                    Guid quotePolicyId = (Guid)state.Instruments[instrumentId];
-                    DataSet dataSet = tradingConsoleServer.GetTickDatas(instrumentId, quotePolicyId, dateTime, minutes);
-                    return dataSet;
-                }
-                else
-                {
-                    AppDebug.LogEvent("TradingConsole.GetTickDatas", string.Format("Instrument {0} doesn't exists in TradingConsoleState", instrumentId), EventLogEntryType.Warning);
-                    return null;
-                }
-            }
-            catch (Exception e)
-            {
-                AppDebug.LogEvent("TradingConsole.GetTickDatas", e.ToString(), EventLogEntryType.Error);
-                return null;
+                _Logger.Error(exception);
             }
         }
 
@@ -171,15 +74,12 @@ namespace Trader.Server.Bll
                     DataSet dataSet = Application.Default.TradingConsoleServer.GetTickByTickHistoryDatas(instrumentId, quotePolicyId);
                     return dataSet;
                 }
-                else
-                {
-                    AppDebug.LogEvent("TradingConsole.GetTickByTickHistoryDatas", string.Format("Instrument {0} doesn't exists in TradingConsoleState", instrumentId), EventLogEntryType.Warning);
-                    return null;
-                }
+                _Logger.Warn(string.Format("Instrument {0} doesn't exists in TradingConsoleState", instrumentId));
+                return null;
             }
             catch (Exception e)
             {
-                AppDebug.LogEvent("TradingConsole.GetTickByTickHistoryDatas", e.ToString(), EventLogEntryType.Error);
+                _Logger.Error(e);
                 return null;
             }
         }
@@ -195,47 +95,38 @@ namespace Trader.Server.Bll
                 {
                     return asyncResult.Id;
                 }
-                else
-                {
-                    AppDebug.LogEvent("TradingConsole.AsyncGetTickByTickHistoryData:", "ThreadPool.QueueUserWorkItem failed", System.Diagnostics.EventLogEntryType.Warning);
-                    return Guid.Empty;
-                }
+                _Logger.Warn("ThreadPool.QueueUserWorkItem failed");
+                return Guid.Empty;
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.AsyncGetTickByTickHistoryData:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return Guid.Empty;
             }
-            return Guid.Empty;
+
         }
 
         public Guid AsyncGetTickByTickHistoryData2(Session session,Guid instrumentId, DateTime from, DateTime to)
         {
             try
             {
-                AppDebug.LogEvent("TradingConsole.AsyncGetTickByTickHistoryData2", string.Format("{0}-{1}", from, to), System.Diagnostics.EventLogEntryType.Information);
-
+                _Logger.Info(string.Format("{0}-{1}", from, to));
                 AsyncResult asyncResult = new AsyncResult("AsyncGetTickByTickHistoryData2", session.ToString());
                 if (ThreadPool.QueueUserWorkItem(this.CreateTickByTickHistoryDatas2, new TickByTickHistoryDataArgument2(instrumentId, from, to, asyncResult, session)))
                 {
                     return asyncResult.Id;
                 }
-                else
-                {
-                    AppDebug.LogEvent("TradingConsole.AsyncGetTickByTickHistoryData2:", "ThreadPool.QueueUserWorkItem failed", System.Diagnostics.EventLogEntryType.Warning);
-                    return Guid.Empty;
-                }
+                _Logger.Warn("ThreadPool.QueueUserWorkItem failed");
+                return Guid.Empty;
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.AsyncGetTickByTickHistoryData2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return Guid.Empty;
             }
-            return Guid.Empty;
         }
 
       
-
-
-    
 
         public void SaveIsCalculateFloat(Session  session,bool isCalculateFloat)
         {
@@ -246,7 +137,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.SaveIsCalculateFloat:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
         }
 
@@ -260,19 +151,12 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.OrderQuery:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
 
     
-
-       
-     
-
-      
-
-      
 
         public string[] Get99BillBanks(Session  session)
         {
@@ -283,7 +167,7 @@ namespace Trader.Server.Bll
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.Get99BillBanks:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return null;
             }
         }
@@ -294,26 +178,25 @@ namespace Trader.Server.Bll
             {
                 return Application.Default.TradingConsoleServer.GetNextOrderNoFor99Bill(merchantAcctId);
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetNextOrderNoFor99Bill:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                throw exception;
+                _Logger.Error(exception);
+                throw;
             }
         }
-
    
 
         public DataSet GetQuotePolicyDetailsAndRefreshInstrumentsState2(Session  session,Guid customerID)
         {
             try
             {
-                return this.InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(session,customerID);
+                return InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(session,customerID);
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetQuotePolicyDetailsAndRefreshInstrumentsState2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
 
         public XElement GetQuotePolicyDetailsAndRefreshInstrumentsState(Session session, Guid customerID)
@@ -321,12 +204,12 @@ namespace Trader.Server.Bll
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-                var ds=this.InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(session,token.UserID);
+                var ds=InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(session,token.UserID);
                 return XmlResultHelper.NewResult(ds.ToXml());
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetQuotePolicyDetailsAndRefreshInstrumentsState:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -336,12 +219,10 @@ namespace Trader.Server.Bll
             DataSet dataSet = Application.Default.TradingConsoleServer.GetQuotePolicyDetails(customerID);
             TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
             Application.Default.TradingConsoleServer.RefreshInstrumentsState2(dataSet, ref state, session.ToString());
-            if (state != null)
-            {
-                TraderState traderState = new TraderState(state);
-                traderState.CaculateQuotationFilterSign();
-                SessionManager.Default.AddTradingConsoleState(session, traderState);
-            }
+            if (state == null) return dataSet;
+            TraderState traderState = new TraderState(state);
+            traderState.CaculateQuotationFilterSign();
+            SessionManager.Default.AddTradingConsoleState(session, traderState);
             return dataSet;
         }
 
@@ -349,23 +230,24 @@ namespace Trader.Server.Bll
 
         public void LogResultOfGetCommands(Guid userId, bool resultOfGetCommand, int firstSequence, int lastSequence)
         {
-            AppDebug.LogEvent("TradingConsole.LogResultOfGetCommands:",
-                string.Format("{0}, {1}, firstSequence = {2}, lastSequence = {3}", userId, resultOfGetCommand ? "GetCommands" : "GetCommands2", firstSequence, lastSequence), EventLogEntryType.Information);
+
+            _Logger.Info(string.Format("{0}, {1}, firstSequence = {2}, lastSequence = {3}", userId,
+                resultOfGetCommand ? "GetCommands" : "GetCommands2", firstSequence, lastSequence));
         }
 
-        public XElement Quote(Session session,string instrumentID, double quoteLot, int BSStatus)
+        public XElement Quote(Session session,string instrumentID, double quoteLot, int bsStatus)
         {
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                bool isEmployee = state == null ? false : state.IsEmployee;
-                Application.Default.TradingConsoleServer.Quote(token, isEmployee, Application.Default.StateServer, GetLocalIP(), instrumentID, quoteLot, BSStatus);
-                return XmlResultHelper.NewResult(StringConstants.OK_RESULT);
+                bool isEmployee = state != null && state.IsEmployee;
+                Application.Default.TradingConsoleServer.Quote(token, isEmployee, Application.Default.StateServer, GetLocalIP(), instrumentID, quoteLot, bsStatus);
+                return XmlResultHelper.NewResult(StringConstants.OkResult);
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.Quote:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -376,13 +258,13 @@ namespace Trader.Server.Bll
             {
                 Token token = SessionManager.Default.GetToken(session);
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                bool isEmployee = state == null ? false : state.IsEmployee;
+                bool isEmployee = state != null && state.IsEmployee;
                 Application.Default.TradingConsoleServer.Quote2(token, isEmployee, Application.Default.StateServer, GetLocalIP(), instrumentID, buyQuoteLot, sellQuoteLot, tick);
-                return XmlResultHelper.NewResult(StringConstants.OK_RESULT);
+                return XmlResultHelper.NewResult(StringConstants.OkResult);
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.Quote2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -396,22 +278,21 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.CancelQuote:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
         }
 
-        public XElement   CancelLMTOrder(Session session,string transactionID)
+        public XElement  CancelLmtOrder(Session session,string transactionID)
         {
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-
                 var result = Application.Default.TradingConsoleServer.CancelLMTOrder(token, Application.Default.StateServer, transactionID);
                 return XmlResultHelper.NewResult(result.ToString());
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.CancelLMTOrder:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -425,9 +306,10 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.UpdateAccountLock:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return false;
             }
-            return false;
+
         }
 
         public string GetSystemTime()
@@ -438,8 +320,8 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetSystemTime:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                throw exception;
+                _Logger.Error(exception);
+                throw;
             }
         }
 
@@ -447,19 +329,16 @@ namespace Trader.Server.Bll
         {
             try
             {
-                TimeSyncSection timeSyncSection = (TimeSyncSection)ConfigurationManager.GetSection("TimeSync");
-                TimeSyncSettings timeSyncSettings
-                    = new TimeSyncSettings(timeSyncSection.SyncInterval, timeSyncSection.MinAdjustedTimeOfSyncSoon);
+                var timeSyncSection = (TimeSyncSection)ConfigurationManager.GetSection("TimeSync");
+                var timeSyncSettings = new TimeSyncSettings(timeSyncSection.SyncInterval, timeSyncSection.MinAdjustedTimeOfSyncSoon);
                 return timeSyncSettings;
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetTimeSyncSettings:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                throw exception;
+                _Logger.Error(exception);
+                throw;
             }
         }
-
-        
 
         public DataSet GetCurrencyRateByAccountID(string accountID)
         {
@@ -469,9 +348,9 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetCurrencyRateByAccountID:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
 
    
@@ -487,11 +366,11 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetInstruments:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
-        }
 
+        }
 
 
         public XElement DeleteMessage(Session session, Guid id)
@@ -504,7 +383,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.DeleteMessage:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -517,33 +396,21 @@ namespace Trader.Server.Bll
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         public DataSet GetDealingPolicyDetails(Session session)
         {
             try
             {
                 Token token = SessionManager.Default.GetToken(session);
-                using (SqlConnection sqlConnection = new SqlConnection(SettingManager.Default.ConnectionString))
+                using (var sqlConnection = new SqlConnection(SettingManager.Default.ConnectionString))
                 {
-                    using (SqlCommand sqlCommand = new SqlCommand("P_GetDealingPolicyDetails", sqlConnection))
+                    using (var sqlCommand = new SqlCommand("P_GetDealingPolicyDetails", sqlConnection))
                     {
                         sqlCommand.CommandType = CommandType.StoredProcedure;
                         sqlConnection.Open();
                         SqlCommandBuilder.DeriveParameters(sqlCommand);
                         sqlCommand.Parameters["@userId"].Value = token.UserID;
-                        SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                        DataSet dataSet = new DataSet();
+                        var dataAdapter = new SqlDataAdapter(sqlCommand);
+                        var dataSet = new DataSet();
                         dataAdapter.Fill(dataSet);
                         return dataSet;
                     }
@@ -551,25 +418,10 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetDealingPolicyDetails", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return null;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         public void NotifyCustomerExecuteOrderForJava(Session session, string[][] arrayNotifyCustomerExecuteOrder, string companyCode, string version)
@@ -583,7 +435,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.NotifyCustomerExecuteOrderForJava:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
         }
 
@@ -596,9 +448,9 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetLogoForJava:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
 
         public XmlNode GetColorSettingsForJava(string companyCode)
@@ -606,42 +458,37 @@ namespace Trader.Server.Bll
             try
             {
                 string xmlPath = SettingManager.Default.PhysicPath+"\\" +  companyCode + "\\ColorSettingsForJava.xml";
-
-                System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+                var doc = new XmlDocument();
                 doc.Load(xmlPath);
-                System.Xml.XmlNode node = doc.GetElementsByTagName("ColorSettings")[0];
+                var node = doc.GetElementsByTagName("ColorSettings")[0];
                 return node;
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.Service.GetColorSettingsForJava", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
+                return null;
             }
-            return null;
         }
 
         //no use
         public XmlNode GetParameterForJava(Session  session,string companyCode, string version)
         {
-            string physicalPath = SettingManager.Default.PhysicPath+"\\" + companyCode + "\\" + version + "\\";
-
+           
             //Get xml
             try
             {
+                string physicalPath = SettingManager.Default.PhysicPath + "\\" + companyCode + "\\" + version + "\\";
                 string xmlPath = physicalPath + "Setting\\Parameter.xml";
-
-                System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+                var doc = new System.Xml.XmlDocument();
                 doc.Load(xmlPath);
-
                 xmlPath = physicalPath + "Setting\\Login.xml";
-                System.Xml.XmlDocument doc2 = new System.Xml.XmlDocument();
+                var doc2 = new System.Xml.XmlDocument();
                 doc2.Load(xmlPath);
-                System.Xml.XmlNode node2 = doc2.GetElementsByTagName("Login")[0];
+                var node2 = doc2.GetElementsByTagName("Login")[0];
 
-                System.Xml.XmlNode parameterXmlNode = doc.GetElementsByTagName("Parameter")[0];
+                var parameterXmlNode = doc.GetElementsByTagName("Parameter")[0];
 
                 string newsLanguage = node2.SelectNodes("NewsLanguage").Item(0).InnerXml;
-
-                //this.Context.Session["NewsLanguage"] = newsLanguage.ToLower();
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session);
                 if (state == null)
                 {
@@ -652,46 +499,19 @@ namespace Trader.Server.Bll
                 XmlElement newChild = doc.CreateElement("NewsLanguage");
                 newChild.InnerText = newsLanguage;
                 parameterXmlNode.AppendChild(newChild);
-                System.Xml.XmlNode node = doc.GetElementsByTagName("Parameters")[0];
+                var node = doc.GetElementsByTagName("Parameters")[0];
                 return node;
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.Service.GetParameterForJava", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
+                return null;
             }
-            return null;
+
         }
 
-        /*
-        private CultureInfo GetNewsCultureInfo(string newsLanguage)
-        {
-            CultureInfo newsCultureInfo;
-            switch (newsLanguage)
-            {
-                case "chs":
-                    newsCultureInfo = new CultureInfo("zh-CN", false);
-                    break;
-                case "cht":
-                    newsCultureInfo = new CultureInfo("zh-HK", false);
-                    break;
-                case "eng":
-                    newsCultureInfo = new CultureInfo("en-US", false);
-                    break;
-                case "jpn":
-                    newsCultureInfo = new CultureInfo("ja-JP", false);
-                    break;
-                case "kor":
-                    newsCultureInfo = new CultureInfo("ko-KR", false);
-                    break;
-                default:
-                    newsCultureInfo = new CultureInfo("en-US", false);
-                    break;
-            }
-            return newsCultureInfo;
-        }
-        */
 
-        public byte[] GetTracePropertiesForJava()
+      public byte[] GetTracePropertiesForJava()
         {
             try
             {
@@ -699,19 +519,12 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.Service.GetTracePropertiesForJava", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
+                return null;
             }
-            return null;
+
         }
 
-        /*
-        public DataSet LoadSystemParameters()
-        {
-            TradingConsoleServer tradingConsoleServer = (TradingConsoleServer)Application["TradingConsoleServer"];
-            Token token=(Token)Session["Token"];
-            return tradingConsoleServer.LoadSystemParameters(token);
-        }
-        */
 
         public bool UpdateSystemParameters(Session session, string parameters, string objectID)
         {
@@ -722,12 +535,12 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.UpdateSystemParameters:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return false;
             }
-            return false;
         }
 
-        public System.Data.DataSet GetNewsList(string newsCategoryID, string language, DateTime date)
+        public DataSet GetNewsList(string newsCategoryID, string language, DateTime date)
         {
             try
             {
@@ -735,12 +548,10 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetNewsList:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
-
-
 
         public XElement GetNewsContents(Session session, string newsID)
         {
@@ -750,9 +561,9 @@ namespace Trader.Server.Bll
                 var ds=Application.Default.TradingConsoleServer.GetNewsContents(newsID, state.Language);
                 return XmlResultHelper.NewResult(ds.ToXml());
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetNewsContents:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -765,9 +576,9 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetInterestRate:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
 
         public DataSet GetInterestRate2(Session session,Guid interestRateId)
@@ -779,14 +590,13 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetInterestRate2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
 
         private string GetLocalIP()
         {
-            //this.Context.Request.ServerVariables[""].ToString();
             return string.Empty;
         }
 
@@ -798,25 +608,16 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.RefreshAgentAccountOrder:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                throw exception;
+                _Logger.Error(exception);
+                throw;
             }
         }
 
-      
 
         public XmlDocument GetOuterNews(string newsUrl)
         {
-            XmlDocument doc = new XmlDocument();
-            try
-            {
-                doc.Load(newsUrl);
-                //doc.Load("D:\\Solutions.old\\iExchange\\TradingConsole\\News.XML");
-            }
-            catch (System.Exception ex)
-            {
-                throw ex;
-            }
+            var doc = new XmlDocument();
+            doc.Load(newsUrl);
             return doc;
         }
 
@@ -826,12 +627,12 @@ namespace Trader.Server.Bll
             {
                 Token token = SessionManager.Default.GetToken(session);
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                bool isEmployee = state == null ? false : state.IsEmployee;
+                bool isEmployee = state != null && state.IsEmployee;
                 Application.Default.TradingConsoleServer.SaveLog(token, isEmployee, GetLocalIP(), logCode, timestamp, action);
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.SaveLog:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
         }
 
@@ -843,20 +644,14 @@ namespace Trader.Server.Bll
             {
                 Token token = SessionManager.Default.GetToken(session);
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-                bool isEmployee = state == null ? false : state.IsEmployee;
+                bool isEmployee = state != null && state.IsEmployee;
                 Application.Default.TradingConsoleServer.SaveLog(token, isEmployee, GetLocalIP(), logCode, DateTime.Now, action, new Guid(transactionId));
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.SaveLogForWeb:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
         }
-
-       
-
-
-     
-
 
         public XElement  Apply(Session session,Guid id, string accountBankApprovedId, string accountId, string countryId, string bankId, string bankName,
             string accountBankNo, string accountBankType,//#00;银行卡|#01;存折
@@ -868,9 +663,9 @@ namespace Trader.Server.Bll
             {
                 string connectionString = SettingManager.Default.ConnectionString;
                 Token token = SessionManager.Default.GetToken(session);
-                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                using (var sqlConnection = new SqlConnection(connectionString))
                 {
-                    using (SqlCommand sqlCommand = new SqlCommand("dbo.P_ApplyAccountBank", sqlConnection))
+                    using (var sqlCommand = new SqlCommand("dbo.P_ApplyAccountBank", sqlConnection))
                     {
                         sqlCommand.CommandType = CommandType.StoredProcedure;
                         sqlConnection.Open();
@@ -907,204 +702,79 @@ namespace Trader.Server.Bll
 
                         sqlCommand.ExecuteNonQuery();
 
-                        int result = (int)sqlCommand.Parameters["@RETURN_VALUE"].Value;
+                        var result = (int)sqlCommand.Parameters["@RETURN_VALUE"].Value;
                         if (result != 0)
                         {
                             return XmlResultHelper.ErrorResult;
                         }
-
-                        bool approved = (bool)sqlCommand.Parameters["@approved"].Value;
+                        var approved = (bool)sqlCommand.Parameters["@approved"].Value;
                         return XmlResultHelper.NewResult(approved.ToPlainBitString());
                     }
                 }
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.Apply:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
 
-       
-
-       
-
-      
-
-     
-       
-
-       
 
         private void CreateTickByTickHistoryDatas(object state)
         {
-            TickByTickHistoryDataArgument tickByTickHistoryDataArgument = (TickByTickHistoryDataArgument)state;
+            var tickByTickHistoryDataArgument = (TickByTickHistoryDataArgument)state;
             try
             {
                 TradingConsoleState tradingConsoleState = tickByTickHistoryDataArgument.TradingConsoleState;
-
                 if (tradingConsoleState.Instruments.ContainsKey(tickByTickHistoryDataArgument.InstrumentId))
                 {
                     Guid quotePolicyId = (Guid)tradingConsoleState.Instruments[tickByTickHistoryDataArgument.InstrumentId];
                     TradingConsoleServer tradingConsoleServer = tickByTickHistoryDataArgument.TradingConsoleServer;
                     DataSet dataSet = tradingConsoleServer.GetTickByTickHistoryDatas(tickByTickHistoryDataArgument.InstrumentId, quotePolicyId);
-
                     AsyncResultManager asyncResultManager = tickByTickHistoryDataArgument.AsyncResultManager;
                     asyncResultManager.SetResult(tickByTickHistoryDataArgument.AsyncResult, dataSet);
                     CommandManager.Default.AddCommand( new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult));
                 }
                 else
                 {
-                    AppDebug.LogEvent("TradingConsole.CreateTickByTickHistoryDatas",
-                        string.Format("Instrument {0} doesn't exists in TradingConsoleState", tickByTickHistoryDataArgument.InstrumentId), EventLogEntryType.Warning);
+                    _Logger.Warn(string.Format("Instrument {0} doesn't exists in TradingConsoleState", tickByTickHistoryDataArgument.InstrumentId));
                     CommandManager.Default.AddCommand(new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, null));
                 }
             }
             catch (Exception e)
             {
-                AppDebug.LogEvent("TradingConsole.CreateTickByTickHistoryDatas", e.ToString(), EventLogEntryType.Error);
+                _Logger.Error(e);
                 CommandManager.Default.AddCommand(new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, e));
             }
         }
 
         private void CreateTickByTickHistoryDatas2(object state)
         {
-            TickByTickHistoryDataArgument2 tickByTickHistoryDataArgument = (TickByTickHistoryDataArgument2)state;
+            var tickByTickHistoryDataArgument = (TickByTickHistoryDataArgument2)state;
             try
             {
                 TradingConsoleState tradingConsoleState = tickByTickHistoryDataArgument.TradingConsoleState;
-
                 if (tradingConsoleState.Instruments.ContainsKey(tickByTickHistoryDataArgument.InstrumentId))
                 {
                     Guid quotePolicyId = (Guid)tradingConsoleState.Instruments[tickByTickHistoryDataArgument.InstrumentId];
                     TradingConsoleServer tradingConsoleServer = tickByTickHistoryDataArgument.TradingConsoleServer;
                     DataSet dataSet = tradingConsoleServer.GetTickByTickHistoryDatas2(tickByTickHistoryDataArgument.InstrumentId, quotePolicyId, tickByTickHistoryDataArgument.From, tickByTickHistoryDataArgument.To);
-
                     AsyncResultManager asyncResultManager = tickByTickHistoryDataArgument.AsyncResultManager;
                     asyncResultManager.SetResult(tickByTickHistoryDataArgument.AsyncResult, dataSet);
                     CommandManager.Default.AddCommand( new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult));
                 }
                 else
                 {
-                    AppDebug.LogEvent("TradingConsole.CreateTickByTickHistoryDatas2",
-                        string.Format("Instrument {0} doesn't exists in TradingConsoleState", tickByTickHistoryDataArgument.InstrumentId), EventLogEntryType.Warning);
+                    _Logger.Warn(string.Format("Instrument {0} doesn't exists in TradingConsoleState",
+                        tickByTickHistoryDataArgument.InstrumentId));
                     CommandManager.Default.AddCommand( new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, null));
                 }
             }
             catch (Exception e)
             {
-                AppDebug.LogEvent("TradingConsole.CreateTickByTickHistoryDatas2", e.ToString(), EventLogEntryType.Error);
+                _Logger.Error(e);
                 CommandManager.Default.AddCommand(new AsyncCommand(0, tickByTickHistoryDataArgument.AsyncResult, true, e));
             }
         }
     }
-
-
-    //used in the chart
-    class DataManagerKey
-    {
-        Guid _instrumentId;
-        string _dataCycle;
-
-        private DataManagerKey(Guid instrumentId, string dataCycle)
-        {
-            this._instrumentId = instrumentId;
-            this._dataCycle = dataCycle;
-        }
-        public static DataManagerKey create(Guid instrumentId, string dataCycle)
-        {
-            return new DataManagerKey(instrumentId, dataCycle);
-        }
-
-        public override bool Equals(object o)
-        {
-            DataManagerKey dataManagerKey = (DataManagerKey)o;
-            return (dataManagerKey._instrumentId.Equals(this._instrumentId)
-                && dataManagerKey._dataCycle.Equals(this._dataCycle));
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = this._instrumentId.GetHashCode();
-            hashCode ^= this._dataCycle.GetHashCode();
-
-            return hashCode;
-        }
-    }
-
-    static class FixBug
-    {
-        internal static string Fix(string value)
-        {
-            if (string.IsNullOrEmpty(value)) return null;
-
-            value = value.Replace("&lt;", "<");
-            value = value.Replace("&gt;", ">");
-            value = value.Replace("&amp;", "&");
-            value = value.Replace("&apos;", "'");
-            value = value.Replace("&quot;", "\"");
-
-            return value;
-        }
-    }
-
-    //This class used to avoid too many thread are created to create chart data
-   public class AssistantOfCreateChartData2
-    {
-        private Queue<TaskOfCreateChartData2> _Tasks = new Queue<TaskOfCreateChartData2>();
-        private object _TaskLock = new object();
-        private int _WorkItemNumber = 0;
-
-        public void AddTask(AsyncResult asyncResult, ChartDataArgument2 argument, WaitCallback funcToCreateChartData)
-        {
-            lock (this._TaskLock)
-            {
-                TaskOfCreateChartData2 task = new TaskOfCreateChartData2(argument, funcToCreateChartData);
-                bool needQueueWorkItem = this._WorkItemNumber <= 3;//so, up to 3 thread will be created
-                this._Tasks.Enqueue(task);
-                if (needQueueWorkItem)
-                {
-                    this._WorkItemNumber++;
-                    ThreadPool.QueueUserWorkItem(this.CreateChartData, null);
-                }
-            }
-        }
-
-        private void CreateChartData(object state)
-        {
-            TaskOfCreateChartData2 task = null;
-
-            while (true)
-            {
-                task = null;
-                lock (this._TaskLock)
-                {
-                    if (this._Tasks.Count > 0)
-                    {
-                        task = this._Tasks.Dequeue();
-                    }
-                    else
-                    {
-                        this._WorkItemNumber--;
-                        break;
-                    }
-                }
-
-                task.FuncToCreateChartData(task.ArgumentOfCreateChartData);
-            }
-        }
-    }
-
-    class TaskOfCreateChartData2
-    {
-        public ChartDataArgument2 ArgumentOfCreateChartData;
-        public WaitCallback FuncToCreateChartData;
-
-        public TaskOfCreateChartData2(ChartDataArgument2 argument, WaitCallback funcToCreateChartData)
-        {
-            this.ArgumentOfCreateChartData = argument;
-            this.FuncToCreateChartData = funcToCreateChartData;
-        }
-    }
-
 }

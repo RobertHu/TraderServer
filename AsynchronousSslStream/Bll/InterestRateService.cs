@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using iExchange.Common;
 using System.Xml;
+using log4net;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
@@ -14,17 +15,17 @@ namespace Trader.Server.Bll
 {
     public class InterestRateService
     {
+        private static ILog _Logger = LogManager.GetLogger(typeof (InterestRateService));
         public static XElement GetInterestRate(Guid[] orderIds)
         {
             try
             {
                 DataSet ds = Application.Default.TradingConsoleServer.GetInterestRate(orderIds);
                 return XmlResultHelper.NewResult( ds.ToXml());
-               
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetInterestRate:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -39,7 +40,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetInterestRate2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }

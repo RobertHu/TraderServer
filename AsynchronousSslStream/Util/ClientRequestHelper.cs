@@ -49,28 +49,19 @@ namespace Trader.Server.Util
 
         private static void ProcessForKeepAlive(SerializedObject request)
         {
-            if (Application.Default.SessionMonitor.Exist(request.Session))
-            {
-                request.IsKeepAliveSuccess = true;
-            }
-            else
-            {
-                request.IsKeepAliveSuccess = false;
-            }
+            request.IsKeepAliveSuccess = Application.Default.SessionMonitor.Exist(request.Session);
             SendCenter.Default.Send(request);
         }
 
         private static XElement  ProcessForNormal(SerializedObject request)
         {
-            XElement  result = XmlResultHelper.ErrorResult;
-            XElement  content = request.Content;
-            if (content.Name == RequestConstants.RootNodeName)
+            var  result = XmlResultHelper.ErrorResult;
+            var  content = request.Content;
+            if (content.Name != RequestConstants.RootNodeName) return result;
+            var methodNode = content.Descendants().Single(m => m.Name == RequestConstants.MethodNodeName);
+            if (methodNode.Name == RequestConstants.MethodNodeName)
             {
-                XElement methodNode = content.Descendants().Single(m => m.Name == RequestConstants.MethodNodeName);
-                if (methodNode.Name == RequestConstants.MethodNodeName)
-                {
-                    result = ProcessMethodReqeust(request, methodNode.Value);
-                }
+                result = ProcessMethodReqeust(request, methodNode.Value);
             }
             return result;
         }
@@ -102,7 +93,7 @@ namespace Trader.Server.Util
 
         private static void WhenSessionNotExistRecoveSessionToCurrentSession(SerializedObject request)
         {
-            if (request.ClientID != Session.INVALID_VALUE)
+            if (request.ClientID != Session.InvalidValue)
             {
                 request.Session = request.ClientID;
             }

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Trader.Common
+﻿namespace Trader.Common
 {
     public struct ReceiveData
     {
-        private Session _ClientID;
-        private byte[] _Data;
+        private readonly Session _ClientID;
+        private readonly byte[] _Data;
         public Session ClientID
         {
             get { return _ClientID; }
@@ -19,8 +14,8 @@ namespace Trader.Common
         }
         public ReceiveData(Session clientId, byte[] data)
         {
-            this._ClientID = clientId;
-            this._Data = data;
+            _ClientID = clientId;
+            _Data = data;
         }
     }
 }

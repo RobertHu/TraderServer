@@ -31,7 +31,7 @@ namespace Trader.Server.Ssl
         public TraderNetworkStream(Socket socket, FileAccess access, bool ownsSocket) : base(socket, access, ownsSocket) { }
         public override IAsyncResult BeginWrite(byte[] buffer, int offset, int size, AsyncCallback callback, Object state)
         {
-            if (size <= BufferManager.WRITE_BUFFER_SIZE)
+            if (size <= BufferManager.WriteBufferSize)
             {
                 Buffer.BlockCopy(buffer, offset, this.BufferInUsed, this._WriteOffset, size);
                 return this.Socket.BeginSend(this.BufferInUsed, this._WriteOffset,size, SocketFlags.None , callback, state);
@@ -49,7 +49,7 @@ namespace Trader.Server.Ssl
 
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int size, AsyncCallback callback, Object state)
         {
-            if (size <= BufferManager.INNER_READ_BUFFER_SIZE)
+            if (size <= BufferManager.InnerReadBufferSize)
             {
 
                 this._LastReadBuffer = buffer;

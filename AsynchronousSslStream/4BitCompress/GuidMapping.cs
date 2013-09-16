@@ -7,9 +7,9 @@ namespace Trader.Server._4BitCompress
     public class GuidMapping
     {
 
-        private static ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
-        private static int _NextSequence = 0;
-        private static Dictionary<Guid, int> _Sequenes = new Dictionary<Guid, int>();
+        private static readonly ReaderWriterLockSlim _ReadWriteLock = new ReaderWriterLockSlim();
+        private static int _NextSequence;
+        private static readonly Dictionary<Guid, int> _Sequenes = new Dictionary<Guid, int>();
 
         public static int Add(Guid id)
         {
@@ -52,10 +52,6 @@ namespace Trader.Server._4BitCompress
                 _ReadWriteLock.ExitReadLock();
             }
         }
-
-
-
-       
 
         public void Clear()
         {

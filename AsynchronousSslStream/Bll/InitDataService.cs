@@ -22,37 +22,32 @@ namespace Trader.Server.Bll
 {
     public class InitDataService
     {
-        private static ILog _Logger = LogManager.GetLogger(typeof(InitDataService));
-        public static IEnumerator<int> GetInitData(SerializedObject request, DataSet initData, AsyncEnumerator ae)
+        private static readonly ILog _Logger = LogManager.GetLogger(typeof(InitDataService));
+        public static IEnumerator<int> GetInitData(SerializedObject request,AsyncEnumerator ae)
         {
             Session session = request.Session;
             Token token = SessionManager.Default.GetToken(session);
-            if (initData == null)
-            {
-                Application.Default.StateServer.BeginGetInitData(token, null, ae.End(), null);
-                yield return 1;
-                int sequence;
-                try
-                {
-                    initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
-                }
-                catch (Exception ex)
-                {
-                    SendErrorResult(request, ex);
-                    yield break;
-                }
-            }
+            Application.Default.StateServer.BeginGetInitData(token, null, ae.End(), null);
+            yield return 1;
             try
             {
-                DataSet ds = Init(session, initData);
-                request.ContentInPointer = ds.ToPointer();
-                SendCenter.Default.Send(request);
+                int sequence;
+                DataSet initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out sequence);
+                InitAndSendInitDataInPointer(request,initData);
             }
             catch (Exception ex)
             {
-                SendErrorResult(request,ex);
+                SendErrorResult(request, ex);
             }
         }
+
+        private static void InitAndSendInitDataInPointer(SerializedObject request,DataSet initData)
+        {
+            DataSet ds = Init(request.Session, initData);
+            request.ContentInPointer = ds.ToPointer();
+            SendCenter.Default.Send(request);
+        }
+
 
         private static void SendErrorResult(SerializedObject request,Exception ex)
         {
@@ -64,15 +59,10 @@ namespace Trader.Server.Bll
 
         public static DataSet Init(Session session, DataSet initData)
         {
-            DataRowCollection rows;
             TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-            //Customer
-            //rows=initData.Tables["Customer"].Rows;
-            //Instrument
-
             StringBuilder quotePolicyInfo = new StringBuilder();
             quotePolicyInfo.Append("SessionId = " + state.SessionId + "\t");
-            rows = initData.Tables["Instrument"].Rows;
+            DataRowCollection rows = initData.Tables["Instrument"].Rows;
             List<Guid> instrumentsFromBursa = new List<Guid>();
             foreach (DataRow instrumentRow in rows)
             {
@@ -123,23 +113,14 @@ namespace Trader.Server.Bll
         private static bool IsFromBursa(DataRow instrumentRow)
         {
             string externalExchangeCode = instrumentRow["ExternalExchangeCode"] == DBNull.Value ? null : (string)instrumentRow["ExternalExchangeCode"];
-            if (!string.IsNullOrEmpty(externalExchangeCode) && externalExchangeCode == "Bursa")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return !string.IsNullOrEmpty(externalExchangeCode) && externalExchangeCode == "Bursa";
         }
 
 
         private static DataSet Merge(Token token, DataSet initData, Guid[] accountIDs)
         {
-            if (initData == null) return initData;
-
+            if (initData == null) return null;
             XmlNode accountsData = Application.Default.StateServer.GetAccountsForInit(accountIDs);
-
             try
             {
                 DataTable accountTable = initData.Tables["Account"];
@@ -183,79 +164,73 @@ namespace Trader.Server.Bll
                 orderTable.PrimaryKey = new DataColumn[] { orderTable.Columns["ID"] };
                 DataRowCollection orderRows = orderTable.Rows;
 
-                if (accountsData != null)
+                if (accountsData == null) return initData;
+                foreach (XmlElement account in accountsData.ChildNodes)
                 {
-                    foreach (XmlElement account in accountsData.ChildNodes)
+                    Guid accountID = XmlConvert.ToGuid(account.Attributes["ID"].Value);
+                    DataRow accountRow = accountRows.Find(accountID);
+                    accountRow["Balance"] = XmlConvert.ToDecimal(account.Attributes["Balance"].Value);
+                    accountRow["Necessary"] = XmlConvert.ToDecimal(account.Attributes["Necessary"].Value);
+                    accountRow["FrozenFund"] = XmlConvert.ToDecimal(account.Attributes["FrozenFund"].Value);
+                    accountRow["ValueAsMargin"] = XmlConvert.ToDecimal(account.Attributes["ValueAsMargin"].Value);
+                    accountRow["InterestPLNotValued"] = XmlConvert.ToDecimal(account.Attributes["InterestPLNotValued"].Value);
+                    accountRow["StoragePLNotValued"] = XmlConvert.ToDecimal(account.Attributes["StoragePLNotValued"].Value);
+                    accountRow["TradePLNotValued"] = XmlConvert.ToDecimal(account.Attributes["TradePLNotValued"].Value);
+                    accountRow["InterestPLFloat"] = XmlConvert.ToDecimal(account.Attributes["InterestPLFloat"].Value);
+                    accountRow["StoragePLFloat"] = XmlConvert.ToDecimal(account.Attributes["StoragePLFloat"].Value);
+                    accountRow["TradePLFloat"] = XmlConvert.ToDecimal(account.Attributes["TradePLFloat"].Value);
+                    accountRow["AlertLevel"] = XmlConvert.ToInt32(account.Attributes["AlertLevel"].Value);
+
+                    foreach (XmlElement xmlChild in account.ChildNodes)
                     {
-                        Guid accountID = XmlConvert.ToGuid(account.Attributes["ID"].Value);
-                        DataRow accountRow = accountRows.Find(accountID);
-                        accountRow["Balance"] = XmlConvert.ToDecimal(account.Attributes["Balance"].Value);
-                        accountRow["Necessary"] = XmlConvert.ToDecimal(account.Attributes["Necessary"].Value);
-                        accountRow["FrozenFund"] = XmlConvert.ToDecimal(account.Attributes["FrozenFund"].Value);
-                        accountRow["ValueAsMargin"] = XmlConvert.ToDecimal(account.Attributes["ValueAsMargin"].Value);
-                        accountRow["InterestPLNotValued"] = XmlConvert.ToDecimal(account.Attributes["InterestPLNotValued"].Value);
-                        accountRow["StoragePLNotValued"] = XmlConvert.ToDecimal(account.Attributes["StoragePLNotValued"].Value);
-                        accountRow["TradePLNotValued"] = XmlConvert.ToDecimal(account.Attributes["TradePLNotValued"].Value);
-                        accountRow["InterestPLFloat"] = XmlConvert.ToDecimal(account.Attributes["InterestPLFloat"].Value);
-                        accountRow["StoragePLFloat"] = XmlConvert.ToDecimal(account.Attributes["StoragePLFloat"].Value);
-                        accountRow["TradePLFloat"] = XmlConvert.ToDecimal(account.Attributes["TradePLFloat"].Value);
-                        accountRow["AlertLevel"] = XmlConvert.ToInt32(account.Attributes["AlertLevel"].Value);
-
-                        foreach (XmlElement xmlChild in account.ChildNodes)
+                        if (xmlChild.Name == "Currency")
                         {
-                            if (xmlChild.Name == "Currency")
+                            XmlElement accountCurrency = xmlChild;
+                            Guid currencyID = XmlConvert.ToGuid(accountCurrency.Attributes["ID"].Value);
+                            DataRow accountCurrencyRow = accountCurrencyRows.Find(new object[] { accountID, currencyID });
+                            if (accountCurrencyRow == null)
                             {
-                                XmlElement accountCurrency = xmlChild;
-
-                                Guid currencyID = XmlConvert.ToGuid(accountCurrency.Attributes["ID"].Value);
-                                DataRow accountCurrencyRow = accountCurrencyRows.Find(new object[] { accountID, currencyID });
-                                if (accountCurrencyRow == null)
-                                {
-                                    accountCurrencyRow = initData.Tables["AccountCurrency"].NewRow();
-                                    accountCurrencyRow["AccountID"] = accountID;
-                                    accountCurrencyRow["CurrencyID"] = currencyID;
-                                    accountCurrencyRows.Add(accountCurrencyRow);
-                                }
-                                accountCurrencyRow["Balance"] = XmlConvert.ToDecimal(accountCurrency.Attributes["Balance"].Value);
-                                accountCurrencyRow["FrozenFund"] = XmlConvert.ToDecimal(accountCurrency.Attributes["FrozenFund"].Value);
-                                accountCurrencyRow["ValueAsMargin"] = XmlConvert.ToDecimal(accountCurrency.Attributes["ValueAsMargin"].Value);
-                                accountCurrencyRow["Necessary"] = XmlConvert.ToDecimal(accountCurrency.Attributes["Necessary"].Value);
-                                accountCurrencyRow["InterestPLNotValued"] = XmlConvert.ToDecimal(accountCurrency.Attributes["InterestPLNotValued"].Value);
-                                accountCurrencyRow["StoragePLNotValued"] = XmlConvert.ToDecimal(accountCurrency.Attributes["StoragePLNotValued"].Value);
-                                accountCurrencyRow["TradePLNotValued"] = XmlConvert.ToDecimal(accountCurrency.Attributes["TradePLNotValued"].Value);
-                                accountCurrencyRow["InterestPLFloat"] = XmlConvert.ToDecimal(accountCurrency.Attributes["InterestPLFloat"].Value);
-                                accountCurrencyRow["StoragePLFloat"] = XmlConvert.ToDecimal(accountCurrency.Attributes["StoragePLFloat"].Value);
-                                accountCurrencyRow["TradePLFloat"] = XmlConvert.ToDecimal(accountCurrency.Attributes["TradePLFloat"].Value);
+                                accountCurrencyRow = initData.Tables["AccountCurrency"].NewRow();
+                                accountCurrencyRow["AccountID"] = accountID;
+                                accountCurrencyRow["CurrencyID"] = currencyID;
+                                accountCurrencyRows.Add(accountCurrencyRow);
                             }
-                            else if (xmlChild.Name == "Orders")
+                            accountCurrencyRow["Balance"] = XmlConvert.ToDecimal(accountCurrency.Attributes["Balance"].Value);
+                            accountCurrencyRow["FrozenFund"] = XmlConvert.ToDecimal(accountCurrency.Attributes["FrozenFund"].Value);
+                            accountCurrencyRow["ValueAsMargin"] = XmlConvert.ToDecimal(accountCurrency.Attributes["ValueAsMargin"].Value);
+                            accountCurrencyRow["Necessary"] = XmlConvert.ToDecimal(accountCurrency.Attributes["Necessary"].Value);
+                            accountCurrencyRow["InterestPLNotValued"] = XmlConvert.ToDecimal(accountCurrency.Attributes["InterestPLNotValued"].Value);
+                            accountCurrencyRow["StoragePLNotValued"] = XmlConvert.ToDecimal(accountCurrency.Attributes["StoragePLNotValued"].Value);
+                            accountCurrencyRow["TradePLNotValued"] = XmlConvert.ToDecimal(accountCurrency.Attributes["TradePLNotValued"].Value);
+                            accountCurrencyRow["InterestPLFloat"] = XmlConvert.ToDecimal(accountCurrency.Attributes["InterestPLFloat"].Value);
+                            accountCurrencyRow["StoragePLFloat"] = XmlConvert.ToDecimal(accountCurrency.Attributes["StoragePLFloat"].Value);
+                            accountCurrencyRow["TradePLFloat"] = XmlConvert.ToDecimal(accountCurrency.Attributes["TradePLFloat"].Value);
+                        }
+                        else if (xmlChild.Name == "Orders")
+                        {
+                            foreach (XmlElement order in xmlChild.ChildNodes)
                             {
-                                foreach (XmlElement order in xmlChild.ChildNodes)
-                                {
-                                    Guid orderID = XmlConvert.ToGuid(order.Attributes["ID"].Value);
-                                    DataRow orderRow = orderRows.Find(new object[] { orderID });
-                                    if (orderRow != null)
-                                    {
-                                        orderRow["InterestPLFloat"] = XmlConvert.ToDecimal(order.Attributes["InterestPLFloat"].Value);
-                                        orderRow["StoragePLFloat"] = XmlConvert.ToDecimal(order.Attributes["StoragePLFloat"].Value);
-                                        orderRow["TradePLFloat"] = XmlConvert.ToDecimal(order.Attributes["TradePLFloat"].Value);
-                                        orderRow["Necessary"] = XmlConvert.ToDecimal(order.Attributes["Necessary"].Value);
-                                        orderRow["ValueAsMargin"] = XmlConvert.ToDecimal(order.Attributes["ValueAsMargin"].Value);
-                                        orderRow["LivePrice"] = order.Attributes["LivePrice"].Value;
-                                        orderRow["AutoLimitPriceString"] = order.Attributes["AutoLimitPrice"].Value;
-                                        orderRow["AutoStopPriceString"] = order.Attributes["AutoStopPrice"].Value;
-                                    }
-                                }
+                                Guid orderID = XmlConvert.ToGuid(order.Attributes["ID"].Value);
+                                DataRow orderRow = orderRows.Find(new object[] { orderID });
+                                if (orderRow == null) continue;
+                                orderRow["InterestPLFloat"] = XmlConvert.ToDecimal(order.Attributes["InterestPLFloat"].Value);
+                                orderRow["StoragePLFloat"] = XmlConvert.ToDecimal(order.Attributes["StoragePLFloat"].Value);
+                                orderRow["TradePLFloat"] = XmlConvert.ToDecimal(order.Attributes["TradePLFloat"].Value);
+                                orderRow["Necessary"] = XmlConvert.ToDecimal(order.Attributes["Necessary"].Value);
+                                orderRow["ValueAsMargin"] = XmlConvert.ToDecimal(order.Attributes["ValueAsMargin"].Value);
+                                orderRow["LivePrice"] = order.Attributes["LivePrice"].Value;
+                                orderRow["AutoLimitPriceString"] = order.Attributes["AutoLimitPrice"].Value;
+                                orderRow["AutoStopPriceString"] = order.Attributes["AutoStopPrice"].Value;
                             }
                         }
                     }
                 }
-
                 return initData;
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.Merge", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
-                throw ex;
+                _Logger.Error(ex);
+                return null;
             }
         }
 
@@ -295,54 +270,46 @@ namespace Trader.Server.Bll
 
         private static void AddBestLimitsForBursa(DataSet initData, List<Guid> instrumentsFromBursa)
         {
-            if (instrumentsFromBursa.Count > 0)
+            if (instrumentsFromBursa.Count <= 0) return;
+            List<MatchInfoCommand> matchInfos = Application.Default.MarketDepthManager.GetCommands(instrumentsFromBursa);
+            if (matchInfos.Count <= 0) return;
+            DateTime now = DateTime.Now;
+            DataTable bestLimit = new DataTable("BestLimits");
+            bestLimit.Columns.Add(new DataColumn("InstrumentId", typeof(Guid)));
+            bestLimit.Columns.Add(new DataColumn("Sequence", typeof(short)));
+            bestLimit.Columns.Add(new DataColumn("IsBuy", typeof(bool)));
+            bestLimit.Columns.Add(new DataColumn("Price", typeof(double)));
+            bestLimit.Columns.Add(new DataColumn("Quantity", typeof(double)));
+            bestLimit.Columns.Add(new DataColumn("Timestamp", typeof(DateTime)));
+            foreach (MatchInfoCommand matchInfo in matchInfos)
             {
-                List<MatchInfoCommand> matchInfos = Application.Default.MarketDepthManager.GetCommands(instrumentsFromBursa);
-                if (matchInfos.Count > 0)
+                int index = 1;
+                foreach (PendingItem pendingItem in matchInfo.BestBuys)
                 {
-                    DateTime now = DateTime.Now;
-
-                    DataTable bestLimit = new DataTable("BestLimits");
-                    bestLimit.Columns.Add(new DataColumn("InstrumentId", typeof(Guid)));
-                    bestLimit.Columns.Add(new DataColumn("Sequence", typeof(short)));
-                    bestLimit.Columns.Add(new DataColumn("IsBuy", typeof(bool)));
-                    bestLimit.Columns.Add(new DataColumn("Price", typeof(double)));
-                    bestLimit.Columns.Add(new DataColumn("Quantity", typeof(double)));
-                    bestLimit.Columns.Add(new DataColumn("Timestamp", typeof(DateTime)));
-
-                    foreach (MatchInfoCommand matchInfo in matchInfos)
-                    {
-                        int index = 1;
-                        foreach (PendingItem pendingItem in matchInfo.BestBuys)
-                        {
-                            DataRow dataRow = bestLimit.NewRow();
-                            bestLimit.Rows.Add(dataRow);
-                            dataRow["InstrumentId"] = matchInfo.InstrumentId;
-                            dataRow["Sequence"] = index++;
-                            dataRow["IsBuy"] = true;
-                            dataRow["Price"] = double.Parse(pendingItem.Price);
-                            dataRow["Quantity"] = (double)pendingItem.Quantity;
-                            dataRow["Timestamp"] = now;
-                        }
-
-                        index = 1;
-                        foreach (PendingItem pendingItem in matchInfo.BestSells)
-                        {
-                            DataRow dataRow = bestLimit.NewRow();
-                            bestLimit.Rows.Add(dataRow);
-                            dataRow["InstrumentId"] = matchInfo.InstrumentId;
-                            dataRow["Sequence"] = index++;
-                            dataRow["IsBuy"] = false;
-                            dataRow["Price"] = double.Parse(pendingItem.Price);
-                            dataRow["Quantity"] = (double)pendingItem.Quantity;
-                            dataRow["Timestamp"] = now;
-                        }
-                    }
-
-                    bestLimit.AcceptChanges();
-                    initData.Tables.Add(bestLimit);
+                    DataRow dataRow = bestLimit.NewRow();
+                    bestLimit.Rows.Add(dataRow);
+                    dataRow["InstrumentId"] = matchInfo.InstrumentId;
+                    dataRow["Sequence"] = index++;
+                    dataRow["IsBuy"] = true;
+                    dataRow["Price"] = double.Parse(pendingItem.Price);
+                    dataRow["Quantity"] = (double)pendingItem.Quantity;
+                    dataRow["Timestamp"] = now;
+                }
+                index = 1;
+                foreach (PendingItem pendingItem in matchInfo.BestSells)
+                {
+                    DataRow dataRow = bestLimit.NewRow();
+                    bestLimit.Rows.Add(dataRow);
+                    dataRow["InstrumentId"] = matchInfo.InstrumentId;
+                    dataRow["Sequence"] = index++;
+                    dataRow["IsBuy"] = false;
+                    dataRow["Price"] = double.Parse(pendingItem.Price);
+                    dataRow["Quantity"] = (double)pendingItem.Quantity;
+                    dataRow["Timestamp"] = now;
                 }
             }
+            bestLimit.AcceptChanges();
+            initData.Tables.Add(bestLimit);
         }
 
     }

@@ -144,10 +144,14 @@
     <Compile Include="4BitCompress\QuotationFilterSignMapping.cs" />
     <Compile Include="AgentController.cs" />
     <Compile Include="Bll\AccountManager.cs" />
+    <Compile Include="Bll\AssistantOfCreateChartData2.cs" />
     <Compile Include="Bll\AsyncResultManager.cs" />
+    <Compile Include="Bll\ChartQuotation.cs" />
     <Compile Include="Bll\ChartQuotationCollection.cs" />
     <Compile Include="Bll\ClientService.cs" />
+    <Compile Include="Bll\DataManagerKey.cs" />
     <Compile Include="Bll\DBLogService.cs" />
+    <Compile Include="Bll\FixBug.cs" />
     <Compile Include="Bll\InstrumentManager.cs" />
     <Compile Include="Bll\InterestRateService.cs" />
     <Compile Include="Bll\LoginManager.cs" />
@@ -160,6 +164,8 @@
     <Compile Include="Bll\PaymentService.cs" />
     <Compile Include="Bll\RecoverService.cs" />
     <Compile Include="Bll\Service.cs" />
+    <Compile Include="Bll\TaskOfCreateChartData2.cs" />
+    <Compile Include="Bll\TemporalAsyncResult.cs" />
     <Compile Include="Bll\TickService.cs" />
     <Compile Include="Bll\TimeService.cs" />
     <Compile Include="Bll\TradeDayChecker.cs" />
@@ -168,6 +174,7 @@
     <Compile Include="Bll\TransactionService.cs" />
     <Compile Include="Bll\PDFHelper.cs" />
     <Compile Include="Delivery\Service.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

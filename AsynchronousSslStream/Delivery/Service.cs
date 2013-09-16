@@ -17,13 +17,13 @@ namespace Trader.Server.Delivery
 {
     public class Service
     {
-        private ILog _Logger = LogManager.GetLogger(typeof(Service));
+        private readonly ILog _Logger = LogManager.GetLogger(typeof(Service));
         public XElement ApplyDelivery(Session session, XmlNode deliveryRequire)
         {
             try
             { 
-                string balance = string.Empty;
-                string usableMargin=string.Empty;
+                string balance;
+                string usableMargin;
                 Token token = SessionManager.Default.GetToken(session);
                 string code = null;
                 TransactionError tranError= Application.Default.StateServer.ApplyDelivery(token, ref deliveryRequire, out code, out balance, out usableMargin);
@@ -54,7 +54,7 @@ namespace Trader.Server.Delivery
             }
             catch (Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.Get99BillBanks:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }
@@ -69,7 +69,7 @@ namespace Trader.Server.Delivery
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.SaveLog:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using iExchange.Common;
 using System.Xml;
+using log4net;
 using Trader.Server.Util;
 using Trader.Server.TypeExtension;
 using System.Xml.Linq;
@@ -12,6 +13,7 @@ namespace Trader.Server.Bll
 {
     public class PaymentService
     {
+        private static ILog _Logger = LogManager.GetLogger(typeof (PaymentService));
         public static XElement GetMerchantInfoFor99Bill(Guid[] organizationIds)
         {
             try
@@ -21,7 +23,7 @@ namespace Trader.Server.Bll
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetMerchantInfoFor99Bill:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
         }

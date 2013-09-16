@@ -30,11 +30,7 @@ namespace Trader.Server._4BitCompress
                 return null;
             }
             string xml = node.OuterXml;
-            if (string.IsNullOrEmpty(xml))
-            {
-                return null;
-            }
-            return Constants.ContentEncoding.GetBytes(xml);
+            return string.IsNullOrEmpty(xml) ? null : Constants.ContentEncoding.GetBytes(xml);
         }
 
         private static XmlNode ConvertCommand(Token token, State state, Command command)
@@ -43,23 +39,20 @@ namespace Trader.Server._4BitCompress
             {
                 return iExchange3Promotion.Mobile.Manager.ConvertCommand(token, command);
             }
-            else
+            var commandNode = command.ToXmlNode(token, state);
+            var commandElement = commandNode as XmlElement;
+            if (commandElement == null)
             {
-                XmlNode commandNode = command.ToXmlNode(token, state);
-                XmlElement commandElement = commandNode as XmlElement;
-                if (commandElement == null)
-                {
-                    return null;
-                }
-                lock (_Lock)
-                {
-                    if (!commandElement.HasAttribute(ResponseConstants.CommandSequence))
-                    {
-                        commandElement.SetAttribute(ResponseConstants.CommandSequence, command.Sequence.ToString());
-                    }
-                }
-                return commandElement;
+                return null;
             }
+            lock (_Lock)
+            {
+                if (!commandElement.HasAttribute(ResponseConstants.CommandSequence))
+                {
+                    commandElement.SetAttribute(ResponseConstants.CommandSequence, command.Sequence.ToString());
+                }
+            }
+            return commandElement;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Trader.Server.Bll
             {
                 if (AgentController.Default.RecoverConnection(originSession, currentSession))
                 {
-                    result = XmlResultHelper.NewResult(StringConstants.OK_RESULT);
+                    result = XmlResultHelper.NewResult(StringConstants.OkResult);
                 }
             }
             catch (Exception ex)

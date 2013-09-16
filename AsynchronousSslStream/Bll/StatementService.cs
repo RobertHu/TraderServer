@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using iExchange.Common;
+using log4net;
 using Trader.Server.SessionNamespace;
 using System.Threading;
 using System.Data;
-using Trader.Server.Setting;
 using Trader.Server.Bll;
 using System.Xml;
 using Trader.Server.Util;
@@ -23,26 +23,27 @@ namespace Trader.Server.Bll
     {
         private static TimeSpan _StatementReportTimeout = TimeSpan.MinValue;
         private static TimeSpan _LedgerReportTimeout = TimeSpan.MinValue;
+        private static ILog _Logger = LogManager.GetLogger(typeof (StatementService));
 
-        public static XElement LedgerForJava2(Session session, string dateFrom, string dateTo, string IDs, string rdlc)
+        public static XElement LedgerForJava2(Session session, string dateFrom, string dateTo, string ids, string rdlc)
         {
             Guid result = Guid.Empty;
             try
             {
                 AsyncResult asyncResult = new AsyncResult("LedgerForJava2", session.ToString());
                 Token token = SessionManager.Default.GetToken(session);
-                if (ThreadPool.QueueUserWorkItem(CreateLedger, new LedgerArgument(dateFrom, dateTo, IDs, rdlc, asyncResult, session)))
+                if (ThreadPool.QueueUserWorkItem(CreateLedger, new LedgerArgument(dateFrom, dateTo, ids, rdlc, asyncResult, session)))
                 {
                     result = asyncResult.Id;
                 }
                 else
                 {
-                    AppDebug.LogEvent("TradingConsole.LedgerForJava2:", "ThreadPool.QueueUserWorkItem failed", System.Diagnostics.EventLogEntryType.Warning);
+                    _Logger.Warn("ThreadPool.QueueUserWorkItem failed");
                 }
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.LedgerForJava2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
             return XmlResultHelper.NewResult(result.ToString());
         }
@@ -78,7 +79,7 @@ namespace Trader.Server.Bll
             catch (System.Exception ex)
             {
                 CommandManager.Default.AddCommand(new AsyncCommand(0, ledgerArgument.AsyncResult, true, ex));
-                AppDebug.LogEvent("TradingConsole.CreateLedger", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
         }
 
@@ -98,12 +99,12 @@ namespace Trader.Server.Bll
                 }
                 else
                 {
-                    AppDebug.LogEvent("TradingConsole.StatementForJava2:", "ThreadPool.QueueUserWorkItem failed", System.Diagnostics.EventLogEntryType.Warning);
+                    _Logger.Warn("ThreadPool.QueueUserWorkItem failed");
                 }
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.StatementForJava2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
             }
             return XmlResultHelper.NewResult(result.ToString());
 
@@ -123,7 +124,7 @@ namespace Trader.Server.Bll
             catch (System.Exception ex)
             {
                 Console.WriteLine(ex);
-                AppDebug.LogEvent("TradingConsole.GetReportContent", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
                 return XmlResultHelper.ErrorResult;
             }
            
@@ -189,7 +190,7 @@ namespace Trader.Server.Bll
             catch (System.Exception ex)
             {
                 CommandManager.Default.AddCommand(new AsyncCommand(0, statementArg.AsyncResult, true, ex));
-                AppDebug.LogEvent("TradingConsole.CreateStatement", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
         }
 
@@ -207,12 +208,12 @@ namespace Trader.Server.Bll
                 }
                 else
                 {
-                    AppDebug.LogEvent("TradingConsole.LedgerForJava2:", "ThreadPool.QueueUserWorkItem failed", System.Diagnostics.EventLogEntryType.Warning);
+                    _Logger.Warn("ThreadPool.QueueUserWorkItem failed");
                 }
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.LedgerForJava2:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
                 return XmlResultHelper.ErrorResult;
             }
             return XmlResultHelper.NewResult(result.ToString());
@@ -242,7 +243,7 @@ namespace Trader.Server.Bll
             catch (System.Exception ex)
             {
                 CommandManager.Default.AddCommand( new AsyncCommand(0, accountSummaryArgument.AsyncResult, true, ex));
-                AppDebug.LogEvent("TradingConsole.CreateAccountSummary", sql + "\r\n" + ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
         }
 

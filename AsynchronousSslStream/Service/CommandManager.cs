@@ -6,7 +6,6 @@ using iExchange.Common;
 using System.Xml;
 using System.Diagnostics;
 using System.Threading;
-using Trader.Server.Setting;
 using System.Collections;
 using System.Data;
 using Trader.Server.Bll;
@@ -21,22 +20,23 @@ namespace Trader.Server.Service
 {
     public class CommandManager
     {
+        public static readonly CommandManager Default = new CommandManager();
         private CommandQueue _Commands;
         private ILog _Logger = LogManager.GetLogger(typeof(CommandManager));
         private AutoResetEvent _Event = new AutoResetEvent(false);
         private AutoResetEvent _StopEvent = new AutoResetEvent(false);
         private AutoResetEvent[] _Events;
         private ConcurrentQueue<Command> _Queue = new ConcurrentQueue<Command>();
-        private volatile bool _IsStop = false;
-        private volatile bool _IsStart = false;
+        private volatile bool _IsStop;
+        private volatile bool _IsStart;
 
         private CommandManager()
         {
             this._Commands= new CommandQueue(new TimeSpan(0, 20, 0));
-            this._Events = new AutoResetEvent[] { this._Event,this._StopEvent};
+            this._Events = new[] { this._Event,this._StopEvent};
           
         }
-        public static readonly CommandManager Default = new CommandManager();
+
 
         public void Start()
         {
@@ -185,7 +185,7 @@ namespace Trader.Server.Service
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.VerifyRefrence", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
             }
 
             return xmlCommands;
@@ -207,9 +207,9 @@ namespace Trader.Server.Service
             }
             catch (System.Exception exception)
             {
-                AppDebug.LogEvent("TradingConsole.GetInstruments:", exception.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(exception);
+                return null;
             }
-            return null;
         }
 
 
@@ -222,17 +222,18 @@ namespace Trader.Server.Service
                 Token token = SessionManager.Default.GetToken(session);
                 if (Command.CompareSequence(firstSequence, lastSequence) > 0 )
                 {
-                    AppDebug.LogEvent("TradingConsole.GetCommands2:", string.Format("{0},range == [{1},{2}]", token,  firstSequence, lastSequence), EventLogEntryType.Warning);
+                    _Logger.Warn(string.Format("{0},range == [{1},{2}]", token, firstSequence, lastSequence));
                     return null;
                 }
                 xmlCommands = this._Commands.GetCommands(token, state, firstSequence, lastSequence);
                 xmlCommands = this.VerifyRefrence(session, state, xmlCommands);
-                AppDebug.LogEvent("TradingConsole.GetCommands2:", string.Format("{0},  range == [{1},{2}]\n{3}", token,  firstSequence, lastSequence, xmlCommands.OuterXml), EventLogEntryType.Warning);
+                _Logger.Warn(string.Format("{0},  range == [{1},{2}]\n{3}", token, firstSequence, lastSequence,
+                    xmlCommands.OuterXml));
                 return XmlResultHelper.NewResult(xmlCommands.OuterXml);
             }
             catch (System.Exception ex)
             {
-                AppDebug.LogEvent("TradingConsole.GetCommands2", ex.ToString(), System.Diagnostics.EventLogEntryType.Error);
+                _Logger.Error(ex);
                 return XmlResultHelper.ErrorResult;
             }
            

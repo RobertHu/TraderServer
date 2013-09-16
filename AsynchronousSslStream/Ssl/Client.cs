@@ -78,7 +78,7 @@ namespace Trader.Server.Ssl
                 {
                     return;
                 }
-                this._Stream.BeginRead(this._Buffer, 0, BufferManager.OUTTER_READ_BUFFER_SIZE, this.EndRead, null);
+                this._Stream.BeginRead(this._Buffer, 0, BufferManager.OutterReadBufferSize, this.EndRead, null);
             }
             catch (Exception ex)
             {

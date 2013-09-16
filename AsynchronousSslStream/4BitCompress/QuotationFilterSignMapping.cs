@@ -21,9 +21,9 @@ namespace Trader.Server._4BitCompress
 
     public class QuotationFilterSignMapping
     {
-        private static  Dictionary<string, AutoValue> _Dict = new Dictionary<string, AutoValue>();
-        private static long _NextSequence = 0;
-        private static object _Lock = new object();
+        private static readonly Dictionary<string, AutoValue> _Dict = new Dictionary<string, AutoValue>();
+        private static long _NextSequence;
+        private static readonly object _Lock = new object();
         public static long AddSign(string sign)
         {
             lock (_Lock)
@@ -45,14 +45,13 @@ namespace Trader.Server._4BitCompress
             lock (_Lock)
             {
                 AutoValue val;
-                if (_Dict.TryGetValue(sign,out val))
+                if (!_Dict.TryGetValue(sign, out val)) return false;
+                if (--(val.RefCount) == 0)
                 {
-                    if (--(val.RefCount) == 0)
-                    {
-                        _Dict.Remove(sign);
-                    }
-                    _Dict[sign] = new AutoValue(val.RefCount, val.Sequence);
+                    _Dict.Remove(sign);
+                    return true;
                 }
+                _Dict[sign] = new AutoValue(val.RefCount, val.Sequence);
                 return false;
             }
         }
